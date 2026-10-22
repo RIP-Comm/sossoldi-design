@@ -1,0 +1,156 @@
+// Transaction item, from Figma component "Transaction itemNew"
+// (node 3:5670), types Income, Expense and Transfer.
+// The Type=Button variant is SossoldiListAddButton.
+
+import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
+
+import '../theme/sossoldi_theme.dart';
+import '../tokens/spacing.dart';
+import 'sossoldi_amount.dart';
+import 'sossoldi_chip.dart';
+import 'sossoldi_tappable.dart';
+
+enum SossoldiTransactionType { income, expense, transfer }
+
+class SossoldiTransactionItem extends StatelessWidget {
+  const SossoldiTransactionItem({
+    super.key,
+    required this.type,
+    required this.leading,
+    required this.description,
+    required this.account,
+    required this.amount,
+    required this.currencyCode,
+    this.toAccount,
+    this.recurrenceLabel,
+    this.masked = false,
+    this.onTap,
+  }) : assert(
+         type != SossoldiTransactionType.transfer || toAccount != null,
+         'Transfers need toAccount',
+       );
+
+  final SossoldiTransactionType type;
+
+  /// 24px slot, usually the category icon.
+  final Widget leading;
+  final String description;
+
+  /// Account name; for transfers, the source account.
+  final String account;
+
+  /// Destination account, transfers only.
+  final String? toAccount;
+
+  /// Absolute amount; the sign comes from [type].
+  final num amount;
+  final String currencyCode;
+
+  /// Next occurrence of a recurring transaction (e.g. "31 May").
+  final String? recurrenceLabel;
+  final bool masked;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final typography = context.typography;
+    final secondary = typography.labelMedium.copyWith(color: colors.textMed);
+
+    final (num signed, SossoldiAmountTone tone) = switch (type) {
+      SossoldiTransactionType.income => (
+        amount.abs(),
+        SossoldiAmountTone.signed,
+      ),
+      SossoldiTransactionType.expense => (
+        -amount.abs(),
+        SossoldiAmountTone.signed,
+      ),
+      SossoldiTransactionType.transfer => (
+        amount.abs(),
+        SossoldiAmountTone.transfer,
+      ),
+    };
+
+    final row = Container(
+      color: colors.surfaceHigh,
+      padding: const EdgeInsets.symmetric(
+        horizontal: SossoldiSpacing.m,
+        vertical: SossoldiSpacing.s,
+      ),
+      child: Row(
+        spacing: SossoldiSpacing.s,
+        children: [
+          SizedBox.square(dimension: 24, child: Center(child: leading)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  description,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: typography.labelLarge.copyWith(color: colors.textHigh),
+                ),
+                if (type == SossoldiTransactionType.transfer)
+                  Row(
+                    spacing: SossoldiSpacing.xs,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          account,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: secondary,
+                        ),
+                      ),
+                      Icon(
+                        PhosphorIconsRegular.arrowsLeftRight,
+                        size: 16,
+                        color: colors.primary.text,
+                      ),
+                      Flexible(
+                        child: Text(
+                          toAccount!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: secondary,
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  Text(
+                    account,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: secondary,
+                  ),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            spacing: SossoldiSpacing.xs,
+            children: [
+              SossoldiAmount(
+                value: signed,
+                currencyCode: currencyCode,
+                tone: tone,
+                masked: masked,
+              ),
+              if (recurrenceLabel != null)
+                SossoldiChip(
+                  label: recurrenceLabel!,
+                  type: SossoldiChipType.info,
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    return onTap == null ? row : SossoldiTappable(onTap: onTap, child: row);
+  }
+}
