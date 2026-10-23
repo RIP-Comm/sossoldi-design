@@ -17,7 +17,7 @@ the official repository.
 - Screens: almost all designed in Figma
 - Design system: derived from Moon Design (components detached and customized), being imported
 - Code: design system done (tokens, light/dark theme, typography, category colors and all
-  Figma components, each with a widgetbook entry); screens not started yet
+  Figma components, each with a widgetbook entry); mock database done; screens not started yet
 
 ## Project context
 Project context lives in `.claude/rules/` and loads automatically every session:
@@ -25,14 +25,18 @@ Project context lives in `.claude/rules/` and loads automatically every session:
 - `research.md` — Alpha 1.0 user feedback and the design decisions derived from it
 - `information-architecture.md` — V2 navigation, main screens and the question each screen answers, open points
 - `design-system.md` — rules for tokens, components and light/dark theming
+- `mock-data.md` — how the mock database is built and generated; update it when the mock data changes
 
 ## Stack and technical conventions
 - Flutter. Targets: iOS and Android; use Flutter web or macOS for fast previews during development.
 - Data: local mock data only. No database and no network calls in the prototype.
+  The mock database lives in `lib/mock/` (in memory, generated relative to today with fixed
+  seeds). Screens read data **only** through `MockRepository` (`lib/mock/mock_repository.dart`),
+  never from `lib/mock/data/` directly. Details in `.claude/rules/mock-data.md`.
 - Folder structure:
   - `lib/design_system/` → `tokens/`, `theme/`, `components/`
   - `lib/features/` → `onboarding/`, `dashboard/`, `finance/`, `investments/`, `add_transaction/`, `settings/`
-  - `lib/mock/` → fake data (accounts, transactions, budgets, recurring items, positions)
+  - `lib/mock/` → mock database: `models/`, `data/`, `mock_repository.dart`
   - `lib/l10n/` → localized strings
   - `widgetbook/` → design system component gallery
 - Naming: files in snake_case, classes in PascalCase, one public widget per file.
