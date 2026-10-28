@@ -2043,6 +2043,7 @@ class MockRepository extends ChangeNotifier {
   MovementResult addOpeningAsset({
     String? assetId,
     String? manualName,
+    ManualAssetType manualType = ManualAssetType.other,
     required double quantity,
     required double averageCost,
     bool countsForNetWorth = true,
@@ -2062,7 +2063,7 @@ class MockRepository extends ChangeNotifier {
         date: today,
         assetId: assetId,
         manualName: manualName,
-        manualType: manualName == null ? null : ManualAssetType.other,
+        manualType: manualName == null ? null : manualType,
         quantity: quantity,
         price: averageCost,
         isOpening: true,

@@ -1,10 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../mock/mock_repository.dart';
-import '../../mock/models/asset.dart';
 import '../../mock/models/holding.dart';
 import '../../mock/models/movement_edit.dart';
-import '../../mock/models/portfolio.dart';
 import '../accounts/account_form_controller.dart' show parseAmount;
 
 /// What is wrong in a field of the asset form, to be written in the user's
@@ -33,7 +31,8 @@ class AssetFormController extends ChangeNotifier {
   AssetFormController(this.repository, {required this.locale, this.editing}) {
     final h = editing;
     if (h != null) {
-      _kind = repository.kindOfHolding(h.id);
+      _manual = h.isManual;
+      _manualType = h.manualType ?? ManualAssetType.other;
       _assetId = h.assetId;
       final m = repository.openingMovementOf(h.id)!;
       quantity.text = _text(m.quantity!);
@@ -56,7 +55,8 @@ class AssetFormController extends ChangeNotifier {
   final price = TextEditingController();
   final manualName = TextEditingController();
 
-  PositionKind? _kind;
+  bool _manual = false;
+  ManualAssetType _manualType = ManualAssetType.collectible;
   String? _assetId;
   bool _countsForNetWorth = true;
   bool _submitted = false;
@@ -64,10 +64,11 @@ class AssetFormController extends ChangeNotifier {
 
   bool get isEditing => editing != null;
 
-  /// The type chosen (ETF, stock, bond or manual); null until one is.
-  PositionKind? get kind => _kind;
   String? get assetId => _assetId;
-  bool get isManual => _kind == PositionKind.manual;
+
+  /// An asset entered by hand, not found in the catalog.
+  bool get isManual => _manual;
+  ManualAssetType get manualType => _manualType;
   bool get countsForNetWorth => _countsForNetWorth;
 
   /// What the repository refused with, if it did.
@@ -81,12 +82,17 @@ class AssetFormController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectKind(PositionKind kind) {
-    if (isEditing || kind == _kind) return;
-    _kind = kind;
+  void setManual(bool manual) {
+    if (isEditing || manual == _manual) return;
+    _manual = manual;
     _assetId = null;
-    manualName.clear();
     _failure = null;
+    notifyListeners();
+  }
+
+  void setManualType(ManualAssetType t) {
+    if (isEditing) return;
+    _manualType = t;
     notifyListeners();
   }
 
@@ -100,18 +106,6 @@ class AssetFormController extends ChangeNotifier {
     _countsForNetWorth = value;
     notifyListeners();
   }
-
-  /// The catalog assets of the chosen type that match [query].
-  List<Asset> search(String query) => [
-    for (final a in repository.searchAssets(query))
-      if (_kindOfAsset(a) == _kind) a,
-  ];
-
-  static PositionKind _kindOfAsset(Asset a) => switch (a.type) {
-    AssetType.etf => PositionKind.etf,
-    AssetType.stock => PositionKind.stock,
-    AssetType.bond => PositionKind.bond,
-  };
 
   /// The currency of the price: the asset's, the main one for a manual asset
   /// (or before an asset is chosen).
@@ -171,10 +165,7 @@ class AssetFormController extends ChangeNotifier {
 
   /// Whether the form can be saved: the check of the toolbar is on.
   bool get isValid =>
-      _kind != null &&
-      _assetError == null &&
-      _quantityError == null &&
-      _priceError == null;
+      _assetError == null && _quantityError == null && _priceError == null;
 
   /// Saves the asset. False when the form is not valid or the repository
   /// refused ([failure] says why).
@@ -196,6 +187,7 @@ class AssetFormController extends ChangeNotifier {
         : repository.addOpeningAsset(
             assetId: isManual ? null : _assetId,
             manualName: isManual ? manualName.text.trim() : null,
+            manualType: _manualType,
             quantity: q,
             averageCost: p,
             countsForNetWorth: _countsForNetWorth,

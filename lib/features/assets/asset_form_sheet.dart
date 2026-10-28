@@ -1,10 +1,12 @@
 // The form of an asset of the onboarding, from the Figma "Onboarding 0.3.1"
 // and "0.3.2" (nodes 13:3437 and 13:3459): a bottom sheet with X, title and
-// check, the type, the asset, the amount, the average purchase price and the
-// "Counts for Net Worth" switch. Differences from Figma: the switch starts on;
+// check, the asset, the amount, the average purchase price and the
+// "Counts for Net Worth" switch. Differences from Figma: the asset is chosen as
+// in the form of a movement (Catalog, with a search by name, ticker or ISIN, or
+// Manual asset, with a name and its kind) instead of a Type select; the switch starts on;
 // in edit mode the type and the asset are fixed and a red "Delete asset" (with
 // a confirmation) closes the form (not in Figma, same pattern as the other
-// forms). A manual asset has only a name (its kind is "other").
+// forms). The movement fields (date, commission, account) are not here.
 
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
@@ -14,8 +16,7 @@ import '../../design_system/design_system.dart';
 import '../../l10n/l10n.dart';
 import '../../mock/models/holding.dart';
 import '../../mock/models/movement_edit.dart';
-import '../../mock/models/portfolio.dart';
-import '../investments/investments_texts.dart' show positionKindLabel;
+import '../investments/investments_texts.dart' show manualTypeLabel;
 import 'asset_form_controller.dart';
 
 /// Opens the form of a new asset, or of [editing]. Returns whether an asset
@@ -197,19 +198,6 @@ class _AssetFormSheetState extends State<_AssetFormSheet> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: SossoldiSpacing.s,
               children: [
-                SossoldiSelect<PositionKind>(
-                  label: l10n.assetType,
-                  placeholder: l10n.assetTypePlaceholder,
-                  value: c.kind,
-                  onChanged: c.isEditing ? null : c.selectKind,
-                  items: [
-                    for (final k in PositionKind.values)
-                      SossoldiSelectItem(
-                        value: k,
-                        label: positionKindLabel(context, k),
-                      ),
-                  ],
-                ),
                 _assetField(context),
                 SossoldiTextInput(
                   controller: c.quantity,
@@ -257,105 +245,128 @@ class _AssetFormSheetState extends State<_AssetFormSheet> {
     );
   }
 
-  /// The asset: off until a type is chosen; then a search in the catalog of
-  /// that type (as in the form of a movement), or the name of a manual asset.
+  /// The asset, as in the form of a movement: from the catalog (a search by
+  /// name, ticker or ISIN) or entered by hand (a name and its kind).
   Widget _assetField(BuildContext context) {
     final l10n = context.l10n;
     final colors = context.colors;
     final repo = c.repository;
-    if (c.kind == null) {
-      return SossoldiSelect<String>(
-        label: l10n.assetAsset,
-        placeholder: l10n.assetAssetPlaceholder,
-        value: null,
-        onChanged: null,
-        items: const [],
-      );
-    }
-    if (c.isManual) {
-      return SossoldiTextInput(
-        controller: c.manualName,
-        label: l10n.assetAsset,
-        placeholder: l10n.assetManualNamePlaceholder,
-        enabled: !c.isEditing,
-        errorText: _errorText(c.assetError),
-      );
-    }
     final chosen = c.assetId == null ? null : repo.asset(c.assetId!);
-    if (chosen != null) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: SossoldiSpacing.xs,
-        children: [
-          Text(
-            l10n.assetAsset,
-            style: context.typography.labelMedium.copyWith(
-              color: colors.textHigh,
-            ),
-          ),
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: colors.surfaceHigh,
-              shape: RoundedSuperellipseBorder(
-                borderRadius: BorderRadius.circular(SossoldiRadius.s),
-              ),
-            ),
-            // The border over the row: the row's own background would hide
-            // its inner half.
-            foregroundDecoration: ShapeDecoration(
-              shape: RoundedSuperellipseBorder(
-                borderRadius: BorderRadius.circular(SossoldiRadius.s),
-                side: BorderSide(color: colors.strokePlus1),
-              ),
-            ),
-            child: SossoldiMenuItem(
-              label: chosen.name,
-              subtitle: '${chosen.ticker} – ${chosen.isin}',
-              trailing: c.isEditing
-                  ? null
-                  : SossoldiButton(
-                      label: l10n.movementChangeAsset,
-                      type: SossoldiButtonType.ghost,
-                      onPressed: () {
-                        _search.clear();
-                        setState(() => _query = '');
-                        c.selectAsset(null);
-                      },
-                    ),
-            ),
-          ),
-          if (c.assetError != null)
-            Text(
-              _errorText(c.assetError)!,
-              style: context.typography.labelMedium.copyWith(
-                color: colors.error.text,
-              ),
-            ),
-        ],
-      );
-    }
-    final results = _query.trim().isEmpty
-        ? const <dynamic>[]
-        : c.search(_query).take(6).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: SossoldiSpacing.xs,
+      spacing: SossoldiSpacing.s,
       children: [
-        SossoldiSearchField(
-          controller: _search,
-          placeholder: l10n.assetSearch,
-          clearSemanticLabel: l10n.clearSearch,
-          results: [for (final a in results) '${a.name} (${a.ticker})'],
-          onChanged: (q) => setState(() => _query = q),
-          onResultTap: (i) => c.selectAsset(results[i].id as String),
-        ),
-        if (c.assetError != null)
-          Text(
-            _errorText(c.assetError)!,
-            style: context.typography.labelMedium.copyWith(
-              color: colors.error.text,
-            ),
+        if (!c.isEditing)
+          Row(
+            spacing: SossoldiSpacing.s,
+            children: [
+              SossoldiUnitNavigator(
+                label: l10n.movementAssetCatalog,
+                selected: !c.isManual,
+                onTap: () => c.setManual(false),
+              ),
+              SossoldiUnitNavigator(
+                label: l10n.movementAssetManual,
+                selected: c.isManual,
+                onTap: () => c.setManual(true),
+              ),
+            ],
+          ),
+        if (c.isManual) ...[
+          SossoldiTextInput(
+            controller: c.manualName,
+            label: l10n.movementManualName,
+            placeholder: l10n.assetManualNamePlaceholder,
+            enabled: !c.isEditing,
+            errorText: _errorText(c.assetError),
+          ),
+          SossoldiSelect<ManualAssetType>(
+            label: l10n.movementManualType,
+            value: c.manualType,
+            onChanged: c.isEditing ? null : c.setManualType,
+            items: [
+              for (final t in ManualAssetType.values)
+                SossoldiSelectItem(
+                  value: t,
+                  label: manualTypeLabel(context, t),
+                ),
+            ],
+          ),
+        ] else if (chosen != null)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: SossoldiSpacing.xs,
+            children: [
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  color: colors.surfaceHigh,
+                  shape: RoundedSuperellipseBorder(
+                    borderRadius: BorderRadius.circular(SossoldiRadius.s),
+                  ),
+                ),
+                // The border over the row: the row's own background would
+                // hide its inner half.
+                foregroundDecoration: ShapeDecoration(
+                  shape: RoundedSuperellipseBorder(
+                    borderRadius: BorderRadius.circular(SossoldiRadius.s),
+                    side: BorderSide(color: colors.strokePlus1),
+                  ),
+                ),
+                child: SossoldiMenuItem(
+                  label: chosen.name,
+                  subtitle: '${chosen.ticker} – ${chosen.isin}',
+                  trailing: c.isEditing
+                      ? null
+                      : SossoldiButton(
+                          label: l10n.movementChangeAsset,
+                          type: SossoldiButtonType.ghost,
+                          onPressed: () {
+                            _search.clear();
+                            setState(() => _query = '');
+                            c.selectAsset(null);
+                          },
+                        ),
+                ),
+              ),
+              if (c.assetError != null)
+                Text(
+                  _errorText(c.assetError)!,
+                  style: context.typography.labelMedium.copyWith(
+                    color: colors.error.text,
+                  ),
+                ),
+            ],
+          )
+        else
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: SossoldiSpacing.xs,
+            children: [
+              SossoldiSearchField(
+                controller: _search,
+                placeholder: l10n.assetSearch,
+                clearSemanticLabel: l10n.clearSearch,
+                results: _query.trim().isEmpty
+                    ? const []
+                    : [
+                        for (final a in repo.searchAssets(_query).take(6))
+                          '${a.name} (${a.ticker})',
+                      ],
+                onChanged: (q) => setState(() => _query = q),
+                onResultTap: (i) {
+                  final a = repo.searchAssets(_query).take(6).toList()[i];
+                  c.selectAsset(a.id);
+                },
+              ),
+              if (c.assetError != null)
+                Text(
+                  _errorText(c.assetError)!,
+                  style: context.typography.labelMedium.copyWith(
+                    color: colors.error.text,
+                  ),
+                ),
+            ],
           ),
       ],
     );

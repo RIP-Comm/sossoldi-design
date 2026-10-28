@@ -1483,18 +1483,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get assetMainDetails => 'Main details';
 
   @override
-  String get assetType => 'Type';
-
-  @override
-  String get assetTypePlaceholder => 'Select asset type';
-
-  @override
-  String get assetAsset => 'Asset';
-
-  @override
-  String get assetAssetPlaceholder => 'Select Asset';
-
-  @override
   String get assetSearch => 'Search by name, ticker or ISIN';
 
   @override

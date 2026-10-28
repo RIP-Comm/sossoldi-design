@@ -2828,30 +2828,6 @@ abstract class AppLocalizations {
   /// **'Main details'**
   String get assetMainDetails;
 
-  /// No description provided for @assetType.
-  ///
-  /// In en, this message translates to:
-  /// **'Type'**
-  String get assetType;
-
-  /// No description provided for @assetTypePlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Select asset type'**
-  String get assetTypePlaceholder;
-
-  /// No description provided for @assetAsset.
-  ///
-  /// In en, this message translates to:
-  /// **'Asset'**
-  String get assetAsset;
-
-  /// No description provided for @assetAssetPlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Select Asset'**
-  String get assetAssetPlaceholder;
-
   /// No description provided for @assetSearch.
   ///
   /// In en, this message translates to:

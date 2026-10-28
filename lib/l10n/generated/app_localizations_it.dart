@@ -1480,18 +1480,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get assetMainDetails => 'Dettagli principali';
 
   @override
-  String get assetType => 'Tipo';
-
-  @override
-  String get assetTypePlaceholder => 'Seleziona il tipo di asset';
-
-  @override
-  String get assetAsset => 'Asset';
-
-  @override
-  String get assetAssetPlaceholder => 'Seleziona l\'asset';
-
-  @override
   String get assetSearch => 'Cerca per nome, ticker o ISIN';
 
   @override

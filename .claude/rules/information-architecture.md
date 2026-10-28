@@ -73,9 +73,10 @@ Settings below). The import from another app is still a placeholder.
    initial, type tag, name, "ticker – ISIN", **value = quantity × PMC converted to the main currency, not the market
    value**, "Quantity", "PMC" in the currency of the asset), "Add asset +" and, at the bottom, the primary button
    "Start tracking >". Tap on a row: the form, to edit it.
-   - Asset form (bottom sheet): X, "New asset" ("Edit asset"), check (on only with valid data). Type (ETF, Stock, Bond,
-     Manual asset), Asset (off until a type is chosen; then a search in the catalog of that type, as in the form of a
-     movement, or just a name for a manual asset; a manual asset has no kind of its own, it is "other"), Amount
+   - Asset form (bottom sheet): X, "New asset" ("Edit asset"), check (on only with valid data). The asset, chosen as in the form of
+     a movement (**differs from Figma, which has a Type select**): "Catalog" (default; a search with the placeholder
+     "Search by name, ticker or ISIN"; the pick shows name, ticker – ISIN and "Change") or "Manual asset" (name and kind of
+     asset). None of the fields of a movement (date, commission, account) is here. Amount
      (quantity above zero, up to 8 decimals), Average purchase price (above zero, in the currency of the asset, the main
      currency for a manual asset), "Counts for Net Worth" (**on by default, differs from Figma**; only stored: no screen
      or total uses it yet). An asset already added (a manual one with the same name) is an inline error. In edit mode

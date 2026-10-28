@@ -125,8 +125,8 @@ void main() {
     expect(find.text('New asset'), findsOneWidget);
     for (final t in [
       'Main details',
-      'Type',
-      'Asset',
+      'Catalog',
+      'Manual asset',
       'Amount',
       'Average purchase price',
       'Counts for Net Worth',
@@ -143,10 +143,10 @@ void main() {
     expect(toolbar().confirmEnabled, isFalse);
 
     // A manual asset: the name, the amount and the price.
-    await tester.tap(find.text('Select asset type'));
+    expect(find.text('Search by name, ticker or ISIN'), findsOneWidget);
+    await tester.tap(find.text('Manual asset'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Manual asset').hitTestable().last);
-    await tester.pumpAndSettle();
+    expect(find.text('Kind of asset'), findsOneWidget);
     await tester.enterText(_fields.at(0), 'Stamps');
     await tester.enterText(_fields.at(1), '0');
     await tester.pump();
@@ -168,6 +168,33 @@ void main() {
     expect(find.text('STAMPS'), findsOneWidget);
   });
 
+  testWidgets('the catalog is the default: search, pick, then amount and price '
+      'and save', (tester) async {
+    final state = await _step3(tester);
+    final repo = state.repository;
+    await tester.tap(find.text('Add asset'));
+    await tester.pumpAndSettle();
+    await tester.enterText(_fields.at(0), 'vanguard');
+    await tester.pumpAndSettle();
+    await tester.tap(find.textContaining('Vanguard FTSE All-World').first);
+    await tester.pumpAndSettle();
+    // The asset is chosen (with its ticker and ISIN) and can be changed.
+    expect(find.text('Change'), findsOneWidget);
+    expect(find.textContaining('VWCE'), findsOneWidget);
+    // Nothing of a movement: no date, no commission, no account.
+    expect(find.text('Date'), findsNothing);
+    expect(find.textContaining('Commission'), findsNothing);
+    await tester.enterText(_fields.at(0), '3');
+    await tester.enterText(_fields.at(1), '110,5');
+    await tester.pump();
+    await tester.tap(find.byIcon(PhosphorIconsRegular.check).last);
+    await tester.pumpAndSettle();
+    final h = repo.openingAssets.single;
+    expect(h.assetId, isNotNull);
+    expect(h.quantity, 3);
+    expect(h.averageCost, 110.5);
+  });
+
   testWidgets('a duplicate shows an inline error and cannot be saved', (
     tester,
   ) async {
@@ -177,10 +204,10 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Add asset'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Select asset type'));
+    expect(find.text('Search by name, ticker or ISIN'), findsOneWidget);
+    await tester.tap(find.text('Manual asset'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Manual asset').hitTestable().last);
-    await tester.pumpAndSettle();
+    expect(find.text('Kind of asset'), findsOneWidget);
     await tester.enterText(_fields.at(0), 'stamps');
     await tester.enterText(_fields.at(1), '1');
     await tester.enterText(_fields.at(2), '1');
