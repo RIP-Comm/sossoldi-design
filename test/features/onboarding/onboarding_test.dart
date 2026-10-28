@@ -440,6 +440,35 @@ void main() {
   });
 
   group('the form of an account', () {
+    testWidgets('what was typed stays when the keyboard comes and goes', (
+      tester,
+    ) async {
+      await _step1(tester);
+      await _openForm(tester);
+      await tester.enterText(_fields.at(0), 'Bank');
+      await tester.enterText(_fields.at(1), '250');
+      await tester.pump();
+      // The keyboard opens: the insets change and the sheet is built again.
+      tester.view.viewInsets = const FakeViewPadding(bottom: 300);
+      addTearDown(tester.view.resetViewInsets);
+      await tester.pumpAndSettle();
+      tester.view.resetViewInsets();
+      await tester.pumpAndSettle();
+      expect(find.text('Bank'), findsOneWidget);
+      expect(find.text('250'), findsOneWidget);
+    });
+
+    testWidgets('the amount asks for the numbers keyboard', (tester) async {
+      await _step1(tester);
+      await _openForm(tester);
+      final amount = tester.widget<SossoldiTextInput>(
+        find.byType(SossoldiTextInput).at(1),
+      );
+      expect(amount.keyboardType?.index, TextInputType.number.index);
+      expect(amount.keyboardType?.decimal, isTrue);
+      expect(amount.keyboardType?.signed, isNot(true));
+    });
+
     testWidgets('has the fields of the design and the currency', (
       tester,
     ) async {
