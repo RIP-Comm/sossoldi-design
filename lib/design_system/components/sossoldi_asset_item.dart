@@ -42,7 +42,8 @@ class SossoldiAssetItem extends StatelessWidget {
   /// Asset class, e.g. "ETF". Shown uppercase.
   final String typeLabel;
 
-  /// Ticker and/or ISIN, e.g. "VWCE - IE00BK5BQT80".
+  /// Ticker and/or ISIN, e.g. "VWCE - IE00BK5BQT80"; empty for an asset
+  /// that has neither (a manual one): the line is left out.
   final String identifier;
   final SossoldiRightChart? chart;
   final num? value;
@@ -86,10 +87,12 @@ class SossoldiAssetItem extends StatelessWidget {
                   horizontal: SossoldiSpacing.xs,
                   vertical: SossoldiSpacing.xs / 2,
                 ),
-                decoration: BoxDecoration(
+                decoration: ShapeDecoration(
                   color: colors.surfaceHigh,
-                  borderRadius: BorderRadius.circular(SossoldiRadius.xs),
-                  border: Border.all(color: colors.strokeDefault, width: 0.5),
+                  shape: RoundedSuperellipseBorder(
+                    borderRadius: BorderRadius.circular(SossoldiRadius.xs),
+                    side: BorderSide(color: colors.strokeDefault, width: 0.5),
+                  ),
                 ),
                 child: Text(
                   typeLabel.toUpperCase(),
@@ -109,14 +112,15 @@ class SossoldiAssetItem extends StatelessWidget {
                       color: colors.textHigh,
                     ),
                   ),
-                  Text(
-                    identifier.toUpperCase(),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: typography.labelUppercaseMedium.copyWith(
-                      color: colors.textMed,
+                  if (identifier.isNotEmpty)
+                    Text(
+                      identifier.toUpperCase(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: typography.labelUppercaseMedium.copyWith(
+                        color: colors.textMed,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ],
@@ -155,9 +159,11 @@ class SossoldiAssetItem extends StatelessWidget {
         horizontal: SossoldiSpacing.m,
         vertical: SossoldiSpacing.s,
       ),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiRadius.s),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.s),
+        ),
       ),
       child: Row(
         crossAxisAlignment: detailed

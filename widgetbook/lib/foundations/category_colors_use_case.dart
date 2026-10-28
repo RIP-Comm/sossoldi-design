@@ -43,9 +43,11 @@ class _PairTile extends StatelessWidget {
     return Container(
       width: 152,
       padding: const EdgeInsets.all(SossoldiSpacing.s),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: context.colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiRadius.s),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.s),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +68,7 @@ class _PairTile extends StatelessWidget {
           ),
           const SizedBox(height: SossoldiSpacing.s),
           // Example usage: budget bar with tint track and main fill.
-          ClipRRect(
+          ClipRSuperellipse(
             borderRadius: BorderRadius.circular(SossoldiRadius.max),
             child: LinearProgressIndicator(
               value: 0.6,

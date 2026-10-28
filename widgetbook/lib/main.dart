@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sossoldi/design_system/design_system.dart';
+import 'package:sossoldi/l10n/l10n.dart';
 import 'package:widgetbook/widgetbook.dart';
 
+import 'components/account_use_cases.dart';
+import 'components/app_shell_use_cases.dart';
 import 'components/buttons_use_cases.dart';
 import 'components/chips_use_cases.dart';
 import 'components/domain_use_cases.dart';
+import 'components/finance_use_cases.dart';
 import 'components/inputs_use_cases.dart';
 import 'components/navigation_use_cases.dart';
 import 'components/overlay_use_cases.dart';
@@ -36,7 +39,7 @@ class SossoldiWidgetbook extends StatelessWidget {
         ),
         LocalizationAddon(
           locales: const [Locale('en'), Locale('it')],
-          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
         ),
       ],
       directories: [
@@ -94,6 +97,8 @@ class SossoldiWidgetbook extends StatelessWidget {
             _component('Text input', const TextInputUseCase()),
             _component('Textarea', const TextareaUseCase()),
             _component('Select', const SelectUseCase()),
+            _component('Color picker', const ColorPickerUseCase()),
+            _component('Icon picker', const IconPickerUseCase()),
             _component('Tabs', const TabUseCase()),
             _component('Tab navigation', const TabNavigationUseCase()),
             _component('Unit navigator', const UnitNavigatorUseCase()),
@@ -118,6 +123,7 @@ class SossoldiWidgetbook extends StatelessWidget {
             _component('Modal', const ModalUseCase()),
             _component('Snackbar', const SnackbarUseCase()),
             _component('Alert', const AlertUseCase()),
+            _component('Alert carousel', const AlertCarouselUseCase()),
             _component('Loader & progress', const LoaderProgressUseCase()),
             _component('Accordion', const AccordionUseCase()),
             _component(
@@ -126,6 +132,48 @@ class SossoldiWidgetbook extends StatelessWidget {
             ),
             _component('Search', const SearchUseCase()),
             _component('Auth code', const AuthCodeUseCase()),
+          ],
+        ),
+        WidgetbookFolder(
+          name: 'App shell & dashboard',
+          children: [
+            _component('Header button', const HeaderButtonUseCase()),
+            _component('Navbar', const NavbarUseCase()),
+            _component('Widget card', const WidgetCardUseCase()),
+            _component('Trend chart', const TrendChartUseCase()),
+            _component('Edit controls', const EditControlsUseCase()),
+            _component(
+              'Monthly balance (S, M, L)',
+              const MonthlyBalanceUseCase(),
+            ),
+            _component(
+              'Latest transactions (S, M, L)',
+              const LatestTransactionsUseCase(),
+            ),
+            _component('Dashboard edit demo', const DashboardEditDemoUseCase()),
+          ],
+        ),
+        WidgetbookFolder(
+          name: 'Finance',
+          children: [
+            _component('Filter button', const FilterButtonUseCase()),
+            _component('Day header', const DayHeaderUseCase()),
+            _component('Empty state', const EmptyStateUseCase()),
+            _component('Donut chart + legend', const DonutChartUseCase()),
+            _component('Stacked area chart', const StackedAreaChartUseCase()),
+            _component('Budget item + bar', const BudgetItemUseCase()),
+            _component('Segmented bar', const SegmentedBarUseCase()),
+            _component('Danger button', const DangerButtonUseCase()),
+            _component('Date range picker', const DateRangePickerUseCase()),
+            _component('Calendar + month selector', const CalendarUseCase()),
+            _component('Cash flow chart', const CashFlowChartUseCase()),
+            _component('Budget card', const BudgetCardUseCase()),
+            _component('Portfolio card', const PortfolioCardUseCase()),
+            _component('Breakdown item', const BreakdownItemUseCase()),
+            _component('Operation item', const OperationItemUseCase()),
+            _component('Movement item', const MovementItemUseCase()),
+            _component('Value chart', const ValueChartUseCase()),
+            _component('Finance page demo', const FinanceDemoUseCase()),
           ],
         ),
         WidgetbookFolder(

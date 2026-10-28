@@ -100,10 +100,9 @@ class _SossoldiBreadcrumbState extends State<SossoldiBreadcrumb> {
                   width: 152,
                   child: SossoldiDropdown(
                     options: [
-                      for (final (i, item) in hidden.indexed)
+                      for (final item in hidden)
                         SossoldiMenuItem(
                           label: item.label,
-                          showDivider: i < hidden.length - 1,
                           onTap: () {
                             setState(_overlay.hide);
                             item.onTap?.call();
@@ -120,8 +119,10 @@ class _SossoldiBreadcrumbState extends State<SossoldiBreadcrumb> {
             semanticLabel: widget.moreSemanticLabel,
             child: Container(
               padding: const EdgeInsets.all(SossoldiSpacing.xs),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(SossoldiRadius.xs),
+              decoration: ShapeDecoration(
+                shape: RoundedSuperellipseBorder(
+                  borderRadius: BorderRadius.circular(SossoldiRadius.xs),
+                ),
               ),
               child: Icon(
                 PhosphorIconsBold.dotsThree,

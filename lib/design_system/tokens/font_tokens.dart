@@ -4,12 +4,10 @@
 import 'package:flutter/painting.dart';
 
 abstract final class SossoldiFont {
-  /// Bundled in assets/fonts/dm_sans (SIL Open Font License).
+  /// Bundled in assets/fonts/dm_sans (SIL Open Font License), declared in
+  /// the app pubspec. The widgetbook app declares the same files from this
+  /// package (packages/sossoldi/...), so the plain family name works in both.
   static const family = 'DMSans';
-
-  /// The font is declared in this package's pubspec, so it must be
-  /// referenced with the package name to also work from widgetbook.
-  static const package = 'sossoldi';
 
   static const regular = FontWeight.w400;
   static const medium = FontWeight.w500;

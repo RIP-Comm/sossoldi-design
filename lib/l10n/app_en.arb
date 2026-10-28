@@ -1,0 +1,1749 @@
+{
+  "@@locale": "en",
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Bottom bar tab: Dashboard"
+  },
+  "navFinance": "Finance",
+  "@navFinance": {
+    "description": "Bottom bar tab: Finance"
+  },
+  "navInvestments": "Investments",
+  "@navInvestments": {
+    "description": "Bottom bar tab: Investments"
+  },
+  "addTransaction": "Add transaction",
+  "@addTransaction": {
+    "description": "Title of the add transaction screen and label of the + button"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Title of the settings screen and label of the gear button"
+  },
+  "back": "Back",
+  "showAmounts": "Show amounts",
+  "@showAmounts": {
+    "description": "Label of the button that reveals hidden amounts"
+  },
+  "hideAmounts": "Hide amounts",
+  "@hideAmounts": {
+    "description": "Label of the button that hides every amount in the app"
+  },
+  "comingSoon": "Coming soon",
+  "@comingSoon": {
+    "description": "Body of placeholder screens"
+  },
+  "widgetMonthlyBalanceName": "Monthly balance",
+  "@widgetMonthlyBalanceName": {
+    "description": "Dashboard widget: income minus expenses of the current month"
+  },
+  "widgetLatestTransactionsName": "Latest transactions",
+  "@widgetLatestTransactionsName": {
+    "description": "Dashboard widget: the most recent transactions"
+  },
+  "widgetIncome": "Income",
+  "@widgetIncome": {
+    "description": "Label above the month's income in the Monthly balance widget"
+  },
+  "widgetExpense": "Expense",
+  "@widgetExpense": {
+    "description": "Label above the month's expenses in the Monthly balance widget"
+  },
+  "widgetComparedToLastMonth": "Compared to last month on the same day",
+  "@widgetComparedToLastMonth": {
+    "description": "Caption next to the change tag in the Monthly balance widget"
+  },
+  "chartThisMonth": "This month",
+  "@chartThisMonth": {
+    "description": "Chart legend: current month line"
+  },
+  "chartLastMonth": "Last month",
+  "@chartLastMonth": {
+    "description": "Chart legend: previous month dashed line"
+  },
+  "editHome": "Edit Home",
+  "@editHome": {
+    "description": "Title of the Dashboard top bar in edit mode"
+  },
+  "addWidget": "Add widget",
+  "@addWidget": {
+    "description": "Title of the add-widget sheet, its confirm button and the + button label"
+  },
+  "doneEditing": "Done",
+  "@doneEditing": {
+    "description": "Label of the check button that leaves edit mode"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel action of a sheet"
+  },
+  "removeWidget": "Remove widget",
+  "@removeWidget": {
+    "description": "Label of the - badge on a widget in edit mode"
+  },
+  "resizeWidget": "Resize widget",
+  "@resizeWidget": {
+    "description": "Label of the resize handle on a widget in edit mode"
+  },
+  "widgetSizeSmall": "Small",
+  "@widgetSizeSmall": {
+    "description": "Widget size name"
+  },
+  "widgetSizeMedium": "Medium",
+  "@widgetSizeMedium": {
+    "description": "Widget size name"
+  },
+  "widgetSizeLarge": "Large",
+  "@widgetSizeLarge": {
+    "description": "Widget size name"
+  },
+  "dashboardEmptyTitle": "Your Home is empty",
+  "@dashboardEmptyTitle": {
+    "description": "Empty Dashboard message"
+  },
+  "dashboardEmptyEditHint": "Tap + to add a widget",
+  "@dashboardEmptyEditHint": {
+    "description": "Hint shown in edit mode when the Dashboard has no widgets"
+  },
+  "darkMode": "Dark mode",
+  "@darkMode": {
+    "description": "Settings row: dark theme switch"
+  },
+  "financeTitle": "Finance",
+  "@financeTitle": {
+    "description": "Title of the Finance page"
+  },
+  "financeTabOverview": "Overview",
+  "@financeTabOverview": {
+    "description": "Finance tab"
+  },
+  "financeTabTransactions": "Transactions",
+  "@financeTabTransactions": {
+    "description": "Finance tab"
+  },
+  "financeTabBudget": "Budget",
+  "@financeTabBudget": {
+    "description": "Finance tab"
+  },
+  "financeTabRecurring": "Recurring",
+  "@financeTabRecurring": {
+    "description": "Finance tab"
+  },
+  "transactionsViewList": "List",
+  "@transactionsViewList": {
+    "description": "Transactions view switch"
+  },
+  "transactionsViewCharts": "Charts",
+  "@transactionsViewCharts": {
+    "description": "Transactions view switch"
+  },
+  "searchTransactions": "Search transactions",
+  "@searchTransactions": {
+    "description": "Placeholder of the transactions search field"
+  },
+  "clearSearch": "Clear search",
+  "@clearSearch": {
+    "description": "Label of the clear button of a search field"
+  },
+  "filters": "Filters",
+  "@filters": {
+    "description": "Filter button label and title of the filters sheet"
+  },
+  "filtersApply": "Apply",
+  "@filtersApply": {
+    "description": "Apply the filters"
+  },
+  "filtersReset": "Reset",
+  "@filtersReset": {
+    "description": "Reset the filters to their defaults"
+  },
+  "filterDate": "Date",
+  "@filterDate": {
+    "description": "Filter name"
+  },
+  "filterType": "Type",
+  "@filterType": {
+    "description": "Filter name"
+  },
+  "filterCategory": "Category",
+  "@filterCategory": {
+    "description": "Filter name"
+  },
+  "filterAmount": "Amount",
+  "@filterAmount": {
+    "description": "Filter name"
+  },
+  "filterAccount": "Account",
+  "@filterAccount": {
+    "description": "Filter name"
+  },
+  "typeExpense": "Expense",
+  "@typeExpense": {
+    "description": "Transaction type"
+  },
+  "typeIncome": "Income",
+  "@typeIncome": {
+    "description": "Transaction type"
+  },
+  "typeTransfer": "Transfer",
+  "@typeTransfer": {
+    "description": "Transaction type"
+  },
+  "removeFilter": "Remove filter",
+  "@removeFilter": {
+    "description": "Label of the X on an active filter chip"
+  },
+  "datePresetThisMonth": "This month",
+  "@datePresetThisMonth": {
+    "description": "Date filter shortcut"
+  },
+  "datePresetLastMonth": "Last month",
+  "@datePresetLastMonth": {
+    "description": "Date filter shortcut"
+  },
+  "datePresetLast3Months": "Last 3 months",
+  "@datePresetLast3Months": {
+    "description": "Date filter shortcut"
+  },
+  "datePresetThisYear": "This year",
+  "@datePresetThisYear": {
+    "description": "Date filter shortcut"
+  },
+  "datePresetAllTime": "All time",
+  "@datePresetAllTime": {
+    "description": "Date filter shortcut"
+  },
+  "datePresetCustom": "Custom range",
+  "@datePresetCustom": {
+    "description": "Date filter shortcut"
+  },
+  "amountMin": "Min",
+  "@amountMin": {
+    "description": "Placeholder of the minimum amount field"
+  },
+  "amountMax": "Max",
+  "@amountMax": {
+    "description": "Placeholder of the maximum amount field"
+  },
+  "emptyTransactionsTitle": "No transactions found",
+  "@emptyTransactionsTitle": {
+    "description": "Empty state of the transaction list"
+  },
+  "emptyTransactionsFiltered": "Try changing the search or the filters.",
+  "@emptyTransactionsFiltered": {
+    "description": "Hint when the search or filters hide everything"
+  },
+  "emptyTransactionsPlain": "There are no transactions in this period.",
+  "@emptyTransactionsPlain": {
+    "description": "Hint when there are no filters"
+  },
+  "clearFilters": "Clear filters",
+  "@clearFilters": {
+    "description": "Button of the empty state"
+  },
+  "paginationPrevious": "Previous page",
+  "@paginationPrevious": {
+    "description": "Pagination button label"
+  },
+  "paginationNext": "Next page",
+  "@paginationNext": {
+    "description": "Pagination button label"
+  },
+  "previousMonth": "Previous month",
+  "@previousMonth": {
+    "description": "Calendar button label"
+  },
+  "nextMonth": "Next month",
+  "@nextMonth": {
+    "description": "Calendar button label"
+  },
+  "amountsIn": "Amounts in {currency}",
+  "@amountsIn": {
+    "description": "Hint under the amount filter",
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "chartsSelectTimeRange": "Select time range",
+  "@chartsSelectTimeRange": {
+    "description": "Label of the time range select in the charts"
+  },
+  "rangeCurrentMonth": "Current month",
+  "@rangeCurrentMonth": {
+    "description": "Time range"
+  },
+  "rangeLastMonth": "Last month",
+  "@rangeLastMonth": {
+    "description": "Time range"
+  },
+  "rangeLast3Months": "Last 3 months",
+  "@rangeLast3Months": {
+    "description": "Time range"
+  },
+  "rangeLast6Months": "Last 6 months",
+  "@rangeLast6Months": {
+    "description": "Time range"
+  },
+  "rangeYearToDate": "Year to date",
+  "@rangeYearToDate": {
+    "description": "Time range"
+  },
+  "rangeLast12Months": "Last 12 months",
+  "@rangeLast12Months": {
+    "description": "Time range"
+  },
+  "kindExpenses": "Expenses",
+  "@kindExpenses": {
+    "description": "Charts segmented control"
+  },
+  "kindIncome": "Income",
+  "@kindIncome": {
+    "description": "Charts segmented control"
+  },
+  "chartTotal": "Total",
+  "@chartTotal": {
+    "description": "Label of the period total"
+  },
+  "chartCategoriesBreakdown": "Categories breakdown",
+  "@chartCategoriesBreakdown": {
+    "description": "Section title"
+  },
+  "chartBreakdownOverTime": "Breakdown over time",
+  "@chartBreakdownOverTime": {
+    "description": "Section title"
+  },
+  "chartSnapshot": "Snapshot",
+  "@chartSnapshot": {
+    "description": "Label of the granularity select"
+  },
+  "granularityWeekly": "Weekly",
+  "@granularityWeekly": {
+    "description": "Granularity option"
+  },
+  "granularityMonthly": "Monthly",
+  "@granularityMonthly": {
+    "description": "Granularity option"
+  },
+  "emptyChartsTitle": "No transactions in this period",
+  "@emptyChartsTitle": {
+    "description": "Empty state of the charts"
+  },
+  "emptyChartsFiltered": "Try another time range or fewer filters.",
+  "@emptyChartsFiltered": {
+    "description": "Hint of the empty state of the charts"
+  },
+  "chartDonutSemantics": "Breakdown by category",
+  "@chartDonutSemantics": {
+    "description": "Screen reader label of the donut"
+  },
+  "chartAreaSemantics": "Breakdown over time by category",
+  "@chartAreaSemantics": {
+    "description": "Screen reader label of the area chart"
+  },
+  "changeVsPrevious": "{value} PoP",
+  "@changeVsPrevious": {
+    "description": "Change against the previous period of the same length (PoP = period over period)",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Settings: language select"
+  },
+  "languageSystem": "Device language",
+  "@languageSystem": {
+    "description": "Settings: follow the device language"
+  },
+  "currency": "Currency",
+  "@currency": {
+    "description": "Settings: main currency select"
+  },
+  "periodWeekly": "Weekly",
+  "@periodWeekly": {
+    "description": "Budget period"
+  },
+  "periodMonthly": "Monthly",
+  "@periodMonthly": {
+    "description": "Budget period"
+  },
+  "periodQuarterly": "Quarterly",
+  "@periodQuarterly": {
+    "description": "Budget period"
+  },
+  "periodSemiannual": "Semiannual",
+  "@periodSemiannual": {
+    "description": "Budget period"
+  },
+  "periodYearly": "Yearly",
+  "@periodYearly": {
+    "description": "Budget period"
+  },
+  "budgetOverall": "Overall budget",
+  "@budgetOverall": {
+    "description": "Title of the overall budget card"
+  },
+  "budgetCategoriesBreakdown": "Categories breakdown",
+  "@budgetCategoriesBreakdown": {
+    "description": "Title of the budgets list"
+  },
+  "budgetsBarSemantics": "Budgets of the period",
+  "@budgetsBarSemantics": {
+    "description": "Screen reader label of the segmented bar"
+  },
+  "budgetEmptyTitle": "No budgets for this period",
+  "@budgetEmptyTitle": {
+    "description": "Empty state of the Budget tab"
+  },
+  "budgetEmptyHint": "You will be able to add budgets from Settings.",
+  "@budgetEmptyHint": {
+    "description": "Hint of the empty Budget tab"
+  },
+  "budgetEdit": "Edit",
+  "@budgetEdit": {
+    "description": "Edit button of the budget page"
+  },
+  "budgetSectionBudget": "Budget",
+  "@budgetSectionBudget": {
+    "description": "Section title of the budget page"
+  },
+  "budgetSectionExpenses": "Expenses",
+  "@budgetSectionExpenses": {
+    "description": "Section title of the expenses counted in a budget"
+  },
+  "budgetSearchExpenses": "Search expenses",
+  "@budgetSearchExpenses": {
+    "description": "Placeholder of the search field of a budget's expenses"
+  },
+  "budgetAmount": "Budget amount",
+  "@budgetAmount": {
+    "description": "Label of the amount field in edit mode"
+  },
+  "budgetAmountRequired": "Enter an amount.",
+  "@budgetAmountRequired": {
+    "description": "Error: the amount is empty or not a number"
+  },
+  "budgetAmountPositive": "The amount must be greater than zero.",
+  "@budgetAmountPositive": {
+    "description": "Error: the amount is zero or negative"
+  },
+  "budgetDelete": "Delete budget",
+  "@budgetDelete": {
+    "description": "Delete button"
+  },
+  "budgetDeleteTitle": "Delete this budget?",
+  "@budgetDeleteTitle": {
+    "description": "Title of the delete confirmation"
+  },
+  "budgetDeleteConfirm": "Delete",
+  "@budgetDeleteConfirm": {
+    "description": "Confirm button of the delete confirmation"
+  },
+  "emptyBudgetExpensesTitle": "No expenses in this period",
+  "@emptyBudgetExpensesTitle": {
+    "description": "Empty state of the expenses of a budget"
+  },
+  "budgetLeft": "{amount} left",
+  "budgetOver": "{amount} over",
+  "budgetDeleteMessage": "The {period} budget of {category} will be removed. Your expenses are not affected.",
+  "@budgetLeft": {
+    "description": "What is left of a budget",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@budgetOver": {
+    "description": "How much a budget was exceeded by",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@budgetDeleteMessage": {
+    "description": "Body of the delete confirmation",
+    "placeholders": {
+      "period": {
+        "type": "String"
+      },
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "recurringPreviousMonth": "Previous month",
+  "@recurringPreviousMonth": {
+    "description": "Label of the arrow that goes to the previous month"
+  },
+  "recurringNextMonth": "Next month",
+  "@recurringNextMonth": {
+    "description": "Label of the arrow that goes to the next month"
+  },
+  "recurringPickMonth": "Choose the month",
+  "@recurringPickMonth": {
+    "description": "Label of the button that opens the month picker"
+  },
+  "recurringPickMonthTitle": "Select month",
+  "@recurringPickMonthTitle": {
+    "description": "Title of the month picker"
+  },
+  "recurringPreviousYear": "Previous year",
+  "@recurringPreviousYear": {
+    "description": "Month picker: previous year"
+  },
+  "recurringNextYear": "Next year",
+  "@recurringNextYear": {
+    "description": "Month picker: next year"
+  },
+  "recurringAdd": "Add recurrent transaction",
+  "@recurringAdd": {
+    "description": "Button at the end of the recurring list and title of its placeholder screen"
+  },
+  "recurringEmptyMonthTitle": "No recurring transactions this month",
+  "@recurringEmptyMonthTitle": {
+    "description": "Empty state of the Recurring list for a whole month"
+  },
+  "recurringEmptyDayTitle": "Nothing on this day",
+  "@recurringEmptyDayTitle": {
+    "description": "Empty state of the Recurring list for a selected day"
+  },
+  "recurringEdit": "Edit",
+  "@recurringEdit": {
+    "description": "Edit button of the recurring transaction page"
+  },
+  "recurringSectionDetails": "Details",
+  "@recurringSectionDetails": {
+    "description": "Section of the recurring transaction page"
+  },
+  "recurringPeriod": "Recurrence period",
+  "@recurringPeriod": {
+    "description": "Field: how often a recurring transaction repeats"
+  },
+  "recurringAmount": "Amount",
+  "@recurringAmount": {
+    "description": "Field: amount of a recurring transaction"
+  },
+  "recurringActive": "Active",
+  "@recurringActive": {
+    "description": "Switch: the recurring transaction is active (off = paused)"
+  },
+  "recurringSectionOld": "Old transactions",
+  "@recurringSectionOld": {
+    "description": "Section with the transactions a recurring one generated"
+  },
+  "recurringRangeLabel": "Select time range",
+  "@recurringRangeLabel": {
+    "description": "Label of the time range select"
+  },
+  "recurringRangeLast3": "Last 3 months",
+  "@recurringRangeLast3": {
+    "description": "Time range option"
+  },
+  "recurringRangeLast6": "Last 6 months",
+  "@recurringRangeLast6": {
+    "description": "Time range option"
+  },
+  "recurringRangeLast12": "Last 12 months",
+  "@recurringRangeLast12": {
+    "description": "Time range option"
+  },
+  "recurringRangeAll": "All",
+  "@recurringRangeAll": {
+    "description": "Time range option: no limit"
+  },
+  "recurringFrequencyWeekly": "Weekly",
+  "@recurringFrequencyWeekly": {
+    "description": "Recurrence period"
+  },
+  "recurringFrequencyBiweekly": "Every 2 weeks",
+  "@recurringFrequencyBiweekly": {
+    "description": "Recurrence period"
+  },
+  "recurringFrequencyMonthly": "Monthly",
+  "@recurringFrequencyMonthly": {
+    "description": "Recurrence period"
+  },
+  "recurringFrequencyBimonthly": "Every 2 months",
+  "@recurringFrequencyBimonthly": {
+    "description": "Recurrence period"
+  },
+  "recurringFrequencyQuarterly": "Quarterly",
+  "@recurringFrequencyQuarterly": {
+    "description": "Recurrence period"
+  },
+  "recurringFrequencySemiannual": "Semiannual",
+  "@recurringFrequencySemiannual": {
+    "description": "Recurrence period"
+  },
+  "recurringFrequencyYearly": "Yearly",
+  "@recurringFrequencyYearly": {
+    "description": "Recurrence period"
+  },
+  "recurringHistoryEmpty": "No transactions in this period",
+  "@recurringHistoryEmpty": {
+    "description": "Empty state of the old transactions"
+  },
+  "recurringDelete": "Delete recurrence",
+  "@recurringDelete": {
+    "description": "Red button at the bottom of the page in edit mode"
+  },
+  "recurringDeleteTitle": "Delete this recurring transaction?",
+  "@recurringDeleteTitle": {
+    "description": "Title of the delete confirmation"
+  },
+  "recurringDeleteConfirm": "Delete",
+  "@recurringDeleteConfirm": {
+    "description": "Confirm button of the delete confirmation"
+  },
+  "recurringDeleteMessage": "{name} will not repeat any more. The transactions already recorded are kept.",
+  "@recurringDeleteMessage": {
+    "description": "Body of the delete confirmation",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Accessibility label of a close button"
+  },
+  "overviewAccounts": "Your accounts",
+  "@overviewAccounts": {
+    "description": "Overview section title"
+  },
+  "overviewManage": "Manage",
+  "@overviewManage": {
+    "description": "Button next to the accounts and budget sections"
+  },
+  "overviewAccountsTitle": "Accounts",
+  "@overviewAccountsTitle": {
+    "description": "Title of the placeholder screen behind Manage (accounts)"
+  },
+  "overviewBudgetsTitle": "Budgets",
+  "@overviewBudgetsTitle": {
+    "description": "Title of the placeholder screen behind Manage (budgets)"
+  },
+  "overviewUpcoming": "Upcoming recurrences",
+  "@overviewUpcoming": {
+    "description": "Overview section title"
+  },
+  "overviewNoUpcoming": "No recurring transactions until the end of the month",
+  "@overviewNoUpcoming": {
+    "description": "Overview: empty upcoming recurrences"
+  },
+  "overviewCashFlow": "Cash flow",
+  "@overviewCashFlow": {
+    "description": "Overview section title"
+  },
+  "overviewBudgetStatus": "Budget status",
+  "@overviewBudgetStatus": {
+    "description": "Overview section title"
+  },
+  "overviewNoBudgets": "No budgets for this month",
+  "@overviewNoBudgets": {
+    "description": "Overview: empty budget list"
+  },
+  "legendIncome": "Income",
+  "@legendIncome": {
+    "description": "Cash flow legend"
+  },
+  "legendExpense": "Expense",
+  "@legendExpense": {
+    "description": "Cash flow legend"
+  },
+  "legendBalance": "Balance",
+  "@legendBalance": {
+    "description": "Cash flow legend"
+  },
+  "cashFlowSemantics": "Cash flow of the month: income, expenses and balance day by day",
+  "@cashFlowSemantics": {
+    "description": "Screen reader label of the cash flow chart"
+  },
+  "digestBudgetExceededTitle": "Budget exceeded",
+  "@digestBudgetExceededTitle": {
+    "description": "Digest message title"
+  },
+  "digestBudgetExceeded": "You went over the {category} budget by {amount}",
+  "@digestBudgetExceeded": {
+    "description": "Digest: a budget was exceeded",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "digestBudgetAtRiskTitle": "Budget at risk",
+  "@digestBudgetAtRiskTitle": {
+    "description": "Digest message title"
+  },
+  "digestBudgetAtRisk": "The {category} budget is at {percent} with {days, plural, =1{1 day} other{{days} days}} left",
+  "@digestBudgetAtRisk": {
+    "description": "Digest: a budget is close to its limit",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "digestBelowTitle": "Good month so far",
+  "@digestBelowTitle": {
+    "description": "Digest message title"
+  },
+  "digestBelow": "You are spending {amount} less than the average of the last 3 months",
+  "@digestBelow": {
+    "description": "Digest: spending under the average",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "digestAboveTitle": "Spending above average",
+  "@digestAboveTitle": {
+    "description": "Digest message title"
+  },
+  "digestAbove": "You are spending {amount} more than the average of the last 3 months",
+  "@digestAbove": {
+    "description": "Digest: spending over the average",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "digestRecurrencesTitle": "Payments coming up",
+  "@digestRecurrencesTitle": {
+    "description": "Digest message title"
+  },
+  "digestRecurrencesOne": "{name} ({amount}) is due in the next {days} days",
+  "@digestRecurrencesOne": {
+    "description": "Digest: one large recurring payment is coming",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "digestRecurrencesMany": "{count} recurring payments in the next {days} days, {amount} in total",
+  "@digestRecurrencesMany": {
+    "description": "Digest: several large recurring payments are coming",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "digestGrowthTitle": "Spending is growing",
+  "@digestGrowthTitle": {
+    "description": "Digest message title"
+  },
+  "digestGrowth": "Spending on {category} is up {percent} on the same days of last month",
+  "@digestGrowth": {
+    "description": "Digest: a category grew",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "digestAllGoodTitle": "All good",
+  "@digestAllGoodTitle": {
+    "description": "Digest message title"
+  },
+  "digestAllGood": "Everything is in order this month",
+  "@digestAllGood": {
+    "description": "Digest: nothing to report"
+  },
+  "investmentsTitle": "Investments",
+  "@investmentsTitle": {
+    "description": "Title of the Investments page"
+  },
+  "investmentsTabOverview": "Overview",
+  "@investmentsTabOverview": {
+    "description": "Investments tab"
+  },
+  "investmentsTabPositions": "Positions",
+  "@investmentsTabPositions": {
+    "description": "Investments tab"
+  },
+  "investmentsTabMovements": "Movements",
+  "@investmentsTabMovements": {
+    "description": "Investments tab"
+  },
+  "investmentsUpdatedNow": "Updated just now",
+  "@investmentsUpdatedNow": {
+    "description": "Caption under the title: prices updated less than a minute ago"
+  },
+  "investmentsUpdatedMinutes": "Updated {count} min ago",
+  "@investmentsUpdatedMinutes": {
+    "description": "Caption: prices updated minutes ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "investmentsUpdatedHours": "Updated {count} h ago",
+  "@investmentsUpdatedHours": {
+    "description": "Caption: prices updated hours ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "investmentsUpdatedDays": "Updated {count} d ago",
+  "@investmentsUpdatedDays": {
+    "description": "Caption: prices updated days ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "investmentsPortfolioValue": "Portfolio value",
+  "@investmentsPortfolioValue": {
+    "description": "Label of the portfolio value card"
+  },
+  "investmentsLiquidity": "Available liquidity",
+  "@investmentsLiquidity": {
+    "description": "Label of the cash in the portfolio card"
+  },
+  "investmentsMarketValue": "Market value",
+  "@investmentsMarketValue": {
+    "description": "Section title of the chart"
+  },
+  "investmentsAllocations": "Asset allocations",
+  "@investmentsAllocations": {
+    "description": "Section title of the donut"
+  },
+  "periodDay": "1D",
+  "@periodDay": {
+    "description": "Chart period: one day"
+  },
+  "periodFiveDays": "5D",
+  "@periodFiveDays": {
+    "description": "Chart period: five days"
+  },
+  "periodMonth": "1M",
+  "@periodMonth": {
+    "description": "Chart period: one month"
+  },
+  "periodSixMonths": "6M",
+  "@periodSixMonths": {
+    "description": "Chart period: six months"
+  },
+  "periodYearToDate": "YTD",
+  "@periodYearToDate": {
+    "description": "Chart period: year to date"
+  },
+  "periodYear": "1Y",
+  "@periodYear": {
+    "description": "Chart period: one year"
+  },
+  "periodFiveYears": "5Y",
+  "@periodFiveYears": {
+    "description": "Chart period: five years"
+  },
+  "legendMarketValue": "Market value",
+  "@legendMarketValue": {
+    "description": "Chart legend and tooltip: value of the positions"
+  },
+  "legendInvested": "Invested",
+  "@legendInvested": {
+    "description": "Chart legend and tooltip: capital invested"
+  },
+  "legendDifference": "Difference",
+  "@legendDifference": {
+    "description": "Chart tooltip: value minus invested"
+  },
+  "marketValueSemantics": "Market value of the portfolio and capital invested over time",
+  "@marketValueSemantics": {
+    "description": "Screen reader label of the market value chart"
+  },
+  "allocationAssetClass": "Asset class",
+  "@allocationAssetClass": {
+    "description": "Allocation switch"
+  },
+  "allocationSingleAsset": "Single asset",
+  "@allocationSingleAsset": {
+    "description": "Allocation switch"
+  },
+  "allocationEtf": "ETFs",
+  "@allocationEtf": {
+    "description": "Allocation: asset class"
+  },
+  "allocationStocks": "Stocks",
+  "@allocationStocks": {
+    "description": "Allocation: asset class"
+  },
+  "allocationBonds": "Bonds",
+  "@allocationBonds": {
+    "description": "Allocation: asset class"
+  },
+  "allocationOther": "Other",
+  "@allocationOther": {
+    "description": "Allocation: other assets (manual ones, or the smallest ones)"
+  },
+  "allocationLiquidity": "Liquidity",
+  "@allocationLiquidity": {
+    "description": "Allocation: cash"
+  },
+  "allocationSemantics": "Allocation of the portfolio",
+  "@allocationSemantics": {
+    "description": "Screen reader label of the donut"
+  },
+  "investmentsEmptyTitle": "No investments yet",
+  "@investmentsEmptyTitle": {
+    "description": "Empty state of the Investments Overview"
+  },
+  "investmentsEmptyHint": "Your positions will show up here.",
+  "@investmentsEmptyHint": {
+    "description": "Empty state hint"
+  },
+  "investmentsDigestAllGoodTitle": "All good",
+  "@investmentsDigestAllGoodTitle": {
+    "description": "Digest message title"
+  },
+  "investmentsDigestAllGood": "Nothing to report on your investments",
+  "@investmentsDigestAllGood": {
+    "description": "Digest: nothing to report"
+  },
+  "investmentsDigestConcentrationTitle": "Concentration",
+  "@investmentsDigestConcentrationTitle": {
+    "description": "Digest message title"
+  },
+  "investmentsDigestConcentration": "**{percent}** of your portfolio is in a single asset, {name}. Consider diversifying",
+  "@investmentsDigestConcentration": {
+    "description": "Digest: one asset is most of the portfolio",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "investmentsDigestDropTitle": "Portfolio down",
+  "@investmentsDigestDropTitle": {
+    "description": "Digest message title"
+  },
+  "investmentsDigestDrop": "Your portfolio lost **{amount}** (**{percent}**) over the last month",
+  "@investmentsDigestDrop": {
+    "description": "Digest: the positions lost value in the month",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "investmentsDigestGrowthTitle": "Portfolio growing",
+  "@investmentsDigestGrowthTitle": {
+    "description": "Digest message title"
+  },
+  "investmentsDigestGrowth": "Your invested wealth grew by **{amount}** over the last month",
+  "@investmentsDigestGrowth": {
+    "description": "Digest: the positions gained value in the month",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "investmentsDigestDividendTitle": "Dividend coming",
+  "@investmentsDigestDividendTitle": {
+    "description": "Digest message title"
+  },
+  "investmentsDigestDividendOne": "{name} pays **{amount}** in dividends within {days, plural, =1{1 day} other{{days} days}}",
+  "@investmentsDigestDividendOne": {
+    "description": "Digest: one dividend is expected soon",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "investmentsDigestDividendMany": "{count} dividends worth **{amount}** in total are expected within {days, plural, =1{1 day} other{{days} days}}",
+  "@investmentsDigestDividendMany": {
+    "description": "Digest: several dividends are expected soon",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "positionsTitle": "Positions",
+  "@positionsTitle": {
+    "description": "Section title of the positions list"
+  },
+  "positionsSearch": "Search positions",
+  "@positionsSearch": {
+    "description": "Placeholder of the positions search"
+  },
+  "positionsFilterType": "Asset type",
+  "@positionsFilterType": {
+    "description": "Filter group in the positions filters"
+  },
+  "positionsEmptyTitle": "No positions found",
+  "@positionsEmptyTitle": {
+    "description": "Empty state of the positions list"
+  },
+  "positionsEmptyHint": "Try another search or other filters.",
+  "@positionsEmptyHint": {
+    "description": "Empty state hint when search or filters are on"
+  },
+  "positionsNoneTitle": "No positions yet",
+  "@positionsNoneTitle": {
+    "description": "Empty state when the portfolio has no positions"
+  },
+  "kindEtf": "ETF",
+  "@kindEtf": {
+    "description": "Position kind"
+  },
+  "kindStock": "Stock",
+  "@kindStock": {
+    "description": "Position kind"
+  },
+  "kindBond": "Bond",
+  "@kindBond": {
+    "description": "Position kind"
+  },
+  "kindManual": "Manual asset",
+  "@kindManual": {
+    "description": "Position kind: entered by hand"
+  },
+  "manualPension": "Pension fund",
+  "@manualPension": {
+    "description": "Kind of manual asset"
+  },
+  "manualCollectible": "Collectible",
+  "@manualCollectible": {
+    "description": "Kind of manual asset"
+  },
+  "manualArt": "Art",
+  "@manualArt": {
+    "description": "Kind of manual asset"
+  },
+  "manualRealEstate": "Real estate",
+  "@manualRealEstate": {
+    "description": "Kind of manual asset"
+  },
+  "manualOther": "Other",
+  "@manualOther": {
+    "description": "Kind of manual asset"
+  },
+  "breakdownTitle": "Portfolio breakdown",
+  "@breakdownTitle": {
+    "description": "Section title"
+  },
+  "breakdownRegion": "Region",
+  "@breakdownRegion": {
+    "description": "Breakdown switch"
+  },
+  "breakdownSector": "Sector",
+  "@breakdownSector": {
+    "description": "Breakdown switch"
+  },
+  "positionYour": "Your position",
+  "@positionYour": {
+    "description": "Section of the position page"
+  },
+  "positionMarketValue": "Market value",
+  "@positionMarketValue": {
+    "description": "Row of the position page"
+  },
+  "positionQuantity": "Quantity",
+  "@positionQuantity": {
+    "description": "Row of the position page"
+  },
+  "positionAverageCost": "Average cost",
+  "@positionAverageCost": {
+    "description": "Row of the position page and chart legend"
+  },
+  "positionInvested": "Invested capital",
+  "@positionInvested": {
+    "description": "Row of the position page"
+  },
+  "positionPnl": "Profit / loss",
+  "@positionPnl": {
+    "description": "Row of the position page"
+  },
+  "positionWeight": "Weight",
+  "@positionWeight": {
+    "description": "Row of the position page: share of the portfolio"
+  },
+  "positionAssetInfo": "Asset info",
+  "@positionAssetInfo": {
+    "description": "Section of the position page"
+  },
+  "infoType": "Type",
+  "@infoType": {
+    "description": "Asset info row"
+  },
+  "infoSector": "Sector",
+  "@infoSector": {
+    "description": "Asset info row"
+  },
+  "infoRegion": "Region",
+  "@infoRegion": {
+    "description": "Asset info row"
+  },
+  "infoCurrency": "Currency",
+  "@infoCurrency": {
+    "description": "Asset info row"
+  },
+  "infoExchange": "Exchange",
+  "@infoExchange": {
+    "description": "Asset info row"
+  },
+  "positionOperations": "Operations",
+  "@positionOperations": {
+    "description": "Section of the position page"
+  },
+  "operationsEmpty": "No operations yet",
+  "@operationsEmpty": {
+    "description": "Empty state of the operations"
+  },
+  "operationBuy": "Buy",
+  "@operationBuy": {
+    "description": "Operation type"
+  },
+  "operationSell": "Sell",
+  "@operationSell": {
+    "description": "Operation type"
+  },
+  "operationDividend": "Dividend",
+  "@operationDividend": {
+    "description": "Operation type"
+  },
+  "operationDetails": "{quantity} × {price}",
+  "@operationDetails": {
+    "description": "Under the amount of an operation: units and price",
+    "placeholders": {
+      "quantity": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "positionBuy": "Buy",
+  "@positionBuy": {
+    "description": "Button of the position page"
+  },
+  "positionSell": "Sell",
+  "@positionSell": {
+    "description": "Button of the position page"
+  },
+  "positionAddDividend": "Add dividend",
+  "@positionAddDividend": {
+    "description": "Button of the position page"
+  },
+  "positionPrice": "Price",
+  "@positionPrice": {
+    "description": "Chart legend and tooltip"
+  },
+  "positionPriceChartSemantics": "Price of the asset over time and average cost",
+  "@positionPriceChartSemantics": {
+    "description": "Screen reader label of the price chart"
+  },
+  "positionPriceInCurrency": "{price} per unit",
+  "@positionPriceInCurrency": {
+    "description": "Price in the currency of the asset",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "infoDistribution": "Distribution",
+  "@infoDistribution": {
+    "description": "Asset info row of an ETF"
+  },
+  "distAccumulating": "Accumulating",
+  "@distAccumulating": {
+    "description": "ETF distribution"
+  },
+  "distDistributing": "Distributing",
+  "@distDistributing": {
+    "description": "ETF distribution"
+  },
+  "infoTer": "TER",
+  "@infoTer": {
+    "description": "Asset info row of an ETF: yearly cost"
+  },
+  "infoDividendYield": "Dividend yield",
+  "@infoDividendYield": {
+    "description": "Asset info row of a stock"
+  },
+  "infoCoupon": "Coupon",
+  "@infoCoupon": {
+    "description": "Asset info row of a bond"
+  },
+  "infoMaturity": "Maturity",
+  "@infoMaturity": {
+    "description": "Asset info row of a bond"
+  },
+  "infoDuration": "Duration",
+  "@infoDuration": {
+    "description": "Asset info row of a bond"
+  },
+  "infoYears": "{value} years",
+  "@infoYears": {
+    "description": "A duration in years",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "positionMoreActions": "More actions",
+  "@positionMoreActions": {
+    "description": "Label of the three dots button of the position page"
+  },
+  "positionUpdateValue": "Update value",
+  "@positionUpdateValue": {
+    "description": "Action of a manual asset: enter its current value"
+  },
+  "movementsSearch": "Search movements",
+  "@movementsSearch": {
+    "description": "Placeholder of the movements search"
+  },
+  "movementsUpNext": "Up next",
+  "@movementsUpNext": {
+    "description": "Section of the expected dividends"
+  },
+  "movementsEmptyTitle": "No movements found",
+  "@movementsEmptyTitle": {
+    "description": "Empty state of the movements list"
+  },
+  "movementsEmptyHint": "Try another search or other filters.",
+  "@movementsEmptyHint": {
+    "description": "Empty state hint"
+  },
+  "movementsNoneTitle": "No movements yet",
+  "@movementsNoneTitle": {
+    "description": "Empty state: the portfolio has no movements"
+  },
+  "movementTypeBuy": "Buy",
+  "@movementTypeBuy": {
+    "description": "Movement type"
+  },
+  "movementTypeSell": "Sell",
+  "@movementTypeSell": {
+    "description": "Movement type"
+  },
+  "movementTypeDividend": "Dividend",
+  "@movementTypeDividend": {
+    "description": "Movement type"
+  },
+  "movementTypeCost": "Cost",
+  "@movementTypeCost": {
+    "description": "Movement type"
+  },
+  "movementPrice": "Price",
+  "@movementPrice": {
+    "description": "Detail line of a buy or sell: price per unit"
+  },
+  "movementDetails": "{quantity} · Price {price}",
+  "@movementDetails": {
+    "description": "Detail line of a buy or sell",
+    "placeholders": {
+      "quantity": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "movementPeriodCurrentMonth": "Current month",
+  "@movementPeriodCurrentMonth": {
+    "description": "Period filter"
+  },
+  "movementPeriodLast3Months": "Last 3 months",
+  "@movementPeriodLast3Months": {
+    "description": "Period filter"
+  },
+  "movementPeriodCurrentYear": "Current year",
+  "@movementPeriodCurrentYear": {
+    "description": "Period filter"
+  },
+  "movementPeriodLast12Months": "Last 12 months",
+  "@movementPeriodLast12Months": {
+    "description": "Period filter"
+  },
+  "movementPeriodAll": "All",
+  "@movementPeriodAll": {
+    "description": "Period filter"
+  },
+  "movementFilterPeriod": "Period",
+  "@movementFilterPeriod": {
+    "description": "Filter group"
+  },
+  "movementFilterType": "Movement type",
+  "@movementFilterType": {
+    "description": "Filter group"
+  },
+  "movementFilterAssetType": "Asset type",
+  "@movementFilterAssetType": {
+    "description": "Filter group"
+  },
+  "movementFilterAsset": "Asset",
+  "@movementFilterAsset": {
+    "description": "Filter group"
+  },
+  "movementFilterAnyAsset": "All assets",
+  "@movementFilterAnyAsset": {
+    "description": "Filter: no single asset"
+  },
+  "movementNew": "New movement",
+  "@movementNew": {
+    "description": "Title of the form to add a movement"
+  },
+  "movementAdd": "Add",
+  "@movementAdd": {
+    "description": "Button that saves a new movement"
+  },
+  "movementFieldAsset": "Asset",
+  "@movementFieldAsset": {
+    "description": "Form field"
+  },
+  "movementFieldAssetOptional": "Asset (optional)",
+  "@movementFieldAssetOptional": {
+    "description": "Form field of a cost"
+  },
+  "movementNoAsset": "None",
+  "@movementNoAsset": {
+    "description": "Form: no asset for a cost"
+  },
+  "movementSearchAsset": "Search an asset",
+  "@movementSearchAsset": {
+    "description": "Placeholder of the asset search in the form"
+  },
+  "movementChangeAsset": "Change",
+  "@movementChangeAsset": {
+    "description": "Button to pick another asset in the form"
+  },
+  "movementAssetCatalog": "Catalog",
+  "@movementAssetCatalog": {
+    "description": "Form switch: asset from the catalog"
+  },
+  "movementAssetManual": "Manual asset",
+  "@movementAssetManual": {
+    "description": "Form switch: asset entered by hand"
+  },
+  "movementManualName": "Name",
+  "@movementManualName": {
+    "description": "Form field of a manual asset"
+  },
+  "movementManualType": "Kind of asset",
+  "@movementManualType": {
+    "description": "Form field of a manual asset"
+  },
+  "movementFieldAccount": "Broker account",
+  "@movementFieldAccount": {
+    "description": "Form field"
+  },
+  "movementFieldDate": "Date",
+  "@movementFieldDate": {
+    "description": "Form field"
+  },
+  "movementFieldQuantity": "Quantity",
+  "@movementFieldQuantity": {
+    "description": "Form field"
+  },
+  "movementFieldUnitPrice": "Unit price",
+  "@movementFieldUnitPrice": {
+    "description": "Form field"
+  },
+  "movementFieldFee": "Commission (optional)",
+  "@movementFieldFee": {
+    "description": "Form field"
+  },
+  "movementFieldAmount": "Amount",
+  "@movementFieldAmount": {
+    "description": "Form field of a dividend or a cost"
+  },
+  "movementFieldNetAmount": "Net amount",
+  "@movementFieldNetAmount": {
+    "description": "Form field of a dividend"
+  },
+  "movementFieldDescription": "Description",
+  "@movementFieldDescription": {
+    "description": "Form field"
+  },
+  "movementFieldDescriptionOptional": "Description (optional)",
+  "@movementFieldDescriptionOptional": {
+    "description": "Form field"
+  },
+  "movementHeld": "You hold {quantity}",
+  "@movementHeld": {
+    "description": "Under the quantity of a sell",
+    "placeholders": {
+      "quantity": {
+        "type": "String"
+      }
+    }
+  },
+  "movementErrRequired": "Required.",
+  "@movementErrRequired": {
+    "description": "Form error"
+  },
+  "movementErrNumber": "Enter a valid number.",
+  "@movementErrNumber": {
+    "description": "Form error"
+  },
+  "movementErrPositive": "It must be greater than zero.",
+  "@movementErrPositive": {
+    "description": "Form error"
+  },
+  "movementErrFuture": "The date cannot be in the future.",
+  "@movementErrFuture": {
+    "description": "Form error"
+  },
+  "movementErrChooseAsset": "Choose an asset.",
+  "@movementErrChooseAsset": {
+    "description": "Form error"
+  },
+  "movementErrNegative": "On {date} you would hold less than zero of this asset. Nothing was changed.",
+  "@movementErrNegative": {
+    "description": "Message when a movement would make the quantity negative",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "movementErrInvalid": "The movement is not valid.",
+  "@movementErrInvalid": {
+    "description": "Generic form error"
+  },
+  "movementLiquidityWarning": "This is more than your available liquidity: it will go to {amount}.",
+  "@movementLiquidityWarning": {
+    "description": "Warning in the form of a buy",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "movementDetailEdit": "Edit",
+  "@movementDetailEdit": {
+    "description": "Edit button of the movement page"
+  },
+  "movementDetailTotal": "Total",
+  "@movementDetailTotal": {
+    "description": "Row of the movement page"
+  },
+  "movementDetailAsset": "Asset",
+  "@movementDetailAsset": {
+    "description": "Row of the movement page"
+  },
+  "movementDetailType": "Type",
+  "@movementDetailType": {
+    "description": "Row of the movement page"
+  },
+  "movementDetailAccount": "Broker account",
+  "@movementDetailAccount": {
+    "description": "Row of the movement page"
+  },
+  "movementDetailDate": "Date",
+  "@movementDetailDate": {
+    "description": "Row of the movement page"
+  },
+  "movementDetailQuantity": "Quantity",
+  "@movementDetailQuantity": {
+    "description": "Row of the movement page"
+  },
+  "movementDetailPrice": "Unit price",
+  "@movementDetailPrice": {
+    "description": "Row of the movement page"
+  },
+  "movementDetailFee": "Commission",
+  "@movementDetailFee": {
+    "description": "Row of the movement page"
+  },
+  "movementDelete": "Delete movement",
+  "@movementDelete": {
+    "description": "Red button of the movement page in edit mode"
+  },
+  "movementDeleteTitle": "Delete this movement?",
+  "@movementDeleteTitle": {
+    "description": "Title of the delete confirmation"
+  },
+  "movementDeleteMessage": "The position and the liquidity will be worked out again without it.",
+  "@movementDeleteMessage": {
+    "description": "Body of the delete confirmation"
+  },
+  "movementDeleteConfirm": "Delete",
+  "@movementDeleteConfirm": {
+    "description": "Confirm button"
+  },
+  "movementDividendExpected": "Expected",
+  "@movementDividendExpected": {
+    "description": "Tag of a dividend that is still to come"
+  },
+  "appName": "SOSSOLDI",
+  "onboardingSplashWelcome": "Welcome to",
+  "onboardingSplashTagline": "The personal finance app of the Mr. RIP community",
+  "onboardingWelcomeTitle": "Set up the app",
+  "onboardingWelcomeSubtitle": "A few steps and you'll be ready to keep track of your personal finances (almost) like Mr. Rip",
+  "onboardingChooseLanguage": "Choose language",
+  "onboardingDefault": "default",
+  "onboardingStartSetup": "Start the setup",
+  "onboardingOr": "Or",
+  "onboardingImport": "Import data from another app",
+  "onboardingImportTitle": "Import data",
+  "onboardingStep": "Step {current} of {total}",
+  "@onboardingStep": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingStep1Subtitle": "Select your currency and setup the accounts",
+  "onboardingMainCurrency": "Select main currency",
+  "onboardingYourAccounts": "Your accounts",
+  "onboardingFirstAccount": "Create your first account",
+  "onboardingCreateAccount": "Create account",
+  "onboardingAddAccount": "Add account",
+  "onboardingNextStep": "Next step",
+  "accountNew": "New account",
+  "accountEdit": "Edit account",
+  "accountMainInfo": "Main info",
+  "accountName": "Name",
+  "accountNamePlaceholder": "Your account name",
+  "accountAmount": "Amount",
+  "accountIconAndColor": "Icon and color",
+  "accountTapToSelect": "Tap to select",
+  "accountChooseIcon": "Choose an icon",
+  "accountColorHue": "Hue",
+  "accountColorSaturation": "Saturation",
+  "accountSave": "Save",
+  "accountDelete": "Delete account",
+  "accountDeleteTitle": "Delete this account?",
+  "accountDeleteConfirm": "Delete",
+  "accountErrName": "Enter a name",
+  "accountErrNameTaken": "You already have an account with this name",
+  "accountErrAmount": "Enter an amount",
+  "accountErrAmountInvalid": "Enter a valid number",
+  "accountErrInUse": "This account has transactions, so it cannot be deleted or change currency",
+  "settingsPrototype": "Prototype",
+  "settingsRestartOnboarding": "Restart onboarding",
+  "settingsLoadDemo": "Load demo data",
+  "currencyNameEUR": "Euro",
+  "currencyNameUSD": "US dollar",
+  "currencyNameGBP": "British pound",
+  "currencyNameCHF": "Swiss franc",
+  "currencyNameBRL": "Brazilian real",
+  "currencyNameAED": "UAE dirham",
+  "currencyNameJPY": "Japanese yen",
+  "currencyNameCAD": "Canadian dollar",
+  "accountDeleteMessage": "{name} will be removed from your accounts.",
+  "@accountDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "iconGroupFinance": "Finance",
+  "iconGroupCommerce": "Shopping",
+  "iconGroupTravel": "Travel and places",
+  "iconGroupHealth": "Health",
+  "iconGroupPeople": "People",
+  "iconGroupNature": "Nature and weather",
+  "iconGroupGames": "Games",
+  "iconGroupMedia": "Media",
+  "iconGroupOffice": "Office",
+  "iconGroupCommunication": "Communication",
+  "iconGroupObjects": "Objects",
+  "onboardingStep2Subtitle": "Now it’s time to create your categories and the related budgets",
+  "@onboardingStep2Subtitle": {
+    "description": "Subtitle of step 2 of the onboarding"
+  },
+  "onboardingYourCategories": "Your categories",
+  "onboardingFirstCategory": "Create your first category",
+  "onboardingCreateCategory": "Create category",
+  "onboardingAddCategory": "Add category",
+  "onboardingSuggested": "Suggested",
+  "onboardingSuggestedExpenses": "Expenses",
+  "onboardingSuggestedIncome": "Income",
+  "onboardingAddSuggested": "Add {name}",
+  "@onboardingAddSuggested": {
+    "description": "Label for screen readers of the + of a suggested category",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryBudgetSubtitle": "Budget: {budgets}",
+  "@categoryBudgetSubtitle": {
+    "description": "Second line of a category with budgets, e.g. 'Budget: 130€, Monthly'",
+    "placeholders": {
+      "budgets": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryBudgetEntry": "{amount}, {period}",
+  "@categoryBudgetEntry": {
+    "description": "One budget in that line",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "period": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryShowSubcategories": "Show subcategories",
+  "categoryHideSubcategories": "Hide subcategories",
+  "categoryNew": "New category",
+  "categoryEdit": "Edit category",
+  "categoryType": "Type",
+  "categoryTypeExpense": "Expense",
+  "categoryTypeIncome": "Income",
+  "categoryNamePlaceholder": "Your category name",
+  "categoryBudget": "Budget",
+  "categoryAddBudget": "Add budget",
+  "categorySubcategories": "Subcategories",
+  "categorySubcategoriesHint": "Subcategories allow you to manage your transactions more precisely",
+  "categoryAddSubcategory": "Add subcategory",
+  "categoryDelete": "Delete category",
+  "categoryDeleteTitle": "Delete this category?",
+  "categoryDeleteMessage": "{name}, its subcategories and its budgets will be removed.",
+  "@categoryDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryDeleteConfirm": "Delete",
+  "categoryErrName": "Enter a name",
+  "categoryErrNameTaken": "You already have a category of this type with this name",
+  "categoryErrInUse": "This category has transactions, so it cannot be deleted or change type",
+  "categoryTypeChangeTitle": "Change to income?",
+  "categoryTypeChangeMessage": "Income categories have no budgets: the budgets of this category will be discarded.",
+  "categoryTypeChangeConfirm": "Change type",
+  "subcategoryNew": "New subcategory",
+  "subcategoryEdit": "Edit subcategory",
+  "subcategoryNamePlaceholder": "Your subcategory name",
+  "subcategoryDelete": "Delete subcategory",
+  "subcategoryErrNameTaken": "This category already has a subcategory with this name",
+  "budgetFormNew": "New budget",
+  "budgetFormEdit": "Edit budget",
+  "budgetSelectType": "Select type",
+  "budgetSetAmount": "Set amount",
+  "budgetAmountPlaceholder": "e.g. 100",
+  "budgetLimitAlert": "Limit reach alert",
+  "budgetCountForOverall": "Count for overall budget",
+  "onboardingStep3Subtitle": "And your investments and keep track of them in the app",
+  "onboardingYourAssets": "Your assets",
+  "onboardingNoAssets": "No asset yet",
+  "onboardingAddAsset": "Add asset",
+  "onboardingSkipStep": "Skip this step",
+  "onboardingStartTracking": "Start tracking",
+  "assetQuantityLabel": "Quantity:",
+  "assetPmcLabel": "PMC:",
+  "assetNew": "New asset",
+  "assetEdit": "Edit asset",
+  "assetMainDetails": "Main details",
+  "assetType": "Type",
+  "assetTypePlaceholder": "Select asset type",
+  "assetAsset": "Asset",
+  "assetAssetPlaceholder": "Select Asset",
+  "assetSearch": "Search by name, ticker or ISIN",
+  "assetManualNamePlaceholder": "Your asset name",
+  "assetAmount": "Amount",
+  "assetAmountPlaceholder": "e.g. 12",
+  "assetAveragePrice": "Average purchase price",
+  "assetPricePlaceholder": "e.g. 10,50",
+  "assetCountsForNetWorth": "Counts for Net Worth",
+  "assetDelete": "Delete asset",
+  "assetDeleteTitle": "Delete this asset?",
+  "assetDeleteMessage": "{name} and its opening movement will be removed.",
+  "@assetDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "assetDeleteConfirm": "Delete",
+  "assetErrChoose": "Choose an asset",
+  "assetErrDuplicate": "This asset is already in your list",
+  "assetErrNameRequired": "Enter a name",
+  "assetErrNameTaken": "You already have a manual asset with this name",
+  "assetErrAmount": "Enter an amount",
+  "assetErrAmountPositive": "The amount must be greater than zero",
+  "assetErrAmountDecimals": "At most 8 decimals",
+  "assetErrAmountInvalid": "Enter a valid number",
+  "assetErrPrice": "Enter a price",
+  "assetErrPricePositive": "The price must be greater than zero",
+  "assetErrDeleteRefused": "This asset cannot be deleted: other movements depend on it",
+  "dashboardNoTransactions": "No transactions yet",
+  "@dashboardNoTransactions": {
+    "description": "Latest transactions widget with no transactions"
+  },
+  "overviewCashFlowEmpty": "No income or expenses this month yet",
+  "@overviewCashFlowEmpty": {
+    "description": "Cash flow card of the Finance overview with no income or expenses"
+  }
+}

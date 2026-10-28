@@ -53,10 +53,12 @@ class SpacingRadiusUseCase extends StatelessWidget {
                   Container(
                     width: 64,
                     height: 64,
-                    decoration: BoxDecoration(
+                    decoration: ShapeDecoration(
                       color: c.surfaceHigh,
-                      border: Border.all(color: c.strokePlus1),
-                      borderRadius: BorderRadius.circular(v),
+                      shape: RoundedSuperellipseBorder(
+                        borderRadius: BorderRadius.circular(v),
+                        side: BorderSide(color: c.strokePlus1),
+                      ),
                     ),
                   ),
                   const SizedBox(height: SossoldiSpacing.xs),

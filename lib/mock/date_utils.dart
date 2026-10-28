@@ -24,9 +24,14 @@ DateTime nextMonthlyOn(DateTime today, int day) {
 DateTime nextWeekday(DateTime today, int weekday) {
   var delta = (weekday - today.weekday) % 7;
   if (delta == 0) delta = 7;
-  return today.add(Duration(days: delta));
+  return DateTime(today.year, today.month, today.day + delta);
 }
 
 bool isTradingDay(DateTime d) => d.weekday <= DateTime.friday;
 
 double round2(double v) => (v * 100).round() / 100;
+
+/// [d] moved by [days] calendar days (not 24-hour periods: safe across a
+/// daylight saving change).
+DateTime addDays(DateTime d, int days) =>
+    DateTime(d.year, d.month, d.day + days);

@@ -13,14 +13,19 @@ class BudgetPlan {
   final double targetUsage;
 }
 
+/// A category can have several budgets, each on a different period (never
+/// two on the same). There is no budget on subcategories, and none on the
+/// semiannual period, so that this period shows its empty state.
 const budgetPlans = [
   BudgetPlan('cat_home', BudgetPeriod.monthly, 0.75),
   BudgetPlan('cat_groceries', BudgetPeriod.weekly, 0.9),
+  BudgetPlan('cat_groceries', BudgetPeriod.monthly, 0.6),
   BudgetPlan('cat_transport', BudgetPeriod.monthly, 1.25),
   BudgetPlan('cat_leisure', BudgetPeriod.monthly, 1.35),
+  BudgetPlan('cat_leisure', BudgetPeriod.weekly, 1.15),
   BudgetPlan('cat_health', BudgetPeriod.quarterly, 0.45),
   BudgetPlan('cat_subscriptions', BudgetPeriod.monthly, 0.7),
-  BudgetPlan('cat_shopping', BudgetPeriod.semiannual, 0.6),
+  BudgetPlan('cat_shopping', BudgetPeriod.monthly, 0.85),
   BudgetPlan('cat_education', BudgetPeriod.yearly, 0.35),
 ];
 
@@ -50,7 +55,7 @@ List<Budget> buildBudgets({
   return [
     for (final plan in budgetPlans)
       Budget(
-        id: 'bud_${plan.categoryId.substring(4)}',
+        id: 'bud_${plan.categoryId.substring(4)}_${plan.period.name}',
         categoryId: plan.categoryId,
         amount: _roundBudget(
           spentInCurrentPeriod(

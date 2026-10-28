@@ -24,6 +24,7 @@ class SossoldiTransactionItem extends StatelessWidget {
     required this.currencyCode,
     this.toAccount,
     this.recurrenceLabel,
+    this.recurrenceChipType = SossoldiChipType.info,
     this.masked = false,
     this.onTap,
   }) : assert(
@@ -49,6 +50,10 @@ class SossoldiTransactionItem extends StatelessWidget {
 
   /// Next occurrence of a recurring transaction (e.g. "31 May").
   final String? recurrenceLabel;
+
+  /// Color of the [recurrenceLabel] chip: info for what is still to come,
+  /// subtle for what already happened.
+  final SossoldiChipType recurrenceChipType;
   final bool masked;
   final VoidCallback? onTap;
 
@@ -141,10 +146,7 @@ class SossoldiTransactionItem extends StatelessWidget {
                 masked: masked,
               ),
               if (recurrenceLabel != null)
-                SossoldiChip(
-                  label: recurrenceLabel!,
-                  type: SossoldiChipType.info,
-                ),
+                SossoldiChip(label: recurrenceLabel!, type: recurrenceChipType),
             ],
           ),
         ],

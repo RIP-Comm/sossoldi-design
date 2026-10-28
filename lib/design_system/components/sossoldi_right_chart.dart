@@ -16,42 +16,51 @@ class SossoldiRightChart extends StatelessWidget {
     required this.value,
     required this.currencyCode,
     required this.change,
+    this.trend,
     this.masked = false,
   });
 
-  /// Values over time, oldest first. Needs at least 2 points.
+  /// Values over time, oldest first. Needs at least 2 points; with fewer the
+  /// chart is left out and only the value and its change show.
   final List<double> points;
   final num value;
   final String currencyCode;
 
   /// Change as a fraction (0.0123 = +1,23%).
   final num change;
+
+  /// Sign of what the line shows when that is not [change] (the line of
+  /// the last month next to a total profit and loss). Default: [change].
+  final num? trend;
   final bool masked;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final role = change < 0 ? colors.expense : colors.income;
+    final role = (trend ?? change) < 0 ? colors.expense : colors.income;
+    final hasChart = points.length >= 2;
     // Sized by its value row, at least 85 wide, so it can sit in a Row.
     return IntrinsicWidth(
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 85),
         child: SizedBox(
-          height: 60,
+          height: hasChart ? 60 : null,
           child: Column(
+            mainAxisSize: hasChart ? MainAxisSize.max : MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: SossoldiSpacing.s,
             children: [
-              Expanded(
-                child: ExcludeSemantics(
-                  child: CustomPaint(
-                    painter: _SparklinePainter(
-                      points: points,
-                      line: role.onSurface,
+              if (hasChart)
+                Expanded(
+                  child: ExcludeSemantics(
+                    child: CustomPaint(
+                      painter: _SparklinePainter(
+                        points: points,
+                        line: role.onSurface,
+                      ),
                     ),
                   ),
                 ),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 spacing: SossoldiSpacing.xs,

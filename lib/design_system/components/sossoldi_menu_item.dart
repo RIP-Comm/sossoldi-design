@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../theme/sossoldi_theme.dart';
+import '../tokens/radius.dart';
 import '../tokens/spacing.dart';
 import 'sossoldi_tag.dart';
 import 'sossoldi_tappable.dart';
@@ -18,9 +19,10 @@ class SossoldiMenuItem extends StatelessWidget {
     this.leading,
     this.tag,
     this.hasSubitems = false,
-    this.showDivider = false,
+    this.trailing,
     this.selected,
     this.onTap,
+    this.enabled = true,
   });
 
   final String label;
@@ -36,9 +38,18 @@ class SossoldiMenuItem extends StatelessWidget {
 
   /// Shows a chevron to signal a nested menu.
   final bool hasSubitems;
-  final bool showDivider;
+
+  /// Control on the right (e.g. a switch). Replaces the chevron.
+  final Widget? trailing;
+
+  /// The selected option of a list, dropdown or select: tinted, with a check
+  /// on the right (unless there is a [trailing] control). Null or false: a
+  /// normal item.
   final bool? selected;
   final VoidCallback? onTap;
+
+  /// A disabled item is dimmed and ignores taps.
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +58,16 @@ class SossoldiMenuItem extends StatelessWidget {
     final row = Container(
       constraints: const BoxConstraints(minHeight: 48),
       padding: const EdgeInsets.all(SossoldiSpacing.s),
-      decoration: BoxDecoration(
-        color: colors.surfaceHigh,
-        border: showDivider
-            ? Border(bottom: BorderSide(color: colors.strokeMinus1))
-            : null,
+      decoration: ShapeDecoration(
+        // The selected option: a primary tint and a check on the right.
+        color: selected == true
+            ? colors.selectedPrimarySurface
+            : colors.surfaceHigh,
+        shape: selected == true
+            ? RoundedSuperellipseBorder(
+                borderRadius: BorderRadius.circular(SossoldiRadius.s),
+              )
+            : const RoundedRectangleBorder(),
       ),
       child: Row(
         spacing: SossoldiSpacing.m,
@@ -70,7 +86,7 @@ class SossoldiMenuItem extends StatelessWidget {
                       Text(
                         label,
                         style: typography.labelLarge.copyWith(
-                          color: colors.textHigh,
+                          color: enabled ? colors.textHigh : colors.textLow,
                         ),
                       ),
                       if (subtitle != null)
@@ -89,7 +105,18 @@ class SossoldiMenuItem extends StatelessWidget {
               ],
             ),
           ),
-          if (hasSubitems)
+          if (trailing != null)
+            trailing!
+          else if (selected == true)
+            SizedBox.square(
+              dimension: 24,
+              child: Icon(
+                PhosphorIconsRegular.check,
+                size: 20,
+                color: colors.primary.text,
+              ),
+            )
+          else if (hasSubitems)
             SizedBox.square(
               dimension: 24,
               child: Icon(
@@ -102,6 +129,10 @@ class SossoldiMenuItem extends StatelessWidget {
       ),
     );
     if (onTap == null) return row;
-    return SossoldiTappable(onTap: onTap, selected: selected, child: row);
+    return SossoldiTappable(
+      onTap: enabled ? onTap : null,
+      selected: selected,
+      child: row,
+    );
   }
 }

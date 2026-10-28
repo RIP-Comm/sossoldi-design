@@ -42,10 +42,12 @@ class SossoldiFilterChip extends StatelessWidget {
         horizontal: SossoldiSpacing.s,
         vertical: SossoldiSpacing.xs,
       ),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiChip.radius),
-        border: Border.all(color: colors.strokeMinus1),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiChip.radius),
+          side: BorderSide(color: colors.strokeMinus1),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

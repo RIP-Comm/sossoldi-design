@@ -11,7 +11,6 @@ import '../tokens/font_tokens.dart';
 TextStyle _style(FontWeight weight, double size, double lineHeight) {
   return TextStyle(
     fontFamily: SossoldiFont.family,
-    package: SossoldiFont.package,
     fontWeight: weight,
     fontSize: size,
     height: lineHeight / size,

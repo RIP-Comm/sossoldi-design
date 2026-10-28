@@ -37,11 +37,18 @@ class SossoldiFieldFrame extends StatelessWidget {
     return colors.strokeDefault;
   }
 
-  static BoxDecoration decoration(BuildContext context, Color border) {
-    return BoxDecoration(
+  static ShapeDecoration decoration(
+    BuildContext context,
+    Color border, {
+    List<BoxShadow>? shadows,
+  }) {
+    return ShapeDecoration(
       color: context.colors.surfaceHigh,
-      borderRadius: BorderRadius.circular(SossoldiRadius.s),
-      border: Border.all(color: border),
+      shadows: shadows,
+      shape: RoundedSuperellipseBorder(
+        borderRadius: BorderRadius.circular(SossoldiRadius.s),
+        side: BorderSide(color: border),
+      ),
     );
   }
 

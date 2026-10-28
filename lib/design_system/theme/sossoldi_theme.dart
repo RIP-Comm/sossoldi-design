@@ -16,7 +16,6 @@ abstract final class SossoldiTheme {
     return ThemeData(
       brightness: brightness,
       fontFamily: SossoldiFont.family,
-      package: SossoldiFont.package,
       scaffoldBackgroundColor: colors.surfaceLow,
       colorScheme: ColorScheme(
         brightness: brightness,

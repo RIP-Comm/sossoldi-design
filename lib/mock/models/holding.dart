@@ -18,6 +18,7 @@ class Holding {
     this.manualType,
     this.manualValue,
     this.manualValuedAt,
+    this.countsForNetWorth = true,
   }) : assert(
          (assetId != null) != (manualName != null),
          'Either a catalog asset or a manual asset',
@@ -43,5 +44,32 @@ class Holding {
   final double? manualValue;
   final DateTime? manualValuedAt;
 
+  /// Whether the user wants this position in the net worth. Only stored for
+  /// now: no screen or total uses it yet.
+  final bool countsForNetWorth;
+
   bool get isManual => assetId == null;
+
+  /// Sold out: it stays only because its movements do.
+  bool get isClosed => quantity <= 1e-9;
+
+  Holding copyWith({
+    double? quantity,
+    double? averageCost,
+    double? manualValue,
+    DateTime? manualValuedAt,
+    bool? countsForNetWorth,
+  }) => Holding(
+    id: id,
+    accountId: accountId,
+    assetId: assetId,
+    quantity: quantity ?? this.quantity,
+    averageCost: averageCost ?? this.averageCost,
+    currency: currency,
+    manualName: manualName,
+    manualType: manualType,
+    manualValue: manualValue ?? this.manualValue,
+    manualValuedAt: manualValuedAt ?? this.manualValuedAt,
+    countsForNetWorth: countsForNetWorth ?? this.countsForNetWorth,
+  );
 }

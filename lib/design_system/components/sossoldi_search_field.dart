@@ -106,7 +106,8 @@ class _SossoldiSearchFieldState extends State<SossoldiSearchField> {
           hasValue: false,
           isError: false,
         ),
-      ).copyWith(boxShadow: _overlay.isShowing ? SossoldiShadows.m : null),
+        shadows: _overlay.isShowing ? SossoldiShadows.m : null,
+      ),
       child: Row(
         spacing: SossoldiSpacing.s,
         children: [
@@ -177,7 +178,6 @@ class _SossoldiSearchFieldState extends State<SossoldiSearchField> {
                 for (final (i, result) in widget.results.indexed)
                   SossoldiMenuItem(
                     label: result,
-                    showDivider: i < widget.results.length - 1,
                     onTap: () {
                       widget.onResultTap?.call(i);
                       _focusNode.unfocus();

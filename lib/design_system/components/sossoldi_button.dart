@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/sossoldi_theme.dart';
+import '../tokens/primitive_colors.dart';
 import '../tokens/radius.dart';
 import '../tokens/spacing.dart';
 import 'sossoldi_tappable.dart';
@@ -12,6 +13,10 @@ enum SossoldiButtonSize { small, large }
 
 enum SossoldiButtonType { fill, outline, ghost }
 
+/// [danger] is for destructive actions (delete): the error colors. It is
+/// not in Figma; it reuses the error tokens.
+enum SossoldiButtonTone { primary, danger }
+
 class SossoldiButton extends StatelessWidget {
   const SossoldiButton({
     super.key,
@@ -19,6 +24,7 @@ class SossoldiButton extends StatelessWidget {
     required this.onPressed,
     this.size = SossoldiButtonSize.small,
     this.type = SossoldiButtonType.fill,
+    this.tone = SossoldiButtonTone.primary,
     this.iconLeft,
     this.iconRight,
     this.expanded = false,
@@ -30,6 +36,7 @@ class SossoldiButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final SossoldiButtonSize size;
   final SossoldiButtonType type;
+  final SossoldiButtonTone tone;
   final IconData? iconLeft;
   final IconData? iconRight;
 
@@ -46,23 +53,29 @@ class SossoldiButton extends StatelessWidget {
     final isLarge = size == SossoldiButtonSize.large;
 
     // Disabled look is not in Figma: it reuses the Disabled tokens.
+    final danger = tone == SossoldiButtonTone.danger;
+    final accent = danger ? colors.error.stroke : colors.primary.surface;
+    final accentText = danger ? colors.error.text : colors.primary.text;
+    final onAccent = danger
+        ? SossoldiPrimitives.red99
+        : colors.primary.onSurface;
+    final accentStroke = danger ? colors.error.stroke : colors.primary.stroke;
+
     final Color? background;
     final Color foreground;
     final Color? border;
     switch (type) {
       case SossoldiButtonType.fill:
-        background = enabled ? colors.primary.surface : colors.disabledSurface;
-        foreground = enabled
-            ? colors.primary.onSurface
-            : colors.disabledOnSurface;
+        background = enabled ? accent : colors.disabledSurface;
+        foreground = enabled ? onAccent : colors.disabledOnSurface;
         border = null;
       case SossoldiButtonType.outline:
         background = colors.surfaceHigh;
-        foreground = enabled ? colors.primary.text : colors.textLow;
-        border = enabled ? colors.primary.stroke : colors.strokeDefault;
+        foreground = enabled ? accentText : colors.textLow;
+        border = enabled ? accentStroke : colors.strokeDefault;
       case SossoldiButtonType.ghost:
         background = null;
-        foreground = enabled ? colors.primary.text : colors.textLow;
+        foreground = enabled ? accentText : colors.textLow;
         border = null;
     }
 
@@ -100,10 +113,12 @@ class SossoldiButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding: padding,
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: background,
-          borderRadius: BorderRadius.circular(radius),
-          border: border == null ? null : Border.all(color: border),
+          shape: RoundedSuperellipseBorder(
+            borderRadius: BorderRadius.circular(radius),
+            side: border == null ? BorderSide.none : BorderSide(color: border),
+          ),
         ),
         child: Row(
           mainAxisSize: expanded ? MainAxisSize.max : MainAxisSize.min,

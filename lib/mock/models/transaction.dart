@@ -39,4 +39,18 @@ class Transaction {
 
   /// The RecurringTransaction that generated it, if any.
   final String? recurringId;
+
+  /// The same transaction no longer tied to a recurring one.
+  Transaction withoutRecurring() => Transaction(
+    id: id,
+    type: type,
+    amount: amount,
+    currency: currency,
+    date: date,
+    description: description,
+    accountId: accountId,
+    toAccountId: toAccountId,
+    categoryId: categoryId,
+    subcategoryId: subcategoryId,
+  );
 }

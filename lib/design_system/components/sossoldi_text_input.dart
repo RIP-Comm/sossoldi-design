@@ -20,6 +20,7 @@ class SossoldiTextInput extends StatefulWidget {
     this.helperText,
     this.errorText,
     this.icon,
+    this.suffixText,
     this.clearSemanticLabel,
     this.enabled = true,
     this.keyboardType,
@@ -38,6 +39,9 @@ class SossoldiTextInput extends StatefulWidget {
   /// Puts the field in the error state and replaces [helperText].
   final String? errorText;
   final IconData? icon;
+
+  /// Short text at the right end of the field, e.g. a currency symbol.
+  final String? suffixText;
 
   /// Shows the clear (X) button while the field has text.
   /// Also used as its screen reader label.
@@ -143,6 +147,11 @@ class _SossoldiTextInputState extends State<SossoldiTextInput> {
                 ),
               ),
             ),
+            if (widget.suffixText != null)
+              Text(
+                widget.suffixText!,
+                style: typography.labelLarge.copyWith(color: colors.textMed),
+              ),
             if (widget.clearSemanticLabel != null && hasText)
               SossoldiIconButton(
                 icon: PhosphorIconsRegular.x,

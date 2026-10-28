@@ -1,65 +1,66 @@
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../../design_system/tokens/category_colors.dart';
 import '../models/category.dart';
 import '../models/subcategory.dart';
 
-const mockCategories = [
+final mockCategories = [
   // Expenses
   Category(
     id: 'cat_home',
     type: CategoryType.expense,
     name: 'Home',
     icon: PhosphorIconsRegular.house,
-    colorIndex: 3,
+    color: CategoryColors.all[3],
   ),
   Category(
     id: 'cat_groceries',
     type: CategoryType.expense,
     name: 'Groceries',
     icon: PhosphorIconsRegular.shoppingCart,
-    colorIndex: 13,
+    color: CategoryColors.all[13],
   ),
   Category(
     id: 'cat_transport',
     type: CategoryType.expense,
     name: 'Transport',
     icon: PhosphorIconsRegular.car,
-    colorIndex: 20,
+    color: CategoryColors.all[20],
   ),
   Category(
     id: 'cat_leisure',
     type: CategoryType.expense,
     name: 'Leisure',
     icon: PhosphorIconsRegular.confetti,
-    colorIndex: 4,
+    color: CategoryColors.all[4],
   ),
   Category(
     id: 'cat_health',
     type: CategoryType.expense,
     name: 'Health',
     icon: PhosphorIconsRegular.heartbeat,
-    colorIndex: 0,
+    color: CategoryColors.all[0],
   ),
   Category(
     id: 'cat_subscriptions',
     type: CategoryType.expense,
     name: 'Subscriptions',
     icon: PhosphorIconsRegular.arrowsClockwise,
-    colorIndex: 30,
+    color: CategoryColors.all[30],
   ),
   Category(
     id: 'cat_shopping',
     type: CategoryType.expense,
     name: 'Shopping',
     icon: PhosphorIconsRegular.shoppingBag,
-    colorIndex: 37,
+    color: CategoryColors.all[37],
   ),
   Category(
     id: 'cat_education',
     type: CategoryType.expense,
     name: 'Education',
     icon: PhosphorIconsRegular.graduationCap,
-    colorIndex: 6,
+    color: CategoryColors.all[6],
   ),
   // Income
   Category(
@@ -67,28 +68,28 @@ const mockCategories = [
     type: CategoryType.income,
     name: 'Salary',
     icon: PhosphorIconsRegular.briefcase,
-    colorIndex: 11,
+    color: CategoryColors.all[11],
   ),
   Category(
     id: 'cat_freelance',
     type: CategoryType.income,
     name: 'Freelance',
     icon: PhosphorIconsRegular.laptop,
-    colorIndex: 15,
+    color: CategoryColors.all[15],
   ),
   Category(
     id: 'cat_refunds',
     type: CategoryType.income,
     name: 'Refunds',
     icon: PhosphorIconsRegular.receipt,
-    colorIndex: 18,
+    color: CategoryColors.all[18],
   ),
   Category(
     id: 'cat_gifts',
     type: CategoryType.income,
     name: 'Gifts',
     icon: PhosphorIconsRegular.gift,
-    colorIndex: 39,
+    color: CategoryColors.all[39],
   ),
 ];
 

@@ -26,12 +26,14 @@ class SossoldiDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: options != null
-          ? const EdgeInsets.symmetric(horizontal: SossoldiSpacing.s)
+          ? const EdgeInsets.all(SossoldiSpacing.s)
           : const EdgeInsets.all(SossoldiSpacing.xs),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: context.colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiRadius.m),
-        boxShadow: SossoldiShadows.lg,
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.m),
+        ),
+        shadows: SossoldiShadows.lg,
       ),
       child: options != null ? SossoldiList(children: options!) : child,
     );

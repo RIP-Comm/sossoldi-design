@@ -55,10 +55,12 @@ class SossoldiSnackbar extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(SossoldiSpacing.m),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiRadius.s),
-        boxShadow: SossoldiShadows.lg,
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.s),
+        ),
+        shadows: SossoldiShadows.lg,
       ),
       child: Row(
         spacing: SossoldiSpacing.m,
@@ -70,9 +72,11 @@ class SossoldiSnackbar extends StatelessWidget {
                 Container(
                   width: 32,
                   height: 32,
-                  decoration: BoxDecoration(
+                  decoration: ShapeDecoration(
                     color: role.surface,
-                    borderRadius: BorderRadius.circular(SossoldiRadius.s),
+                    shape: RoundedSuperellipseBorder(
+                      borderRadius: BorderRadius.circular(SossoldiRadius.s),
+                    ),
                   ),
                   child: Icon(
                     icon ?? defaultIcon,

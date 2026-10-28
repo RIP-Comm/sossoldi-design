@@ -51,9 +51,11 @@ class SossoldiTab extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
         padding: const EdgeInsets.all(SossoldiSpacing.xs),
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: active ? colors.surfaceHigh : null,
-          borderRadius: BorderRadius.circular(SossoldiRadius.s),
+          shape: RoundedSuperellipseBorder(
+            borderRadius: BorderRadius.circular(SossoldiRadius.s),
+          ),
         ),
         child: Row(
           mainAxisSize: iconOnly ? MainAxisSize.min : MainAxisSize.max,
@@ -81,10 +83,12 @@ class SossoldiTab extends StatelessWidget {
                   horizontal: SossoldiSpacing.xs,
                   vertical: SossoldiSpacing.xs / 2,
                 ),
-                decoration: BoxDecoration(
+                decoration: ShapeDecoration(
                   color: colors.surfaceMed,
-                  borderRadius: BorderRadius.circular(SossoldiRadius.xs),
-                  border: Border.all(color: colors.strokeDefault, width: 0.5),
+                  shape: RoundedSuperellipseBorder(
+                    borderRadius: BorderRadius.circular(SossoldiRadius.xs),
+                    side: BorderSide(color: colors.strokeDefault, width: 0.5),
+                  ),
                 ),
                 child: Text(
                   counter!,

@@ -14,10 +14,17 @@ import 'sossoldi_menu_item.dart';
 import 'sossoldi_tappable.dart';
 
 class SossoldiSelectItem<T> {
-  const SossoldiSelectItem({required this.value, required this.label});
+  const SossoldiSelectItem({
+    required this.value,
+    required this.label,
+    this.enabled = true,
+  });
 
   final T value;
   final String label;
+
+  /// A disabled option is shown dimmed and cannot be picked.
+  final bool enabled;
 }
 
 class SossoldiSelect<T> extends StatefulWidget {
@@ -160,11 +167,11 @@ class _SossoldiSelectState<T> extends State<SossoldiSelect<T>> {
             width: box?.size.width,
             child: SossoldiDropdown(
               options: [
-                for (final (i, item) in widget.items.indexed)
+                for (final item in widget.items)
                   SossoldiMenuItem(
                     label: item.label,
-                    showDivider: i < widget.items.length - 1,
                     selected: item.value == widget.value,
+                    enabled: item.enabled,
                     onTap: () => _select(item.value),
                   ),
               ],

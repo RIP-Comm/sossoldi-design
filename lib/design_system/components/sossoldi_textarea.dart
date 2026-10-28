@@ -35,10 +35,12 @@ class SossoldiTextarea extends StatelessWidget {
         horizontal: SossoldiSpacing.m,
         vertical: SossoldiSpacing.s,
       ),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: colors.surfaceMed,
-        borderRadius: BorderRadius.circular(SossoldiRadius.s),
-        border: Border.all(color: colors.strokeMinus1),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.s),
+          side: BorderSide(color: colors.strokeMinus1),
+        ),
       ),
       child: Material(
         type: MaterialType.transparency,

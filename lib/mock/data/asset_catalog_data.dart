@@ -1,5 +1,6 @@
-// Selectable asset catalog: real, well-known instruments with one year of
-// generated daily prices (random walk with a fixed seed per asset).
+// Selectable asset catalog: real, well-known instruments with five years of
+// generated daily prices (random walk with a fixed seed per asset) and
+// simulated intraday prices for the last five trading days.
 // Prices are simulated, not market data.
 
 import 'dart:math';
@@ -432,23 +433,148 @@ const _seeds = [
   ),
 ];
 
-final List<Asset> mockAssetCatalog = [for (final s in _seeds) s.asset];
+/// Mock details of the assets, by id: what an ETF distributes and costs, the
+/// dividend yield of a stock, the coupon, maturity and duration of a bond.
+/// Not market data.
+final _info = <String, Asset Function(Asset)>{
+  'ast_vwce': (a) =>
+      a.withInfo(distribution: AssetDistribution.accumulating, ter: 0.0019),
+  'ast_swda': (a) =>
+      a.withInfo(distribution: AssetDistribution.accumulating, ter: 0.0020),
+  'ast_csspx': (a) =>
+      a.withInfo(distribution: AssetDistribution.accumulating, ter: 0.0007),
+  'ast_eimi': (a) =>
+      a.withInfo(distribution: AssetDistribution.accumulating, ter: 0.0018),
+  'ast_vusa': (a) =>
+      a.withInfo(distribution: AssetDistribution.distributing, ter: 0.0007),
+  'ast_aggh': (a) =>
+      a.withInfo(distribution: AssetDistribution.distributing, ter: 0.0010),
+  'ast_ibgs': (a) =>
+      a.withInfo(distribution: AssetDistribution.distributing, ter: 0.0007),
+  'ast_xdwt': (a) =>
+      a.withInfo(distribution: AssetDistribution.accumulating, ter: 0.0025),
+  'ast_inrg': (a) =>
+      a.withInfo(distribution: AssetDistribution.distributing, ter: 0.0065),
+  'ast_aapl': (a) => a.withInfo(dividendYield: 0.005),
+  'ast_msft': (a) => a.withInfo(dividendYield: 0.007),
+  'ast_nvda': (a) => a.withInfo(dividendYield: 0.0003),
+  'ast_amzn': (a) => a.withInfo(dividendYield: 0),
+  'ast_googl': (a) => a.withInfo(dividendYield: 0.005),
+  'ast_tsla': (a) => a.withInfo(dividendYield: 0),
+  'ast_eni': (a) => a.withInfo(dividendYield: 0.068),
+  'ast_enel': (a) => a.withInfo(dividendYield: 0.063),
+  'ast_isp': (a) => a.withInfo(dividendYield: 0.08),
+  'ast_race': (a) => a.withInfo(dividendYield: 0.007),
+  'ast_asml': (a) => a.withInfo(dividendYield: 0.008),
+  'ast_mc': (a) => a.withInfo(dividendYield: 0.018),
+  'ast_nesn': (a) => a.withInfo(dividendYield: 0.031),
+  'ast_ulvr': (a) => a.withInfo(dividendYield: 0.034),
+  'ast_btp_valore_27': (a) =>
+      a.withInfo(coupon: 0.024, maturity: DateTime(2027, 6, 28), duration: 0.6),
+  'ast_btp_italia_28': (a) => a.withInfo(
+    coupon: 0.016,
+    maturity: DateTime(2028, 11, 22),
+    duration: 2.0,
+  ),
+};
 
-/// One year of closing prices on trading days (Mon-Fri), oldest first,
-/// ending on the last trading day up to [today].
+final List<Asset> mockAssetCatalog = [
+  for (final s in _seeds) (_info[s.asset.id] ?? (a) => a)(s.asset),
+];
+
+/// Five years of closing prices on trading days (Mon-Fri), oldest first,
+/// ending on the last trading day up to [today]. The last year is the one
+/// the walk is calibrated on ([_Seed.yearReturn]); the four years before it
+/// are a separate walk (own seed) that ends exactly on the price a year ago.
 Map<String, List<PricePoint>> buildPriceHistories(DateTime today) {
-  final days = <DateTime>[
-    for (
-      var d = today.subtract(const Duration(days: 365));
-      !d.isAfter(today);
-      d = DateTime(d.year, d.month, d.day + 1)
-    )
+  List<DateTime> tradingDays(DateTime from, DateTime to) => [
+    for (var d = from; !d.isAfter(to); d = DateTime(d.year, d.month, d.day + 1))
       if (isTradingDay(d)) d,
   ];
+  final yearStart = today.subtract(const Duration(days: 365));
+  final lastYear = tradingDays(yearStart, today);
+  final before = tradingDays(
+    DateTime(today.year - 5, today.month, today.day),
+    DateTime(yearStart.year, yearStart.month, yearStart.day - 1),
+  );
   return {
     for (final (i, seed) in _seeds.indexed)
-      seed.asset.id: _randomWalk(seed, days, Random(1000 + i)),
+      seed.asset.id: [
+        ..._earlierWalk(seed, before, Random(5000 + i)),
+        ..._randomWalk(seed, lastYear, Random(1000 + i)),
+      ],
   };
+}
+
+/// The years before the calibrated one: bonds drift a little, the rest grows
+/// about 40% over the four years; the walk ends on the price a year ago.
+List<PricePoint> _earlierWalk(_Seed seed, List<DateTime> days, Random random) {
+  final dailyVol = seed.volatility / sqrt(252);
+  final endLog = log(seed.startPrice);
+  final preReturn = seed.volatility < 0.05 ? 0.04 : 0.40;
+  final logs = <double>[endLog - log(1 + preReturn)];
+  for (var i = 1; i < days.length; i++) {
+    logs.add(logs.last + dailyVol * _gaussian(random));
+  }
+  final correction = endLog - logs.last;
+  final decimals = seed.startPrice < 10 ? 3 : 2;
+  final factor = pow(10, decimals);
+  return [
+    for (var i = 0; i < days.length; i++)
+      PricePoint(
+        date: days[i],
+        price:
+            (exp(logs[i] + correction * (i + 1) / days.length) * factor)
+                .round() /
+            factor,
+      ),
+  ];
+}
+
+/// Trading hours of the simulated intraday prices: every 15 minutes from
+/// 09:00 to 17:30 (35 points), for every asset whatever its exchange.
+const intradayPointsPerDay = 35;
+
+/// Simulated prices every 15 minutes for the last [days] trading days of
+/// each history: from the open (a small gap on the previous close) to the
+/// official close, which is the last point of the day.
+Map<String, List<PricePoint>> buildIntradayPrices(
+  Map<String, List<PricePoint>> histories, {
+  int days = 5,
+}) {
+  final result = <String, List<PricePoint>>{};
+  for (final (n, seed) in _seeds.indexed) {
+    final history = histories[seed.asset.id]!;
+    final random = Random(7000 + n);
+    final dailyVol = seed.volatility / sqrt(252);
+    final decimals = seed.startPrice < 10 ? 3 : 2;
+    final factor = pow(10, decimals);
+    final points = <PricePoint>[];
+    for (var k = history.length - days; k < history.length; k++) {
+      final previousClose = history[k - 1].price;
+      final close = history[k].price;
+      final open = previousClose * exp(dailyVol * 0.3 * _gaussian(random));
+      final walk = <double>[0];
+      for (var i = 1; i < intradayPointsPerDay; i++) {
+        walk.add(walk.last + dailyVol * 0.25 * _gaussian(random));
+      }
+      final last = intradayPointsPerDay - 1;
+      for (var i = 0; i < intradayPointsPerDay; i++) {
+        final t = i / last;
+        final bridge = walk[i] - t * walk[last];
+        final value = exp(log(open) + (log(close) - log(open)) * t + bridge);
+        final d = history[k].date;
+        points.add(
+          PricePoint(
+            date: DateTime(d.year, d.month, d.day, 9, 15 * i),
+            price: i == last ? close : (value * factor).round() / factor,
+          ),
+        );
+      }
+    }
+    result[seed.asset.id] = points;
+  }
+  return result;
 }
 
 List<PricePoint> _randomWalk(_Seed seed, List<DateTime> days, Random random) {

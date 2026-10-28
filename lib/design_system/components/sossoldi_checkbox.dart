@@ -41,15 +41,17 @@ class SossoldiCheckbox extends StatelessWidget {
         child: Container(
           width: _box,
           height: _box,
-          decoration: BoxDecoration(
+          decoration: ShapeDecoration(
             color: filled ? fill : null,
-            borderRadius: BorderRadius.circular(SossoldiRadius.xs),
-            border: filled
-                ? null
-                : Border.all(
-                    color: enabled ? colors.shapeMed : colors.disabledSurface,
-                    width: 1.5,
-                  ),
+            shape: RoundedSuperellipseBorder(
+              borderRadius: BorderRadius.circular(SossoldiRadius.xs),
+              side: filled
+                  ? BorderSide.none
+                  : BorderSide(
+                      color: enabled ? colors.shapeMed : colors.disabledSurface,
+                      width: 1.5,
+                    ),
+            ),
           ),
           child: filled
               ? Icon(

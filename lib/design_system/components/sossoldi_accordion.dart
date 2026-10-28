@@ -70,7 +70,7 @@ class _SossoldiAccordionState extends State<SossoldiAccordion> {
       ),
     );
 
-    return ClipRRect(
+    return ClipRSuperellipse(
       borderRadius: BorderRadius.circular(SossoldiRadius.s),
       child: ColoredBox(
         color: colors.surfaceMed,

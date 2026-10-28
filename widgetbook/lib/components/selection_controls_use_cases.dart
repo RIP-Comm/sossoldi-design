@@ -122,6 +122,21 @@ class _SwitchUseCaseState extends State<SwitchUseCase> {
             ),
           ],
         ),
+        FoundationSection(
+          title: 'Row with label (forms of a budget and of an asset)',
+          children: [
+            SossoldiSwitchRow(
+              label: 'Counts for Net Worth',
+              value: _value,
+              onChanged: (v) => setState(() => _value = v),
+            ),
+            const SossoldiSwitchRow(
+              label: 'Disabled',
+              value: false,
+              onChanged: null,
+            ),
+          ],
+        ),
       ],
     );
   }

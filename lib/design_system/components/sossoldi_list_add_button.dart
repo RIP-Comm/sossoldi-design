@@ -26,9 +26,11 @@ class SossoldiListAddButton extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 48),
       padding: const EdgeInsets.all(SossoldiSpacing.s),
       alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: context.colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiRadius.s),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.s),
+        ),
       ),
       child: SossoldiButton(
         label: label,

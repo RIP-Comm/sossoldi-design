@@ -72,20 +72,24 @@ class ColorSwatchTile extends StatelessWidget {
     return Container(
       width: 152,
       padding: const EdgeInsets.all(SossoldiSpacing.s),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: context.colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiRadius.s),
-        border: Border.all(color: context.colors.strokeMinus1),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.s),
+          side: BorderSide(color: context.colors.strokeMinus1),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 40,
-            decoration: BoxDecoration(
+            decoration: ShapeDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(SossoldiRadius.xs),
-              border: Border.all(color: context.colors.strokeDefault),
+              shape: RoundedSuperellipseBorder(
+                borderRadius: BorderRadius.circular(SossoldiRadius.xs),
+                side: BorderSide(color: context.colors.strokeDefault),
+              ),
             ),
           ),
           const SizedBox(height: SossoldiSpacing.xs),

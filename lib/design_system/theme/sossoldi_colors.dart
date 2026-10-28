@@ -42,6 +42,8 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
     required this.surfaceLow,
     required this.surfaceMed,
     required this.surfaceHigh,
+    required this.selectedSurface,
+    required this.selectedPrimarySurface,
     required this.textHigh,
     required this.textMed,
     required this.textLow,
@@ -65,6 +67,15 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
   final Color surfaceLow;
   final Color surfaceMed;
   final Color surfaceHigh;
+
+  /// Background of the selected item inside a surfaceHigh container
+  /// (e.g. the active tab of the navbar). Figma: Primitives/Grey/93.
+  final Color selectedSurface;
+
+  /// Background of the selected option of a list, dropdown or select (with
+  /// a check on its right): a primary tint. A variant of [selectedSurface].
+  /// Figma: Primitives/Primary/90.
+  final Color selectedPrimarySurface;
 
   final Color textHigh;
   final Color textMed;
@@ -107,6 +118,8 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
     surfaceLow: SossoldiPrimitives.grey90,
     surfaceMed: SossoldiPrimitives.grey97,
     surfaceHigh: SossoldiPrimitives.grey100,
+    selectedSurface: SossoldiPrimitives.grey93,
+    selectedPrimarySurface: SossoldiPrimitives.primary97,
     textHigh: SossoldiPrimitives.grey10,
     textMed: SossoldiPrimitives.grey40,
     textLow: SossoldiPrimitives.grey60,
@@ -166,15 +179,17 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
     surfaceLow: SossoldiPrimitives.grey5,
     surfaceMed: SossoldiPrimitives.grey10,
     surfaceHigh: SossoldiPrimitives.grey20, // derived
+    selectedSurface: SossoldiPrimitives.grey30, // derived
+    selectedPrimarySurface: SossoldiPrimitives.primary20, // derived
     textHigh: SossoldiPrimitives.grey95,
     textMed: SossoldiPrimitives.grey70,
     textLow: SossoldiPrimitives.grey50,
     shapeHigh: SossoldiPrimitives.grey90,
     shapeMed: SossoldiPrimitives.grey60,
     shapeLow: SossoldiPrimitives.grey40,
-    strokeMinus1: SossoldiPrimitives.grey10,
-    strokeDefault: SossoldiPrimitives.grey20,
-    strokePlus1: SossoldiPrimitives.grey30,
+    strokeMinus1: SossoldiPrimitives.grey30,
+    strokeDefault: SossoldiPrimitives.grey40,
+    strokePlus1: SossoldiPrimitives.grey50,
     primary: SossoldiColorRole(
       text: SossoldiPrimitives.primary60,
       onSurface: SossoldiPrimitives.primary10,
@@ -194,31 +209,31 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
       stroke: SossoldiPrimitives.green50, // derived
     ),
     warning: SossoldiColorRole(
-      text: SossoldiPrimitives.orange50,
-      onSurface: SossoldiPrimitives.orange50,
-      surface: SossoldiPrimitives.orange10,
-      stroke: SossoldiPrimitives.orange50, // derived
+      text: SossoldiPrimitives.mutedOrangeText,
+      onSurface: SossoldiPrimitives.mutedOrange,
+      surface: SossoldiPrimitives.mutedOrangeSurface,
+      stroke: SossoldiPrimitives.mutedOrange,
     ),
     // derived
     error: SossoldiColorRole(
-      text: SossoldiPrimitives.red70,
-      onSurface: SossoldiPrimitives.red60,
-      surface: SossoldiPrimitives.red10,
-      stroke: SossoldiPrimitives.red60,
+      text: SossoldiPrimitives.mutedRedText,
+      onSurface: SossoldiPrimitives.mutedRed,
+      surface: SossoldiPrimitives.mutedRedSurface,
+      stroke: SossoldiPrimitives.mutedRed,
     ),
     // derived
     success: SossoldiColorRole(
-      text: SossoldiPrimitives.green60,
-      onSurface: SossoldiPrimitives.green50,
-      surface: SossoldiPrimitives.green10,
-      stroke: SossoldiPrimitives.green50,
+      text: SossoldiPrimitives.mutedGreenText,
+      onSurface: SossoldiPrimitives.mutedGreen,
+      surface: SossoldiPrimitives.mutedGreenSurface,
+      stroke: SossoldiPrimitives.mutedGreen,
     ),
     // derived
     info: SossoldiColorRole(
-      text: SossoldiPrimitives.primary70,
-      onSurface: SossoldiPrimitives.primary60,
-      surface: SossoldiPrimitives.primary10,
-      stroke: SossoldiPrimitives.primary60,
+      text: SossoldiPrimitives.mutedBlueText,
+      onSurface: SossoldiPrimitives.mutedBlue,
+      surface: SossoldiPrimitives.mutedBlueSurface,
+      stroke: SossoldiPrimitives.mutedBlue,
     ),
     disabledSurface: SossoldiPrimitives.grey30, // derived
     disabledOnSurface: SossoldiPrimitives.grey50, // derived
@@ -229,6 +244,8 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
     Color? surfaceLow,
     Color? surfaceMed,
     Color? surfaceHigh,
+    Color? selectedSurface,
+    Color? selectedPrimarySurface,
     Color? textHigh,
     Color? textMed,
     Color? textLow,
@@ -252,6 +269,9 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
       surfaceLow: surfaceLow ?? this.surfaceLow,
       surfaceMed: surfaceMed ?? this.surfaceMed,
       surfaceHigh: surfaceHigh ?? this.surfaceHigh,
+      selectedSurface: selectedSurface ?? this.selectedSurface,
+      selectedPrimarySurface:
+          selectedPrimarySurface ?? this.selectedPrimarySurface,
       textHigh: textHigh ?? this.textHigh,
       textMed: textMed ?? this.textMed,
       textLow: textLow ?? this.textLow,
@@ -283,6 +303,11 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
       surfaceLow: c(surfaceLow, other.surfaceLow),
       surfaceMed: c(surfaceMed, other.surfaceMed),
       surfaceHigh: c(surfaceHigh, other.surfaceHigh),
+      selectedSurface: c(selectedSurface, other.selectedSurface),
+      selectedPrimarySurface: c(
+        selectedPrimarySurface,
+        other.selectedPrimarySurface,
+      ),
       textHigh: c(textHigh, other.textHigh),
       textMed: c(textMed, other.textMed),
       textLow: c(textLow, other.textLow),

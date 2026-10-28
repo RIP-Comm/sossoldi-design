@@ -271,7 +271,7 @@ List<Transaction> buildTransactions({
         ? today.subtract(const Duration(days: 60))
         : today;
     for (var k = 1; ; k++) {
-      final date = r.frequency.step(r.nextDate, -k, anchorDay: r.nextDate.day);
+      final date = r.frequency.step(r.nextDate, -k, anchorDay: r.anchorDay);
       if (date.isBefore(start)) break;
       if (date.isAfter(last)) continue;
       drafts.add(

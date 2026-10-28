@@ -25,6 +25,14 @@ class TextInputUseCase extends StatelessWidget {
         FoundationSection(
           title: 'Default (tap to focus = Active) / Filled / Error / Disabled',
           children: [
+            _Field(
+              SossoldiTextInput(
+                controller: TextEditingController(text: '850'),
+                label: 'With a suffix (e.g. the currency)',
+                suffixText: '€',
+                keyboardType: TextInputType.number,
+              ),
+            ),
             const _Field(
               SossoldiTextInput(
                 label: 'Input label text',

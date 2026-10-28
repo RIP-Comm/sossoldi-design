@@ -54,10 +54,14 @@ class SossoldiTag extends StatelessWidget {
         horizontal: SossoldiSpacing.xs,
         vertical: SossoldiSpacing.xs / 2,
       ),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(SossoldiRadius.xs),
-        border: hasStroke ? Border.all(color: stroke, width: 0.5) : null,
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.xs),
+          side: hasStroke
+              ? BorderSide(color: stroke, width: 0.5)
+              : BorderSide.none,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

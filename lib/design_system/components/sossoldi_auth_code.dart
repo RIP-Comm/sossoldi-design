@@ -106,15 +106,17 @@ class _SossoldiAuthCodeState extends State<SossoldiAuthCode> {
                       width: 46,
                       height: 56,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
+                      decoration: ShapeDecoration(
                         color: colors.surfaceHigh,
-                        borderRadius: BorderRadius.circular(SossoldiRadius.s),
-                        border: Border.all(
-                          // The box waiting for input is highlighted while
-                          // focused (not in Figma).
-                          color: focused && i == filled
-                              ? colors.primary.stroke
-                              : colors.strokeMinus1,
+                        shape: RoundedSuperellipseBorder(
+                          borderRadius: BorderRadius.circular(SossoldiRadius.s),
+                          side: BorderSide(
+                            // The box waiting for input is highlighted while
+                            // focused (not in Figma).
+                            color: focused && i == filled
+                                ? colors.primary.stroke
+                                : colors.strokeMinus1,
+                          ),
                         ),
                       ),
                       child: Text(i < filled ? _mask : '', style: style),

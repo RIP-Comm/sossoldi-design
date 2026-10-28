@@ -61,10 +61,12 @@ class SossoldiChip extends StatelessWidget {
         horizontal: SossoldiSpacing.xs,
         vertical: SossoldiSpacing.xs / 2,
       ),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(radius),
-        border: border == null ? null : Border.all(color: border),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(radius),
+          side: border == null ? BorderSide.none : BorderSide(color: border),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

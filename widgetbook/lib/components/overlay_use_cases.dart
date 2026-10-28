@@ -53,6 +53,16 @@ class BottomSheetUseCase extends StatelessWidget {
               ),
             ),
             _Box(
+              SossoldiBottomSheetToolbar.icon(
+                title: 'Check disabled',
+                onClose: () {},
+                closeSemanticLabel: 'Close',
+                onConfirm: () {},
+                confirmSemanticLabel: 'Confirm',
+                confirmEnabled: false,
+              ),
+            ),
+            _Box(
               SossoldiBottomSheetToolbar.text(
                 title: 'Title',
                 onClose: () {},
@@ -216,6 +226,55 @@ class AlertUseCase extends StatelessWidget {
             ),
           ],
         ),
+        FoundationSection(
+          title: 'Tones: neutral / info / success / warning / error',
+          children: [
+            for (final tone in SossoldiAlertTone.values)
+              _Box(
+                SossoldiAlert(
+                  tone: tone,
+                  title: 'Alert title',
+                  message: 'Spending is under the average of the last 3 months',
+                  icon: _icon,
+                ),
+                width: 358,
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class AlertCarouselUseCase extends StatelessWidget {
+  const AlertCarouselUseCase({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FoundationPage(
+      children: [
+        FoundationSection(
+          title: 'Swipe: alerts with a gap, bold numbers (**text**), indicator',
+          children: [
+            SizedBox(
+              width: 358,
+              child: SossoldiAlertCarousel(
+                alerts: [
+                  for (final tone in [
+                    SossoldiAlertTone.info,
+                    SossoldiAlertTone.success,
+                    SossoldiAlertTone.warning,
+                  ])
+                    SossoldiAlert(
+                      tone: tone,
+                      title: 'Alert title',
+                      message: 'Your portfolio is up **1.240,00 €** over the last month',
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -338,7 +397,6 @@ class MenuListDropdownUseCase extends StatelessWidget {
                       label: 'Item $i',
                       leading: leading,
                       hasSubitems: true,
-                      showDivider: i < 3,
                       onTap: () {},
                     ),
                 ],
@@ -354,11 +412,7 @@ class MenuListDropdownUseCase extends StatelessWidget {
               SossoldiDropdown(
                 options: [
                   for (var i = 1; i <= 3; i++)
-                    SossoldiMenuItem(
-                      label: 'Option $i',
-                      showDivider: i < 3,
-                      onTap: () {},
-                    ),
+                    SossoldiMenuItem(label: 'Option $i', onTap: () {}),
                 ],
               ),
               width: 304,

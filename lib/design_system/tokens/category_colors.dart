@@ -11,6 +11,16 @@ import 'package:flutter/painting.dart';
 class CategoryColor {
   const CategoryColor(this.main, this.tint);
 
+  /// Any color (the picker of icon and color gives free ones): the tint is
+  /// derived as in the palette, same hue and saturation at lightness 90%.
+  factory CategoryColor.fromColor(Color main) => CategoryColor(
+    main,
+    HSLColor.fromColor(main).withLightness(tintLightness).toColor(),
+  );
+
+  /// HSL lightness of every [tint].
+  static const double tintLightness = 0.9;
+
   /// Saturated color: icons, dots, filled part of a bar.
   final Color main;
 
@@ -25,6 +35,13 @@ class CategoryColor {
   Color tintFor(Brightness brightness) => brightness == Brightness.dark
       ? main.withValues(alpha: darkTintAlpha)
       : tint;
+
+  @override
+  bool operator ==(Object other) =>
+      other is CategoryColor && other.main == main && other.tint == tint;
+
+  @override
+  int get hashCode => Object.hash(main, tint);
 }
 
 abstract final class CategoryColors {

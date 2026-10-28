@@ -62,37 +62,65 @@ class _ManualPlan {
   final int valuedDaysAgo;
 }
 
-const _catalogPlans = [
+// Purchases cover about four years, so that the 5Y chart has something to
+// show: a quarterly plan on the global ETF, a few older buys on the others.
+final _catalogPlans = [
   _CatalogPlan('hld_vwce', 'ast_vwce', [
-    _Trade(330, 4),
-    _Trade(270, 4),
-    _Trade(210, 4),
-    _Trade(150, 4),
-    _Trade(90, 4),
-    _Trade(30, 4),
+    for (var days = 1100; days > 330; days -= 90) _Trade(days, 3),
+    const _Trade(330, 4),
+    const _Trade(270, 4),
+    const _Trade(210, 4),
+    const _Trade(150, 4),
+    const _Trade(120, 3, sell: true),
+    const _Trade(90, 4),
+    const _Trade(30, 4),
   ]),
-  _CatalogPlan('hld_eimi', 'ast_eimi', [_Trade(300, 60), _Trade(120, 50)]),
+  _CatalogPlan('hld_eimi', 'ast_eimi', [
+    const _Trade(1450, 40),
+    const _Trade(780, 30),
+    const _Trade(300, 60),
+    const _Trade(120, 50),
+  ]),
   _CatalogPlan(
     'hld_aapl',
     'ast_aapl',
-    [_Trade(280, 6), _Trade(160, 4)],
+    [
+      const _Trade(1000, 4),
+      const _Trade(640, 3),
+      const _Trade(420, 2, sell: true),
+      const _Trade(280, 6),
+      const _Trade(160, 4),
+    ],
     dividends: [
-      _Dividend(200, 0.25),
-      _Dividend(110, 0.25),
-      _Dividend(20, 0.26),
-      _Dividend(-25, 0.26),
+      const _Dividend(790, 0.22),
+      const _Dividend(560, 0.23),
+      const _Dividend(380, 0.24),
+      const _Dividend(200, 0.25),
+      const _Dividend(110, 0.25),
+      const _Dividend(20, 0.26),
+      const _Dividend(-25, 0.26),
     ],
   ),
   _CatalogPlan(
     'hld_eni',
     'ast_eni',
-    [_Trade(250, 150)],
-    dividends: [_Dividend(150, 0.25), _Dividend(-40, 0.25)],
+    [
+      const _Trade(700, 100),
+      const _Trade(400, 30, sell: true),
+      const _Trade(250, 150),
+    ],
+    dividends: [
+      const _Dividend(600, 0.2),
+      const _Dividend(420, 0.22),
+      const _Dividend(150, 0.25),
+      const _Dividend(-40, 0.25),
+    ],
   ),
-  _CatalogPlan('hld_btp', 'ast_btp_valore_27', [_Trade(200, 30)]),
+  _CatalogPlan('hld_btp', 'ast_btp_valore_27', [const _Trade(200, 30)]),
   _CatalogPlan('hld_nvda', 'ast_nvda', [
-    _Trade(340, 20),
-    _Trade(60, 8, sell: true),
+    const _Trade(760, 10),
+    const _Trade(340, 20),
+    const _Trade(60, 8, sell: true),
   ]),
 ];
 
@@ -101,7 +129,7 @@ const _manualPlans = [
     'hld_pension',
     'Supplementary pension fund',
     ManualAssetType.pensionFund,
-    boughtDaysAgo: 900,
+    boughtDaysAgo: 1500,
     purchaseValue: 7200,
     currentValue: 8150,
     valuedDaysAgo: 20,
@@ -146,49 +174,32 @@ buildHoldingsAndMovements({
   final movements = <InvestmentMovement>[];
   var counter = 0;
   String nextId() => 'mov_${(++counter).toString().padLeft(3, '0')}';
-  DateTime daysAgo(int days) => today.subtract(Duration(days: days));
+  DateTime daysAgo(int days) => addDays(today, -days);
 
   for (final plan in _catalogPlans) {
     final asset = catalog.firstWhere((a) => a.id == plan.assetId);
     final history = priceHistories[asset.id]!;
-    var quantity = 0.0;
-    var boughtUnits = 0.0;
-    var boughtValue = 0.0;
     final trades = [...plan.trades]
       ..sort((a, b) => b.daysAgo.compareTo(a.daysAgo));
+    final holdingMoves = <InvestmentMovement>[];
 
     for (final trade in trades) {
       final date = daysAgo(trade.daysAgo);
       final price = priceOn(history, date);
-      movements.add(
-        InvestmentMovement(
-          id: nextId(),
-          holdingId: plan.holdingId,
-          type: trade.sell ? MovementType.sell : MovementType.buy,
-          date: date,
-          quantity: trade.quantity,
-          price: price,
-          amount: round2(trade.quantity * price),
-          currency: asset.currency,
-        ),
+      final move = InvestmentMovement(
+        id: nextId(),
+        holdingId: plan.holdingId,
+        accountId: brokerAccountId,
+        type: trade.sell ? MovementType.sell : MovementType.buy,
+        date: date,
+        quantity: trade.quantity,
+        price: price,
+        fee: tradeFee,
+        amount: round2(trade.quantity * price),
+        currency: asset.currency,
       );
-      movements.add(
-        InvestmentMovement(
-          id: nextId(),
-          holdingId: plan.holdingId,
-          type: MovementType.fee,
-          date: date,
-          amount: tradeFee,
-          currency: 'EUR',
-        ),
-      );
-      if (trade.sell) {
-        quantity -= trade.quantity;
-      } else {
-        quantity += trade.quantity;
-        boughtUnits += trade.quantity;
-        boughtValue += trade.quantity * price;
-      }
+      movements.add(move);
+      holdingMoves.add(move);
     }
 
     for (final dividend in plan.dividends) {
@@ -201,6 +212,7 @@ buildHoldingsAndMovements({
         InvestmentMovement(
           id: nextId(),
           holdingId: plan.holdingId,
+          accountId: brokerAccountId,
           type: MovementType.dividend,
           date: date,
           quantity: held,
@@ -211,13 +223,14 @@ buildHoldingsAndMovements({
       );
     }
 
+    final state = replayHolding(holdingMoves).state!;
     holdings.add(
       Holding(
         id: plan.holdingId,
         accountId: brokerAccountId,
         assetId: asset.id,
-        quantity: quantity,
-        averageCost: (boughtValue / boughtUnits * 10000).round() / 10000,
+        quantity: state.quantity,
+        averageCost: (state.averageCost * 10000).round() / 10000,
         currency: asset.currency,
       ),
     );
@@ -228,6 +241,7 @@ buildHoldingsAndMovements({
       InvestmentMovement(
         id: nextId(),
         holdingId: plan.holdingId,
+        accountId: brokerAccountId,
         type: MovementType.buy,
         date: daysAgo(plan.boughtDaysAgo),
         quantity: 1,
@@ -246,6 +260,25 @@ buildHoldingsAndMovements({
         quantity: 1,
         averageCost: plan.purchaseValue,
         currency: 'EUR',
+      ),
+    );
+  }
+
+  // Costs that are not part of a trade: custody and stamp duty.
+  for (final (days, amount, text) in [
+    (95, 12.0, 'Broker custody fee'),
+    (270, 12.0, 'Broker custody fee'),
+    (410, 36.5, 'Stamp duty on the portfolio'),
+  ]) {
+    movements.add(
+      InvestmentMovement(
+        id: nextId(),
+        accountId: brokerAccountId,
+        type: MovementType.cost,
+        date: daysAgo(days),
+        amount: amount,
+        currency: 'EUR',
+        description: text,
       ),
     );
   }

@@ -13,18 +13,29 @@ class SossoldiChangeTag extends StatelessWidget {
     super.key,
     required this.value,
     required String this.currencyCode,
+    this.masked = false,
   });
 
   /// Variation as a fraction (0.0123 = +1,23%).
-  const SossoldiChangeTag.percent({super.key, required this.value})
-    : currencyCode = null;
+  const SossoldiChangeTag.percent({
+    super.key,
+    required this.value,
+    this.masked = false,
+  }) : currencyCode = null;
 
   final num value;
   final String? currencyCode;
 
+  /// Hides the figure (Hidden Mode); the positive/negative color stays.
+  final bool masked;
+
+  static const _mask = '••••';
+
   @override
   Widget build(BuildContext context) {
-    final label = currencyCode == null
+    final label = masked
+        ? _mask
+        : currencyCode == null
         ? SossoldiAmountFormat.percent(context, value)
         : SossoldiAmountFormat.money(
             context,

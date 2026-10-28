@@ -101,10 +101,12 @@ class _PageButton extends StatelessWidget {
         width: 32,
         height: 32,
         alignment: Alignment.center,
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: current ? colors.primary.surface : null,
-          borderRadius: BorderRadius.circular(
-            current ? SossoldiRadius.s : SossoldiRadius.xs,
+          shape: RoundedSuperellipseBorder(
+            borderRadius: BorderRadius.circular(
+              current ? SossoldiRadius.s : SossoldiRadius.xs,
+            ),
           ),
         ),
         child: Text(

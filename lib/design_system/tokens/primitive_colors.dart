@@ -18,6 +18,7 @@ abstract final class SossoldiPrimitives {
   static const primary80 = Color(0xFF9BCCFD);
   static const primary90 = Color(0xFFCDE5FE);
   static const primary95 = Color(0xFFE6F2FE);
+  static const primary97 = Color(0xFFF0F7FF);
   static const primary99 = Color(0xFFFAFCFF);
 
   // Grey
@@ -77,4 +78,19 @@ abstract final class SossoldiPrimitives {
   static const orange90 = Color(0xFFFBDED0);
   static const orange95 = Color(0xFFFDEFE7);
   static const orange99 = Color(0xFFFFFCFA);
+
+  // Muted semantic tones for dark mode (derived, not in the Figma export):
+  // the saturated primitives above glow on dark surfaces.
+  static const mutedBlueText = Color(0xFF9CC3E8);
+  static const mutedBlue = Color(0xFF6A9FD0);
+  static const mutedBlueSurface = Color(0xFF16222D);
+  static const mutedGreenText = Color(0xFF93C9A0);
+  static const mutedGreen = Color(0xFF63AA75);
+  static const mutedGreenSurface = Color(0xFF15261B);
+  static const mutedOrangeText = Color(0xFFE2AA88);
+  static const mutedOrange = Color(0xFFD08A5E);
+  static const mutedOrangeSurface = Color(0xFF2A1E16);
+  static const mutedRedText = Color(0xFFE09C9C);
+  static const mutedRed = Color(0xFFCF6F6F);
+  static const mutedRedSurface = Color(0xFF2A1717);
 }

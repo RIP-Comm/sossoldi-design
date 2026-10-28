@@ -13,7 +13,7 @@ class SossoldiList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return ClipRSuperellipse(
       borderRadius: BorderRadius.circular(SossoldiRadius.m),
       child: ColoredBox(
         color: context.colors.surfaceHigh,

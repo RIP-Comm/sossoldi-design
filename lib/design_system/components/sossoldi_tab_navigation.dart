@@ -28,9 +28,11 @@ class SossoldiTabNavigation extends StatelessWidget {
     final iconOnly = tabs.every((t) => t.label == null);
     return Container(
       padding: const EdgeInsets.all(SossoldiSpacing.xs),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: context.colors.surfaceLow,
-        borderRadius: BorderRadius.circular(SossoldiRadius.m),
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.m),
+        ),
       ),
       child: Row(
         mainAxisSize: iconOnly ? MainAxisSize.min : MainAxisSize.max,

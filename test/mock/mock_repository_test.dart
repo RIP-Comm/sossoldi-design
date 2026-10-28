@@ -1,8 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sossoldi/design_system/tokens/category_colors.dart';
 import 'package:sossoldi/mock/mock_repository.dart';
+import 'package:sossoldi/mock/models/budget.dart';
 import 'package:sossoldi/mock/models/budget_status.dart';
 import 'package:sossoldi/mock/models/category.dart';
+import 'package:sossoldi/mock/date_utils.dart';
 import 'package:sossoldi/mock/models/investment_movement.dart';
 import 'package:sossoldi/mock/models/recurring_transaction.dart';
 import 'package:sossoldi/mock/models/transaction.dart';
@@ -63,7 +65,8 @@ void main() {
         }
         final holdingIds = repo.holdings.map((h) => h.id).toSet();
         for (final m in repo.movements()) {
-          expect(holdingIds, contains(m.holdingId));
+          // A cost can be about nothing in particular.
+          if (m.holdingId != null) expect(holdingIds, contains(m.holdingId));
         }
       });
 
@@ -90,17 +93,45 @@ void main() {
         expect(repo.categories(type: CategoryType.income), hasLength(4));
         for (final c in repo.categories()) {
           expect(repo.subcategoriesOf(c.id), isNotEmpty);
-          expect(c.colorIndex, lessThan(CategoryColors.all.length));
+          expect(CategoryColors.all, contains(c.color));
         }
         for (final s in subcategories.values) {
           expect(categoryIds, contains(s.categoryId));
         }
       });
 
-      test('every expense category has exactly one budget', () {
+      test('budgets: one-to-many from category, none on subcategories', () {
+        final expenseIds = {
+          for (final c in repo.categories(type: CategoryType.expense)) c.id,
+        };
+        final subcategoryIds = {
+          for (final c in repo.categories())
+            for (final sub in repo.subcategoriesOf(c.id)) sub.id,
+        };
         for (final c in repo.categories(type: CategoryType.expense)) {
-          expect(repo.budgets.where((b) => b.categoryId == c.id), hasLength(1));
+          expect(repo.budgetsForCategory(c.id), isNotEmpty, reason: c.id);
         }
+        for (final b in repo.budgets) {
+          expect(expenseIds, contains(b.categoryId));
+          expect(subcategoryIds, isNot(contains(b.categoryId)));
+        }
+        // At most one budget per category and period; ids are unique.
+        final pairs = {for (final b in repo.budgets) (b.categoryId, b.period)};
+        expect(pairs, hasLength(repo.budgets.length));
+        expect({
+          for (final b in repo.budgets) b.id,
+        }, hasLength(repo.budgets.length));
+        // At least two categories have budgets on different periods.
+        final multi = [
+          for (final c in repo.categories(type: CategoryType.expense))
+            if (repo.budgetsForCategory(c.id).length > 1) c.id,
+        ];
+        expect(multi.length, greaterThanOrEqualTo(2));
+        // Semiannual has none, so that its empty state can be seen.
+        expect(
+          repo.budgets.where((b) => b.period == BudgetPeriod.semiannual),
+          isEmpty,
+        );
       });
 
       test('budgets cover every state in the current period', () {
@@ -113,6 +144,23 @@ void main() {
         );
       });
 
+      test('purchases cover several years', () {
+        final buys = repo.movements().where((m) => m.type == MovementType.buy);
+        final oldest = buys
+            .map((m) => m.date)
+            .reduce((a, b) => a.isBefore(b) ? a : b);
+        expect(repo.today.difference(oldest).inDays, greaterThan(3 * 365));
+        // Buys in at least three different calendar years.
+        expect(buys.map((m) => m.date.year).toSet().length, greaterThan(2));
+        // Every buy and sell is on a price the asset had that day or before.
+        for (final m in repo.movements()) {
+          if (m.type != MovementType.buy && m.type != MovementType.sell) {
+            continue;
+          }
+          expect(m.date.isAfter(repo.today), isFalse);
+        }
+      });
+
       test('holding quantities and PMC match the movements', () {
         for (final h in repo.holdings) {
           final moves = repo.movements(holdingId: h.id);
@@ -122,9 +170,26 @@ void main() {
               buys.fold(0.0, (s, m) => s + m.quantity!) -
               sells.fold(0.0, (s, m) => s + m.quantity!);
           expect(h.quantity, closeTo(quantity, 1e-9), reason: h.id);
-          final units = buys.fold(0.0, (s, m) => s + m.quantity!);
-          final cost = buys.fold(0.0, (s, m) => s + m.quantity! * m.price!);
+          // Average cost (PMC): the running average, a sell takes units out
+          // at the average cost of that moment.
+          var units = 0.0, cost = 0.0;
+          for (final m in moves.reversed.where(
+            (m) => m.type == MovementType.buy || m.type == MovementType.sell,
+          )) {
+            if (m.type == MovementType.buy) {
+              units += m.quantity!;
+              // The commission is part of what a buy cost.
+              cost += m.quantity! * m.price! + m.fee;
+            } else {
+              cost -= cost / units * m.quantity!;
+              units -= m.quantity!;
+            }
+          }
           expect(h.averageCost, closeTo(cost / units, 1e-3), reason: h.id);
+          expect(
+            replayHolding(moves).state!.averageCost,
+            closeTo(h.averageCost, 1e-3),
+          );
           expect(h.quantity, greaterThan(0));
         }
       });
@@ -165,12 +230,80 @@ void main() {
         }
       });
 
-      test('catalog has 20-30 assets with one year of prices', () {
+      test('balance trend matches income minus expenses', () {
+        final trend = repo.balanceTrend();
+        final start = trend.periodStart;
+        final tomorrow = DateTime(
+          repo.today.year,
+          repo.today.month,
+          repo.today.day + 1,
+        );
+        expect(trend.current, hasLength(repo.today.day));
+        expect(trend.net, closeTo(repo.netResult(start, tomorrow), 0.02));
+        expect(
+          trend.net,
+          closeTo(
+            repo.totalIncome(start, tomorrow) -
+                repo.totalExpenses(start, tomorrow),
+            0.02,
+          ),
+        );
+        final previousStart = DateTime(start.year, start.month - 1);
+        expect(
+          trend.previous,
+          hasLength(DateTime(start.year, start.month, 0).day),
+        );
+        expect(
+          trend.previous.last,
+          closeTo(repo.netResult(previousStart, start), 0.02),
+        );
+        expect(
+          trend.daysInPeriod,
+          DateTime(start.year, start.month + 1, 0).day,
+        );
+        expect(repo.mainCurrency, 'EUR');
+        expect(trend.income, repo.totalIncome(start, tomorrow));
+        expect(trend.expenses, repo.totalExpenses(start, tomorrow));
+        expect(trend.income - trend.expenses, closeTo(trend.net, 0.02));
+        final sameDay =
+            trend.previous[trend.current.length <= trend.previous.length
+                ? trend.current.length - 1
+                : trend.previous.length - 1];
+        expect(trend.vsPreviousSameDay, closeTo(trend.net - sameDay, 0.02));
+      });
+
+      test('latest transactions are the newest ones, in order', () {
+        final latest = repo.latestTransactions(6);
+        expect(latest, hasLength(6));
+        expect(latest.first.id, repo.transactions.first.id);
+        for (var i = 1; i < latest.length; i++) {
+          expect(latest[i].date.isAfter(latest[i - 1].date), isFalse);
+        }
+      });
+
+      test('catalog has 20-30 assets with five years of prices', () {
         expect(repo.assetCatalog.length, inInclusiveRange(20, 30));
         for (final a in repo.assetCatalog) {
           final history = repo.priceHistory(a.id);
-          expect(history.length, greaterThan(250));
+          // About 260 trading days a year.
+          expect(history.length, greaterThan(1250), reason: a.id);
           expect(history.every((p) => p.price > 0), isTrue);
+          expect(history.every((p) => isTradingDay(p.date)), isTrue);
+          // Oldest first, one price a day, no repeated day.
+          for (var i = 1; i < history.length; i++) {
+            expect(history[i].date.isAfter(history[i - 1].date), isTrue);
+          }
+          expect(
+            history.first.date.isBefore(
+              DateTime(repo.today.year - 4, repo.today.month, repo.today.day),
+            ),
+            isTrue,
+          );
+          // No jump between the years (the volatile stocks still move a lot a day).
+          for (var i = 1; i < history.length; i++) {
+            final change = history[i].price / history[i - 1].price - 1;
+            expect(change.abs(), lessThan(0.2), reason: '${a.id} $i');
+          }
         }
         expect(repo.searchAssets('vwce').single.isin, 'IE00BK5BQT80');
         expect(repo.searchAssets('apple'), hasLength(1));

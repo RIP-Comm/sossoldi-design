@@ -24,6 +24,26 @@ Sossoldi's Figma, not the original Moon library.
 - Change indicator (€ / %, arrow, color)
 - "Updated X ago" label
 
+## Colors and icons of accounts and categories
+- `CategoryColors.all` is the palette (Figma "Palette - Categories"); a `CategoryColor` can also be built from any
+  color (`CategoryColor.fromColor`: tint = same hue and saturation at HSL lightness 90%, which is what the palette
+  tints are, to one level of 255; in dark mode the tint stays the color at 0.2 of opacity).
+- `SossoldiColorPicker`: two sliders (hue, saturation). The space is HCT (`material_color_utilities`, already a
+  dependency of Flutter): fixed tone 60, hue from orange to red (30° over 350°), saturation from 60% to 100% of
+  the chroma the hue can have at that tone, never above 97 (the most saturated of the palette). Calibrated against
+  the palette: the ends have 27 to 93 of chroma, the palette 29 to 97. A color that is not on the sliders (the palette
+  ones have other tones) puts them at the closest position and stays exactly as it is until a slider is moved.
+- `SossoldiIconPicker` / `showSossoldiIconPicker`: tabs (one icon per group, scrolling) and the grid of the
+  selected group, for accounts and categories. `CategoryIcons.groups` has the groups of the Phosphor library
+  (Finance, Commerce, Map as travel, Health, People, Nature with Weather, Games, Media, Office, Communication,
+  Objects; an icon in several stays in the first) without Arrows, System, Editor, Development, Design and Brand,
+  and without math symbols, digits and payment logos: about 990 icons. To drop or move one, edit
+  `category_icons.dart`.
+
+## Category row
+`SossoldiCategoryItem` toggles its subcategories on a tap of the whole row (Figma Default / Open). With `onRowTap` the
+row does something else (edit) and only the caret opens and closes the list (added for the onboarding, Figma 13:3685).
+
 ## To be completed
 - Mapping of the real tokens (after importing the variables from Figma)
 - Full component list (after the components page in the linked Figma file)

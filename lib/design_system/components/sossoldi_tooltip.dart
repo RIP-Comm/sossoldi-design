@@ -43,10 +43,12 @@ class SossoldiTooltip extends StatelessWidget {
     final colors = context.colors;
     final bubble = Container(
       padding: const EdgeInsets.all(SossoldiSpacing.m),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiRadius.xs),
-        boxShadow: SossoldiShadows.sm,
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.xs),
+        ),
+        shadows: SossoldiShadows.sm,
       ),
       child: Text(
         message,

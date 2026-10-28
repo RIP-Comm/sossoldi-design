@@ -249,6 +249,16 @@ class CategoryItemUseCase extends StatelessWidget {
             subcategories: subs,
             initiallyExpanded: true,
           ),
+          // Onboarding: the row opens the category, only the caret toggles.
+          SossoldiCategoryItem(
+            leading: _icon(context),
+            name: 'Housing',
+            subtitle: 'Budget: 130€, Monthly',
+            subcategories: subs,
+            onRowTap: () {},
+            expandSemanticLabel: 'Show subcategories',
+            collapseSemanticLabel: 'Hide subcategories',
+          ),
           SossoldiCategoryItem.suggested(
             leading: _icon(context),
             name: 'Travel',

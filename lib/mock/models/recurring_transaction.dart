@@ -19,8 +19,8 @@ extension RecurrenceStep on RecurrenceFrequency {
   DateTime step(DateTime from, int steps, {int? anchorDay}) {
     final day = anchorDay ?? from.day;
     return switch (this) {
-      RecurrenceFrequency.weekly => from.add(Duration(days: 7 * steps)),
-      RecurrenceFrequency.biweekly => from.add(Duration(days: 14 * steps)),
+      RecurrenceFrequency.weekly => addDays(from, 7 * steps),
+      RecurrenceFrequency.biweekly => addDays(from, 14 * steps),
       RecurrenceFrequency.monthly => addMonths(from, steps, day: day),
       RecurrenceFrequency.bimonthly => addMonths(from, 2 * steps, day: day),
       RecurrenceFrequency.quarterly => addMonths(from, 3 * steps, day: day),
@@ -34,7 +34,7 @@ enum RecurringStatus { active, paused }
 
 @immutable
 class RecurringTransaction {
-  const RecurringTransaction({
+  RecurringTransaction({
     required this.id,
     required this.type,
     required this.amount,
@@ -47,7 +47,8 @@ class RecurringTransaction {
     this.toAccountId,
     this.categoryId,
     this.subcategoryId,
-  });
+    int? anchorDay,
+  }) : anchorDay = anchorDay ?? nextDate.day;
 
   final String id;
   final TransactionType type;
@@ -58,6 +59,11 @@ class RecurringTransaction {
 
   /// Next occurrence, always after today.
   final DateTime nextDate;
+
+  /// Day of the month the monthly-based frequencies keep (a recurrence on
+  /// the 31st falls on the last day of shorter months, but stays on the 31st
+  /// the rest of the time). Defaults to the day of [nextDate].
+  final int anchorDay;
   final RecurringStatus status;
   final String accountId;
 
@@ -65,4 +71,26 @@ class RecurringTransaction {
   final String? toAccountId;
   final String? categoryId;
   final String? subcategoryId;
+
+  RecurringTransaction copyWith({
+    double? amount,
+    RecurrenceFrequency? frequency,
+    DateTime? nextDate,
+    RecurringStatus? status,
+    int? anchorDay,
+  }) => RecurringTransaction(
+    id: id,
+    type: type,
+    amount: amount ?? this.amount,
+    currency: currency,
+    description: description,
+    frequency: frequency ?? this.frequency,
+    nextDate: nextDate ?? this.nextDate,
+    status: status ?? this.status,
+    accountId: accountId,
+    toAccountId: toAccountId,
+    categoryId: categoryId,
+    subcategoryId: subcategoryId,
+    anchorDay: anchorDay ?? this.anchorDay,
+  );
 }

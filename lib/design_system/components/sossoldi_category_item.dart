@@ -33,6 +33,9 @@ class SossoldiCategoryItem extends StatefulWidget {
     this.subcategories = const [],
     this.initiallyExpanded = false,
     this.onTap,
+    this.onRowTap,
+    this.expandSemanticLabel,
+    this.collapseSemanticLabel,
   }) : onAdd = null,
        addSemanticLabel = null;
 
@@ -46,7 +49,10 @@ class SossoldiCategoryItem extends StatefulWidget {
     this.subtitle,
   }) : subcategories = const [],
        initiallyExpanded = false,
-       onTap = null;
+       onTap = null,
+       onRowTap = null,
+       expandSemanticLabel = null,
+       collapseSemanticLabel = null;
 
   final String name;
 
@@ -60,6 +66,16 @@ class SossoldiCategoryItem extends StatefulWidget {
 
   /// Tap on a category without subcategories.
   final VoidCallback? onTap;
+
+  /// Tap on the row of a category that has subcategories, when it must do
+  /// something else than open them (e.g. edit the category): then only the
+  /// caret opens and closes the list. Not in Figma's Default / Open types,
+  /// where the whole row toggles; added for the onboarding (node 13:3685).
+  final VoidCallback? onRowTap;
+
+  /// Screen reader labels of the caret when [onRowTap] is set.
+  final String? expandSemanticLabel;
+  final String? collapseSemanticLabel;
   final VoidCallback? onAdd;
   final String? addSemanticLabel;
 
@@ -76,6 +92,9 @@ class _SossoldiCategoryItemState extends State<SossoldiCategoryItem> {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
+    final caretOnly = widget.onRowTap != null && _hasSubitems;
+    void toggle() => setState(() => _expanded = !_expanded);
+
     Widget? trailing;
     if (widget.onAdd != null) {
       trailing = SossoldiIconButton(
@@ -85,7 +104,7 @@ class _SossoldiCategoryItemState extends State<SossoldiCategoryItem> {
         onPressed: widget.onAdd,
       );
     } else if (_hasSubitems) {
-      trailing = Padding(
+      final caret = Padding(
         padding: const EdgeInsets.all(2),
         child: Icon(
           _expanded
@@ -95,6 +114,18 @@ class _SossoldiCategoryItemState extends State<SossoldiCategoryItem> {
           color: colors.textHigh,
         ),
       );
+      trailing = caretOnly
+          ? SossoldiTappable(
+              onTap: toggle,
+              semanticLabel: _expanded
+                  ? widget.collapseSemanticLabel
+                  : widget.expandSemanticLabel,
+              child: Padding(
+                padding: const EdgeInsets.all(SossoldiSpacing.s),
+                child: caret,
+              ),
+            )
+          : caret;
     }
 
     final header = _Row(
@@ -102,13 +133,15 @@ class _SossoldiCategoryItemState extends State<SossoldiCategoryItem> {
       name: widget.name,
       subtitle: widget.subtitle,
       trailing: trailing,
-      onTap: _hasSubitems
-          ? () => setState(() => _expanded = !_expanded)
+      onTap: caretOnly
+          ? widget.onRowTap
+          : _hasSubitems
+          ? toggle
           : widget.onTap,
-      expanded: _hasSubitems ? _expanded : null,
+      expanded: _hasSubitems && !caretOnly ? _expanded : null,
     );
 
-    return ClipRRect(
+    return ClipRSuperellipse(
       borderRadius: BorderRadius.circular(SossoldiRadius.s),
       child: ColoredBox(
         color: colors.surfaceHigh,
@@ -123,9 +156,11 @@ class _SossoldiCategoryItemState extends State<SossoldiCategoryItem> {
                 Padding(
                   padding: const EdgeInsets.all(SossoldiSpacing.xs),
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: ShapeDecoration(
                       color: colors.surfaceMed,
-                      borderRadius: BorderRadius.circular(SossoldiRadius.s),
+                      shape: RoundedSuperellipseBorder(
+                        borderRadius: BorderRadius.circular(SossoldiRadius.s),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,

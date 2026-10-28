@@ -23,6 +23,11 @@ class SemanticColorsUseCase extends StatelessWidget {
             ColorSwatchTile(name: 'low', color: c.surfaceLow),
             ColorSwatchTile(name: 'med', color: c.surfaceMed),
             ColorSwatchTile(name: 'high', color: c.surfaceHigh),
+            ColorSwatchTile(name: 'selected', color: c.selectedSurface),
+            ColorSwatchTile(
+              name: 'selected primary',
+              color: c.selectedPrimarySurface,
+            ),
           ],
         ),
         FoundationSection(

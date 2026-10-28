@@ -18,10 +18,12 @@ class SossoldiModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(SossoldiSpacing.s),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: context.colors.surfaceHigh,
-        borderRadius: BorderRadius.circular(SossoldiRadius.m),
-        boxShadow: SossoldiShadows.lg,
+        shape: RoundedSuperellipseBorder(
+          borderRadius: BorderRadius.circular(SossoldiRadius.m),
+        ),
+        shadows: SossoldiShadows.lg,
       ),
       child: child,
     );

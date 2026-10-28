@@ -32,11 +32,13 @@ class SossoldiUnitNavigator extends StatelessWidget {
       child: Container(
         height: 32,
         padding: const EdgeInsets.symmetric(horizontal: SossoldiSpacing.s),
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: colors.surfaceHigh,
-          borderRadius: BorderRadius.circular(SossoldiRadius.s),
-          border: Border.all(
-            color: selected ? colors.primary.stroke : colors.strokePlus1,
+          shape: RoundedSuperellipseBorder(
+            borderRadius: BorderRadius.circular(SossoldiRadius.s),
+            side: BorderSide(
+              color: selected ? colors.primary.stroke : colors.strokePlus1,
+            ),
           ),
         ),
         child: Row(

@@ -17,7 +17,28 @@ the official repository.
 - Screens: almost all designed in Figma
 - Design system: derived from Moon Design (components detached and customized), being imported
 - Code: design system done (tokens, light/dark theme, typography, category colors and all
-  Figma components, each with a widgetbook entry); mock database done; screens not started yet
+  Figma components, each with a widgetbook entry); mock database done; app shell (tabs, bottom bar) and Dashboard
+  done in view and edit mode (long press, wiggle, drag to reorder, remove, resize, add-widget sheet) with two
+  widgets (Monthly balance and Latest transactions, sizes S/M/L; layout in memory only);
+  Finance page with its four tabs and Transactions > List (search, filters, grouped by day, pagination)
+  and > Charts (totals, donut, breakdown over time, hand-drawn with CustomPainter, no chart library);
+  and Budget (overall, segmented bar, list, budget page with edit and delete, all in memory);
+  and Recurring (month selector, calendar with dots, list by month or day, recurring page with
+  edit, pause and delete, all in memory) and Overview (digest, accounts with their change, upcoming
+  recurrences, cash flow, budget status; Finance opens on it);
+  Investments page (header with "Updated X ago", pull-to-refresh, tabs) with its Overview (digest,
+  portfolio value card, market value chart by period, asset allocation) and Positions (search and
+  filters, list with mini charts, breakdown by region or sector, position page with price chart, position,
+  asset info and operations) and Movements (search and filters, expected dividends apart, one list by day,
+  form to add a movement, page of a movement with edit and delete; the "+" of the bar opens the form in
+  Investments); Onboarding: splash, welcome with the choice of language (changes the whole app), Step 1
+  (main currency and accounts) with the account form (icon tabs and grid, hue and saturation sliders), Step 2
+  (categories, subcategories and budgets, with the suggested categories, the category, subcategory and budget forms,
+  drafts saved with the check) and Step 3 (assets as opening buys: asset row, asset form, skip or "Start tracking", which opens the app on Home with the new user's data) on a new-user empty repository; the import is a placeholder; a new user with little data and no transactions is handled by every screen (a neutral empty state where Figma has none);
+  the budgets have the flags "count for overall budget" (the Overall budget of the Budget tab sums only those) and
+  "limit reach alert" (stored only); Settings has the dark-mode switch, language, currency and,
+  as "prototype", "Restart onboarding" and "Load demo data";
+  Add transaction is a placeholder
 
 ## Project context
 Project context lives in `.claude/rules/` and loads automatically every session:
@@ -34,10 +55,30 @@ Project context lives in `.claude/rules/` and loads automatically every session:
   seeds). Screens read data **only** through `MockRepository` (`lib/mock/mock_repository.dart`),
   never from `lib/mock/data/` directly. Details in `.claude/rules/mock-data.md`.
 - Folder structure:
+  - `lib/app/` → app-wide pieces: `app.dart` (MaterialApp, theme, l10n), `app_shell.dart`
+    (tabs + bottom bar), `app_state.dart` / `app_scope.dart` (repository and the global
+    "hide amounts" switch and the theme mode: `context.repository`, `context.hideAmounts`),
+    `placeholder_screen.dart`
   - `lib/design_system/` → `tokens/`, `theme/`, `components/`
-  - `lib/features/` → `onboarding/`, `dashboard/`, `finance/`, `investments/`, `add_transaction/`, `settings/`
+  - `lib/features/` → `onboarding/` (`onboarding_flow.dart` with its own Navigator: splash, welcome, step 1, step 2
+    `onboarding_categories_screen.dart`, step 3 `onboarding_assets_screen.dart`), `accounts/` (the form of an account and its
+    controller, shared by the onboarding and, later, Settings), `categories/` (the forms of a category and of a
+    subcategory with their controller, shared with Settings later), `budgets/` (the form of a budget, a component
+    of its own for Settings > Budgets too), `assets/` (the form of an asset of the onboarding and its controller), `dashboard/`, `finance/`, `investments/`, `add_transaction/`, `settings/`
+    (Dashboard: `model/` layout and geometry (pure Dart), `dashboard_controller.dart` (layout +
+    edit mode, in memory), `dashboard_grid.dart` (animated grid, wiggle, edit controls),
+    `add_widget/` (bottom sheet: list, then S/M/L preview), `registry/` available widgets,
+    `widgets/` one card + one data-wiring file per widget; to add a widget, register it in
+    `registry/dashboard_widget_registry.dart`; Investments: `investments_controller.dart` (tab, period, allocation; pull-to-refresh), `investments_screen.dart`,
+    `overview/` the Overview tab, `positions/` the Positions tab and the position page, `movements/` the Movements tab, the form and the page of a
+    movement; Finance: `finance_controller.dart` (tab, view, search,
+    filters and page, kept by the shell so they survive tab changes), `finance_screen.dart`,
+    `transactions/` the list, active filter chips and the filters sheet, `charts/` the Charts view with its
+    own controller and filters sheet, `budget/` the Budget tab and the page of one budget, `overview/` the Overview tab, `recurring/` the Recurring tab (calendar, list)
+    and the page of one recurring transaction)
   - `lib/mock/` → mock database: `models/`, `data/`, `mock_repository.dart`
-  - `lib/l10n/` → localized strings
+  - `lib/l10n/` → localized strings: edit `app_en.arb` / `app_it.arb`, then run `flutter gen-l10n`
+    (output in `lib/l10n/generated/`); use `context.l10n.<key>`
   - `widgetbook/` → design system component gallery
 - Naming: files in snake_case, classes in PascalCase, one public widget per file.
 - Commands (Flutter SDK in `~/development/flutter`; if `flutter` is not on PATH, use
@@ -48,8 +89,9 @@ Project context lives in `.claude/rules/` and loads automatically every session:
   - Format: `dart format lib test widgetbook/lib`
   - Widgetbook (separate app in `widgetbook/`, depends on this package by path):
     `cd widgetbook && flutter run -d chrome`
-- Fonts: DM Sans is bundled in `assets/fonts/dm_sans/` (OFL). Text styles reference it with
-  `package: 'sossoldi'` so they also work from widgetbook.
+- Fonts: DM Sans is bundled in `assets/fonts/dm_sans/` (OFL), family `DMSans`. The widgetbook app declares the
+  same files through the link `widgetbook/assets/fonts/dm_sans` in its own pubspec: keep the two font lists in sync.
+- Images: `assets/images/` (the vault in SVG, the five pieces of the logo in `logo/`), drawn with `flutter_svg`.
 - Icons: Phosphor (`phosphoricons_flutter`; `phosphor_flutter` is abandoned and does not compile on Dart 3.x).
 
 ## Working rules
@@ -69,3 +111,7 @@ Project context lives in `.claude/rules/` and loads automatically every session:
 8. Offline-first: core features never depend on online services. Online features
    (asset prices, exchange rates, brokers) are simulated with mock data in the prototype.
 9. If you reuse code from the `moon_design` package (MIT), keep the attribution in the file header.
+10. Don't wait for approval of a plan: when the request is clear and consistent with Figma and
+    these rules, go ahead and implement it. Stop and ask only when something is ambiguous,
+    contradicts Figma or the rules, or needs a decision that isn't covered (rules 6 and 7 still apply).
+    List any minor assumption you made in the final summary.

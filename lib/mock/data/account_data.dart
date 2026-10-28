@@ -2,13 +2,14 @@
 
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../../design_system/tokens/category_colors.dart';
 import '../models/account.dart';
 
 const checkingAccountId = 'acc_checking';
 const savingsAccountId = 'acc_savings';
 const brokerAccountId = 'acc_broker';
 
-const mockAccounts = [
+final mockAccounts = [
   Account(
     id: checkingAccountId,
     name: 'Everyday account',
@@ -16,7 +17,7 @@ const mockAccounts = [
     type: AccountType.checking,
     initialBalance: 3500,
     currency: 'EUR',
-    colorIndex: 25,
+    color: CategoryColors.all[25],
     icon: PhosphorIconsRegular.bank,
   ),
   Account(
@@ -26,7 +27,7 @@ const mockAccounts = [
     type: AccountType.savings,
     initialBalance: 12000,
     currency: 'EUR',
-    colorIndex: 12,
+    color: CategoryColors.all[12],
     icon: PhosphorIconsRegular.piggyBank,
   ),
   Account(
@@ -36,7 +37,7 @@ const mockAccounts = [
     type: AccountType.broker,
     initialBalance: 1500,
     currency: 'EUR',
-    colorIndex: 28,
+    color: CategoryColors.all[28],
     icon: PhosphorIconsRegular.chartLineUp,
   ),
 ];

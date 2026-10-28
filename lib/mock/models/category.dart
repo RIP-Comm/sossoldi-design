@@ -13,7 +13,7 @@ class Category {
     required this.type,
     required this.name,
     required this.icon,
-    required this.colorIndex,
+    required this.color,
   });
 
   final String id;
@@ -21,8 +21,19 @@ class Category {
   final String name;
   final IconData icon;
 
-  /// Index into [CategoryColors.all].
-  final int colorIndex;
+  /// A color of [CategoryColors.all] or a free one from the color picker.
+  final CategoryColor color;
 
-  CategoryColor get color => CategoryColors.all[colorIndex];
+  Category copyWith({
+    CategoryType? type,
+    String? name,
+    IconData? icon,
+    CategoryColor? color,
+  }) => Category(
+    id: id,
+    type: type ?? this.type,
+    name: name ?? this.name,
+    icon: icon ?? this.icon,
+    color: color ?? this.color,
+  );
 }
