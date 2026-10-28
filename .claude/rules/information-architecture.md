@@ -35,7 +35,7 @@ Settings below). The import from another app is still a placeholder.
      give the color: hue, and saturation (its track follows the hue). Colors are HCT with a fixed tone, so they all
      look as light as the others; the ends stay in the family of the palette of the categories. In edit mode a red
      "Delete account" (with a confirmation) closes the form (not in Figma, added).
-4. **Step 2 of 3 — categories, subcategories and budgets.** Heading "Step 2 of 3" with a back arrow at its left (goes
+4. **Step 2 of 3 — categories, subcategories and budgets.** Heading "Step 2 of 3" with a "< Back" button on its own row above the title, always at the left (goes
    to Step 1, added) and a subtitle. "Your categories":
    with none, a card "Create your first category" with "Create category"; with some, two lists "Expenses" and "Income" (as in "Suggested", a group is shown only when it has
    categories), each in order of creation (icon and color, name, second line "Budget: 130€, Monthly" when it has budgets, several separated by " · "),
@@ -67,7 +67,7 @@ Settings below). The import from another app is still a placeholder.
      main currency), "Limit reach alert" (off by default, only stored), "Count for overall budget" (**on by default,
      differs from Figma**). "New budget" ("Edit budget") with a red "Delete budget" in edit mode.
    Back goes to Step 1 keeping the data; "Next step" opens a placeholder of Step 3.
-5. **Step 3 of 3 — the assets the user already holds** (can be skipped). Heading "Step 3 of 3" with the back arrow
+5. **Step 3 of 3 — the assets the user already holds** (can be skipped). Heading "Step 3 of 3" with the "< Back" button on its own row above it
    (to Step 2, keeping the data) and a subtitle. "Your assets": with none, a card "No asset yet" with "Add asset" and,
    at the bottom, the link "Skip this step >"; with some, a list (asset row of the design system: avatar with the
    initial, type tag, name, "ticker – ISIN", **value = quantity × PMC converted to the main currency, not the market

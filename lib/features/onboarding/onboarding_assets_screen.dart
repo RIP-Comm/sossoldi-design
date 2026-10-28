@@ -15,6 +15,7 @@ import '../../mock/mock_repository.dart';
 import '../../mock/models/holding.dart';
 import '../assets/asset_form_sheet.dart';
 import '../investments/investments_texts.dart' show positionKindLabel;
+import 'onboarding_back_button.dart';
 
 class OnboardingAssetsScreen extends StatelessWidget {
   const OnboardingAssetsScreen({super.key});
@@ -48,26 +49,13 @@ class OnboardingAssetsScreen extends StatelessWidget {
                           Column(
                             spacing: SossoldiSpacing.xs,
                             children: [
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: SossoldiIconButton(
-                                      icon: PhosphorIconsRegular.arrowLeft,
-                                      semanticLabel: l10n.back,
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                    ),
-                                  ),
-                                  Text(
-                                    l10n.onboardingStep(3, 3),
-                                    textAlign: TextAlign.center,
-                                    style: typography.titleMedium.copyWith(
-                                      color: colors.textHigh,
-                                    ),
-                                  ),
-                                ],
+                              const OnboardingBackButton(),
+                              Text(
+                                l10n.onboardingStep(3, 3),
+                                textAlign: TextAlign.center,
+                                style: typography.titleMedium.copyWith(
+                                  color: colors.textHigh,
+                                ),
                               ),
                               Text(
                                 l10n.onboardingStep3Subtitle,

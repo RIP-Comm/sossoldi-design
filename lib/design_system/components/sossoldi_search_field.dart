@@ -45,6 +45,10 @@ class _SossoldiSearchFieldState extends State<SossoldiSearchField> {
   final _fieldKey = GlobalKey();
   final _tapRegionGroup = Object();
 
+  /// A pointer is down on the results. On the web the field loses focus at
+  /// that moment, and the results must not vanish before the tap ends.
+  bool _pressingResults = false;
+
   TextEditingController get _controller =>
       widget.controller ?? (_ownController ??= TextEditingController());
 
@@ -67,7 +71,8 @@ class _SossoldiSearchFieldState extends State<SossoldiSearchField> {
 
   void _sync() {
     if (!mounted) return;
-    final show = _focusNode.hasFocus && widget.results.isNotEmpty;
+    final show =
+        (_focusNode.hasFocus || _pressingResults) && widget.results.isNotEmpty;
     if (show != _overlay.isShowing) {
       show ? _overlay.show() : _overlay.hide();
     }
@@ -171,23 +176,36 @@ class _SossoldiSearchFieldState extends State<SossoldiSearchField> {
         alignment: Alignment.topLeft,
         child: TapRegion(
           groupId: _tapRegionGroup,
-          child: SizedBox(
-            width: box?.size.width,
-            child: SossoldiDropdown(
-              options: [
-                for (final (i, result) in widget.results.indexed)
-                  SossoldiMenuItem(
-                    label: result,
-                    onTap: () {
-                      widget.onResultTap?.call(i);
-                      _focusNode.unfocus();
-                    },
-                  ),
-              ],
+          child: Listener(
+            onPointerDown: (_) => _pressingResults = true,
+            onPointerUp: (_) => _releaseResults(),
+            onPointerCancel: (_) => _releaseResults(),
+            child: SizedBox(
+              width: box?.size.width,
+              child: SossoldiDropdown(
+                options: [
+                  for (final (i, result) in widget.results.indexed)
+                    SossoldiMenuItem(
+                      label: result,
+                      onTap: () {
+                        widget.onResultTap?.call(i);
+                        _focusNode.unfocus();
+                      },
+                    ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _releaseResults() {
+    // After the tap has been handled.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _pressingResults = false;
+      _sync();
+    });
   }
 }

@@ -17,6 +17,7 @@ import '../../mock/models/suggested_category.dart';
 import '../categories/category_form_sheet.dart';
 import '../categories/category_texts.dart';
 import 'onboarding_assets_screen.dart';
+import 'onboarding_back_button.dart';
 
 class OnboardingCategoriesScreen extends StatelessWidget {
   const OnboardingCategoriesScreen({super.key});
@@ -50,26 +51,13 @@ class OnboardingCategoriesScreen extends StatelessWidget {
                           Column(
                             spacing: SossoldiSpacing.xs,
                             children: [
-                              Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: SossoldiIconButton(
-                                      icon: PhosphorIconsRegular.arrowLeft,
-                                      semanticLabel: l10n.back,
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                    ),
-                                  ),
-                                  Text(
-                                    l10n.onboardingStep(2, 3),
-                                    textAlign: TextAlign.center,
-                                    style: typography.titleMedium.copyWith(
-                                      color: colors.textHigh,
-                                    ),
-                                  ),
-                                ],
+                              const OnboardingBackButton(),
+                              Text(
+                                l10n.onboardingStep(2, 3),
+                                textAlign: TextAlign.center,
+                                style: typography.titleMedium.copyWith(
+                                  color: colors.textHigh,
+                                ),
                               ),
                               Text(
                                 l10n.onboardingStep2Subtitle,

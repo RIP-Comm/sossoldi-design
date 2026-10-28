@@ -299,6 +299,13 @@ class _AssetFormSheetState extends State<_AssetFormSheet> {
               color: colors.surfaceHigh,
               shape: RoundedSuperellipseBorder(
                 borderRadius: BorderRadius.circular(SossoldiRadius.s),
+              ),
+            ),
+            // The border over the row: the row's own background would hide
+            // its inner half.
+            foregroundDecoration: ShapeDecoration(
+              shape: RoundedSuperellipseBorder(
+                borderRadius: BorderRadius.circular(SossoldiRadius.s),
                 side: BorderSide(color: colors.strokePlus1),
               ),
             ),

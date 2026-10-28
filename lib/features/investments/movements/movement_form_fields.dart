@@ -313,6 +313,13 @@ class _MovementFormFieldsState extends State<MovementFormFields> {
               color: context.colors.surfaceHigh,
               shape: RoundedSuperellipseBorder(
                 borderRadius: BorderRadius.circular(SossoldiRadius.s),
+              ),
+            ),
+            // The border over the row: the row's own background would hide
+            // its inner half.
+            foregroundDecoration: ShapeDecoration(
+              shape: RoundedSuperellipseBorder(
+                borderRadius: BorderRadius.circular(SossoldiRadius.s),
                 side: BorderSide(color: context.colors.strokePlus1),
               ),
             ),
