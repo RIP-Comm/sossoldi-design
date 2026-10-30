@@ -12,18 +12,28 @@ import 'sossoldi_list.dart';
 
 class SossoldiDropdown extends StatelessWidget {
   /// Options list (Figma Custom=False), usually SossoldiMenuItem rows.
-  const SossoldiDropdown({super.key, required List<Widget> this.options})
-    : child = null;
+  const SossoldiDropdown({
+    super.key,
+    required List<Widget> this.options,
+    this.maxHeight,
+  }) : child = null;
 
   /// Free content (Figma Custom=True).
-  const SossoldiDropdown.custom({super.key, required Widget this.child})
-    : options = null;
+  const SossoldiDropdown.custom({
+    super.key,
+    required Widget this.child,
+    this.maxHeight,
+  }) : options = null;
 
   final List<Widget>? options;
   final Widget? child;
 
+  /// Not in Figma: the most the panel can be tall; the content scrolls inside.
+  final double? maxHeight;
+
   @override
   Widget build(BuildContext context) {
+    final content = options != null ? SossoldiList(children: options!) : child;
     return Container(
       padding: options != null
           ? const EdgeInsets.all(SossoldiSpacing.s)
@@ -35,7 +45,12 @@ class SossoldiDropdown extends StatelessWidget {
         ),
         shadows: SossoldiShadows.lg,
       ),
-      child: options != null ? SossoldiList(children: options!) : child,
+      constraints: maxHeight == null
+          ? null
+          : BoxConstraints(maxHeight: maxHeight!),
+      child: maxHeight == null
+          ? content
+          : SingleChildScrollView(child: content),
     );
   }
 }

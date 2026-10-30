@@ -155,29 +155,58 @@ class _SossoldiSelectState<T> extends State<SossoldiSelect<T>> {
   Widget _buildOptions(BuildContext context) {
     // Options list is as wide as the field.
     final box = _fieldKey.currentContext?.findRenderObject() as RenderBox?;
+    // Room on screen above and below the field (not under the keyboard or the
+    // system bars): it opens where there is more, never taller than that, and
+    // scrolls inside.
+    final media = MediaQuery.of(context);
+    const gap = SossoldiSpacing.s;
+    var below = double.infinity;
+    var above = 0.0;
+    if (box != null && box.attached) {
+      final top = box.localToGlobal(Offset.zero).dy;
+      final bottom = top + box.size.height;
+      final screenBottom =
+          media.size.height - media.viewInsets.bottom - media.padding.bottom;
+      below = screenBottom - bottom - gap * 2;
+      above = top - media.padding.top - gap * 2;
+    }
+    final wanted = widget.items.length * 48.0 + gap * 2;
+    final up = below < wanted && above > below;
+    final maxHeight = (up ? above : below).clamp(96.0, double.infinity);
+    final panel = TapRegion(
+      groupId: _tapRegionGroup,
+      child: SizedBox(
+        width: box?.size.width,
+        child: SossoldiDropdown(
+          maxHeight: maxHeight.isFinite ? maxHeight : null,
+          options: [
+            for (final item in widget.items)
+              SossoldiMenuItem(
+                label: item.label,
+                selected: item.value == widget.value,
+                enabled: item.enabled,
+                onTap: () => _select(item.value),
+              ),
+          ],
+        ),
+      ),
+    );
     return CompositedTransformFollower(
       link: _link,
-      targetAnchor: Alignment.bottomLeft,
-      offset: const Offset(0, SossoldiSpacing.s),
+      targetAnchor: up ? Alignment.topLeft : Alignment.bottomLeft,
+      offset: Offset(0, up ? -gap : gap),
+      // Align loosens the tight size the overlay gives and shrinks to the
+      // panel; opening upward the panel is moved up by its own height.
       child: Align(
         alignment: Alignment.topLeft,
-        child: TapRegion(
-          groupId: _tapRegionGroup,
-          child: SizedBox(
-            width: box?.size.width,
-            child: SossoldiDropdown(
-              options: [
-                for (final item in widget.items)
-                  SossoldiMenuItem(
-                    label: item.label,
-                    selected: item.value == widget.value,
-                    enabled: item.enabled,
-                    onTap: () => _select(item.value),
-                  ),
-              ],
-            ),
-          ),
-        ),
+        widthFactor: 1,
+        heightFactor: 1,
+        child: up
+            ? FractionalTranslation(
+                translation: const Offset(0, -1),
+                child: panel,
+              )
+            : panel,
       ),
     );
   }

@@ -216,6 +216,26 @@ void main() {
     },
   );
 
+  testWidgets('the frequency list stays on screen and scrolls', (tester) async {
+    final repo = MockRepository.newUser(now: _now);
+    repo.addAccount(draftOf('Only', 'EUR'));
+    await _pump(tester, repository: repo);
+    await _open(tester);
+    FocusManager.instance.primaryFocus?.unfocus();
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byType(SossoldiSwitch));
+    await tester.tap(find.byType(SossoldiSwitch));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Monthly'));
+    await tester.tap(find.text('Monthly'));
+    await tester.pumpAndSettle();
+    final panel = tester.getRect(find.byType(SossoldiDropdown));
+    final screen = tester.view.physicalSize;
+    expect(panel.top, greaterThanOrEqualTo(0));
+    expect(panel.bottom, lessThanOrEqualTo(screen.height));
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('Italian and dark: long names and big amounts do not overflow', (
     tester,
   ) async {
