@@ -33,9 +33,7 @@ Future<bool> showAddSheet(
   final view = View.of(context);
   final safeBottom = view.padding.bottom / view.devicePixelRatio;
   final bottomMargin =
-      math.max(safeBottom, SossoldiSpacing.l) +
-      SossoldiNavbar.height +
-      SossoldiSpacing.l;
+      math.max(safeBottom, SossoldiSpacing.l) + SossoldiNavbar.height;
   // Made once, here: the builder runs again when the keyboard comes and goes,
   // and new controllers would lose what was typed.
   final transaction = TransactionFormController(

@@ -55,62 +55,69 @@ class SossoldiNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    return Row(
-      spacing: SossoldiSpacing.xl,
-      children: [
-        Expanded(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: _maxPillWidth),
-              child: Container(
-                height: height,
-                padding: const EdgeInsets.all(2),
-                // Not in Figma: in dark mode the shadow is invisible and the
-                // bar (surfaceHigh) is close to the background, so a thin
-                // border marks its edge. Drawn on top so it takes no space.
-                // Light mode is unchanged.
-                foregroundDecoration:
-                    Theme.of(context).brightness == Brightness.dark
-                    ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(SossoldiRadius.max),
-                        border: Border.all(color: colors.strokePlus1),
-                      )
-                    : null,
-                decoration: BoxDecoration(
-                  color: colors.surfaceHigh,
-                  borderRadius: BorderRadius.circular(SossoldiRadius.max),
-                  boxShadow: SossoldiShadows.m,
-                ),
-                child: Row(
-                  children: [
-                    for (final (i, item) in items.indexed)
-                      Expanded(
-                        child: _Tab(
-                          item: item,
-                          selected: i == selectedIndex,
-                          onTap: () => onChanged(i),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+    final pill = Expanded(
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: _maxPillWidth),
+          child: Container(
+            height: height,
+            padding: const EdgeInsets.all(2),
+            // Not in Figma: in dark mode the shadow is invisible and the
+            // bar (surfaceHigh) is close to the background, so a thin
+            // border marks its edge. Drawn on top so it takes no space.
+            // Light mode is unchanged.
+            foregroundDecoration:
+                Theme.of(context).brightness == Brightness.dark
+                ? BoxDecoration(
+                    borderRadius: BorderRadius.circular(SossoldiRadius.max),
+                    border: Border.all(color: colors.strokePlus1),
+                  )
+                : null,
+            decoration: BoxDecoration(
+              color: colors.surfaceHigh,
+              borderRadius: BorderRadius.circular(SossoldiRadius.max),
+              boxShadow: SossoldiShadows.m,
+            ),
+            child: Row(
+              children: [
+                for (final (i, item) in items.indexed)
+                  Expanded(
+                    child: _Tab(
+                      item: item,
+                      selected: i == selectedIndex,
+                      onTap: () => onChanged(i),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
-        SossoldiTappable(
-          onTap: onAction,
-          semanticLabel: actionSemanticLabel,
-          child: Container(
-            width: height,
-            height: height,
-            decoration: BoxDecoration(
-              color: colors.primary.surface,
-              shape: BoxShape.circle,
-              boxShadow: SossoldiShadows.m,
-            ),
-            child: Icon(actionIcon, size: 24, color: colors.primary.onSurface),
-          ),
+      ),
+    );
+    final action = SossoldiTappable(
+      onTap: onAction,
+      semanticLabel: actionSemanticLabel,
+      child: Container(
+        width: height,
+        height: height,
+        decoration: BoxDecoration(
+          color: colors.primary.surface,
+          shape: BoxShape.circle,
+          // Deeper than the bar: on the blue the light one is lost.
+          boxShadow: SossoldiShadows.xl,
+        ),
+        child: Icon(actionIcon, size: 24, color: colors.primary.onSurface),
+      ),
+    );
+    // The bar is painted over the shadow of the button: a Row would paint the
+    // button last, so the two are stacked in the order that gives that.
+    return Stack(
+      children: [
+        Align(alignment: Alignment.centerRight, child: action),
+        Padding(
+          padding: const EdgeInsets.only(right: height + SossoldiSpacing.xl),
+          child: Row(children: [pill]),
         ),
       ],
     );

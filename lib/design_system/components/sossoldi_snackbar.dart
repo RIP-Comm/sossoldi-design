@@ -66,11 +66,11 @@ class SossoldiSnackbar extends StatelessWidget {
         color: colors.surfaceHigh,
         shape: RoundedSuperellipseBorder(
           borderRadius: BorderRadius.circular(SossoldiRadius.s),
-          // Not in Figma: the shadow is hard to see, a border marks the edge
-          // in light and dark, as in the bottom bar.
+          // Not in Figma: same shadow as the bottom bar, plus a border that
+          // marks the edge in light and dark.
           side: BorderSide(color: colors.strokePlus1),
         ),
-        shadows: SossoldiShadows.xl,
+        shadows: SossoldiShadows.m,
       ),
       child: Row(
         spacing: SossoldiSpacing.m,
@@ -152,7 +152,7 @@ class SossoldiSnackbar extends StatelessWidget {
 /// [actionLabel] it carries a text action (the snackbar closes when it is
 /// tapped); [messenger] is where to show it when [context] is not the right
 /// place; [bottomMargin] lifts it above something that covers the bottom
-/// (a bar, say).
+/// (a bar, say); it floats 12 above that.
 void showSossoldiSnackbar(
   BuildContext context, {
   required String title,
@@ -171,11 +171,13 @@ void showSossoldiSnackbar(
     SnackBar(
       duration: duration,
       behavior: SnackBarBehavior.floating,
+      // The default clips to the snackbar and cuts its shadow.
+      clipBehavior: Clip.none,
       margin: EdgeInsets.fromLTRB(
         SossoldiSpacing.l,
         0,
         SossoldiSpacing.l,
-        bottomMargin + SossoldiSpacing.s,
+        bottomMargin + SossoldiSpacing.m,
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -194,6 +196,13 @@ void showSossoldiSnackbar(
                 onAction();
               },
       ),
+    ),
+    // Comes in from below and leaves downward fading out, both ease out.
+    snackBarAnimationStyle: AnimationStyle(
+      duration: const Duration(milliseconds: 350),
+      reverseDuration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+      reverseCurve: Curves.easeOut,
     ),
   );
 }
