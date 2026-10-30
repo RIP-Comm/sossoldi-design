@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../theme/sossoldi_colors.dart';
 import '../theme/sossoldi_theme.dart';
 import '../tokens/radius.dart';
 import '../tokens/spacing.dart';
@@ -56,19 +57,27 @@ class SossoldiTabNavigation extends StatelessWidget {
 
 /// Content of one tab in a [SossoldiTabNavigation].
 class SossoldiTabData {
-  const SossoldiTabData.text(String this.label, {this.icon, this.counter})
-    : semanticLabel = null;
+  const SossoldiTabData.text(
+    String this.label, {
+    this.icon,
+    this.counter,
+    this.activeRole,
+  }) : semanticLabel = null;
 
   const SossoldiTabData.icon(
     IconData this.icon, {
     required String this.semanticLabel,
   }) : label = null,
-       counter = null;
+       counter = null,
+       activeRole = null;
 
   final String? label;
   final IconData? icon;
   final String? counter;
   final String? semanticLabel;
+
+  /// Colors of the tab when selected (see [SossoldiTab.activeRole]).
+  final SossoldiColorRole? activeRole;
 
   Widget build({required bool active, required VoidCallback onTap}) {
     if (label == null) {
@@ -83,6 +92,7 @@ class SossoldiTabData {
       label: label!,
       icon: icon,
       counter: counter,
+      activeRole: activeRole,
       active: active,
       onTap: onTap,
     );

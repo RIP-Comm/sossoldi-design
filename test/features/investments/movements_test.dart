@@ -1,9 +1,9 @@
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sossoldi/app/app.dart';
 import 'package:sossoldi/app/app_scope.dart';
 import 'package:sossoldi/app/app_state.dart';
-import 'package:sossoldi/app/placeholder_screen.dart';
 import 'package:sossoldi/design_system/design_system.dart';
 import 'package:sossoldi/features/investments/investments_controller.dart';
 import 'package:sossoldi/features/investments/investments_screen.dart';
@@ -793,7 +793,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('New movement'), findsOneWidget);
       expect(find.text('Apple Inc.'), findsWidgets);
-      await tester.tap(find.text('Cancel'));
+      await tester.tap(find.bySemanticsLabel('Close'));
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(SossoldiButton, 'Sell'));
       await tester.pumpAndSettle();
@@ -842,7 +842,12 @@ void main() {
       await tester.enterText(_field('Quantity'), '4');
       await tester.enterText(_field('Unit price'), '110');
       await tester.pump();
-      await tester.tap(find.text('Add'));
+      await tester.tap(
+        find.descendant(
+          of: find.byType(SossoldiBottomSheetToolbar),
+          matching: find.byIcon(PhosphorIconsRegular.check),
+        ),
+      );
       await tester.pumpAndSettle();
       expect(repo.holdings, isEmpty);
       expect(find.byType(PositionDetailScreen), findsNothing);
@@ -877,8 +882,7 @@ void main() {
         await tester.tap(find.bySemanticsLabel('Add transaction'));
         await tester.pumpAndSettle();
         expect(find.text('New movement'), findsOneWidget, reason: tab);
-        expect(find.byType(PlaceholderScreen), findsNothing);
-        await tester.tap(find.text('Cancel'));
+        await tester.tap(find.bySemanticsLabel('Close'));
         await tester.pumpAndSettle();
       }
       // A buy is what is selected.
@@ -888,11 +892,11 @@ void main() {
       expect(find.text('Unit price'), findsOneWidget);
     });
 
-    testWidgets('elsewhere it is still the placeholder', (tester) async {
+    testWidgets('elsewhere it opens a new transaction', (tester) async {
       await pumpApp(tester);
       await tester.tap(find.bySemanticsLabel('Add transaction'));
       await tester.pumpAndSettle();
-      expect(find.byType(PlaceholderScreen), findsOneWidget);
+      expect(find.text('New transaction'), findsOneWidget);
       expect(find.text('New movement'), findsNothing);
     });
   });

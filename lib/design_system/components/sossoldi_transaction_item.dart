@@ -57,6 +57,9 @@ class SossoldiTransactionItem extends StatelessWidget {
   final bool masked;
   final VoidCallback? onTap;
 
+  static double _lineHeight(TextStyle style) =>
+      (style.fontSize ?? 14) * (style.height ?? 1.2);
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -89,50 +92,64 @@ class SossoldiTransactionItem extends StatelessWidget {
         children: [
           SizedBox.square(dimension: 24, child: Center(child: leading)),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  description,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: typography.labelLarge.copyWith(color: colors.textHigh),
-                ),
-                if (type == SossoldiTransactionType.transfer)
-                  Row(
-                    spacing: SossoldiSpacing.xs,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          account,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: secondary,
+            child: ConstrainedBox(
+              // The height of the two lines, so a row without description is
+              // as tall as one with it.
+              constraints: BoxConstraints(
+                minHeight:
+                    _lineHeight(typography.labelLarge) +
+                    _lineHeight(typography.labelMedium),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Without a description the account alone is centered.
+                  if (description.trim().isNotEmpty)
+                    Text(
+                      description,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: typography.labelLarge.copyWith(
+                        color: colors.textHigh,
+                      ),
+                    ),
+                  if (type == SossoldiTransactionType.transfer)
+                    Row(
+                      spacing: SossoldiSpacing.xs,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            account,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: secondary,
+                          ),
                         ),
-                      ),
-                      Icon(
-                        PhosphorIconsRegular.arrowsLeftRight,
-                        size: 16,
-                        color: colors.primary.text,
-                      ),
-                      Flexible(
-                        child: Text(
-                          toAccount!,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: secondary,
+                        Icon(
+                          PhosphorIconsRegular.arrowsLeftRight,
+                          size: 16,
+                          color: colors.primary.text,
                         ),
-                      ),
-                    ],
-                  )
-                else
-                  Text(
-                    account,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: secondary,
-                  ),
-              ],
+                        Flexible(
+                          child: Text(
+                            toAccount!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: secondary,
+                          ),
+                        ),
+                      ],
+                    )
+                  else
+                    Text(
+                      account,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: secondary,
+                    ),
+                ],
+              ),
             ),
           ),
           Column(

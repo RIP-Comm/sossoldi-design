@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../design_system/design_system.dart';
-import '../features/add_transaction/add_transaction_placeholder_screen.dart';
+import '../features/add_transaction/add_sheet.dart';
+import '../features/add_transaction/add_sheet_draft.dart';
 import '../features/dashboard/dashboard_controller.dart';
 import '../features/dashboard/dashboard_screen.dart';
 import '../features/finance/finance_controller.dart';
 import '../features/finance/finance_screen.dart';
 import '../features/investments/investments_controller.dart';
 import '../features/investments/investments_screen.dart';
-import '../features/investments/movements/movement_form_sheet.dart';
 import '../features/settings/settings_screen.dart';
 import '../l10n/l10n.dart';
 import 'app_scope.dart';
@@ -47,16 +47,17 @@ class _AppShellState extends State<AppShell> {
     super.dispose();
   }
 
-  /// What the "+" of the bar does in each section. Investments opens the form
-  /// of a movement (a buy to start with); the other sections still open the
-  /// placeholder of Add transaction. A selector of what to add (expense,
-  /// income, transfer, investment) will take this place.
+  /// What the "+" of the bar does in each section, always the Add sheet:
+  /// Home and Finance open a new expense (Finance > Recurring with the
+  /// recurrence already on), Investments a new buy. The user can change what
+  /// is being added from the title of the sheet.
   VoidCallback _actionFor(int section) => switch (section) {
-    2 => () => showMovementFormSheet(context),
-    _ => () => _push(
-      const AddTransactionPlaceholderScreen(),
-      fullscreenDialog: true,
+    1 when _finance.tab == FinanceTab.recurring => () => showAddSheet(
+      context,
+      draft: const AddSheetDraft.transaction(recurring: true),
     ),
+    2 => () => showAddSheet(context, draft: const AddSheetDraft.movement()),
+    _ => () => showAddSheet(context),
   };
 
   void _push(Widget screen, {bool fullscreenDialog = false}) {
@@ -147,7 +148,8 @@ class _AppShellState extends State<AppShell> {
                       ],
                       selectedIndex: _index,
                       onChanged: (i) => setState(() => _index = i),
-                      onAction: _actionFor(_index),
+                      // Read at the tap: the Finance tab may have changed since the build.
+                      onAction: () => _actionFor(_index)(),
                       actionSemanticLabel: l10n.addTransaction,
                     ),
                   ),

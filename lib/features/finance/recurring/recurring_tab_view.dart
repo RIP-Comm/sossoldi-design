@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../../../app/app_scope.dart';
-import '../../../app/placeholder_screen.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/l10n.dart';
 import '../../../mock/models/transaction.dart';
+import '../../add_transaction/add_sheet.dart';
+import '../../add_transaction/add_sheet_draft.dart';
 import 'recurring_controller.dart';
 import 'recurring_detail_screen.dart';
 import 'recurring_item.dart';
@@ -111,13 +112,9 @@ class RecurringTabView extends StatelessWidget {
               ),
             SossoldiListAddButton(
               label: l10n.recurringAdd,
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => PlaceholderScreen(
-                    title: l10n.recurringAdd,
-                    showBack: true,
-                  ),
-                ),
+              onPressed: () => showAddSheet(
+                context,
+                draft: const AddSheetDraft.transaction(recurring: true),
               ),
             ),
           ],

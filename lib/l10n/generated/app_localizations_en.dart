@@ -1557,4 +1557,140 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get overviewCashFlowEmpty => 'No income or expenses this month yet';
+
+  @override
+  String get accountMain => 'Main account';
+
+  @override
+  String get accountMainHint => 'To change it, set another account as main';
+
+  @override
+  String get accountMainTag => 'Main';
+
+  @override
+  String get addNewTransaction => 'New transaction';
+
+  @override
+  String get addNewMovement => 'New movement';
+
+  @override
+  String get addModeTransaction => 'Transaction';
+
+  @override
+  String get addModeMovement => 'Investment movement';
+
+  @override
+  String get addModeSemantic => 'Change what to add';
+
+  @override
+  String get addTransactionButton => 'Add transaction';
+
+  @override
+  String get addMovementButton => 'Add movement';
+
+  @override
+  String get addTransactionDone => 'Transaction added';
+
+  @override
+  String get addMovementDone => 'Movement added';
+
+  @override
+  String get addUndo => 'Undo';
+
+  @override
+  String get txAmount => 'Amount';
+
+  @override
+  String get txCategory => 'Category';
+
+  @override
+  String get txSubcategory => 'Subcategory (optional)';
+
+  @override
+  String get txSubcategories => 'Subcategories';
+
+  @override
+  String get txMore => 'More…';
+
+  @override
+  String get txErrCategory => 'Choose a category';
+
+  @override
+  String get txNoExpenseCategories => 'You have no expense categories yet.';
+
+  @override
+  String get txNoIncomeCategories => 'You have no income categories yet.';
+
+  @override
+  String get txNoAccounts => 'You need an account before adding a transaction.';
+
+  @override
+  String get txAccount => 'Account';
+
+  @override
+  String get txFrom => 'From';
+
+  @override
+  String get txTo => 'To';
+
+  @override
+  String get txSwapAccounts => 'Swap accounts';
+
+  @override
+  String get txAmountReceived => 'Amount received';
+
+  @override
+  String get txTransferNeedsTwo =>
+      'To make a transfer you need at least two accounts.';
+
+  @override
+  String get txDate => 'Date';
+
+  @override
+  String get txToday => 'Today';
+
+  @override
+  String get txYesterday => 'Yesterday';
+
+  @override
+  String get txOtherDate => 'Custom';
+
+  @override
+  String get txDescription => 'Description (optional)';
+
+  @override
+  String get txRecurring => 'Recurring';
+
+  @override
+  String get txFrequency => 'Frequency';
+
+  @override
+  String get txStartDate => 'Start date';
+
+  @override
+  String get txEnd => 'End';
+
+  @override
+  String get txEndNever => 'Never';
+
+  @override
+  String get txEndOnDate => 'On date';
+
+  @override
+  String get txEndAfter => 'After';
+
+  @override
+  String get txEndDate => 'End date';
+
+  @override
+  String get txEndCount => 'Number of times';
+
+  @override
+  String get txChooseDate => 'Choose a date';
+
+  @override
+  String get txErrChooseDate => 'Choose the end date';
+
+  @override
+  String get txErrEndBeforeStart => 'The end is before the start';
 }

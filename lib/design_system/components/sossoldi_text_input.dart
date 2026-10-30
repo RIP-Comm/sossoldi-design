@@ -27,8 +27,11 @@ class SossoldiTextInput extends StatefulWidget {
     this.textInputAction,
     this.onChanged,
     this.onSubmitted,
+    this.focusNode,
   });
 
+  /// To move the focus from outside (e.g. back to the field after a save).
+  final FocusNode? focusNode;
   final TextEditingController? controller;
   final String? label;
   final String? placeholder;
@@ -58,7 +61,9 @@ class SossoldiTextInput extends StatefulWidget {
 
 class _SossoldiTextInputState extends State<SossoldiTextInput> {
   TextEditingController? _ownController;
-  final _focusNode = FocusNode();
+  FocusNode? _ownFocusNode;
+  FocusNode get _focusNode =>
+      widget.focusNode ?? (_ownFocusNode ??= FocusNode());
 
   TextEditingController get _controller =>
       widget.controller ?? (_ownController ??= TextEditingController());
@@ -73,6 +78,10 @@ class _SossoldiTextInputState extends State<SossoldiTextInput> {
   @override
   void didUpdateWidget(SossoldiTextInput oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.focusNode != widget.focusNode) {
+      (oldWidget.focusNode ?? _ownFocusNode)?.removeListener(_rebuild);
+      _focusNode.addListener(_rebuild);
+    }
     if (oldWidget.controller != widget.controller) {
       (oldWidget.controller ?? _ownController)?.removeListener(_rebuild);
       _controller.addListener(_rebuild);
@@ -84,7 +93,8 @@ class _SossoldiTextInputState extends State<SossoldiTextInput> {
   @override
   void dispose() {
     _controller.removeListener(_rebuild);
-    _focusNode.dispose();
+    _focusNode.removeListener(_rebuild);
+    _ownFocusNode?.dispose();
     _ownController?.dispose();
     super.dispose();
   }

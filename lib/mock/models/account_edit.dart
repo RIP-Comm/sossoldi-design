@@ -13,6 +13,7 @@ class AccountDraft {
     required this.color,
     required this.icon,
     this.type = AccountType.checking,
+    this.isMain = false,
   });
 
   final String name;
@@ -25,6 +26,11 @@ class AccountDraft {
 
   /// Only used when an account is created.
   final AccountType type;
+
+  /// Make it the main account (the previous one loses the flag). The first
+  /// account is main whatever this says; the main account stays main until
+  /// another is chosen.
+  final bool isMain;
 }
 
 /// Why a change of the accounts was not applied.

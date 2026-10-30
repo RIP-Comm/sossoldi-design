@@ -15,6 +15,7 @@ class Account {
     required this.currency,
     required this.color,
     required this.icon,
+    this.isMain = false,
   });
 
   final String id;
@@ -33,12 +34,17 @@ class Account {
   final CategoryColor color;
   final IconData icon;
 
+  /// The main account: the default of the forms. The repository keeps exactly
+  /// one when there are accounts.
+  final bool isMain;
+
   Account copyWith({
     String? name,
     double? initialBalance,
     String? currency,
     CategoryColor? color,
     IconData? icon,
+    bool? isMain,
   }) => Account(
     id: id,
     name: name ?? this.name,
@@ -48,5 +54,6 @@ class Account {
     currency: currency ?? this.currency,
     color: color ?? this.color,
     icon: icon ?? this.icon,
+    isMain: isMain ?? this.isMain,
   );
 }

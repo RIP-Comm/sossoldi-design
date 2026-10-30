@@ -401,6 +401,44 @@ void main() {
       expect(find.text('Create your first account'), findsNothing);
     });
 
+    testWidgets('the main account: the first is main, the switch of another '
+        'moves it, the main one has a disabled switch and the tag', (
+      tester,
+    ) async {
+      final state = await _step1(tester);
+      await _createAccount(tester, 'First', '100');
+      expect(find.text('Main'), findsOneWidget);
+      await _createAccount(tester, 'Second', '50');
+      expect(state.repository.mainAccount!.name, 'First');
+      expect(find.text('Main'), findsOneWidget);
+      // The main one: switch on and disabled, with the reason.
+      await tester.tap(find.text('First'));
+      await tester.pumpAndSettle();
+      expect(find.text('Main account'), findsOneWidget);
+      expect(
+        find.text('To change it, set another account as main'),
+        findsOneWidget,
+      );
+      expect(
+        tester.widget<SossoldiSwitch>(find.byType(SossoldiSwitch)).value,
+        isTrue,
+      );
+      expect(
+        tester.widget<SossoldiSwitch>(find.byType(SossoldiSwitch)).onChanged,
+        isNull,
+      );
+      await tester.tap(find.byIcon(PhosphorIconsRegular.x));
+      await tester.pumpAndSettle();
+      // Another one: turn the switch on and save.
+      await tester.tap(find.text('Second'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(SossoldiSwitch));
+      await tester.pump();
+      await _save(tester);
+      expect(state.repository.mainAccount!.name, 'Second');
+      expect(state.repository.accounts.where((a) => a.isMain), hasLength(1));
+    });
+
     testWidgets('accounts take the main currency; changing it later leaves '
         'them as they are', (tester) async {
       final state = await _step1(tester);

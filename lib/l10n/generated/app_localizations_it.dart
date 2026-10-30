@@ -1555,4 +1555,141 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get overviewCashFlowEmpty =>
       'Ancora nessuna entrata o spesa questo mese';
+
+  @override
+  String get accountMain => 'Conto principale';
+
+  @override
+  String get accountMainHint =>
+      'Per cambiarlo, imposta un altro conto come principale';
+
+  @override
+  String get accountMainTag => 'Principale';
+
+  @override
+  String get addNewTransaction => 'Nuova transazione';
+
+  @override
+  String get addNewMovement => 'Nuovo movimento';
+
+  @override
+  String get addModeTransaction => 'Transazione';
+
+  @override
+  String get addModeMovement => 'Movimento di investimento';
+
+  @override
+  String get addModeSemantic => 'Cambia cosa aggiungere';
+
+  @override
+  String get addTransactionButton => 'Aggiungi transazione';
+
+  @override
+  String get addMovementButton => 'Aggiungi movimento';
+
+  @override
+  String get addTransactionDone => 'Transazione aggiunta';
+
+  @override
+  String get addMovementDone => 'Movimento aggiunto';
+
+  @override
+  String get addUndo => 'Annulla';
+
+  @override
+  String get txAmount => 'Importo';
+
+  @override
+  String get txCategory => 'Categoria';
+
+  @override
+  String get txSubcategory => 'Sottocategoria (facoltativa)';
+
+  @override
+  String get txSubcategories => 'Sottocategorie';
+
+  @override
+  String get txMore => 'Altre…';
+
+  @override
+  String get txErrCategory => 'Scegli una categoria';
+
+  @override
+  String get txNoExpenseCategories => 'Non hai ancora categorie di spesa.';
+
+  @override
+  String get txNoIncomeCategories => 'Non hai ancora categorie di entrata.';
+
+  @override
+  String get txNoAccounts => 'Serve un conto per aggiungere una transazione.';
+
+  @override
+  String get txAccount => 'Conto';
+
+  @override
+  String get txFrom => 'Da';
+
+  @override
+  String get txTo => 'A';
+
+  @override
+  String get txSwapAccounts => 'Inverti i conti';
+
+  @override
+  String get txAmountReceived => 'Importo ricevuto';
+
+  @override
+  String get txTransferNeedsTwo =>
+      'Per fare un trasferimento servono almeno due conti.';
+
+  @override
+  String get txDate => 'Data';
+
+  @override
+  String get txToday => 'Oggi';
+
+  @override
+  String get txYesterday => 'Ieri';
+
+  @override
+  String get txOtherDate => 'Personalizzata';
+
+  @override
+  String get txDescription => 'Descrizione (facoltativa)';
+
+  @override
+  String get txRecurring => 'Ricorrente';
+
+  @override
+  String get txFrequency => 'Frequenza';
+
+  @override
+  String get txStartDate => 'Data di inizio';
+
+  @override
+  String get txEnd => 'Fine';
+
+  @override
+  String get txEndNever => 'Mai';
+
+  @override
+  String get txEndOnDate => 'Alla data';
+
+  @override
+  String get txEndAfter => 'Dopo';
+
+  @override
+  String get txEndDate => 'Data di fine';
+
+  @override
+  String get txEndCount => 'Numero di volte';
+
+  @override
+  String get txChooseDate => 'Scegli una data';
+
+  @override
+  String get txErrChooseDate => 'Scegli la data di fine';
+
+  @override
+  String get txErrEndBeforeStart => 'La fine è prima dell\'inizio';
 }

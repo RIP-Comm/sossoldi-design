@@ -44,6 +44,15 @@ Sossoldi's Figma, not the original Moon library.
 `SossoldiCategoryItem` toggles its subcategories on a tap of the whole row (Figma Default / Open). With `onRowTap` the
 row does something else (edit) and only the caret opens and closes the list (added for the onboarding, Figma 13:3685).
 
+## Components of the Add sheet
+Not in Figma, built from tokens: `SossoldiAmountInput` (big number with a fixed prefix such as the "−" of an expense,
+currency, numeric keyboard), `showSossoldiDatePicker` (one day, in a bottom sheet, on `SossoldiDateRangePicker`),
+tabs that take a color when selected (`SossoldiTabData.text(..., activeRole:)`, for expense / income / transfer),
+`SossoldiSnackbar` with a text action ("Undo") and `showSossoldiSnackbar(messenger:, bottomMargin:)`,
+`SossoldiBottomSheetToolbar.icon(titleWidget:)` (title that opens a menu), `SossoldiPopover.close(context)`,
+`SossoldiSwitchRow(description:)`, `SossoldiAccountItem(tag:)`, `SossoldiTextInput(focusNode:)`; the label of a
+`SossoldiUnitNavigator` is cut with an ellipsis. Each has a widgetbook entry.
+
 ## To be completed
 - Mapping of the real tokens (after importing the variables from Figma)
 - Full component list (after the components page in the linked Figma file)

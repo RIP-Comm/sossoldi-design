@@ -131,6 +131,12 @@ class _SwitchUseCaseState extends State<SwitchUseCase> {
               onChanged: (v) => setState(() => _value = v),
             ),
             const SossoldiSwitchRow(
+              label: 'Main account',
+              description: 'To change it, set another account as main',
+              value: true,
+              onChanged: null,
+            ),
+            const SossoldiSwitchRow(
               label: 'Disabled',
               value: false,
               onChanged: null,

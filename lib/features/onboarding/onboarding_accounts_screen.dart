@@ -102,6 +102,12 @@ class OnboardingAccountsScreen extends StatelessWidget {
                                         balance: repo.accountBalance(a.id),
                                         currencyCode: a.currency,
                                         masked: state.hideAmounts,
+                                        tag: a.isMain
+                                            ? SossoldiTag(
+                                                label:
+                                                    context.l10n.accountMainTag,
+                                              )
+                                            : null,
                                         leading: Icon(
                                           a.icon,
                                           size: 24,

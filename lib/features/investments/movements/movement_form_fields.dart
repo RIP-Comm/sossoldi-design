@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../../../app/app_scope.dart';
 import '../../../design_system/design_system.dart';
@@ -13,6 +12,7 @@ import '../../../l10n/l10n.dart';
 import '../../../mock/models/holding.dart';
 import '../../../mock/models/investment_movement.dart';
 import '../../../mock/models/movement_edit.dart';
+import '../../add_transaction/date_fields.dart';
 import '../investments_texts.dart';
 import 'movement_form_controller.dart';
 
@@ -66,42 +66,6 @@ class _MovementFormFieldsState extends State<MovementFormFields> {
     super.dispose();
   }
 
-  Future<void> _pickDate() async {
-    final l10n = context.l10n;
-    final today = c.repository.today;
-    final picked = await showSossoldiBottomSheet<DateTime>(
-      context: context,
-      toolbar: Builder(
-        builder: (sheet) => SossoldiBottomSheetToolbar.icon(
-          title: l10n.movementFieldDate,
-          onClose: () => Navigator.of(sheet).pop(),
-          closeSemanticLabel: l10n.close,
-        ),
-      ),
-      builder: (sheet) => Container(
-        padding: const EdgeInsets.all(SossoldiSpacing.s),
-        decoration: ShapeDecoration(
-          color: sheet.colors.surfaceHigh,
-          shape: RoundedSuperellipseBorder(
-            borderRadius: BorderRadius.circular(SossoldiRadius.m),
-          ),
-        ),
-        child: SossoldiDateRangePicker(
-          start: null,
-          end: null,
-          // A dividend can be expected; the rest has already happened.
-          lastDate: c.type == MovementType.dividend
-              ? DateTime(today.year + 1, today.month, today.day)
-              : today,
-          onChanged: (start, _) => Navigator.of(sheet).pop(start),
-          previousMonthSemanticLabel: l10n.previousMonth,
-          nextMonthSemanticLabel: l10n.nextMonth,
-        ),
-      ),
-    );
-    if (picked != null) c.setDate(picked);
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -150,15 +114,25 @@ class _MovementFormFieldsState extends State<MovementFormFields> {
                     SossoldiSelectItem(value: a.id, label: a.name),
                 ],
               ),
-            _DateField(
+            DateChipsField(
               label: l10n.movementFieldDate,
               date: c.date,
+              today: repo.today,
+              // A dividend can be expected; the rest has already happened.
+              lastDate: c.type == MovementType.dividend
+                  ? DateTime(
+                      repo.today.year + 1,
+                      repo.today.month,
+                      repo.today.day,
+                    )
+                  : repo.today,
               errorText: err(c.dateError),
-              onTap: _pickDate,
+              onChanged: c.setDate,
             ),
             if (c.isTrade) ...[
               SossoldiTextInput(
                 controller: c.quantity,
+                focusNode: c.quantityFocus,
                 label: l10n.movementFieldQuantity,
                 helperText:
                     c.type == MovementType.sell &&
@@ -193,6 +167,7 @@ class _MovementFormFieldsState extends State<MovementFormFields> {
             ] else ...[
               SossoldiTextInput(
                 controller: c.amount,
+                focusNode: c.amountFocus,
                 label: c.type == MovementType.dividend
                     ? l10n.movementFieldNetAmount
                     : l10n.movementFieldAmount,
@@ -371,68 +346,6 @@ class _MovementFormFieldsState extends State<MovementFormFields> {
             ],
           ),
       ],
-    );
-  }
-}
-
-/// The date of the form: a field that opens the calendar.
-class _DateField extends StatelessWidget {
-  const _DateField({
-    required this.label,
-    required this.date,
-    required this.onTap,
-    this.errorText,
-  });
-
-  final String label;
-  final DateTime date;
-  final VoidCallback onTap;
-  final String? errorText;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final locale = Localizations.localeOf(context).toString();
-    final border = SossoldiFieldFrame.borderColor(
-      context,
-      enabled: true,
-      focused: false,
-      hasValue: true,
-      isError: errorText != null,
-    );
-    return SossoldiFieldFrame(
-      label: label,
-      helperText: errorText,
-      isError: errorText != null,
-      child: SossoldiTappable(
-        onTap: onTap,
-        semanticLabel: label,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: SossoldiSpacing.m,
-            vertical: SossoldiSpacing.l,
-          ),
-          decoration: SossoldiFieldFrame.decoration(context, border),
-          child: Row(
-            spacing: SossoldiSpacing.s,
-            children: [
-              Expanded(
-                child: Text(
-                  DateFormat.yMMMMd(locale).format(date),
-                  style: context.typography.labelLarge.copyWith(
-                    color: colors.textHigh,
-                  ),
-                ),
-              ),
-              Icon(
-                PhosphorIconsRegular.calendarBlank,
-                size: 20,
-                color: colors.textMed,
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

@@ -104,9 +104,8 @@ void main() {
       await _pumpApp(tester);
       await tester.tap(find.bySemanticsLabel('Add transaction'));
       await tester.pumpAndSettle();
-      expect(find.text('Add transaction'), findsWidgets);
-      expect(find.text('Coming soon'), findsOneWidget);
-      await tester.tap(find.bySemanticsLabel('Back'));
+      expect(find.text('New transaction'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel('Close'));
       await tester.pumpAndSettle();
 
       await tester.tap(find.bySemanticsLabel('Settings'));

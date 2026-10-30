@@ -1741,5 +1741,185 @@
   "overviewCashFlowEmpty": "No income or expenses this month yet",
   "@overviewCashFlowEmpty": {
     "description": "Cash flow card of the Finance overview with no income or expenses"
+  },
+  "accountMain": "Main account",
+  "@accountMain": {
+    "description": "Switch in the account form to make it the main account"
+  },
+  "accountMainHint": "To change it, set another account as main",
+  "@accountMainHint": {
+    "description": "Line under the disabled main account switch"
+  },
+  "accountMainTag": "Main",
+  "@accountMainTag": {
+    "description": "Tag on the main account in the list of accounts"
+  },
+  "addNewTransaction": "New transaction",
+  "@addNewTransaction": {
+    "description": "Title of the Add sheet in transaction mode"
+  },
+  "addNewMovement": "New movement",
+  "@addNewMovement": {
+    "description": "Title of the Add sheet in investment movement mode"
+  },
+  "addModeTransaction": "Transaction",
+  "@addModeTransaction": {
+    "description": "Option of the menu of the Add sheet title"
+  },
+  "addModeMovement": "Investment movement",
+  "@addModeMovement": {
+    "description": "Option of the menu of the Add sheet title"
+  },
+  "addModeSemantic": "Change what to add",
+  "@addModeSemantic": {
+    "description": "Screen reader label of the title menu of the Add sheet"
+  },
+  "addTransactionButton": "Add transaction",
+  "@addTransactionButton": {
+    "description": "Primary button of the Add sheet, transaction mode"
+  },
+  "addMovementButton": "Add movement",
+  "@addMovementButton": {
+    "description": "Primary button of the Add sheet, movement mode"
+  },
+  "addTransactionDone": "Transaction added",
+  "@addTransactionDone": {
+    "description": "Snackbar after adding a transaction"
+  },
+  "addMovementDone": "Movement added",
+  "@addMovementDone": {
+    "description": "Snackbar after adding a movement"
+  },
+  "addUndo": "Undo",
+  "@addUndo": {
+    "description": "Action of the snackbar after adding"
+  },
+  "txAmount": "Amount",
+  "@txAmount": {
+    "description": "Screen reader label of the big amount field"
+  },
+  "txCategory": "Category",
+  "@txCategory": {
+    "description": "Label of the category row in the transaction form"
+  },
+  "txSubcategory": "Subcategory (optional)",
+  "@txSubcategory": {
+    "description": "Label of the subcategory chips"
+  },
+  "txSubcategories": "Subcategories",
+  "@txSubcategories": {
+    "description": "Screen reader label of the caret of a category with subcategories"
+  },
+  "txMore": "More…",
+  "@txMore": {
+    "description": "Chip that opens the full list of categories"
+  },
+  "txErrCategory": "Choose a category",
+  "@txErrCategory": {
+    "description": "Error when no category is chosen"
+  },
+  "txNoExpenseCategories": "You have no expense categories yet.",
+  "@txNoExpenseCategories": {
+    "description": "Shown in the transaction form with no expense categories"
+  },
+  "txNoIncomeCategories": "You have no income categories yet.",
+  "@txNoIncomeCategories": {
+    "description": "Shown in the transaction form with no income categories"
+  },
+  "txNoAccounts": "You need an account before adding a transaction.",
+  "@txNoAccounts": {
+    "description": "Shown in the transaction form with no accounts"
+  },
+  "txAccount": "Account",
+  "@txAccount": {
+    "description": "Label of the account select"
+  },
+  "txFrom": "From",
+  "@txFrom": {
+    "description": "Label of the source account of a transfer"
+  },
+  "txTo": "To",
+  "@txTo": {
+    "description": "Label of the destination account of a transfer"
+  },
+  "txSwapAccounts": "Swap accounts",
+  "@txSwapAccounts": {
+    "description": "Screen reader label of the button that swaps From and To"
+  },
+  "txAmountReceived": "Amount received",
+  "@txAmountReceived": {
+    "description": "Transfer between currencies: what arrives"
+  },
+  "txTransferNeedsTwo": "To make a transfer you need at least two accounts.",
+  "@txTransferNeedsTwo": {
+    "description": "Shown when there is only one account"
+  },
+  "txDate": "Date",
+  "@txDate": {
+    "description": "Label of the date chips"
+  },
+  "txToday": "Today",
+  "@txToday": {
+    "description": "Date chip"
+  },
+  "txYesterday": "Yesterday",
+  "@txYesterday": {
+    "description": "Date chip"
+  },
+  "txOtherDate": "Custom",
+  "@txOtherDate": {
+    "description": "Date chip that opens the calendar"
+  },
+  "txDescription": "Description (optional)",
+  "@txDescription": {
+    "description": "Label of the description field"
+  },
+  "txRecurring": "Recurring",
+  "@txRecurring": {
+    "description": "Switch of the recurrence"
+  },
+  "txFrequency": "Frequency",
+  "@txFrequency": {
+    "description": "Label of the frequency select"
+  },
+  "txStartDate": "Start date",
+  "@txStartDate": {
+    "description": "Label of the start date of a recurrence"
+  },
+  "txEnd": "End",
+  "@txEnd": {
+    "description": "Label of the end of a recurrence"
+  },
+  "txEndNever": "Never",
+  "@txEndNever": {
+    "description": "End of a recurrence"
+  },
+  "txEndOnDate": "On date",
+  "@txEndOnDate": {
+    "description": "End of a recurrence"
+  },
+  "txEndAfter": "After",
+  "@txEndAfter": {
+    "description": "End of a recurrence"
+  },
+  "txEndDate": "End date",
+  "@txEndDate": {
+    "description": "Label of the end date"
+  },
+  "txEndCount": "Number of times",
+  "@txEndCount": {
+    "description": "Label of the count of a recurrence"
+  },
+  "txChooseDate": "Choose a date",
+  "@txChooseDate": {
+    "description": "Placeholder of the end date"
+  },
+  "txErrChooseDate": "Choose the end date",
+  "@txErrChooseDate": {
+    "description": "Error when the end date is missing"
+  },
+  "txErrEndBeforeStart": "The end is before the start",
+  "@txErrEndBeforeStart": {
+    "description": "Error when the end date is before the start"
   }
 }

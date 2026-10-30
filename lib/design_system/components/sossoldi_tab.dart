@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../theme/sossoldi_colors.dart';
 import '../theme/sossoldi_theme.dart';
 import '../tokens/radius.dart';
 import '../tokens/spacing.dart';
@@ -17,6 +18,7 @@ class SossoldiTab extends StatelessWidget {
     required this.onTap,
     this.icon,
     this.counter,
+    this.activeRole,
   }) : semanticLabel = null;
 
   /// Icon-only tab (Figma Type=Icon).
@@ -27,7 +29,8 @@ class SossoldiTab extends StatelessWidget {
     required this.onTap,
     required String this.semanticLabel,
   }) : label = null,
-       counter = null;
+       counter = null,
+       activeRole = null;
 
   final String? label;
   final IconData? icon;
@@ -38,11 +41,17 @@ class SossoldiTab extends StatelessWidget {
   final String? counter;
   final String? semanticLabel;
 
+  /// When active, the tab takes the colors of this role (e.g. expense in red,
+  /// income in green) instead of the neutral raised surface.
+  final SossoldiColorRole? activeRole;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
     final iconOnly = label == null;
+    final role = active ? activeRole : null;
+    final foreground = role?.text ?? colors.textHigh;
 
     return SossoldiTappable(
       onTap: onTap,
@@ -52,7 +61,7 @@ class SossoldiTab extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
         padding: const EdgeInsets.all(SossoldiSpacing.xs),
         decoration: ShapeDecoration(
-          color: active ? colors.surfaceHigh : null,
+          color: active ? (role?.surface ?? colors.surfaceHigh) : null,
           shape: RoundedSuperellipseBorder(
             borderRadius: BorderRadius.circular(SossoldiRadius.s),
           ),
@@ -62,7 +71,7 @@ class SossoldiTab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: SossoldiSpacing.xs,
           children: [
-            if (icon != null) Icon(icon, size: 16, color: colors.textHigh),
+            if (icon != null) Icon(icon, size: 16, color: foreground),
             if (!iconOnly)
               Flexible(
                 child: Text(
@@ -74,7 +83,7 @@ class SossoldiTab extends StatelessWidget {
                       (active
                               ? typography.labelBoldMedium
                               : typography.labelMedium)
-                          .copyWith(color: colors.textHigh),
+                          .copyWith(color: foreground),
                 ),
               ),
             if (counter != null)

@@ -244,6 +244,29 @@ Keep this file up to date whenever the mock data changes.
 - Screens get the repository from `context.repository` (`lib/app/app_scope.dart`); the
   global "hide amounts" switch is `context.hideAmounts`.
 
+- Main account and adding transactions (`models/account.dart`, `models/transaction_edit.dart`):
+  - `Account.isMain`; the repository keeps exactly one when there are accounts (`mainAccount`, `setMainAccount(id)`):
+    the first account created is main, `AccountDraft.isMain` makes another one main (the previous loses the flag),
+    editing cannot turn the flag off on the main account, deleting the main one gives it to the first account left.
+    The demo's first account is main. Repositories built with a list of accounts are normalized the same way.
+  - `addTransaction(TransactionDraft)` → `TransactionResult` (`ok` + `AddedTransaction`, or a `TransactionFailure`:
+    invalidAmount, accountNotFound, sameAccount, invalidCategory, futureDate, invalidEnd, notFound). Expense, income
+    or transfer; amount positive in the account's currency; the transaction is inserted in date order; one
+    notification, so balances, lists, charts, budgets and digests follow. `Transaction.toAmount`: a transfer
+    between currencies carries what arrives in the destination's currency (balances use it); the draft may give it,
+    otherwise `convert(amount, from, to)` (mock rates, rounded to cents) fills it.
+  - With a `RecurrenceDraft` (frequency, start date, end never / on date / after N times) it also creates the
+    `RecurringTransaction` (`rec_new_<n>`, title = description, else category name, else "A → B"; `endDate` is new
+    on `RecurringTransaction`, "after N" is turned into the date of the Nth occurrence; the projected dates stop at
+    it): the first transaction (linked by `recurringId`) when the start is today or before, then `nextDate` is the
+    first date after today; a start in the future creates only the planned recurrence. Ids `tx_new_<n>`.
+  - `undoAdded(AddedTransaction)` takes back the transaction and the recurrence; `deleteTransaction(id)`.
+  - Suggestions: `categoriesByUsage(type)` (uses in the last 90 days, ties and a new user by creation order),
+    `suggestCategory(description, type)` → `CategorySuggestion` (the most frequent category of the past transactions
+    of that type with the same description, capitals and extra spaces aside; the most recent on a tie; with the
+    subcategory used most there), `pastDescriptions(query, limit = 3)` (expenses and income, most used first).
+  - `newUser` and `MockRepository(recurring:, transactions:)` copy their lists, so they are growable.
+
 ## Contents (on 2026-10-22)
 1 user · 3 accounts (checking, savings, broker) · 12 categories (8 expense, 4 income) with
 32 subcategories · 8 budgets · ~240 transactions · 13 recurring (1 paused) · 25 catalog
@@ -256,7 +279,7 @@ assets · 9 holdings (6 catalog, 3 manual) · ~37 movements incl. 2 expected div
 - Bond ISINs (BTP Valore Giugno 2027, BTP Italia Novembre 2028) should be double-checked.
 
 ## Consistency test
-`test/mock/opening_assets_test.dart` covers the opening buy (position, quantity and PMC, no effect on liquidity or balances, movement list and edit, weighted PMC with later buys, duplicates, delete and the refused delete, currencies). `test/mock/new_user_smoke_test.dart` runs every read the screens make on a new user (nothing, accounts only, with categories, budgets and assets, with a movement on an ordinary account) and checks that no number is not finite. `test/features/new_user_walk_test.dart` opens every tab and sub-tab on a new user in light and dark. `test/mock/categories_test.dart` covers the uniqueness of names, one budget per period, income without budgets, the all-or-nothing save, the suggested categories (created with no subcategories, hiding/return) and the overall budget with and without the flag. `test/mock/new_user_test.dart` covers the empty repository, the rates and the operations on the accounts
+`test/mock/opening_assets_test.dart` covers the opening buy (position, quantity and PMC, no effect on liquidity or balances, movement list and edit, weighted PMC with later buys, duplicates, delete and the refused delete, currencies). `test/mock/new_user_smoke_test.dart` runs every read the screens make on a new user (nothing, accounts only, with categories, budgets and assets, with a movement on an ordinary account) and checks that no number is not finite. `test/features/new_user_walk_test.dart` opens every tab and sub-tab on a new user in light and dark. `test/mock/categories_test.dart` covers the uniqueness of names, one budget per period, income without budgets, the all-or-nothing save, the suggested categories (created with no subcategories, hiding/return) and the overall budget with and without the flag. `test/mock/add_transaction_test.dart` covers the main account, adding each type, transfers with and without a change of currency, recurrences (today, past, future, ends), Undo and the suggestions. `test/mock/new_user_test.dart` covers the empty repository, the rates and the operations on the accounts
 (unique name, any balance, currencies, update, delete, in use). `test/mock/movements_test.dart` covers buys (weighted average with commissions, new and manual assets, dollars,
 over the liquidity), sells (partial, total, refused), dividends and costs, change and delete with the replay and the
 refusals, and the list, search and filters. `test/mock/positions_test.dart` covers the list, search, filters, breakdown, position detail and price series.

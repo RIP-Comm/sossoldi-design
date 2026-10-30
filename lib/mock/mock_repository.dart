@@ -42,6 +42,7 @@ import 'models/recurring_transaction.dart';
 import 'models/subcategory.dart';
 import 'models/suggested_category.dart';
 import 'models/transaction_breakdown.dart';
+import 'models/transaction_edit.dart';
 import 'models/transaction_filter.dart';
 import 'models/transaction_page.dart';
 import 'models/transaction_time_range.dart';
@@ -77,15 +78,17 @@ class MockRepository extends ChangeNotifier {
     @visibleForTesting List<Category>? categories,
     @visibleForTesting List<Subcategory>? subcategories,
   }) : now = now ?? DateTime.now(),
-       _accounts = List.of(accounts ?? mockAccounts),
+       _accounts = _withOneMain(List.of(accounts ?? mockAccounts)),
        _categories = List.of(categories ?? mockCategories),
        _subcategories = List.of(subcategories ?? mockSubcategories),
        _mainCurrency = mainCurrency ?? mockUser.mainCurrency,
        _clock = clock ?? (now != null ? (() => now) : DateTime.now) {
-    _recurring = (recurring ?? buildRecurring)(today);
-    _transactions =
-        transactions?.call(today, _recurring) ??
-        buildTransactions(today: today, recurring: _recurring);
+    // Copies: the lists given (e.g. const empty ones) may not be growable.
+    _recurring = List.of((recurring ?? buildRecurring)(today));
+    _transactions = List.of(
+      transactions?.call(today, _recurring) ??
+          buildTransactions(today: today, recurring: _recurring),
+    );
     // A copy: the list given (e.g. a const empty one) may not be growable.
     _budgets = List.of(
       budgets?.call(today, _transactions) ??
@@ -137,6 +140,8 @@ class MockRepository extends ChangeNotifier {
   final List<Category> _categories;
   final List<Subcategory> _subcategories;
   int _accountSeq = 1;
+  int _transactionSeq = 1;
+  int _recurringSeq = 1;
   int _categorySeq = 1;
   int _subcategorySeq = 1;
   int _budgetSeq = 1;
@@ -188,6 +193,33 @@ class MockRepository extends ChangeNotifier {
 
   Account account(String id) => _accounts.firstWhere((a) => a.id == id);
 
+  /// The main account (the default of the forms); null with no accounts.
+  Account? get mainAccount => _accounts.where((a) => a.isMain).firstOrNull;
+
+  /// Exactly one main account when there is any: the first one if none (or
+  /// several) says so.
+  static List<Account> _withOneMain(List<Account> list) {
+    if (list.isEmpty) return list;
+    final main = list.indexWhere((a) => a.isMain);
+    final keep = main < 0 ? 0 : main;
+    return [
+      for (final (i, a) in list.indexed)
+        a.isMain == (i == keep) ? a : a.copyWith(isMain: i == keep),
+    ];
+  }
+
+  /// Makes [id] the main account; the previous one loses the flag.
+  void setMainAccount(String id) {
+    if (!_accounts.any((a) => a.id == id)) return;
+    for (var i = 0; i < _accounts.length; i++) {
+      final isMain = _accounts[i].id == id;
+      if (_accounts[i].isMain != isMain) {
+        _accounts[i] = _accounts[i].copyWith(isMain: isMain);
+      }
+    }
+    notifyListeners();
+  }
+
   /// Initial balance plus all transactions up to today, in the account
   /// currency.
   double accountBalance(String accountId) => accountBalanceAt(accountId, null);
@@ -204,7 +236,7 @@ class MockRepository extends ChangeNotifier {
       if (t.accountId == accountId) {
         balance += t.type == TransactionType.income ? t.amount : -t.amount;
       }
-      if (t.toAccountId == accountId) balance += t.amount;
+      if (t.toAccountId == accountId) balance += t.toAmount ?? t.amount;
     }
     return round2(balance);
   }
@@ -275,7 +307,13 @@ class MockRepository extends ChangeNotifier {
       currency: draft.currency,
       color: draft.color,
       icon: draft.icon,
+      isMain: _accounts.isEmpty || draft.isMain,
     );
+    if (account.isMain) {
+      for (var i = 0; i < _accounts.length; i++) {
+        _accounts[i] = _accounts[i].copyWith(isMain: false);
+      }
+    }
     _accounts.add(account);
     notifyListeners();
     return AccountResult.ok(account);
@@ -299,7 +337,14 @@ class MockRepository extends ChangeNotifier {
       currency: draft.currency,
       color: draft.color,
       icon: draft.icon,
+      // The main account stays main until another is chosen.
+      isMain: current.isMain || draft.isMain,
     );
+    if (account.isMain && !current.isMain) {
+      for (var i = 0; i < _accounts.length; i++) {
+        _accounts[i] = _accounts[i].copyWith(isMain: false);
+      }
+    }
     _accounts[index] = account;
     notifyListeners();
     return AccountResult.ok(account);
@@ -314,8 +359,317 @@ class MockRepository extends ChangeNotifier {
     }
     final account = _accounts.removeAt(index);
     _opening.remove(id);
+    // The first account left takes the place of the main one.
+    if (account.isMain && _accounts.isNotEmpty) {
+      _accounts[0] = _accounts[0].copyWith(isMain: true);
+    }
     notifyListeners();
     return AccountResult.ok(account);
+  }
+
+  // Adding transactions
+
+  /// [amount] of [from] converted into [to] with the mock rates (rounded to
+  /// cents): what a transfer between two currencies proposes as received.
+  double convert(double amount, String from, String to) {
+    if (from == to) return amount;
+    final eur = toEur(amount, from);
+    return round2(to == 'EUR' ? eur : eur / toEur(1, to));
+  }
+
+  /// Checks a draft and returns what is wrong with it, or null.
+  TransactionFailure? _checkTransaction(TransactionDraft d) {
+    if (!d.amount.isFinite || d.amount <= 0) {
+      return TransactionFailure.invalidAmount;
+    }
+    if (!_accounts.any((a) => a.id == d.accountId)) {
+      return TransactionFailure.accountNotFound;
+    }
+    final recurrence = d.recurrence;
+    if (recurrence == null && dateOnly(d.date).isAfter(today)) {
+      return TransactionFailure.futureDate;
+    }
+    if (d.type == TransactionType.transfer) {
+      final to = d.toAccountId;
+      if (to == null || !_accounts.any((a) => a.id == to)) {
+        return TransactionFailure.accountNotFound;
+      }
+      if (to == d.accountId) return TransactionFailure.sameAccount;
+      if (d.toAmount != null && (!d.toAmount!.isFinite || d.toAmount! <= 0)) {
+        return TransactionFailure.invalidAmount;
+      }
+    } else {
+      final category = _categories
+          .where((c) => c.id == d.categoryId)
+          .firstOrNull;
+      final wanted = d.type == TransactionType.expense
+          ? CategoryType.expense
+          : CategoryType.income;
+      if (category == null || category.type != wanted) {
+        return TransactionFailure.invalidCategory;
+      }
+      if (d.subcategoryId != null &&
+          !_subcategories.any(
+            (s) => s.id == d.subcategoryId && s.categoryId == category.id,
+          )) {
+        return TransactionFailure.invalidCategory;
+      }
+    }
+    if (recurrence != null) {
+      final start = dateOnly(recurrence.startDate);
+      switch (recurrence.end) {
+        case RecurrenceEnd.never:
+          break;
+        case RecurrenceEnd.onDate:
+          if (recurrence.endDate == null ||
+              dateOnly(recurrence.endDate!).isBefore(start)) {
+            return TransactionFailure.invalidEnd;
+          }
+        case RecurrenceEnd.afterCount:
+          if (recurrence.count == null || recurrence.count! < 1) {
+            return TransactionFailure.invalidEnd;
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Adds an expense, an income or a transfer. The amount is positive and in
+  /// the currency of the account; a transfer between two currencies carries
+  /// what arrives (the converted amount when the draft has none). With a
+  /// [TransactionDraft.recurrence] it also creates the recurring transaction:
+  /// when it starts today or before, the first transaction too (dated at the
+  /// start); when it starts later, only the planned recurrence. Everything
+  /// that reads the data (balances, lists, charts, budgets, digest) follows,
+  /// because the listeners are notified once.
+  TransactionResult addTransaction(TransactionDraft d) {
+    final failure = _checkTransaction(d);
+    if (failure != null) return TransactionResult.failed(failure);
+    final account = this.account(d.accountId);
+    final isTransfer = d.type == TransactionType.transfer;
+    final amount = round2(d.amount);
+    double? toAmount;
+    if (isTransfer) {
+      final to = this.account(d.toAccountId!);
+      if (to.currency != account.currency) {
+        toAmount = round2(
+          d.toAmount ?? convert(amount, account.currency, to.currency),
+        );
+      }
+    }
+    final description = d.description.trim();
+    final recurrence = d.recurrence;
+    String? recurringId;
+    var date = dateOnly(d.date);
+    String? transactionId;
+    if (recurrence != null) {
+      final start = dateOnly(recurrence.startDate);
+      final first = !start.isAfter(today);
+      recurringId = 'rec_new_${_recurringSeq++}';
+      final next = first
+          ? _firstAfterToday(recurrence.frequency, start)
+          : start;
+      DateTime? end = switch (recurrence.end) {
+        RecurrenceEnd.never => null,
+        RecurrenceEnd.onDate => dateOnly(recurrence.endDate!),
+        RecurrenceEnd.afterCount => recurrence.frequency.step(
+          start,
+          recurrence.count! - 1,
+        ),
+      };
+      _recurring.add(
+        RecurringTransaction(
+          id: recurringId,
+          type: d.type,
+          amount: amount,
+          currency: account.currency,
+          description: description.isNotEmpty
+              ? description
+              : _recurringTitle(d),
+          frequency: recurrence.frequency,
+          nextDate: next,
+          anchorDay: start.day,
+          status: RecurringStatus.active,
+          accountId: d.accountId,
+          toAccountId: isTransfer ? d.toAccountId : null,
+          categoryId: isTransfer ? null : d.categoryId,
+          subcategoryId: isTransfer ? null : d.subcategoryId,
+          endDate: end,
+        ),
+      );
+      date = start;
+      if (first) {
+        transactionId = _insertTransaction(
+          d,
+          date,
+          amount,
+          toAmount,
+          recurringId,
+        );
+      }
+    } else {
+      transactionId = _insertTransaction(d, date, amount, toAmount, null);
+    }
+    notifyListeners();
+    return TransactionResult.ok(
+      AddedTransaction(transactionId: transactionId, recurringId: recurringId),
+    );
+  }
+
+  DateTime _firstAfterToday(RecurrenceFrequency f, DateTime start) {
+    var next = start;
+    for (var k = 1; !next.isAfter(today); k++) {
+      next = f.step(start, k);
+    }
+    return next;
+  }
+
+  /// A title for a recurrence with no description: the category, or the two
+  /// accounts of a transfer.
+  String _recurringTitle(TransactionDraft d) {
+    if (d.type == TransactionType.transfer) {
+      return '${account(d.accountId).name} → ${account(d.toAccountId!).name}';
+    }
+    return category(d.categoryId!).name;
+  }
+
+  String _insertTransaction(
+    TransactionDraft d,
+    DateTime date,
+    double amount,
+    double? toAmount,
+    String? recurringId,
+  ) {
+    final isTransfer = d.type == TransactionType.transfer;
+    final id = 'tx_new_${_transactionSeq++}';
+    final transaction = Transaction(
+      id: id,
+      type: d.type,
+      amount: amount,
+      currency: account(d.accountId).currency,
+      date: date,
+      description: d.description.trim(),
+      accountId: d.accountId,
+      toAccountId: isTransfer ? d.toAccountId : null,
+      categoryId: isTransfer ? null : d.categoryId,
+      subcategoryId: isTransfer ? null : d.subcategoryId,
+      recurringId: recurringId,
+      toAmount: toAmount,
+    );
+    // The list stays in date order; on the same day the new one is the last.
+    var at = _transactions.length;
+    while (at > 0 && _transactions[at - 1].date.isAfter(date)) {
+      at--;
+    }
+    _transactions.insert(at, transaction);
+    return id;
+  }
+
+  /// Takes back what [addTransaction] created: the transaction and the
+  /// recurring transaction, if any. Listeners are notified once.
+  void undoAdded(AddedTransaction added) {
+    _transactions.removeWhere((t) => t.id == added.transactionId);
+    _recurring.removeWhere((r) => r.id == added.recurringId);
+    notifyListeners();
+  }
+
+  /// Deletes one transaction. Returns whether it existed.
+  bool deleteTransaction(String id) {
+    final before = _transactions.length;
+    _transactions.removeWhere((t) => t.id == id);
+    if (_transactions.length == before) return false;
+    notifyListeners();
+    return true;
+  }
+
+  // Suggestions for the form of a transaction
+
+  /// The categories of [type] by how much they were used in the last 90
+  /// days (the transactions of that type, most used first); the ones used
+  /// the same, or not at all (a new user), in the order they were created.
+  List<Category> categoriesByUsage(CategoryType type) {
+    final since = addDays(today, -90);
+    final wanted = type == CategoryType.expense
+        ? TransactionType.expense
+        : TransactionType.income;
+    final uses = <String, int>{};
+    for (final t in _transactions) {
+      if (t.type != wanted || t.categoryId == null) continue;
+      if (dateOnly(t.date).isBefore(since)) continue;
+      uses[t.categoryId!] = (uses[t.categoryId!] ?? 0) + 1;
+    }
+    final list = _categories.where((c) => c.type == type).toList();
+    final order = {for (final (i, c) in list.indexed) c.id: i};
+    list.sort((a, b) {
+      final byUse = (uses[b.id] ?? 0).compareTo(uses[a.id] ?? 0);
+      return byUse != 0 ? byUse : order[a.id]!.compareTo(order[b.id]!);
+    });
+    return List.unmodifiable(list);
+  }
+
+  static String _normalize(String text) =>
+      text.trim().toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+
+  /// The category of the past transactions of [type] with the same
+  /// description (capitals and extra spaces aside): the most frequent one,
+  /// the most recent on a tie, with the subcategory most often used in it.
+  /// Null when the description is empty or never used.
+  CategorySuggestion? suggestCategory(String description, CategoryType type) {
+    final wanted = _normalize(description);
+    if (wanted.isEmpty) return null;
+    final txType = type == CategoryType.expense
+        ? TransactionType.expense
+        : TransactionType.income;
+    final counts = <String, int>{};
+    final last = <String, int>{};
+    final subs = <String, Map<String, int>>{};
+    for (final (i, t) in _transactions.indexed) {
+      if (t.type != txType || t.categoryId == null) continue;
+      if (_normalize(t.description) != wanted) continue;
+      counts[t.categoryId!] = (counts[t.categoryId!] ?? 0) + 1;
+      last[t.categoryId!] = i;
+      if (t.subcategoryId != null) {
+        final m = subs.putIfAbsent(t.categoryId!, () => {});
+        m[t.subcategoryId!] = (m[t.subcategoryId!] ?? 0) + 1;
+      }
+    }
+    if (counts.isEmpty) return null;
+    final best = counts.keys.reduce((a, b) {
+      final c = counts[a]!.compareTo(counts[b]!);
+      if (c != 0) return c > 0 ? a : b;
+      return last[a]! > last[b]! ? a : b;
+    });
+    final subCounts = subs[best];
+    String? sub;
+    if (subCounts != null) {
+      sub = subCounts.entries.reduce((a, b) => b.value > a.value ? b : a).key;
+    }
+    return CategorySuggestion(best, sub);
+  }
+
+  /// Past descriptions of expenses or income (not transfers) that start with
+  /// or contain [query] (capitals aside), most used first, at most [limit].
+  /// The description typed in full is not proposed again.
+  List<String> pastDescriptions(String query, {int limit = 3}) {
+    final q = _normalize(query);
+    if (q.isEmpty) return const [];
+    final counts = <String, int>{};
+    final shown = <String, String>{};
+    for (final t in _transactions) {
+      if (t.type == TransactionType.transfer) continue;
+      final n = _normalize(t.description);
+      if (n.isEmpty || n == q || !n.contains(q)) continue;
+      counts[n] = (counts[n] ?? 0) + 1;
+      shown[n] = t.description.trim().replaceAll(RegExp(r'\s+'), ' ');
+    }
+    final keys = counts.keys.toList()
+      ..sort((a, b) {
+        final starts = (b.startsWith(q) ? 1 : 0) - (a.startsWith(q) ? 1 : 0);
+        if (starts != 0) return starts;
+        final c = counts[b]!.compareTo(counts[a]!);
+        return c != 0 ? c : a.compareTo(b);
+      });
+    return [for (final k in keys.take(limit)) shown[k]!];
   }
 
   // Categories
@@ -1011,6 +1365,7 @@ class MockRepository extends ChangeNotifier {
       // Never before tomorrow: what happened is in the transactions.
       var date = r.nextDate;
       for (var k = 1; !date.isAfter(last); k++) {
+        if (r.endDate != null && date.isAfter(r.endDate!)) break;
         if (date.isAfter(today) && !date.isBefore(first)) {
           out.add(
             RecurringOccurrence(

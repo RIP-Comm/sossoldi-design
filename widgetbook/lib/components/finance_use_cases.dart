@@ -1039,3 +1039,43 @@ class _FinanceDemoUseCaseState extends State<FinanceDemoUseCase> {
     );
   }
 }
+
+class DatePickerUseCase extends StatefulWidget {
+  const DatePickerUseCase({super.key});
+
+  @override
+  State<DatePickerUseCase> createState() => _DatePickerUseCaseState();
+}
+
+class _DatePickerUseCaseState extends State<DatePickerUseCase> {
+  DateTime? _picked;
+
+  @override
+  Widget build(BuildContext context) {
+    final today = DateTime.now();
+    return FoundationPage(
+      children: [
+        FoundationSection(
+          title: 'Opens in a bottom sheet; one day, none after today',
+          children: [
+            SossoldiButton(
+              label: _picked == null ? 'Pick a date' : '$_picked',
+              onPressed: () async {
+                final d = await showSossoldiDatePicker(
+                  context: context,
+                  title: 'Date',
+                  lastDate: today,
+                  selected: _picked,
+                  closeSemanticLabel: 'Close',
+                  previousMonthSemanticLabel: 'Previous month',
+                  nextMonthSemanticLabel: 'Next month',
+                );
+                if (d != null) setState(() => _picked = d);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

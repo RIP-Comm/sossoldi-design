@@ -16,6 +16,7 @@ class SossoldiAccountItem extends StatelessWidget {
     required this.balance,
     required this.currencyCode,
     this.leading,
+    this.tag,
     this.variation,
     this.hasStroke = false,
     this.masked = false,
@@ -28,6 +29,9 @@ class SossoldiAccountItem extends StatelessWidget {
 
   /// 24px slot, usually the account icon.
   final Widget? leading;
+
+  /// A small tag after the name (e.g. "Main").
+  final Widget? tag;
 
   /// Change of the balance in the selected period, in [currencyCode].
   final num? variation;
@@ -71,6 +75,7 @@ class SossoldiAccountItem extends StatelessWidget {
                     ),
                   ),
                 ),
+                ?tag,
               ],
             ),
           ),

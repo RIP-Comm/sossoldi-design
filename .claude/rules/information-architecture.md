@@ -206,10 +206,11 @@ General rules for Investments:
   without an asset: its description), amount; buy and sell have units and unit price ("Price") under the
   amount, dividend and cost the description. Colors: buy and sell neutral (green or red would read as gain or
   loss), dividend green, cost red.
-- No floating "Add movement" button: the blue "+" of the bar, when in Investments (any tab), opens the form
-  with a buy selected. In the other sections it still opens the Add transaction placeholder (the action of
-  the "+" is set per section in the shell).
-- Form (bottom sheet; also used to edit): type Buy / Sell / Dividend / Cost. Buy: asset (catalog search or
+- No floating "Add movement" button: the blue "+" of the bar, when in Investments (any tab), opens the Add sheet in
+  movement mode with a buy selected. In the other sections it opens a new transaction (the action of the "+" is
+  set per section in the shell).
+- Form (the "Investment movement" mode of the Add sheet, see Add transaction; the same fields edit a movement in its
+  page): type Buy / Sell / Dividend / Cost. Buy: asset (catalog search or
   a manual asset with name and kind), broker account, date, quantity, unit price, optional commission. A new
   asset creates the position; one held updates quantity and average cost (weighted, commission included in
   the cost); it lowers the liquidity (over the available liquidity is allowed, with a warning). Sell: only
@@ -226,8 +227,47 @@ General rules for Investments:
 - Buy, Sell and Add dividend of the position page open the same form with the asset chosen.
 
 ## Add transaction
-Primary action, reachable from everywhere. Shows the remaining budget of the selected
-category, supports automatic category assignment and recurring income/expenses/transfers.
+Primary action, reachable from everywhere: the blue "+" of the bar opens **one bottom sheet** (the Add sheet,
+`features/add_transaction/add_sheet.dart`) with two modes, **Transaction** and **Investment movement**. Not in Figma:
+the movement form was the visual reference.
+- Header: X at the left (same round X as the onboarding forms), centered title with a caret ("New transaction ▾" /
+  "New movement ▾"). Tap on the title: a small menu with "Transaction" and "Investment movement"; it changes mode
+  without closing the sheet (each mode keeps its own fields while the sheet is open).
+- No footer buttons: the round check at the top right (as in the onboarding forms) saves and closes, and stays grey
+  until every required field is filled. After saving: snackbar "Transaction added" / "Movement added" with "Undo"
+  (above the bar of the app, with a deeper shadow than the bar). Undo takes back what was just done (the
+  transaction, the recurrence and its first transaction, or the movement). There is no "Add and create another".
+- The sheet opens with an optional `AddSheetDraft` that fills fields in advance (hook for Siri / Shortcuts, not
+  integrated yet).
+- Entry points (the action of the "+" is set per section in the shell and read at the tap): Home and every Finance
+  tab → Transaction, Expense; Finance > Recurring → Transaction with the Recurring switch already on (the link "Add
+  recurrent transaction +" does the same); every Investments tab → Movement, Buy; position page → movement with the
+  asset chosen (Buy, Sell, Add dividend).
+- **Transaction mode.** Tabs Expense / Income / Transfer, the selected one takes the color of the type (red, green,
+  blue). Big amount at the top with the system numeric keyboard and focus on open; for an expense the "−" is a fixed
+  prefix. The amount is saved positive, the sign comes from the type; the currency is the one of the account.
+  - Expense and Income: Description first (optional, up to 3 past descriptions to complete it, a tap fills it and the
+    category proposed); then Category (one row of up to 5 chips that scrolls sideways, the icon of each chip keeps the
+    color of its category, selected or not; the most used of the type in the last 90 days, for a new user in
+    order of creation, plus "More…" with the whole list and the subcategories; a description that matches a past one
+    proposes its category, put first and preselected, without a match nothing is preselected; the category is
+    required, a row needs it to have a title), then the chips of its subcategories (optional); Account (select, the
+    main account by default); Date (chips Today, Yesterday, Custom → calendar; no future date); switch Recurring.
+  - Recurring: Frequency (all the ones of the model), Start date (default the date chosen, may be in the future), End
+    (Never / On date / After N times). Saving creates the recurrence and, when it starts today or before, its first
+    transaction; when it starts later, only the planned recurrence.
+  - Transfer: From (main account by default) and To (first other account) with a button that swaps them; they cannot
+    be the same. With different currencies "Amount received" appears, filled with the mock rate and editable (it is
+    saved with the transfer: each account moves in its own currency). No category. Date, Description and Recurring as
+    above. With a single account: a message, a transfer is not possible.
+  - No reference to budgets in the form. Without categories of the type, a message says so.
+- **Movement mode:** the movement form of Investments, in the same shell (dates with the same chips as the
+  transaction). Details in Investments > Movements.
+- Not built: edit and delete of an existing transaction, transaction detail.
+- Main account: every user with accounts has exactly one (the first account created; setting another takes the flag
+  from the previous one; deleting the main one makes the first left main). The account form has the switch "Main
+  account" (on and disabled on the main one, "To change it, set another account as main") and the list of accounts
+  of onboarding Step 1 shows the tag "Main".
 
 ## Settings
 General (theme, language, currency, authentication), Accounts, Categories & budgets,
@@ -239,4 +279,3 @@ empty repository) and "Load demo data" (back to the app on the full demo data).
 - Insights: what is shown when no insight is available? Are they tappable? (Current assumption: no)
 - Asset setup in onboarding: which fields beyond quantity, value and average cost?
 - Status of bank API and broker connections: to be verified
-- Global "+": a selector of what to add (expense, income, transfer, investment movement) in place of the per-section action; to be decided when designing Add transaction.

@@ -11,6 +11,7 @@ import '../tokens/radius.dart';
 import '../tokens/shadows.dart';
 import '../tokens/spacing.dart';
 import 'sossoldi_icon_button.dart';
+import 'sossoldi_tappable.dart';
 
 enum SossoldiSnackbarType { info, success, warning, error }
 
@@ -23,6 +24,8 @@ class SossoldiSnackbar extends StatelessWidget {
     this.icon,
     this.onClose,
     this.closeSemanticLabel,
+    this.actionLabel,
+    this.onAction,
   });
 
   final String title;
@@ -35,6 +38,10 @@ class SossoldiSnackbar extends StatelessWidget {
   /// Shows the close (X) button when not null.
   final VoidCallback? onClose;
   final String? closeSemanticLabel;
+
+  /// A text action on the right (e.g. "Undo").
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +66,11 @@ class SossoldiSnackbar extends StatelessWidget {
         color: colors.surfaceHigh,
         shape: RoundedSuperellipseBorder(
           borderRadius: BorderRadius.circular(SossoldiRadius.s),
+          // Not in Figma: the shadow is hard to see, a border marks the edge
+          // in light and dark, as in the bottom bar.
+          side: BorderSide(color: colors.strokePlus1),
         ),
-        shadows: SossoldiShadows.lg,
+        shadows: SossoldiShadows.xl,
       ),
       child: Row(
         spacing: SossoldiSpacing.m,
@@ -109,6 +119,22 @@ class SossoldiSnackbar extends StatelessWidget {
               ],
             ),
           ),
+          if (actionLabel != null)
+            SossoldiTappable(
+              onTap: onAction,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: SossoldiSpacing.s,
+                  vertical: SossoldiSpacing.xs,
+                ),
+                child: Text(
+                  actionLabel!,
+                  style: typography.labelBoldLarge.copyWith(
+                    color: colors.primary.text,
+                  ),
+                ),
+              ),
+            ),
           if (onClose != null)
             SossoldiIconButton(
               icon: PhosphorIconsRegular.x,
@@ -122,7 +148,11 @@ class SossoldiSnackbar extends StatelessWidget {
   }
 }
 
-/// Shows a floating [SossoldiSnackbar] at the bottom of the screen.
+/// Shows a floating [SossoldiSnackbar] at the bottom of the screen. With
+/// [actionLabel] it carries a text action (the snackbar closes when it is
+/// tapped); [messenger] is where to show it when [context] is not the right
+/// place; [bottomMargin] lifts it above something that covers the bottom
+/// (a bar, say).
 void showSossoldiSnackbar(
   BuildContext context, {
   required String title,
@@ -130,12 +160,23 @@ void showSossoldiSnackbar(
   SossoldiSnackbarType type = SossoldiSnackbarType.info,
   String? closeSemanticLabel,
   Duration duration = const Duration(seconds: 4),
+  String? actionLabel,
+  VoidCallback? onAction,
+  ScaffoldMessengerState? messenger,
+  double bottomMargin = 0,
 }) {
-  final messenger = ScaffoldMessenger.of(context);
-  messenger.showSnackBar(
+  final target = messenger ?? ScaffoldMessenger.of(context);
+  target.hideCurrentSnackBar();
+  target.showSnackBar(
     SnackBar(
       duration: duration,
       behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.fromLTRB(
+        SossoldiSpacing.l,
+        0,
+        SossoldiSpacing.l,
+        bottomMargin + SossoldiSpacing.s,
+      ),
       backgroundColor: Colors.transparent,
       elevation: 0,
       padding: EdgeInsets.zero,
@@ -144,9 +185,14 @@ void showSossoldiSnackbar(
         description: description,
         type: type,
         closeSemanticLabel: closeSemanticLabel,
-        onClose: closeSemanticLabel == null
+        onClose: closeSemanticLabel == null ? null : target.hideCurrentSnackBar,
+        actionLabel: actionLabel,
+        onAction: onAction == null
             ? null
-            : messenger.hideCurrentSnackBar,
+            : () {
+                target.hideCurrentSnackBar();
+                onAction();
+              },
       ),
     ),
   );

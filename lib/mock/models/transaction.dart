@@ -16,6 +16,7 @@ class Transaction {
     this.categoryId,
     this.subcategoryId,
     this.recurringId,
+    this.toAmount,
   });
 
   final String id;
@@ -40,6 +41,10 @@ class Transaction {
   /// The RecurringTransaction that generated it, if any.
   final String? recurringId;
 
+  /// Transfers between accounts of different currencies: what arrives, in
+  /// the currency of the destination. Null: the same as [amount].
+  final double? toAmount;
+
   /// The same transaction no longer tied to a recurring one.
   Transaction withoutRecurring() => Transaction(
     id: id,
@@ -52,5 +57,6 @@ class Transaction {
     toAccountId: toAccountId,
     categoryId: categoryId,
     subcategoryId: subcategoryId,
+    toAmount: toAmount,
   );
 }

@@ -234,6 +234,12 @@ class _AccountFormSheetState extends State<_AccountFormSheet> {
             ),
           ],
         ),
+        SossoldiSwitchRow(
+          label: l10n.accountMain,
+          description: c.mainLocked ? l10n.accountMainHint : null,
+          value: c.isMain,
+          onChanged: c.mainLocked ? null : c.setMain,
+        ),
         _iconAndColor(context),
         if (c.isEditing)
           SossoldiButton(

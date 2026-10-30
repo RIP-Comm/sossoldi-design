@@ -200,7 +200,7 @@ void main() {
       var calls = 0;
       repo.addListener(() => calls++);
       expect(repo.deleteAccount(a.id).ok, isTrue);
-      expect(repo.accounts, [b]);
+      expect(repo.accounts.map((x) => x.id), [b.id]);
       expect(calls, 1);
       expect(repo.accountNameTaken('A'), isFalse);
       // The name can be used again.

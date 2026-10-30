@@ -167,3 +167,61 @@ class _SelectUseCaseState extends State<SelectUseCase> {
     );
   }
 }
+
+class AmountInputUseCase extends StatefulWidget {
+  const AmountInputUseCase({super.key});
+
+  @override
+  State<AmountInputUseCase> createState() => _AmountInputUseCaseState();
+}
+
+class _AmountInputUseCaseState extends State<AmountInputUseCase> {
+  final _expense = TextEditingController(text: '12,50');
+  final _income = TextEditingController();
+  final _error = TextEditingController();
+
+  @override
+  void dispose() {
+    _expense.dispose();
+    _income.dispose();
+    _error.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return FoundationPage(
+      children: [
+        FoundationSection(
+          title: 'Expense (fixed minus), income, error',
+          children: [
+            _Field(
+              SossoldiAmountInput(
+                controller: _expense,
+                prefix: '−',
+                color: colors.expense.text,
+                currencySymbol: '€',
+              ),
+            ),
+            _Field(
+              SossoldiAmountInput(
+                controller: _income,
+                color: colors.income.text,
+                currencySymbol: '€',
+              ),
+            ),
+            _Field(
+              SossoldiAmountInput(
+                controller: _error,
+                prefix: '−',
+                currencySymbol: '€',
+                errorText: 'Enter an amount',
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

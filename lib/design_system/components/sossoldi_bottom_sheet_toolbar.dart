@@ -18,6 +18,7 @@ class SossoldiBottomSheetToolbar extends StatelessWidget {
     this.onConfirm,
     this.confirmSemanticLabel,
     this.confirmEnabled = true,
+    this.titleWidget,
   }) : closeLabel = null,
        confirmLabel = null,
        closeIcon = null;
@@ -33,9 +34,13 @@ class SossoldiBottomSheetToolbar extends StatelessWidget {
     this.closeIcon,
   }) : closeSemanticLabel = null,
        confirmSemanticLabel = null,
-       confirmEnabled = true;
+       confirmEnabled = true,
+       titleWidget = null;
 
   final String title;
+
+  /// Icon variant: replaces the title text (e.g. a title that opens a menu).
+  final Widget? titleWidget;
   final VoidCallback? onClose;
 
   /// Hides the right action when null.
@@ -95,7 +100,7 @@ class SossoldiBottomSheetToolbar extends StatelessWidget {
               onClose,
               closeSemanticLabel,
             ),
-            Expanded(child: titleText),
+            Expanded(child: titleWidget ?? titleText),
             if (onConfirm != null)
               circle(
                 PhosphorIconsRegular.check,

@@ -13,6 +13,12 @@ abstract final class SossoldiShadows {
     BoxShadow(color: Color(0x14161A1D), offset: Offset(2, 4), blurRadius: 10),
   ];
 
+  /// Not in Figma: above the bottom bar (snackbar), deeper than [m].
+  static const xl = [
+    BoxShadow(color: Color(0x33161A1D), offset: Offset(0, 4), blurRadius: 12),
+    BoxShadow(color: Color(0x40161A1D), offset: Offset(0, 12), blurRadius: 32),
+  ];
+
   /// Figma: Light/shadow-lg (dropdowns, popovers)
   static const lg = [
     BoxShadow(color: Color(0x66000000), blurRadius: 1),

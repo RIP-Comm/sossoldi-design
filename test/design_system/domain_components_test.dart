@@ -14,6 +14,28 @@ Color? _colorOf(WidgetTester tester, String text) =>
     tester.widget<Text>(find.text(text)).style?.color;
 
 void main() {
+  testWidgets(
+    'a transaction row without description is as tall as one with it',
+    (tester) async {
+      Widget item(String description) => SossoldiTransactionItem(
+        type: SossoldiTransactionType.expense,
+        leading: const SizedBox(),
+        description: description,
+        account: 'Main',
+        amount: 10,
+        currencyCode: 'EUR',
+      );
+      await tester.pumpWidget(
+        _app(Column(children: [item('Groceries'), item('')])),
+      );
+      final rows = find.byType(SossoldiTransactionItem);
+      expect(
+        tester.getSize(rows.at(0)).height,
+        tester.getSize(rows.at(1)).height,
+      );
+    },
+  );
+
   testWidgets('amount formats with the locale and colors by sign', (
     tester,
   ) async {

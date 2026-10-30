@@ -174,6 +174,20 @@ class SnackbarUseCase extends StatelessWidget {
               ],
             ),
             FoundationSection(
+              title: 'With an action (after adding a transaction)',
+              children: [
+                _Box(
+                  SossoldiSnackbar(
+                    title: 'Transaction added',
+                    type: SossoldiSnackbarType.success,
+                    actionLabel: 'Undo',
+                    onAction: () {},
+                  ),
+                  width: 320,
+                ),
+              ],
+            ),
+            FoundationSection(
               title: 'Live',
               children: [
                 SossoldiButton(

@@ -23,8 +23,22 @@ class SossoldiPopover extends StatefulWidget {
   final Widget child;
   final double width;
 
+  /// Closes the popover that [context] (its content) is inside, if any.
+  static void close(BuildContext context) =>
+      context.getInheritedWidgetOfExactType<_PopoverScope>()?.close();
+
   @override
   State<SossoldiPopover> createState() => _SossoldiPopoverState();
+}
+
+/// Lets the content of a [SossoldiPopover] close it (e.g. after a choice).
+class _PopoverScope extends InheritedWidget {
+  const _PopoverScope({required this.close, required super.child});
+
+  final VoidCallback close;
+
+  @override
+  bool updateShouldNotify(_PopoverScope old) => false;
 }
 
 class _SossoldiPopoverState extends State<SossoldiPopover> {
@@ -51,7 +65,10 @@ class _SossoldiPopoverState extends State<SossoldiPopover> {
                 groupId: _tapRegionGroup,
                 child: SizedBox(
                   width: widget.width,
-                  child: SossoldiDropdown.custom(child: widget.content),
+                  child: _PopoverScope(
+                    close: () => setState(_overlay.hide),
+                    child: SossoldiDropdown.custom(child: widget.content),
+                  ),
                 ),
               ),
             ),

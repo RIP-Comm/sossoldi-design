@@ -19,6 +19,7 @@ final mockAccounts = [
     currency: 'EUR',
     color: CategoryColors.all[25],
     icon: PhosphorIconsRegular.bank,
+    isMain: true,
   ),
   Account(
     id: savingsAccountId,

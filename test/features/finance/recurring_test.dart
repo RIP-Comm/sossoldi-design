@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sossoldi/app/app_scope.dart';
 import 'package:sossoldi/app/app_state.dart';
-import 'package:sossoldi/app/placeholder_screen.dart';
 import 'package:sossoldi/design_system/design_system.dart';
 import 'package:sossoldi/features/finance/finance_controller.dart';
 import 'package:sossoldi/features/finance/finance_screen.dart';
@@ -256,13 +255,14 @@ void main() {
       expect(typeOf('27th October'), SossoldiChipType.info);
     });
 
-    testWidgets('Add recurrent transaction opens a placeholder', (
+    testWidgets('Add recurrent transaction opens the Add sheet, recurring on', (
       tester,
     ) async {
       await _pump(tester);
       await tester.tap(find.text('Add recurrent transaction'));
       await tester.pumpAndSettle();
-      expect(find.byType(PlaceholderScreen), findsOneWidget);
+      expect(find.text('New transaction'), findsOneWidget);
+      expect(find.text('Frequency'), findsOneWidget);
     });
 
     testWidgets('hidden amounts', (tester) async {

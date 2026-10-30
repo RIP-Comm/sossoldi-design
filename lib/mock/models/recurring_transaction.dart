@@ -48,6 +48,7 @@ class RecurringTransaction {
     this.categoryId,
     this.subcategoryId,
     int? anchorDay,
+    this.endDate,
   }) : anchorDay = anchorDay ?? nextDate.day;
 
   final String id;
@@ -72,6 +73,9 @@ class RecurringTransaction {
   final String? categoryId;
   final String? subcategoryId;
 
+  /// The last date it can happen on; null: it never ends.
+  final DateTime? endDate;
+
   RecurringTransaction copyWith({
     double? amount,
     RecurrenceFrequency? frequency,
@@ -92,5 +96,6 @@ class RecurringTransaction {
     categoryId: categoryId,
     subcategoryId: subcategoryId,
     anchorDay: anchorDay ?? this.anchorDay,
+    endDate: endDate,
   );
 }

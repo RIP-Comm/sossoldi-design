@@ -54,7 +54,8 @@ class AccountFormController extends ChangeNotifier {
   AccountFormController(this.repository, {required this.locale, this.editing})
     : _currency = editing?.currency ?? repository.mainCurrency,
       _color = editing?.color ?? CategoryColors.all.first,
-      _icon = editing?.icon ?? PhosphorIconsRegular.bank {
+      _icon = editing?.icon ?? PhosphorIconsRegular.bank,
+      _isMain = editing?.isMain ?? repository.accounts.isEmpty {
     final a = editing;
     if (a != null) {
       name.text = a.name;
@@ -78,6 +79,7 @@ class AccountFormController extends ChangeNotifier {
   String _currency;
   CategoryColor _color;
   IconData _icon;
+  bool _isMain;
   bool _nameTouched = false;
   bool _amountTouched = false;
   bool _submitted = false;
@@ -87,6 +89,20 @@ class AccountFormController extends ChangeNotifier {
   String get currency => _currency;
   CategoryColor get color => _color;
   IconData get icon => _icon;
+
+  /// Whether it is (or will be) the main account.
+  bool get isMain => _isMain;
+
+  /// The main account: its switch is on and cannot be turned off, the only
+  /// way to change it is to set another account as main. The first account
+  /// created is main too.
+  bool get mainLocked => editing?.isMain ?? repository.accounts.isEmpty;
+
+  void setMain(bool value) {
+    if (mainLocked || value == _isMain) return;
+    _isMain = value;
+    notifyListeners();
+  }
 
   /// What the repository refused with, if it did.
   AccountFailure? get failure => _failure;
@@ -155,6 +171,7 @@ class AccountFormController extends ChangeNotifier {
     color: _color,
     icon: _icon,
     type: editing?.type ?? AccountType.checking,
+    isMain: _isMain,
   );
 
   /// Saves the account. False when the form is not valid or the repository

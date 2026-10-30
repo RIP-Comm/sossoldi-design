@@ -197,6 +197,7 @@ class AccountItemUseCase extends StatelessWidget {
             name: 'Main account',
             balance: 1000.2,
             currencyCode: _eur,
+            tag: const SossoldiTag(label: 'Main'),
           ),
           Column(
             children: [

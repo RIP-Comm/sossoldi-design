@@ -2971,6 +2971,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No income or expenses this month yet'**
   String get overviewCashFlowEmpty;
+
+  /// Switch in the account form to make it the main account
+  ///
+  /// In en, this message translates to:
+  /// **'Main account'**
+  String get accountMain;
+
+  /// Line under the disabled main account switch
+  ///
+  /// In en, this message translates to:
+  /// **'To change it, set another account as main'**
+  String get accountMainHint;
+
+  /// Tag on the main account in the list of accounts
+  ///
+  /// In en, this message translates to:
+  /// **'Main'**
+  String get accountMainTag;
+
+  /// Title of the Add sheet in transaction mode
+  ///
+  /// In en, this message translates to:
+  /// **'New transaction'**
+  String get addNewTransaction;
+
+  /// Title of the Add sheet in investment movement mode
+  ///
+  /// In en, this message translates to:
+  /// **'New movement'**
+  String get addNewMovement;
+
+  /// Option of the menu of the Add sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction'**
+  String get addModeTransaction;
+
+  /// Option of the menu of the Add sheet title
+  ///
+  /// In en, this message translates to:
+  /// **'Investment movement'**
+  String get addModeMovement;
+
+  /// Screen reader label of the title menu of the Add sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Change what to add'**
+  String get addModeSemantic;
+
+  /// Primary button of the Add sheet, transaction mode
+  ///
+  /// In en, this message translates to:
+  /// **'Add transaction'**
+  String get addTransactionButton;
+
+  /// Primary button of the Add sheet, movement mode
+  ///
+  /// In en, this message translates to:
+  /// **'Add movement'**
+  String get addMovementButton;
+
+  /// Snackbar after adding a transaction
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction added'**
+  String get addTransactionDone;
+
+  /// Snackbar after adding a movement
+  ///
+  /// In en, this message translates to:
+  /// **'Movement added'**
+  String get addMovementDone;
+
+  /// Action of the snackbar after adding
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get addUndo;
+
+  /// Screen reader label of the big amount field
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get txAmount;
+
+  /// Label of the category row in the transaction form
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get txCategory;
+
+  /// Label of the subcategory chips
+  ///
+  /// In en, this message translates to:
+  /// **'Subcategory (optional)'**
+  String get txSubcategory;
+
+  /// Screen reader label of the caret of a category with subcategories
+  ///
+  /// In en, this message translates to:
+  /// **'Subcategories'**
+  String get txSubcategories;
+
+  /// Chip that opens the full list of categories
+  ///
+  /// In en, this message translates to:
+  /// **'More…'**
+  String get txMore;
+
+  /// Error when no category is chosen
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a category'**
+  String get txErrCategory;
+
+  /// Shown in the transaction form with no expense categories
+  ///
+  /// In en, this message translates to:
+  /// **'You have no expense categories yet.'**
+  String get txNoExpenseCategories;
+
+  /// Shown in the transaction form with no income categories
+  ///
+  /// In en, this message translates to:
+  /// **'You have no income categories yet.'**
+  String get txNoIncomeCategories;
+
+  /// Shown in the transaction form with no accounts
+  ///
+  /// In en, this message translates to:
+  /// **'You need an account before adding a transaction.'**
+  String get txNoAccounts;
+
+  /// Label of the account select
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get txAccount;
+
+  /// Label of the source account of a transfer
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get txFrom;
+
+  /// Label of the destination account of a transfer
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get txTo;
+
+  /// Screen reader label of the button that swaps From and To
+  ///
+  /// In en, this message translates to:
+  /// **'Swap accounts'**
+  String get txSwapAccounts;
+
+  /// Transfer between currencies: what arrives
+  ///
+  /// In en, this message translates to:
+  /// **'Amount received'**
+  String get txAmountReceived;
+
+  /// Shown when there is only one account
+  ///
+  /// In en, this message translates to:
+  /// **'To make a transfer you need at least two accounts.'**
+  String get txTransferNeedsTwo;
+
+  /// Label of the date chips
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get txDate;
+
+  /// Date chip
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get txToday;
+
+  /// Date chip
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get txYesterday;
+
+  /// Date chip that opens the calendar
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get txOtherDate;
+
+  /// Label of the description field
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get txDescription;
+
+  /// Switch of the recurrence
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring'**
+  String get txRecurring;
+
+  /// Label of the frequency select
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency'**
+  String get txFrequency;
+
+  /// Label of the start date of a recurrence
+  ///
+  /// In en, this message translates to:
+  /// **'Start date'**
+  String get txStartDate;
+
+  /// Label of the end of a recurrence
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get txEnd;
+
+  /// End of a recurrence
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get txEndNever;
+
+  /// End of a recurrence
+  ///
+  /// In en, this message translates to:
+  /// **'On date'**
+  String get txEndOnDate;
+
+  /// End of a recurrence
+  ///
+  /// In en, this message translates to:
+  /// **'After'**
+  String get txEndAfter;
+
+  /// Label of the end date
+  ///
+  /// In en, this message translates to:
+  /// **'End date'**
+  String get txEndDate;
+
+  /// Label of the count of a recurrence
+  ///
+  /// In en, this message translates to:
+  /// **'Number of times'**
+  String get txEndCount;
+
+  /// Placeholder of the end date
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a date'**
+  String get txChooseDate;
+
+  /// Error when the end date is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the end date'**
+  String get txErrChooseDate;
+
+  /// Error when the end date is before the start
+  ///
+  /// In en, this message translates to:
+  /// **'The end is before the start'**
+  String get txErrEndBeforeStart;
 }
 
 class _AppLocalizationsDelegate

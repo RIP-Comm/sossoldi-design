@@ -15,6 +15,7 @@ class SossoldiSwitchRow extends StatelessWidget {
     required this.label,
     required this.value,
     required this.onChanged,
+    this.description,
   });
 
   final String label;
@@ -22,6 +23,9 @@ class SossoldiSwitchRow extends StatelessWidget {
 
   /// Null disables the switch.
   final ValueChanged<bool>? onChanged;
+
+  /// A line under the label (why the switch is disabled, for instance).
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +46,23 @@ class SossoldiSwitchRow extends StatelessWidget {
         spacing: SossoldiSpacing.m,
         children: [
           Expanded(
-            child: Text(
-              label,
-              style: context.typography.labelLarge.copyWith(
-                color: colors.textHigh,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: context.typography.labelLarge.copyWith(
+                    color: colors.textHigh,
+                  ),
+                ),
+                if (description != null)
+                  Text(
+                    description!,
+                    style: context.typography.labelSmall.copyWith(
+                      color: colors.textMed,
+                    ),
+                  ),
+              ],
             ),
           ),
           SossoldiSwitch(

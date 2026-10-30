@@ -61,6 +61,10 @@ class MovementFormController extends ChangeNotifier {
   final description = TextEditingController();
   final manualName = TextEditingController();
 
+  /// To put the focus back on the number (after "Add and create another").
+  final quantityFocus = FocusNode();
+  final amountFocus = FocusNode();
+
   MovementType _type;
   String? _holdingId;
   String? _assetId;
@@ -71,6 +75,7 @@ class MovementFormController extends ChangeNotifier {
   bool _submitted = false;
   MovementFailure? _failure;
   DateTime? _failedOn;
+  String? _addedId;
 
   bool get isEditing => editing != null;
   MovementType get type => _type;
@@ -99,6 +104,9 @@ class MovementFormController extends ChangeNotifier {
   /// What the repository refused with, if it did.
   MovementFailure? get failure => _failure;
   DateTime? get failedOn => _failedOn;
+
+  /// The movement the last successful [submit] added (to undo it).
+  String? get addedId => _addedId;
 
   bool get isTrade => _type == MovementType.buy || _type == MovementType.sell;
 
@@ -269,6 +277,7 @@ class MovementFormController extends ChangeNotifier {
     final result = isEditing
         ? repository.updateMovement(editing!.id, changes: d)
         : repository.addMovement(d);
+    _addedId = result.ok ? result.movementId : null;
     if (!result.ok) {
       _failure = result.failure;
       _failedOn = result.failedOn;
@@ -280,6 +289,8 @@ class MovementFormController extends ChangeNotifier {
 
   @override
   void dispose() {
+    quantityFocus.dispose();
+    amountFocus.dispose();
     for (final c in [quantity, price, fee, amount, description, manualName]) {
       c.dispose();
     }

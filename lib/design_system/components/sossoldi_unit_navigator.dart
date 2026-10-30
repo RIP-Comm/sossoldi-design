@@ -15,12 +15,16 @@ class SossoldiUnitNavigator extends StatelessWidget {
     required this.selected,
     required this.onTap,
     this.icon,
+    this.iconColor,
   });
 
   final String label;
   final bool selected;
   final VoidCallback? onTap;
   final IconData? icon;
+
+  /// Keeps the icon in its own color, selected or not (a category chip).
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +49,17 @@ class SossoldiUnitNavigator extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: SossoldiSpacing.xs,
           children: [
-            if (icon != null) Icon(icon, size: 16, color: foreground),
-            Text(
-              label,
-              style: context.typography.labelLarge.copyWith(color: foreground),
+            if (icon != null)
+              Icon(icon, size: 16, color: iconColor ?? foreground),
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: context.typography.labelLarge.copyWith(
+                  color: foreground,
+                ),
+              ),
             ),
           ],
         ),

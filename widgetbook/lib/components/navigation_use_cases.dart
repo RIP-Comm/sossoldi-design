@@ -50,6 +50,7 @@ class TabNavigationUseCase extends StatefulWidget {
 
 class _TabNavigationUseCaseState extends State<TabNavigationUseCase> {
   int _text = 0;
+  int _typed = 0;
   int _icon = 0;
 
   @override
@@ -70,6 +71,32 @@ class _TabNavigationUseCaseState extends State<TabNavigationUseCase> {
                 ],
                 selectedIndex: _text,
                 onChanged: (i) => setState(() => _text = i),
+              ),
+            ),
+          ],
+        ),
+        FoundationSection(
+          title: 'Colored when selected (type of a transaction)',
+          children: [
+            SizedBox(
+              width: 320,
+              child: SossoldiTabNavigation(
+                tabs: [
+                  SossoldiTabData.text(
+                    'Expense',
+                    activeRole: context.colors.expense,
+                  ),
+                  SossoldiTabData.text(
+                    'Income',
+                    activeRole: context.colors.income,
+                  ),
+                  SossoldiTabData.text(
+                    'Transfer',
+                    activeRole: context.colors.info,
+                  ),
+                ],
+                selectedIndex: _typed,
+                onChanged: (i) => setState(() => _typed = i),
               ),
             ),
           ],
