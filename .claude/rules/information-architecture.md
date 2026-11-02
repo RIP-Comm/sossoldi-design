@@ -102,6 +102,11 @@ Quick overview of the user's finances. Customizable widget grid: 2 columns, widg
 S (1×1), M (2×1), L (2×2). Core widgets: Total balance, Income & expenses, Budget status,
 Latest transactions. Optional widgets: Upcoming recurring, Investments snapshot, Net worth,
 Savings goals, Insight of the moment. Net worth = accounts + investments.
+Available now (S/M/L): Monthly balance, Latest transactions and **Upcoming recurring** (optional, not in the initial
+layout, in the add-widget list). Upcoming recurring: the next occurrences of the active recurring transactions from
+today on (today included, paused ones left out, all types), soonest first; S 1, M 3, L as many as fit (5-6); the row is
+the Latest transactions one with the date of the occurrence as a chip (same format as the Finance Overview list); no
+tap and no title, like Latest transactions; empty state "No recurring transactions".
 
 ## Finance
 Where the user goes to understand in detail where their money goes. Four sections, each

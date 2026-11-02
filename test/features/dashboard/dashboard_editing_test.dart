@@ -201,6 +201,30 @@ void main() {
       expect(at('b', 271), 1);
     });
 
+    test('an M moved above another M leaves the pair of S where it is', () {
+      final layout = DashboardLayout([
+        _item('a', s),
+        _item('b', s),
+        _item('c', m),
+        _item('d', m),
+      ]);
+      // The second row is where c is now: center y 85 + 186.
+      final index = insertionIndexFor(
+        layout: layout,
+        itemId: 'd',
+        center: const Offset(179, 271),
+        width: 358,
+        rowHeight: 170,
+        gap: 16,
+      );
+      expect(index, 2);
+      expect(_rows(layout.move('d', index)), [
+        ['a', 'b'],
+        ['d'],
+        ['c'],
+      ]);
+    });
+
     test('an S dragged beside a lone S pairs up with it', () {
       final layout = DashboardLayout([
         _item('a', s),

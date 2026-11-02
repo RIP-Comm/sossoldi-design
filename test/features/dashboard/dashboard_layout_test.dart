@@ -111,9 +111,13 @@ void main() {
       expect(itemIds.toSet(), hasLength(itemIds.length));
     });
 
-    test('the two designed widgets are registered in S, M and L', () {
+    test('the widgets are registered in S, M and L', () {
       final defs = dashboardWidgetRegistry.definitions;
-      expect(defs.map((d) => d.id), ['monthly_balance', 'latest_transactions']);
+      expect(defs.map((d) => d.id), [
+        'monthly_balance',
+        'latest_transactions',
+        'upcoming_recurring',
+      ]);
       for (final d in defs) {
         expect(d.supportedSizes, {
           s,

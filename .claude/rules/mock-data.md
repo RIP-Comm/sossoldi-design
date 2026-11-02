@@ -135,6 +135,10 @@ Keep this file up to date whenever the mock data changes.
     `digestLargeRecurrences({threshold = 100, days = 7})` (info; expenses only, one message), and
     `digestCategoryGrowth({minimum = 30})` (warning; > +50% on the same days of last month, biggest
     increase; not on days 1-3). With no message: one `allGood`. Each rule is a method of its own.
+  - `upcomingRecurrences({limit = 5, until, includeToday = false})`: the planned dates (after today) of the active
+    recurrences, soonest first, month after month through `until` (default a year); with `includeToday` also the
+    occurrence dated today, happened or not (active ones only). `upcomingRecurrencesThisMonth` is the same up to the end
+    of the month (Overview); the Dashboard "Upcoming recurring" widget uses `includeToday: true`.
   - `accountsWithChange()` → `AccountChange` (balance today and today minus the balance before the 1st, in
     the account's currency; `accountBalanceAt(id, before)` is the shared calculation).
   - `upcomingRecurrencesThisMonth({limit = 5})`: the planned dates after today, same as the Recurring tab.

@@ -1692,4 +1692,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get txErrEndBeforeStart => 'La fine è prima dell\'inizio';
+
+  @override
+  String get widgetUpcomingRecurringName => 'Prossime ricorrenze';
+
+  @override
+  String get dashboardNoUpcomingRecurring => 'Nessuna ricorrenza';
 }

@@ -124,10 +124,20 @@ int insertionIndexFor({
     return (rect.center - center).distanceSquared;
   }
 
+  // Candidates in order of how little they change the order: several indexes
+  // can give the same place (an M moved above another M lands on the same
+  // row whether it goes before or after the two S above), and the nearest
+  // one must win so the others are not pushed down for nothing.
+  final candidates =
+      [
+        for (var i = 0; i <= others.length; i++)
+          if (i != currentIndex) i,
+      ]..sort(
+        (a, b) => (a - currentIndex).abs().compareTo((b - currentIndex).abs()),
+      );
   var best = currentIndex;
   var bestDistance = distanceAt(currentIndex);
-  for (var i = 0; i <= others.length; i++) {
-    if (i == currentIndex) continue;
+  for (final i in candidates) {
     final d = distanceAt(i);
     if (d < bestDistance - 1e-6) {
       best = i;

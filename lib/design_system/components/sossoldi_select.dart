@@ -194,7 +194,7 @@ class _SossoldiSelectState<T> extends State<SossoldiSelect<T>> {
     return CompositedTransformFollower(
       link: _link,
       targetAnchor: up ? Alignment.topLeft : Alignment.bottomLeft,
-      offset: Offset(0, up ? -gap : gap),
+      // Attached to the field, no space between them.
       // Align loosens the tight size the overlay gives and shrinks to the
       // panel; opening upward the panel is moved up by its own height.
       child: Align(

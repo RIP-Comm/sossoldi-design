@@ -363,6 +363,35 @@ void main() {
       expect(c.layout.items, hasLength(1));
     });
 
+    testWidgets('Upcoming recurring: listed, added, and resized S, M, L', (
+      tester,
+    ) async {
+      final c = await _pumpDashboard(tester);
+      c.enterEditMode();
+      await _settle(tester);
+      await tester.tap(_headerButton('Add widget'));
+      await _settle(tester);
+      expect(
+        find.widgetWithText(SossoldiMenuItem, 'Upcoming recurring'),
+        findsOne,
+      );
+      await tester.tap(find.text('Upcoming recurring'));
+      await _settle(tester);
+      await tester.tap(find.widgetWithText(SossoldiButton, 'Add widget'));
+      await _settle(tester);
+      final added = c.layout.items.last;
+      expect(added.widgetId, 'upcoming_recurring');
+      expect(added.size, _s);
+      int rows() => find.byType(SossoldiTransactionItem).evaluate().length;
+      // S is a single large entry (no list row).
+      expect(find.text('Upcoming recurring'), findsNothing);
+      for (final (size, expected) in [(_m, 3), (_l, 5)]) {
+        c.resize(added.id, size);
+        await _settle(tester);
+        expect(rows() >= expected, isTrue, reason: size.name);
+      }
+    });
+
     testWidgets('pick, swipe to M, add: lands in M and the sheet closes', (
       tester,
     ) async {

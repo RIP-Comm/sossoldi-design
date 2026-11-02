@@ -3241,6 +3241,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The end is before the start'**
   String get txErrEndBeforeStart;
+
+  /// Dashboard widget: the next occurrences of the recurring transactions
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming recurring'**
+  String get widgetUpcomingRecurringName;
+
+  /// Upcoming recurring widget with no active recurring transactions
+  ///
+  /// In en, this message translates to:
+  /// **'No recurring transactions'**
+  String get dashboardNoUpcomingRecurring;
 }
 
 class _AppLocalizationsDelegate

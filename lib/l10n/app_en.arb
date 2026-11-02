@@ -1921,5 +1921,13 @@
   "txErrEndBeforeStart": "The end is before the start",
   "@txErrEndBeforeStart": {
     "description": "Error when the end date is before the start"
+  },
+  "widgetUpcomingRecurringName": "Upcoming recurring",
+  "@widgetUpcomingRecurringName": {
+    "description": "Dashboard widget: the next occurrences of the recurring transactions"
+  },
+  "dashboardNoUpcomingRecurring": "No recurring transactions",
+  "@dashboardNoUpcomingRecurring": {
+    "description": "Upcoming recurring widget with no active recurring transactions"
   }
 }

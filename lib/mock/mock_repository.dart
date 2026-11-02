@@ -1477,12 +1477,42 @@ class MockRepository extends ChangeNotifier {
   /// The recurring transactions still to come this month (after today),
   /// soonest first, at most [limit]. Same dates as the Recurring tab.
   List<RecurringOccurrence> upcomingRecurrencesThisMonth({int limit = 5}) =>
-      List.unmodifiable(
-        recurringOccurrences(
-          today.year,
-          today.month,
-        ).where((o) => o.isPlanned).take(limit),
+      upcomingRecurrences(
+        limit: limit,
+        until: DateTime(today.year, today.month + 1, 0),
       );
+
+  /// The next dates of the active recurring transactions, soonest first, at
+  /// most [limit], through [until] (default: a year from today). Same dates
+  /// and amounts as the Recurring tab. With [includeToday] an occurrence
+  /// dated today counts too, whether it already happened or not; paused
+  /// recurring transactions are left out then.
+  List<RecurringOccurrence> upcomingRecurrences({
+    int limit = 5,
+    DateTime? until,
+    bool includeToday = false,
+  }) {
+    final end = dateOnly(
+      until ?? DateTime(today.year + 1, today.month, today.day),
+    );
+    final out = <RecurringOccurrence>[];
+    var month = DateTime(today.year, today.month);
+    while (!month.isAfter(end) && out.length < limit) {
+      for (final o in recurringOccurrences(month.year, month.month)) {
+        if (o.date.isAfter(end)) continue;
+        final counts =
+            o.isPlanned ||
+            (includeToday &&
+                o.date == today &&
+                recurring(o.recurringId).status == RecurringStatus.active);
+        if (!counts) continue;
+        out.add(o);
+        if (out.length == limit) break;
+      }
+      month = DateTime(month.year, month.month + 1);
+    }
+    return List.unmodifiable(out);
+  }
 
   // Finance Overview
 

@@ -1,4 +1,5 @@
-// Latest transactions widget, sizes S, M and L, from Figma "Latest
+// Latest transactions widget (also drawn by Upcoming recurring, with a date
+// chip per entry), sizes S, M and L, from Figma "Latest
 // transactions - Widget content" (nodes 13:3987, 13:3999, 13:4005).
 // Presentation only: LatestTransactionsWidget wires it to the repository.
 //
@@ -18,6 +19,7 @@ class LatestTransactionsCard extends StatelessWidget {
     required this.size,
     required this.entries,
     required this.masked,
+    this.emptyText,
   });
 
   final DashboardWidgetSize size;
@@ -25,6 +27,9 @@ class LatestTransactionsCard extends StatelessWidget {
   /// Newest first.
   final List<LatestTransactionEntry> entries;
   final bool masked;
+
+  /// Shown with no entries; default: no transactions yet.
+  final String? emptyText;
 
   /// Height of one list row (8 + 20 + 16 + 8) and the gap between rows.
   static const double _rowHeight = 52;
@@ -38,7 +43,7 @@ class LatestTransactionsCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(SossoldiSpacing.m),
             child: Text(
-              context.l10n.dashboardNoTransactions,
+              emptyText ?? context.l10n.dashboardNoTransactions,
               textAlign: TextAlign.center,
               style: context.typography.labelLarge.copyWith(
                 color: context.colors.textMed,
@@ -84,7 +89,10 @@ class LatestTransactionsCard extends StatelessWidget {
           toAccount: e.toAccount,
           amount: e.amount,
           currencyCode: e.currency,
+          recurrenceLabel: e.dateLabel,
+          recurrenceChipType: e.dateChipType,
           masked: masked,
+          compact: e.dateLabel != null,
         ),
       );
 }
@@ -113,27 +121,45 @@ class _Single extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: SossoldiSpacing.s,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Icon(
-              entry.icon,
-              size: 32,
-              color: entry.iconColor ?? colors.textHigh,
-            ),
+          // The date chip of a recurring occurrence shares the row of the icon.
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                entry.icon,
+                size: 32,
+                color: entry.iconColor ?? colors.textHigh,
+              ),
+              if (entry.dateLabel != null)
+                Flexible(
+                  child: SossoldiChip(
+                    label: entry.dateLabel!,
+                    type: entry.dateChipType,
+                  ),
+                ),
+            ],
           ),
-          Text(
-            entry.description,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: typography.bodyBoldXLarge.copyWith(color: colors.textHigh),
-          ),
-          Text(
-            isTransfer
-                ? '${entry.account} → ${entry.toAccount}'
-                : entry.account,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: typography.labelLarge.copyWith(color: colors.textMed),
+          // Description and account sit together, with no space between.
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                entry.description,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: typography.bodyBoldXLarge.copyWith(
+                  color: colors.textHigh,
+                ),
+              ),
+              Text(
+                isTransfer
+                    ? '${entry.account} → ${entry.toAccount}'
+                    : entry.account,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: typography.labelLarge.copyWith(color: colors.textMed),
+              ),
+            ],
           ),
           const Spacer(),
           FittedBox(

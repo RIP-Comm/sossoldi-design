@@ -18,8 +18,8 @@ the official repository.
 - Design system: derived from Moon Design (components detached and customized), being imported
 - Code: design system done (tokens, light/dark theme, typography, category colors and all
   Figma components, each with a widgetbook entry); mock database done; app shell (tabs, bottom bar) and Dashboard
-  done in view and edit mode (long press, wiggle, drag to reorder, remove, resize, add-widget sheet) with two
-  widgets (Monthly balance and Latest transactions, sizes S/M/L; layout in memory only);
+  done in view and edit mode (long press, wiggle, drag to reorder, remove, resize, add-widget sheet) with three
+  widgets (Monthly balance, Latest transactions and Upcoming recurring, sizes S/M/L; layout in memory only);
   Finance page with its four tabs and Transactions > List (search, filters, grouped by day, pagination)
   and > Charts (totals, donut, breakdown over time, hand-drawn with CustomPainter, no chart library);
   and Budget (overall, segmented bar, list, budget page with edit and delete, all in memory);

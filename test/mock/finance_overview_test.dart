@@ -80,6 +80,19 @@ MockRepository _repo(
   accounts: accounts,
 );
 
+/// A transaction of a recurring one, dated today (the 15th).
+Transaction _recTx(String recurringId) => Transaction(
+  id: 'tx_rec_$recurringId',
+  type: TransactionType.expense,
+  amount: 12,
+  currency: 'EUR',
+  date: DateTime(2026, 10, 15),
+  description: 'Rec $recurringId',
+  accountId: checkingAccountId,
+  categoryId: 'cat_home',
+  recurringId: recurringId,
+);
+
 final _oct15 = DateTime(2026, 10, 15, 12);
 
 /// Three previous months, 300 € of expenses on day 5 of each.
@@ -741,6 +754,112 @@ void main() {
         ],
       );
       expect(repo.upcomingRecurrencesThisMonth(), isEmpty);
+    });
+  });
+
+  group('upcomingRecurrences (Dashboard widget)', () {
+    test('the Overview reads the same as before: end of month, no today', () {
+      final repo = _repo(
+        _oct15,
+        recurring: [
+          _recurring('a', 10, DateTime(2026, 10, 20)),
+          _recurring('b', 20, DateTime(2026, 11, 3)),
+        ],
+      );
+      expect(repo.upcomingRecurrencesThisMonth().map((o) => o.recurringId), [
+        'a',
+      ]);
+    });
+
+    test('active only, soonest first, across months, limited', () {
+      final repo = _repo(
+        _oct15,
+        recurring: [
+          _recurring('late', 10, DateTime(2026, 11, 3)),
+          _recurring('soon', 20, DateTime(2026, 10, 18)),
+          _recurring(
+            'paused',
+            30,
+            DateTime(2026, 10, 16),
+            status: RecurringStatus.paused,
+          ),
+          _recurring(
+            'transfer',
+            40,
+            DateTime(2026, 10, 25),
+            type: TransactionType.transfer,
+          ),
+        ],
+      );
+      final all = repo.upcomingRecurrences(limit: 10, includeToday: true);
+      expect(all.map((o) => o.recurringId).take(3), [
+        'soon',
+        'transfer',
+        'late',
+      ]);
+      expect(all.any((o) => o.recurringId == 'paused'), isFalse);
+      expect(all.first.type, TransactionType.expense);
+      expect(all[1].type, TransactionType.transfer);
+      for (var i = 1; i < all.length; i++) {
+        expect(all[i].date.isBefore(all[i - 1].date), isFalse);
+      }
+      expect(repo.upcomingRecurrences(limit: 2).length, 2);
+      // Same dates and amounts as the Recurring tab.
+      final tab = repo.recurringOccurrences(2026, 10).where((o) => o.isPlanned);
+      expect(
+        all.where((o) => o.date.month == 10).map((o) => (o.date, o.amount)),
+        tab.map((o) => (o.date, o.amount)),
+      );
+    });
+
+    test('until cuts the horizon', () {
+      final repo = _repo(
+        _oct15,
+        recurring: [_recurring('late', 10, DateTime(2026, 11, 3))],
+      );
+      expect(repo.upcomingRecurrences(until: DateTime(2026, 10, 31)), isEmpty);
+      expect(
+        repo.upcomingRecurrences(until: DateTime(2026, 11, 3)),
+        hasLength(1),
+      );
+    });
+
+    test('an occurrence of today counts only with includeToday', () {
+      final repo = _repo(
+        _oct15,
+        transactions: [_recTx('today')],
+        recurring: [_recurring('today', 12, DateTime(2026, 11, 15))],
+      );
+      expect(
+        repo.upcomingRecurrences(includeToday: true).first.date,
+        DateTime(2026, 10, 15),
+      );
+      expect(
+        repo.upcomingRecurrences().every(
+          (o) => o.date.isAfter(DateTime(2026, 10, 15)),
+        ),
+        isTrue,
+      );
+    });
+
+    test('a paused recurrence with a transaction today is left out', () {
+      final repo = _repo(
+        _oct15,
+        transactions: [_recTx('p')],
+        recurring: [
+          _recurring(
+            'p',
+            12,
+            DateTime(2026, 11, 15),
+            status: RecurringStatus.paused,
+          ),
+        ],
+      );
+      expect(repo.upcomingRecurrences(includeToday: true), isEmpty);
+    });
+
+    test('none when there are no recurring transactions', () {
+      expect(_repo(_oct15).upcomingRecurrences(includeToday: true), isEmpty);
     });
   });
 

@@ -1693,4 +1693,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get txErrEndBeforeStart => 'The end is before the start';
+
+  @override
+  String get widgetUpcomingRecurringName => 'Upcoming recurring';
+
+  @override
+  String get dashboardNoUpcomingRecurring => 'No recurring transactions';
 }

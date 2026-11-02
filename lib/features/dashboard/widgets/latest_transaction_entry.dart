@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 
 import '../../../design_system/design_system.dart';
 
-/// What the Latest transactions widget shows for one transaction.
+/// What the Latest transactions and Upcoming recurring widgets show for one
+/// transaction or occurrence.
 @immutable
 class LatestTransactionEntry {
   const LatestTransactionEntry({
@@ -14,6 +15,8 @@ class LatestTransactionEntry {
     required this.currency,
     this.toAccount,
     this.iconColor,
+    this.dateLabel,
+    this.dateChipType = SossoldiChipType.info,
   });
 
   final SossoldiTransactionType type;
@@ -30,4 +33,8 @@ class LatestTransactionEntry {
   /// Absolute amount; the sign comes from [type].
   final double amount;
   final String currency;
+
+  /// Date chip of an occurrence of a recurring transaction ("1st June").
+  final String? dateLabel;
+  final SossoldiChipType dateChipType;
 }

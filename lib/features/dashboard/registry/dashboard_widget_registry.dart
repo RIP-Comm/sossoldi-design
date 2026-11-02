@@ -3,6 +3,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import '../model/dashboard_layout.dart';
 import '../widgets/latest_transactions_widget.dart';
 import '../widgets/monthly_balance_widget.dart';
+import '../widgets/upcoming_recurring_widget.dart';
 import 'dashboard_widget_definition.dart';
 import 'dashboard_widget_ids.dart';
 
@@ -18,9 +19,8 @@ class DashboardWidgetRegistry {
   DashboardWidgetDefinition? byId(String id) => _byId[id];
 }
 
-/// Only the widgets designed in Figma are registered: Monthly balance and
-/// Latest transactions, each in S, M and L. The others in the Figma list
-/// are added when they are designed.
+/// The widgets available: Monthly balance, Latest transactions and Upcoming
+/// recurring, each in S, M and L. The others are added when they are built.
 final dashboardWidgetRegistry = DashboardWidgetRegistry([
   DashboardWidgetDefinition(
     id: DashboardWidgetIds.monthlyBalance,
@@ -38,6 +38,15 @@ final dashboardWidgetRegistry = DashboardWidgetRegistry([
     builders: {
       for (final size in DashboardWidgetSize.values)
         size: (context) => LatestTransactionsWidget(size: size),
+    },
+  ),
+  DashboardWidgetDefinition(
+    id: DashboardWidgetIds.upcomingRecurring,
+    name: (l10n) => l10n.widgetUpcomingRecurringName,
+    icon: PhosphorIconsRegular.arrowsClockwise,
+    builders: {
+      for (final size in DashboardWidgetSize.values)
+        size: (context) => UpcomingRecurringWidget(size: size),
     },
   ),
 ]);

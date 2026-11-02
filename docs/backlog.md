@@ -13,7 +13,7 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-10-30 (Add sheet).
 ## To do
 
 ### Dashboard
-- [ ] Widget opzionali: Upcoming recurring, Investments snapshot, Net worth, Insight of the moment — todo, spec in Figma "Widget - Components" — registry
+- [ ] Widget opzionali: Investments snapshot, Net worth, Insight of the moment — todo, spec in Figma "Widget - Components" — registry
 - [ ] Widget Savings goals — needs design; nessun modello dati per gli obiettivi in `lib/mock/models/` (verificato) — blocked
 
 ### Finance
@@ -53,6 +53,7 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-10-30 (Add sheet).
 - Nessuna aperta. Decise: nessun insight → non si mostra nulla, non sono tappabili; conti e categorie in ordine alfabetico (si rivede in Settings)
 
 ## Done (più recente in alto)
+- [x] 2026-11-02 — Widget Dashboard "Upcoming recurring" (S/M/L, opzionale, oggi incluso, stato vuoto)
 - [x] 2026-10-30 — Snackbar e ombre del pulsante add, animazione e posizione dello snackbar
 - [x] 2026-10-30 — Add sheet: un solo bottom sheet per transazioni e movimenti (conto principale, trasferimenti con cambio, ricorrenze, suggerimenti, Undo)
 - [x] 2026-10-28 — Form asset dell'onboarding sceglie l'asset come il form movimento

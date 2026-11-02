@@ -523,5 +523,7 @@
   "txEndCount": "Numero di volte",
   "txChooseDate": "Scegli una data",
   "txErrChooseDate": "Scegli la data di fine",
-  "txErrEndBeforeStart": "La fine è prima dell'inizio"
+  "txErrEndBeforeStart": "La fine è prima dell'inizio",
+  "widgetUpcomingRecurringName": "Prossime ricorrenze",
+  "dashboardNoUpcomingRecurring": "Nessuna ricorrenza"
 }
