@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sossoldi/features/dashboard/model/default_dashboard_layout.dart';
 import 'package:sossoldi/app/app.dart';
 import 'package:sossoldi/app/app_scope.dart';
 import 'package:sossoldi/app/app_state.dart';
@@ -78,6 +79,9 @@ DashboardLayout _layout(List<DashboardWidgetSize> sizes) => DashboardLayout([
 ]);
 
 void main() {
+  // These tests count on one widget on the Dashboard.
+  setUp(() => startDashboardLayout = singleWidgetDashboardLayout);
+  tearDown(() => startDashboardLayout = defaultDashboardLayout);
   setUpAll(loadTestFonts);
 
   group('entering and leaving edit mode', () {

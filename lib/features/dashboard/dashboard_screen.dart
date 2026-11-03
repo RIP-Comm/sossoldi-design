@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../../app/app_scope.dart';
+import '../../app/top_blur.dart';
 import '../../design_system/design_system.dart';
 import '../../l10n/l10n.dart';
 import 'add_widget/add_widget_sheet.dart';
@@ -69,49 +70,59 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // so the last widget can scroll above it.
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     final controller = widget.controller;
-    return SafeArea(
-      bottom: false,
-      child: ListenableBuilder(
-        listenable: controller,
-        builder: (context, _) {
-          final editing = controller.isEditing;
-          return Column(
-            children: [
-              _TopBar(
+    final top = MediaQuery.paddingOf(context).top;
+    final barHeight = top + SossoldiHeaderButton.size;
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final editing = controller.isEditing;
+        return Stack(
+          children: [
+            // The widgets scroll under the top bar and the status bar.
+            Positioned.fill(
+              child: SingleChildScrollView(
+                controller: _scroll,
+                padding: EdgeInsets.only(top: barHeight, bottom: bottomInset),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    DashboardGrid(
+                      layout: controller.layout,
+                      registry: _registry,
+                      editing: editing,
+                      onLongPressWidget: controller.enterEditMode,
+                      onRemove: controller.remove,
+                      onResize: controller.resize,
+                      onReorder: controller.move,
+                    ),
+                    if (controller.layout.isEmpty)
+                      _EmptyState(editing: editing, onAdd: _addFromEmptyState),
+                  ],
+                ),
+              ),
+            ),
+            // No background: what passes under is blurred (not in Figma).
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: barHeight,
+              child: const ProgressiveBlur(),
+            ),
+            Positioned(
+              top: top,
+              left: 0,
+              right: 0,
+              child: _TopBar(
                 editing: editing,
                 onOpenSettings: widget.onOpenSettings,
                 onAdd: _addWidget,
                 onDone: controller.exitEditMode,
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: _scroll,
-                  padding: EdgeInsets.only(bottom: bottomInset),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      DashboardGrid(
-                        layout: controller.layout,
-                        registry: _registry,
-                        editing: editing,
-                        onLongPressWidget: controller.enterEditMode,
-                        onRemove: controller.remove,
-                        onResize: controller.resize,
-                        onReorder: controller.move,
-                      ),
-                      if (controller.layout.isEmpty)
-                        _EmptyState(
-                          editing: editing,
-                          onAdd: _addFromEmptyState,
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

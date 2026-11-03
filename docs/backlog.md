@@ -1,7 +1,7 @@
 # Backlog — Sossoldi V2 prototype
 
 NON caricato in automatico (fuori da `.claude/rules/`). Leggerlo solo per stato, "cosa manca", priorità.
-Stato: todo / needs design / blocked. Aggiornato: 2026-10-30 (Add sheet).
+Stato: todo / needs design / blocked. Aggiornato: 2026-11-03 (navbar, blur, tendine).
 
 ## Next up (max 5)
 - [ ] Account principale: scelta dell'account da Settings > Accounts (la flag esiste) — todo — `mock/models/account.dart`
@@ -41,6 +41,7 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-10-30 (Add sheet).
 - [ ] "Counts for Net Worth" degli asset: solo salvato, nessun totale lo usa — blocked (Net worth) — `Holding.countsForNetWorth`
 
 ### Design system
+- [ ] Blur progressivo: oggi 16 fasce di `BackdropFilter` (`app/top_blur.dart`); un vero shader continuo è un'idea da provare (con ripiego dove non è supportato) e le prestazioni su telefono non sono misurate — todo
 - [ ] Mappatura finale dei token e elenco completo dei componenti (sezione "To be completed") — todo — `rules/design-system.md`
 - [ ] Hidden Mode (maschera importi): interruttore globale c'è, verificare copertura — todo
 - [ ] Ordine alfabetico di conti e categorie (nessun riordino manuale per ora) — todo
@@ -62,9 +63,12 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-10-30 (Add sheet).
 - Nessuna aperta. Decise: nessun insight → non si mostra nulla, non sono tappabili; conti e categorie in ordine alfabetico (si rivede in Settings)
 
 ## Done (più recente in alto)
-- [x] 2026-11-02 — Widget Dashboard "Upcoming recurring" (S/M/L, opzionale, oggi incluso, stato vuoto)
+- [x] 2026-11-03 — Navbar: bordo `strokeMinus1` in light e dark, padding interno 4 px; blur progressivo sotto la barra di stato e la barra in alto (Home, Finance, Investments: `ProgressiveBlur`, `TopBlur`); Dashboard di default con quattro widget (S, S, L, M)
+- [x] 2026-11-03 — Dashboard: nella variante S nessuno spazio tra descrizione e conto; trascinamento di un M sopra un altro M non sposta più le S sopra
+- [x] 2026-11-03 — `SossoldiSelect`: la tendina resta nello schermo, si apre verso l'alto se serve, scorre dentro ed è attaccata al campo
 - [x] 2026-11-03 — Inspector: toolbar flottante stile Figma (menu device, lingua, dati, selezione, zoom; dark mode e modalità), pannello destro ridimensionabile, menu con titoli in evidenza, niente ombra dentro il telefono; `SossoldiMenuItem(dense:)` e `SossoldiPopover(above:)`
 - [x] 2026-11-03 — Inspector (bozza): app web in `inspector/` con menu delle schermate, telefono, pannello dev mode (misure, padding, auto layout, colori, testo, token)
+- [x] 2026-11-02 — Widget Dashboard "Upcoming recurring" (S/M/L, opzionale, oggi incluso, stato vuoto)
 - [x] 2026-10-30 — Snackbar e ombre del pulsante add, animazione e posizione dello snackbar
 - [x] 2026-10-30 — Add sheet: un solo bottom sheet per transazioni e movimenti (conto principale, trasferimenti con cambio, ricorrenze, suggerimenti, Undo)
 - [x] 2026-10-28 — Form asset dell'onboarding sceglie l'asset come il form movimento

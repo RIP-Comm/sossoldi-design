@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sossoldi/features/dashboard/model/default_dashboard_layout.dart';
 import 'package:sossoldi/app/app.dart';
 import 'package:sossoldi/app/app_state.dart';
 import 'package:sossoldi/design_system/design_system.dart';
@@ -38,6 +39,9 @@ Future<void> _pick(WidgetTester tester, String current, String next) async {
 }
 
 void main() {
+  // These tests count on one widget on the Dashboard.
+  setUp(() => startDashboardLayout = singleWidgetDashboardLayout);
+  tearDown(() => startDashboardLayout = defaultDashboardLayout);
   setUpAll(loadTestFonts);
 
   testWidgets('shows the theme switch, the language and the currency', (

@@ -62,24 +62,22 @@ class SossoldiNavbar extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: _maxPillWidth),
           child: Container(
             height: height,
-            padding: const EdgeInsets.all(2),
-            // Not in Figma: in dark mode the shadow is invisible and the
-            // bar (surfaceHigh) is close to the background, so a thin
-            // border marks its edge. Drawn on top so it takes no space.
-            // Light mode is unchanged.
-            foregroundDecoration:
-                Theme.of(context).brightness == Brightness.dark
-                ? BoxDecoration(
-                    borderRadius: BorderRadius.circular(SossoldiRadius.max),
-                    border: Border.all(color: colors.strokePlus1),
-                  )
-                : null,
+            padding: const EdgeInsets.all(SossoldiSpacing.xs),
+            // Not in Figma: the bar (surfaceHigh) is close to the background
+            // and its shadow is faint, so a thin border marks its edge, the
+            // same in light and dark. Drawn on top so it takes no space.
+            foregroundDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(SossoldiRadius.max),
+              border: Border.all(color: colors.strokeMinus1),
+            ),
             decoration: BoxDecoration(
               color: colors.surfaceHigh,
               borderRadius: BorderRadius.circular(SossoldiRadius.max),
               boxShadow: SossoldiShadows.m,
             ),
             child: Row(
+              // The selected pill fills the height inside the padding.
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 for (final (i, item) in items.indexed)
                   Expanded(
@@ -140,7 +138,6 @@ class _Tab extends StatelessWidget {
       selected: selected,
       semanticLabel: item.label,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: SossoldiSpacing.xs),
         decoration: BoxDecoration(
           color: selected ? colors.selectedSurface : null,
           borderRadius: BorderRadius.circular(SossoldiRadius.max),

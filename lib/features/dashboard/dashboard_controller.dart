@@ -7,7 +7,7 @@ import 'model/default_dashboard_layout.dart';
 /// being edited. Not persisted.
 class DashboardController extends ChangeNotifier {
   DashboardController({DashboardLayout? layout})
-    : _layout = layout ?? defaultDashboardLayout {
+    : _layout = layout ?? startDashboardLayout {
     _nextId = _layout.items.length;
   }
 

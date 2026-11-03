@@ -99,9 +99,17 @@ void main() {
       }
     });
 
-    test('default layout is one widget, size S', () {
-      expect(defaultDashboardLayout.items, hasLength(1));
-      expect(defaultDashboardLayout.items.single.size, s);
+    test('default layout: S, S, L, M with three different widgets', () {
+      expect(defaultDashboardLayout.items.map((i) => i.size), [
+        s,
+        s,
+        DashboardWidgetSize.l,
+        DashboardWidgetSize.m,
+      ]);
+      expect(
+        defaultDashboardLayout.items.map((i) => i.widgetId).toSet(),
+        hasLength(3),
+      );
     });
 
     test('widget ids and item ids are unique', () {

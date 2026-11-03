@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sossoldi/features/dashboard/model/default_dashboard_layout.dart';
 import 'package:sossoldi/app/app.dart';
 import 'package:sossoldi/app/app_state.dart';
 import 'package:sossoldi/design_system/design_system.dart';
@@ -61,6 +62,9 @@ Widget _card(BalanceTrend trend, {bool masked = false, double width = 171}) =>
     );
 
 void main() {
+  // These tests count on one widget on the Dashboard.
+  setUp(() => startDashboardLayout = singleWidgetDashboardLayout);
+  tearDown(() => startDashboardLayout = defaultDashboardLayout);
   group('app shell', () {
     testWidgets('shows the Dashboard with one widget and the bottom bar', (
       tester,

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sossoldi/features/dashboard/model/default_dashboard_layout.dart';
 import 'package:sossoldi/features/dashboard/dashboard_controller.dart';
 import 'package:sossoldi/features/dashboard/model/dashboard_geometry.dart';
 import 'package:sossoldi/features/dashboard/model/dashboard_layout.dart';
@@ -17,6 +18,9 @@ List<List<String>> _rows(DashboardLayout layout) => [
 ];
 
 void main() {
+  // These tests count on one widget on the Dashboard.
+  setUp(() => startDashboardLayout = singleWidgetDashboardLayout);
+  tearDown(() => startDashboardLayout = defaultDashboardLayout);
   group('layout operations', () {
     test('add appends; an S joins a lone S, others start a new row', () {
       var layout = DashboardLayout([_item('a', s)]);

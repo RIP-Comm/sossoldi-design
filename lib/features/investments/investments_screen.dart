@@ -7,6 +7,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../app/top_blur.dart';
 import '../../app/app_scope.dart';
 import '../../design_system/design_system.dart';
 import '../../l10n/l10n.dart';
@@ -51,8 +52,8 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
     // The shell adds the height of the bottom bar to the bottom padding.
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     final controller = widget.controller;
-    return SafeArea(
-      bottom: false,
+    final top = MediaQuery.paddingOf(context).top;
+    return TopBlur(
       child: ListenableBuilder(
         listenable: controller,
         builder: (context, _) => RefreshIndicator(
@@ -64,7 +65,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.fromLTRB(
               SossoldiSpacing.l,
-              15,
+              top + 15,
               SossoldiSpacing.l,
               bottomInset + SossoldiSpacing.l,
             ),
