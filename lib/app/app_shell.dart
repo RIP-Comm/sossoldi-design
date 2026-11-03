@@ -17,17 +17,21 @@ import '../features/investments/investments_controller.dart';
 import '../features/investments/investments_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../l10n/l10n.dart';
+import 'app_entry.dart';
 import 'app_scope.dart';
 
 class AppShell extends StatefulWidget {
-  const AppShell({super.key});
+  const AppShell({super.key, this.entry});
+
+  /// Where it opens: Home when null.
+  final AppEntry? entry;
 
   @override
   State<AppShell> createState() => _AppShellState();
 }
 
 class _AppShellState extends State<AppShell> {
-  int _index = 0;
+  late int _index = widget.entry?.section.index ?? 0;
   final DashboardController _dashboard = DashboardController();
 
   /// Created on first use: it needs the repository from the app scope.
@@ -38,6 +42,21 @@ class _AppShellState extends State<AppShell> {
   late final InvestmentsController _investments = InvestmentsController(
     AppScope.read(context).repository,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    final entry = widget.entry;
+    if (entry == null) return;
+    if (entry.financeTab case final tab?) _finance.selectTab(tab);
+    if (entry.transactionsView case final view?) _finance.selectView(view);
+    if (entry.investmentsTab case final tab?) _investments.selectTab(tab);
+    if (entry.afterOpen case final open?) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) open(context);
+      });
+    }
+  }
 
   @override
   void dispose() {

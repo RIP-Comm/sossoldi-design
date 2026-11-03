@@ -401,6 +401,29 @@ class MenuListDropdownUseCase extends StatelessWidget {
           ],
         ),
         FoundationSection(
+          title: 'Dense (navigation lists): default / selected',
+          children: [
+            _Box(
+              SossoldiList(
+                children: [
+                  SossoldiMenuItem(
+                    label: 'Overview',
+                    dense: true,
+                    onTap: () {},
+                  ),
+                  SossoldiMenuItem(
+                    label: 'Transactions',
+                    dense: true,
+                    selected: true,
+                    onTap: () {},
+                  ),
+                ],
+              ),
+              width: 240,
+            ),
+          ],
+        ),
+        FoundationSection(
           title: 'List',
           children: [
             _Box(

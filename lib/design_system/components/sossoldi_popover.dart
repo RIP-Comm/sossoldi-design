@@ -14,6 +14,7 @@ class SossoldiPopover extends StatefulWidget {
     required this.content,
     required this.child,
     this.width = 304,
+    this.above = false,
   });
 
   /// Shown in the panel.
@@ -22,6 +23,10 @@ class SossoldiPopover extends StatefulWidget {
   /// The trigger.
   final Widget child;
   final double width;
+
+  /// Opens above the trigger instead of below (for a trigger at the bottom
+  /// of the screen, e.g. a floating toolbar). Not in Figma.
+  final bool above;
 
   /// Closes the popover that [context] (its content) is inside, if any.
   static void close(BuildContext context) =>
@@ -57,10 +62,20 @@ class _SossoldiPopoverState extends State<SossoldiPopover> {
           controller: _overlay,
           overlayChildBuilder: (_) => CompositedTransformFollower(
             link: _link,
-            targetAnchor: Alignment.bottomLeft,
-            offset: const Offset(0, SossoldiSpacing.s),
+            targetAnchor: widget.above
+                ? Alignment.topLeft
+                : Alignment.bottomLeft,
+            followerAnchor: widget.above
+                ? Alignment.bottomLeft
+                : Alignment.topLeft,
+            offset: Offset(
+              0,
+              widget.above ? -SossoldiSpacing.s : SossoldiSpacing.s,
+            ),
             child: Align(
-              alignment: Alignment.topLeft,
+              alignment: widget.above
+                  ? Alignment.bottomLeft
+                  : Alignment.topLeft,
               child: TapRegion(
                 groupId: _tapRegionGroup,
                 child: SizedBox(

@@ -50,7 +50,8 @@ currency, numeric keyboard), `showSossoldiDatePicker` (one day, in a bottom shee
 tabs that take a color when selected (`SossoldiTabData.text(..., activeRole:)`, for expense / income / transfer),
 `SossoldiSnackbar` with a text action ("Undo") and `showSossoldiSnackbar(messenger:, bottomMargin:)`,
 `SossoldiBottomSheetToolbar.icon(titleWidget:)` (title that opens a menu), `SossoldiPopover.close(context)`,
-`SossoldiSwitchRow(description:)`, `SossoldiAccountItem(tag:)`, `SossoldiTextInput(focusNode:)`; the label of a
+`SossoldiSwitchRow(description:)`, `SossoldiAccountItem(tag:)`, `SossoldiTextInput(focusNode:)`, `SossoldiMenuItem(dense:)` (compact row for the
+Inspector's menu), `SossoldiPopover(above:)` (opens above the trigger, for the Inspector's toolbar); the label of a
 `SossoldiUnitNavigator` is cut with an ellipsis. Each has a widgetbook entry.
 
 ## To be completed

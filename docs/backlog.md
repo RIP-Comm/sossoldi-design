@@ -46,7 +46,16 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-10-30 (Add sheet).
 - [ ] Ordine alfabetico di conti e categorie (nessun riordino manuale per ora) — todo
 
 ### Tecnico
-- [ ] Elenco font DM Sans in sync tra `pubspec.yaml` e `widgetbook/pubspec.yaml` — controllo ricorrente
+- [ ] Elenco font DM Sans in sync tra `pubspec.yaml`, `widgetbook/pubspec.yaml` e `inspector/pubspec.yaml` — controllo ricorrente
+
+### Inspector (`inspector/`)
+- [ ] Rifinire la UI dell'Inspector insieme (pannello destro: gerarchie, cosa mostrare per primo) — in corso
+- [ ] Tooltip sugli strumenti della toolbar (SossoldiTooltipTarget si apre anche al tap: va bene solo al passaggio del mouse) — todo
+- [ ] Più scene: pagine di dettaglio (budget, ricorrenza, posizione, movimento), Step 1–3 dell'onboarding, form, Dashboard in edit mode, stati vuoti — todo
+- [ ] Distanze tra fratelli di un Row/Column (gap) disegnate sul telefono, misure con Alt come in Figma — todo
+- [ ] Copia dei valori (snippet Flutter / CSS) e link alla scena (URL per scena, tema, lingua) — todo
+- [ ] Pubblicazione: build web release (`flutter build web`) e hosting statico (GitHub Pages o simile) — todo
+- [ ] Rigenerare `lib/catalog/widget_names.g.dart` quando si aggiungono componenti o schermate (`dart run tool/generate_widget_names.dart`) — controllo ricorrente
 - [ ] Conti broker: le operazioni non spostano denaro tra conti (semplificazione nota) — todo/decidere
 
 ## Open questions
@@ -54,6 +63,8 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-10-30 (Add sheet).
 
 ## Done (più recente in alto)
 - [x] 2026-11-02 — Widget Dashboard "Upcoming recurring" (S/M/L, opzionale, oggi incluso, stato vuoto)
+- [x] 2026-11-03 — Inspector: toolbar flottante stile Figma (menu device, lingua, dati, selezione, zoom; dark mode e modalità), pannello destro ridimensionabile, menu con titoli in evidenza, niente ombra dentro il telefono; `SossoldiMenuItem(dense:)` e `SossoldiPopover(above:)`
+- [x] 2026-11-03 — Inspector (bozza): app web in `inspector/` con menu delle schermate, telefono, pannello dev mode (misure, padding, auto layout, colori, testo, token)
 - [x] 2026-10-30 — Snackbar e ombre del pulsante add, animazione e posizione dello snackbar
 - [x] 2026-10-30 — Add sheet: un solo bottom sheet per transazioni e movimenti (conto principale, trasferimenti con cambio, ricorrenze, suggerimenti, Undo)
 - [x] 2026-10-28 — Form asset dell'onboarding sceglie l'asset come il form movimento

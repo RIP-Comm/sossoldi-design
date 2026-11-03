@@ -23,6 +23,7 @@ class SossoldiMenuItem extends StatelessWidget {
     this.selected,
     this.onTap,
     this.enabled = true,
+    this.dense = false,
   });
 
   final String label;
@@ -51,13 +52,22 @@ class SossoldiMenuItem extends StatelessWidget {
   /// A disabled item is dimmed and ignores taps.
   final bool enabled;
 
+  /// Compact row (36 high, smaller label) for long navigation lists. Not in
+  /// Figma: added for the Inspector's menu of screens.
+  final bool dense;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final typography = context.typography;
     final row = Container(
-      constraints: const BoxConstraints(minHeight: 48),
-      padding: const EdgeInsets.all(SossoldiSpacing.s),
+      constraints: BoxConstraints(minHeight: dense ? 36 : 48),
+      padding: dense
+          ? const EdgeInsets.symmetric(
+              horizontal: SossoldiSpacing.s,
+              vertical: SossoldiSpacing.xs,
+            )
+          : const EdgeInsets.all(SossoldiSpacing.s),
       decoration: ShapeDecoration(
         // The selected option: a primary tint and a check on the right.
         color: selected == true
@@ -85,9 +95,15 @@ class SossoldiMenuItem extends StatelessWidget {
                     children: [
                       Text(
                         label,
-                        style: typography.labelLarge.copyWith(
-                          color: enabled ? colors.textHigh : colors.textLow,
-                        ),
+                        style:
+                            (dense
+                                    ? typography.labelMedium
+                                    : typography.labelLarge)
+                                .copyWith(
+                                  color: enabled
+                                      ? colors.textHigh
+                                      : colors.textLow,
+                                ),
                       ),
                       if (subtitle != null)
                         Text(
@@ -112,7 +128,7 @@ class SossoldiMenuItem extends StatelessWidget {
               dimension: 24,
               child: Icon(
                 PhosphorIconsRegular.check,
-                size: 20,
+                size: dense ? 16 : 20,
                 color: colors.primary.text,
               ),
             )

@@ -1,0 +1,44 @@
+name: sossoldi_inspector
+description: "Sossoldi Inspector: the prototype in a phone frame with a dev-mode panel (sizes, spacing, tokens)."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  sossoldi:
+    path: ..
+  phosphoricons_flutter: ^1.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  # The app loads its images as "assets/images/..." (no package prefix):
+  # assets/images is a link to the main project folder.
+  assets:
+    - assets/images/
+    - assets/images/logo/
+
+  # DM Sans: assets/fonts/dm_sans is a link to the main project font folder
+  # (keep in sync with ../pubspec.yaml).
+  fonts:
+    - family: DMSans
+      fonts:
+        - asset: assets/fonts/dm_sans/DMSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/dm_sans/DMSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/dm_sans/DMSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/dm_sans/DMSans-Bold.ttf
+          weight: 700

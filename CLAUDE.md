@@ -84,6 +84,12 @@ Backlog: docs/backlog.md — NON è caricato in automatico; leggilo solo quando 
   - `lib/l10n/` → localized strings: edit `app_en.arb` / `app_it.arb`, then run `flutter gen-l10n`
     (output in `lib/l10n/generated/`); use `context.l10n.<key>`
   - `widgetbook/` → design system component gallery
+  - `inspector/` → Sossoldi Inspector (Flutter web, depends on this package by path): the app in a phone frame
+    with a menu of screens and a dev-mode panel (size, padding, auto layout, colors, text, with their tokens),
+    the reference for the developers instead of Figma. The app has two hooks for it: `AppEntry`
+    (`lib/app/app_entry.dart`, where the shell opens) and `SossoldiApp.builder`. Screens of the menu in
+    `inspector/lib/scenes.dart`; after adding a component or a screen widget run
+    `dart run tool/generate_widget_names.dart` in `inspector/`. Run: `cd inspector && flutter run -d chrome`
 - Naming: files in snake_case, classes in PascalCase, one public widget per file.
 - Commands (Flutter SDK in `~/development/flutter`; if `flutter` is not on PATH, use
   `~/development/flutter/bin/flutter`):
@@ -94,7 +100,8 @@ Backlog: docs/backlog.md — NON è caricato in automatico; leggilo solo quando 
   - Widgetbook (separate app in `widgetbook/`, depends on this package by path):
     `cd widgetbook && flutter run -d chrome`
 - Fonts: DM Sans is bundled in `assets/fonts/dm_sans/` (OFL), family `DMSans`. The widgetbook app declares the
-  same files through the link `widgetbook/assets/fonts/dm_sans` in its own pubspec: keep the two font lists in sync.
+  same files through the link `widgetbook/assets/fonts/dm_sans` in its own pubspec, the Inspector through
+  `inspector/assets/fonts/dm_sans` (and `inspector/assets/images`): keep the font lists in sync.
 - Images: `assets/images/` (the vault in SVG, the five pieces of the logo in `logo/`), drawn with `flutter_svg`.
 - Icons: Phosphor (`phosphoricons_flutter`; `phosphor_flutter` is abandoned and does not compile on Dart 3.x).
 

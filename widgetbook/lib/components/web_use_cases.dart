@@ -164,6 +164,33 @@ class PopoverUseCase extends StatelessWidget {
             ),
           ],
         ),
+        FoundationSection(
+          title: 'Above the trigger (above: true)',
+          children: [
+            const SizedBox(height: 140),
+            SossoldiPopover(
+              above: true,
+              content: SizedBox(
+                height: 120,
+                child: Center(
+                  child: Text(
+                    'CONTENT',
+                    style: context.typography.labelUppercaseLarge.copyWith(
+                      color: context.colors.primary.text,
+                    ),
+                  ),
+                ),
+              ),
+              child: IgnorePointer(
+                child: SossoldiButton(
+                  label: 'Open above',
+                  type: SossoldiButtonType.outline,
+                  onPressed: () {},
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
