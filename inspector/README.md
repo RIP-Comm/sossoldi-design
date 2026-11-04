@@ -26,11 +26,15 @@ flutter run -d chrome
 
 Every push on `main` of [RIP-Comm/sossoldi-design](https://github.com/RIP-Comm/sossoldi-design)
 runs `.github/workflows/inspector.yml`: it tests the Inspector, builds it
-(`flutter build web`) and publishes it on GitHub Pages. In the repository
-settings, Pages must have **GitHub Actions** as its source; the custom domain is
-set there too. The base href follows by itself (`/` on the custom domain,
-`/sossoldi-design/` on github.io). The Flutter version is pinned in the
-workflow: update it together with the local one.
+(`flutter build web`) and puts the ready site in the **`site`** branch (static
+files only, the last build). Any static host serves that branch as it is, with
+no build command and the branch root as output: Cloudflare Pages, GitHub Pages
+("Deploy from a branch"), Netlify. A failing test leaves the site as it was.
+
+The site expects to be at the root of a domain or subdomain. For a subfolder
+(e.g. `/inspector/`) set the repository variable `INSPECTOR_BASE_HREF`. The
+Flutter version is pinned in the workflow: update it together with the local
+one.
 
 After adding a design system component or a screen widget, regenerate the
 names the panel shows (a release build minifies class names):

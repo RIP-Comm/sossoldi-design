@@ -90,8 +90,8 @@ Backlog: docs/backlog.md — NON è caricato in automatico; leggilo solo quando 
     (`lib/app/app_entry.dart`, where the shell opens) and `SossoldiApp.builder`. Screens of the menu in
     `inspector/lib/scenes.dart`; after adding a component or a screen widget run
     `dart run tool/generate_widget_names.dart` in `inspector/`. Run: `cd inspector && flutter run -d chrome`.
-    Published on GitHub Pages by `.github/workflows/inspector.yml` at every push on `main`
-    (repo RIP-Comm/sossoldi-design); the workflow pins the Flutter version (3.47.8): keep it in step
+    At every push on `main` (repo RIP-Comm/sossoldi-design) `.github/workflows/inspector.yml` tests and
+    builds it into the `site` branch (static files for any host); it pins the Flutter version (3.47.8): keep it in step
 - Naming: files in snake_case, classes in PascalCase, one public widget per file.
 - Commands (Flutter SDK in `~/development/flutter`; if `flutter` is not on PATH, use
   `~/development/flutter/bin/flutter`):
