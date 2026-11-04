@@ -35,14 +35,15 @@ void main() {
     tester,
   ) async {
     await _pumpInspector(tester);
-    // The headline amount of the Monthly balance widget.
-    final amount = find.text('-€1,056.96').first;
-    await tester.tapAt(tester.getCenter(amount));
+    // The title of the Monthly balance widget (the amounts change with the
+    // date the mock data are built on).
+    await tester.tapAt(tester.getCenter(find.text('Monthly balance').first));
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.text('LAYOUT'), findsOneWidget);
     expect(find.text('TEXT'), findsOneWidget);
-    expect(find.text('headlineSmall'), findsOneWidget);
-    expect(find.text('textHigh'), findsOneWidget);
+    // Its style and color are tokens of the design system.
+    expect(find.text('Custom'), findsNothing);
+    expect(find.text('textMed'), findsOneWidget);
   });
 
   testWidgets('Component picks the whole design system component', (

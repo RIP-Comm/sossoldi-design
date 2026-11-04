@@ -55,7 +55,7 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-03 (navbar, blur, tend
 - [ ] Più scene: pagine di dettaglio (budget, ricorrenza, posizione, movimento), Step 1–3 dell'onboarding, form, Dashboard in edit mode, stati vuoti — todo
 - [ ] Distanze tra fratelli di un Row/Column (gap) disegnate sul telefono, misure con Alt come in Figma — todo
 - [ ] Copia dei valori (snippet Flutter / CSS) e link alla scena (URL per scena, tema, lingua) — todo
-- [ ] Pubblicazione: build web release (`flutter build web`) e hosting statico (GitHub Pages o simile) — todo
+- [ ] Pubblicazione su GitHub Pages: attivare Pages con sorgente "GitHub Actions" e collegare il dominio di Sossoldi (lo fa il collega su RIP-Comm/sossoldi-design) — blocked
 - [ ] Rigenerare `lib/catalog/widget_names.g.dart` quando si aggiungono componenti o schermate (`dart run tool/generate_widget_names.dart`) — controllo ricorrente
 - [ ] Conti broker: le operazioni non spostano denaro tra conti (semplificazione nota) — todo/decidere
 
@@ -66,6 +66,7 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-03 (navbar, blur, tend
 - [x] 2026-11-03 — Navbar: bordo `strokeMinus1` in light e dark, padding interno 4 px; blur progressivo sotto la barra di stato e la barra in alto (Home, Finance, Investments: `ProgressiveBlur`, `TopBlur`); Dashboard di default con quattro widget (S, S, L, M)
 - [x] 2026-11-03 — Dashboard: nella variante S nessuno spazio tra descrizione e conto; trascinamento di un M sopra un altro M non sposta più le S sopra
 - [x] 2026-11-03 — `SossoldiSelect`: la tendina resta nello schermo, si apre verso l'alto se serve, scorre dentro ed è attaccata al campo
+- [x] 2026-11-04 — GitHub Action che testa, compila e pubblica l'Inspector su Pages a ogni push su `main` (repo RIP-Comm/sossoldi-design)
 - [x] 2026-11-03 — Inspector: toolbar flottante stile Figma (menu device, lingua, dati, selezione, zoom; dark mode e modalità), pannello destro ridimensionabile, menu con titoli in evidenza, niente ombra dentro il telefono; `SossoldiMenuItem(dense:)` e `SossoldiPopover(above:)`
 - [x] 2026-11-03 — Inspector (bozza): app web in `inspector/` con menu delle schermate, telefono, pannello dev mode (misure, padding, auto layout, colori, testo, token)
 - [x] 2026-11-02 — Widget Dashboard "Upcoming recurring" (S/M/L, opzionale, oggi incluso, stato vuoto)

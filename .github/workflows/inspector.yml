@@ -1,0 +1,60 @@
+# Builds the Sossoldi Inspector (inspector/) and publishes it on GitHub Pages
+# at every push on main. Pages must use "GitHub Actions" as its source
+# (Settings > Pages). With a custom domain the site is served from its root;
+# on <owner>.github.io/<repo>/ from the repository path: the base href follows.
+
+name: Inspector
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; a newer push does not cancel one already running.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.8
+          cache: true
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Test
+        working-directory: inspector
+        run: |
+          flutter pub get
+          flutter test
+
+      - name: Build
+        working-directory: inspector
+        run: flutter build web --release --base-href "${{ steps.pages.outputs.base_path }}/"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: inspector/build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

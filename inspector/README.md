@@ -20,9 +20,17 @@ developers who rebuild the front end (Figma is no longer kept up to date).
 ```bash
 cd inspector
 flutter run -d chrome
-# a static site to publish:
-flutter build web
 ```
+
+## Publishing
+
+Every push on `main` of [RIP-Comm/sossoldi-design](https://github.com/RIP-Comm/sossoldi-design)
+runs `.github/workflows/inspector.yml`: it tests the Inspector, builds it
+(`flutter build web`) and publishes it on GitHub Pages. In the repository
+settings, Pages must have **GitHub Actions** as its source; the custom domain is
+set there too. The base href follows by itself (`/` on the custom domain,
+`/sossoldi-design/` on github.io). The Flutter version is pinned in the
+workflow: update it together with the local one.
 
 After adding a design system component or a screen widget, regenerate the
 names the panel shows (a release build minifies class names):
