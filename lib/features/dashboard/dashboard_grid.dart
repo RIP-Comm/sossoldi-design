@@ -24,6 +24,7 @@ import '../../design_system/design_system.dart';
 import '../../l10n/l10n.dart';
 import 'model/dashboard_geometry.dart';
 import 'model/dashboard_layout.dart';
+import 'registry/dashboard_widget_definition.dart';
 import 'registry/dashboard_widget_registry.dart';
 
 class DashboardGrid extends StatefulWidget {
@@ -36,6 +37,7 @@ class DashboardGrid extends StatefulWidget {
     this.onRemove,
     this.onResize,
     this.onReorder,
+    this.onSettingChanged,
     this.padding = SossoldiSpacing.l,
   });
 
@@ -51,6 +53,10 @@ class DashboardGrid extends StatefulWidget {
   /// Edit mode: a widget was dragged to a new place; [index] is its position
   /// in the new order.
   final void Function(String itemId, int index)? onReorder;
+
+  /// A widget changed one of its choices (e.g. the budget type).
+  final void Function(String itemId, String key, String? value)?
+  onSettingChanged;
 
   /// Space around the widgets inside the grid.
   final double padding;
@@ -403,7 +409,16 @@ class _DashboardGridState extends State<DashboardGrid>
   Widget _content(BuildContext context, DashboardItem item) {
     final built = widget.registry
         .byId(item.widgetId)
-        ?.build(context, item.size);
+        ?.build(
+          context,
+          item.size,
+          instance: DashboardWidgetInstance(
+            settings: item.settings,
+            editing: widget.editing,
+            onSettingChanged: (key, value) =>
+                widget.onSettingChanged?.call(item.id, key, value),
+          ),
+        );
     assert(
       built != null,
       'No "${item.widgetId}" widget of size ${item.size.name} in the registry',

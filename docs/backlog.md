@@ -6,7 +6,7 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-03 (navbar, blur, tend
 ## Next up (max 5)
 - [ ] Account principale: scelta dell'account da Settings > Accounts (la flag esiste) — todo — `mock/models/account.dart`
 - [ ] Settings: Accounts e Categories & budgets (riusano i form di onboarding; qui arrivano anche i "Manage") — todo — `features/accounts`, `categories`, `budgets`
-- [ ] Widget Dashboard core mancanti: Income & expenses, Budget status — todo (spec S/M/L in Figma "Widget - Components") — `dashboard/registry/dashboard_widget_registry.dart`
+- [ ] Widget Dashboard core mancanti: Income & expenses (Budget status fatto) — todo (spec S/M/L in Figma "Widget - Components") — `dashboard/registry/dashboard_widget_registry.dart`
 - [ ] Dettaglio, modifica ed eliminazione di una transazione (il tap oggi non fa nulla) — needs design — `transaction_row.dart`
 - [ ] Settings > General (autenticazione) e sezioni restanti — needs design — `settings_screen.dart`
 
@@ -55,7 +55,6 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-03 (navbar, blur, tend
 - [ ] Più scene: pagine di dettaglio (budget, ricorrenza, posizione, movimento), Step 1–3 dell'onboarding, form, Dashboard in edit mode, stati vuoti — todo
 - [ ] Distanze tra fratelli di un Row/Column (gap) disegnate sul telefono, misure con Alt come in Figma — todo
 - [ ] Copia dei valori (snippet Flutter / CSS) e link alla scena (URL per scena, tema, lingua) — todo
-- [ ] Push su RIP-Comm/sossoldi-design: il token del Mac non ha il permesso `workflow` — blocked
 - [ ] Hosting: collegare il branch `site` a un hosting statico (Cloudflare Pages o altro) e al dominio di Sossoldi; sottodominio o sottocartella (`INSPECTOR_BASE_HREF`) — blocked (collega)
 - [ ] Sito vetrina di Sossoldi con una pagina per gli sviluppatori che porta all'Inspector (link o iframe) — da decidere
 - [ ] Rigenerare `lib/catalog/widget_names.g.dart` quando si aggiungono componenti o schermate (`dart run tool/generate_widget_names.dart`) — controllo ricorrente
@@ -65,6 +64,10 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-03 (navbar, blur, tend
 - Nessuna aperta. Decise: nessun insight → non si mostra nulla, non sono tappabili; conti e categorie in ordine alfabetico (si rivede in Settings)
 
 ## Done (più recente in alto)
+- [x] 2026-11-05 — Net worth: chip del periodo in alto a destra; grafici di Monthly balance e Net worth con indicatore e tooltip al tap/trascinamento (`SossoldiTrendChart`, stesso tooltip dei grafici di Finance e Investments)
+- [x] 2026-11-05 — Widget Dashboard "Net worth" (S/M/L, opzionale): conti + posizioni (liquidità non doppia), periodi 3M/6M/1Y/3Y/5Y/All con chip e menu (non coperti disattivati), variazione € e %, grafico a una serie; `netWorthSeries`, `netWorthAt`, `netWorthPeriodAvailable`
+- [x] 2026-11-05 — Dashboard: riga di intestazione (titolo Label Large bold + chip del tipo) anche in Latest transactions e Upcoming recurring (M, L; filtro Tutti/Uscite/Entrate/Trasferimenti salvato nell'istanza); righe compatte da 44 px; titolo di Budget status ridotto
+- [x] 2026-11-05 — Widget Dashboard "Budget status" (S/M/L, core): budget per rilevanza (`budgetsByRelevance`, filtro periodo e limite), chip selettore del tipo (All/Weekly/…) salvata nell'istanza (`DashboardItem.settings`), disattivata in modifica, tap → pagina del budget; layout iniziale: Budget status (M) al posto del secondo Monthly balance; `SossoldiBudgetBar.thickness`, `SossoldiPopover.alignEnd`
 - [x] 2026-11-03 — Navbar: bordo `strokeMinus1` in light e dark, padding interno 4 px; blur progressivo sotto la barra di stato e la barra in alto (Home, Finance, Investments: `ProgressiveBlur`, `TopBlur`); Dashboard di default con quattro widget (S, S, L, M)
 - [x] 2026-11-03 — Dashboard: nella variante S nessuno spazio tra descrizione e conto; trascinamento di un M sopra un altro M non sposta più le S sopra
 - [x] 2026-11-03 — `SossoldiSelect`: la tendina resta nello schermo, si apre verso l'alto se serve, scorre dentro ed è attaccata al campo

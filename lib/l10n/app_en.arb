@@ -1929,5 +1929,96 @@
   "dashboardNoUpcomingRecurring": "No recurring transactions",
   "@dashboardNoUpcomingRecurring": {
     "description": "Upcoming recurring widget with no active recurring transactions"
+  },
+  "widgetBudgetStatusName": "Budget status",
+  "@widgetBudgetStatusName": {
+    "description": "Dashboard widget: the budgets of the current periods"
+  },
+  "widgetBudgetTitle": "Budget",
+  "@widgetBudgetTitle": {
+    "description": "Header of the Budget status widget (M and L)"
+  },
+  "budgetTypeAll": "All",
+  "@budgetTypeAll": {
+    "description": "Budget type selector of the Budget status widget: every type"
+  },
+  "budgetTypeSemantic": "Budget type",
+  "@budgetTypeSemantic": {
+    "description": "Accessibility label of the budget type selector"
+  },
+  "widgetNoBudgets": "No budgets yet",
+  "@widgetNoBudgets": {
+    "description": "Budget status widget with no budgets"
+  },
+  "widgetNoBudgetsOfPeriod": "No {period} budgets",
+  "@widgetNoBudgetsOfPeriod": {
+    "description": "Budget status widget with none of the chosen type; period in lowercase, e.g. monthly",
+    "placeholders": {
+      "period": {
+        "type": "String"
+      }
+    }
+  },
+  "kindTransfers": "Transfers",
+  "@kindTransfers": {
+    "description": "Type chip of the Dashboard widgets"
+  },
+  "dashboardTransactionTypeSemantic": "Transaction type",
+  "@dashboardTransactionTypeSemantic": {
+    "description": "Accessibility label of the type chip of Latest transactions and Upcoming recurring"
+  },
+  "dashboardNoTransactionsOfType": "No {type} transactions",
+  "@dashboardNoTransactionsOfType": {
+    "description": "Latest transactions with none of the chosen type; type in lowercase, e.g. expense",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardNoRecurringOfType": "No {type} recurring transactions",
+  "@dashboardNoRecurringOfType": {
+    "description": "Upcoming recurring with none of the chosen type; type in lowercase, e.g. income",
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "widgetNetWorthName": "Net worth",
+  "@widgetNetWorthName": {
+    "description": "Dashboard widget: accounts plus investments"
+  },
+  "widgetNetWorthNoHistory": "Not enough history yet",
+  "@widgetNetWorthNoHistory": {
+    "description": "Net worth widget chart with fewer than two points"
+  },
+  "netWorthPeriodSemantic": "Period",
+  "@netWorthPeriodSemantic": {
+    "description": "Accessibility label of the period chip of the Net worth widget"
+  },
+  "netWorthPeriod3M": "3M",
+  "@netWorthPeriod3M": {
+    "description": "Net worth period: 3 months"
+  },
+  "netWorthPeriod6M": "6M",
+  "@netWorthPeriod6M": {
+    "description": "Net worth period: 6 months"
+  },
+  "netWorthPeriod1Y": "1Y",
+  "@netWorthPeriod1Y": {
+    "description": "Net worth period: 1 year"
+  },
+  "netWorthPeriod3Y": "3Y",
+  "@netWorthPeriod3Y": {
+    "description": "Net worth period: 3 years"
+  },
+  "netWorthPeriod5Y": "5Y",
+  "@netWorthPeriod5Y": {
+    "description": "Net worth period: 5 years"
+  },
+  "netWorthPeriodAll": "All",
+  "@netWorthPeriodAll": {
+    "description": "Net worth period: from the start of the history"
   }
 }

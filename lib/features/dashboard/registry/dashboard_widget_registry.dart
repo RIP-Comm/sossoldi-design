@@ -1,8 +1,10 @@
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../model/dashboard_layout.dart';
+import '../widgets/budget_status_widget.dart';
 import '../widgets/latest_transactions_widget.dart';
 import '../widgets/monthly_balance_widget.dart';
+import '../widgets/net_worth_widget.dart';
 import '../widgets/upcoming_recurring_widget.dart';
 import 'dashboard_widget_definition.dart';
 import 'dashboard_widget_ids.dart';
@@ -19,8 +21,8 @@ class DashboardWidgetRegistry {
   DashboardWidgetDefinition? byId(String id) => _byId[id];
 }
 
-/// The widgets available: Monthly balance, Latest transactions and Upcoming
-/// recurring, each in S, M and L. The others are added when they are built.
+/// The widgets available: Monthly balance, Latest transactions, Upcoming
+/// recurring and Budget status, each in S, M and L. The others are added when they are built.
 final dashboardWidgetRegistry = DashboardWidgetRegistry([
   DashboardWidgetDefinition(
     id: DashboardWidgetIds.monthlyBalance,
@@ -28,7 +30,7 @@ final dashboardWidgetRegistry = DashboardWidgetRegistry([
     icon: PhosphorIconsRegular.scales,
     builders: {
       for (final size in DashboardWidgetSize.values)
-        size: (context) => MonthlyBalanceWidget(size: size),
+        size: (context, _) => MonthlyBalanceWidget(size: size),
     },
   ),
   DashboardWidgetDefinition(
@@ -37,7 +39,8 @@ final dashboardWidgetRegistry = DashboardWidgetRegistry([
     icon: PhosphorIconsRegular.receipt,
     builders: {
       for (final size in DashboardWidgetSize.values)
-        size: (context) => LatestTransactionsWidget(size: size),
+        size: (context, instance) =>
+            LatestTransactionsWidget(size: size, instance: instance),
     },
   ),
   DashboardWidgetDefinition(
@@ -46,7 +49,28 @@ final dashboardWidgetRegistry = DashboardWidgetRegistry([
     icon: PhosphorIconsRegular.arrowsClockwise,
     builders: {
       for (final size in DashboardWidgetSize.values)
-        size: (context) => UpcomingRecurringWidget(size: size),
+        size: (context, instance) =>
+            UpcomingRecurringWidget(size: size, instance: instance),
+    },
+  ),
+  DashboardWidgetDefinition(
+    id: DashboardWidgetIds.budgetStatus,
+    name: (l10n) => l10n.widgetBudgetStatusName,
+    icon: PhosphorIconsRegular.chartDonut,
+    builders: {
+      for (final size in DashboardWidgetSize.values)
+        size: (context, instance) =>
+            BudgetStatusWidget(size: size, instance: instance),
+    },
+  ),
+  DashboardWidgetDefinition(
+    id: DashboardWidgetIds.netWorth,
+    name: (l10n) => l10n.widgetNetWorthName,
+    icon: PhosphorIconsRegular.chartLineUp,
+    builders: {
+      for (final size in DashboardWidgetSize.values)
+        size: (context, instance) =>
+            NetWorthWidget(size: size, instance: instance),
     },
   ),
 ]);

@@ -90,6 +90,18 @@ void main() {
     });
   });
 
+  group('settings of an item', () {
+    test('survive resize and move, and can be cleared', () {
+      var layout = DashboardLayout([_item('a', s), _item('b', m)])
+          .setSetting('b', 'period', 'monthly');
+      layout = layout.resize('b', l).move('b', 0);
+      expect(layout.items.first.settings, {'period': 'monthly'});
+      expect(layout.items.last.settings, isEmpty);
+      layout = layout.setSetting('b', 'period', null);
+      expect(layout.items.first.settings, isEmpty);
+    });
+  });
+
   group('default layout and registry', () {
     test('every default item exists in the registry at a supported size', () {
       for (final item in defaultDashboardLayout.items) {
@@ -99,7 +111,7 @@ void main() {
       }
     });
 
-    test('default layout: S, S, L, M with three different widgets', () {
+    test('default layout: S, S, L, M with four different widgets', () {
       expect(defaultDashboardLayout.items.map((i) => i.size), [
         s,
         s,
@@ -108,9 +120,22 @@ void main() {
       ]);
       expect(
         defaultDashboardLayout.items.map((i) => i.widgetId).toSet(),
-        hasLength(3),
+        hasLength(4),
       );
     });
+
+    test(
+      'the initial layout has Budget status (M) and Latest transactions',
+      () {
+        final byId = {
+          for (final i in defaultDashboardLayout.items) i.widgetId: i.size,
+        };
+        expect(byId['budget_status'], DashboardWidgetSize.m);
+        expect(byId.containsKey('latest_transactions'), isTrue);
+        // Monthly balance is still in the registry ("add widget" list).
+        expect(dashboardWidgetRegistry.byId('monthly_balance'), isNotNull);
+      },
+    );
 
     test('widget ids and item ids are unique', () {
       final ids = dashboardWidgetRegistry.definitions.map((d) => d.id).toList();
@@ -125,6 +150,8 @@ void main() {
         'monthly_balance',
         'latest_transactions',
         'upcoming_recurring',
+        'budget_status',
+        'net_worth',
       ]);
       for (final d in defs) {
         expect(d.supportedSizes, {

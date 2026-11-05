@@ -23,6 +23,7 @@ class DashboardItem {
     required this.id,
     required this.widgetId,
     required this.size,
+    this.settings = const {},
   });
 
   /// Identifies this placement (the same widget may appear twice).
@@ -32,8 +33,28 @@ class DashboardItem {
   final String widgetId;
   final DashboardWidgetSize size;
 
+  /// Choices of this placement (e.g. the budget type of Budget status), kept
+  /// with the item so they survive reordering and resizing. In memory only.
+  final Map<String, String> settings;
+
   DashboardItem withSize(DashboardWidgetSize size) =>
-      DashboardItem(id: id, widgetId: widgetId, size: size);
+      DashboardItem(id: id, widgetId: widgetId, size: size, settings: settings);
+
+  /// Sets [key] to [value], or removes it when [value] is null.
+  DashboardItem withSetting(String key, String? value) {
+    final next = {...settings};
+    if (value == null) {
+      next.remove(key);
+    } else {
+      next[key] = value;
+    }
+    return DashboardItem(
+      id: id,
+      widgetId: widgetId,
+      size: size,
+      settings: Map.unmodifiable(next),
+    );
+  }
 }
 
 /// A grid row: one or two items side by side.
@@ -78,6 +99,12 @@ class DashboardLayout {
     others.insert(index.clamp(0, others.length), moving);
     return DashboardLayout(others);
   }
+
+  DashboardLayout setSetting(String itemId, String key, String? value) =>
+      DashboardLayout([
+        for (final item in items)
+          item.id == itemId ? item.withSetting(key, value) : item,
+      ]);
 
   DashboardLayout resize(String itemId, DashboardWidgetSize size) =>
       DashboardLayout([

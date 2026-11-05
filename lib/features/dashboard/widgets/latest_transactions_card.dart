@@ -3,14 +3,15 @@
 // transactions - Widget content" (nodes 13:3987, 13:3999, 13:4005).
 // Presentation only: LatestTransactionsWidget wires it to the repository.
 //
-// S shows the most recent transaction large; M and L show a list, as many
-// rows as fit (3 in M).
+// S shows the most recent transaction large; M and L have a headline (title
+// and type chip) and a list of rows, as many as fit (3 tight ones in M).
 
 import 'package:flutter/material.dart';
 
 import '../../../design_system/design_system.dart';
 import '../../../l10n/l10n.dart';
 import '../model/dashboard_layout.dart';
+import 'dashboard_widget_header.dart';
 import 'latest_transaction_entry.dart';
 
 class LatestTransactionsCard extends StatelessWidget {
@@ -19,6 +20,8 @@ class LatestTransactionsCard extends StatelessWidget {
     required this.size,
     required this.entries,
     required this.masked,
+    required this.title,
+    required this.selector,
     this.emptyText,
   });
 
@@ -28,73 +31,105 @@ class LatestTransactionsCard extends StatelessWidget {
   final List<LatestTransactionEntry> entries;
   final bool masked;
 
+  /// Headline of M and L, with the type chip at its right.
+  final String title;
+  final Widget selector;
+
   /// Shown with no entries; default: no transactions yet.
   final String? emptyText;
 
-  /// Height of one list row (8 + 20 + 16 + 8) and the gap between rows.
+  /// Height of a list row in L (8 + 36 + 8; with a date chip 4 + 44 + 4).
+  /// In M the rows are tighter, 44, so that three fit under the headline.
   static const double _rowHeight = 52;
-  static const double _rowGap = 6;
+  static const double _tightRowHeight = 44;
 
   @override
   Widget build(BuildContext context) {
-    if (entries.isEmpty) {
-      return SossoldiWidgetCard(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(SossoldiSpacing.m),
-            child: Text(
-              emptyText ?? context.l10n.dashboardNoTransactions,
-              textAlign: TextAlign.center,
-              style: context.typography.labelLarge.copyWith(
-                color: context.colors.textMed,
-              ),
-            ),
+    final empty = Center(
+      child: Padding(
+        padding: const EdgeInsets.all(SossoldiSpacing.m),
+        child: Text(
+          emptyText ?? context.l10n.dashboardNoTransactions,
+          textAlign: TextAlign.center,
+          style: context.typography.labelLarge.copyWith(
+            color: context.colors.textMed,
           ),
         ),
+      ),
+    );
+    if (size == DashboardWidgetSize.s) {
+      return SossoldiWidgetCard(
+        child: entries.isEmpty
+            ? empty
+            : _Single(entry: entries.first, masked: masked),
       );
     }
     return SossoldiWidgetCard(
-      child: switch (size) {
-        DashboardWidgetSize.s => _Single(entry: entries.first, masked: masked),
-        _ => LayoutBuilder(
-          builder: (context, constraints) {
-            final fit =
-                ((constraints.maxHeight + _rowGap) / (_rowHeight + _rowGap))
-                    .floor();
-            final count = fit.clamp(1, entries.length);
-            return Column(
-              spacing: _rowGap,
-              children: [
-                for (final entry in entries.take(count))
-                  _row(entry, masked: masked),
-              ],
-            );
-          },
-        ),
-      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: SossoldiSpacing.m,
+              right: SossoldiSpacing.m,
+              top: SossoldiSpacing.s,
+            ),
+            child: DashboardWidgetHeader(title: title, selector: selector),
+          ),
+          Expanded(
+            child: entries.isEmpty
+                ? empty
+                : LayoutBuilder(
+                    builder: (context, constraints) {
+                      final tight = size == DashboardWidgetSize.m;
+                      final height = tight ? _tightRowHeight : _rowHeight;
+                      final fit = (constraints.maxHeight / height).floor();
+                      final count = fit.clamp(1, entries.length);
+                      return Column(
+                        // L: what is left goes between the rows, so they
+                        // are not stuck together; M has no room to spare.
+                        mainAxisAlignment: count == fit && !tight
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.start,
+                        children: [
+                          for (final entry in entries.take(count))
+                            _row(entry, masked: masked, tight: tight),
+                        ],
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
     );
   }
 
-  static Widget _row(LatestTransactionEntry e, {required bool masked}) =>
-      Builder(
-        builder: (context) => SossoldiTransactionItem(
-          type: e.type,
-          leading: Icon(
-            e.icon,
-            size: 24,
-            color: e.iconColor ?? context.colors.textHigh,
-          ),
-          description: e.description,
-          account: e.account,
-          toAccount: e.toAccount,
-          amount: e.amount,
-          currencyCode: e.currency,
-          recurrenceLabel: e.dateLabel,
-          recurrenceChipType: e.dateChipType,
-          masked: masked,
-          compact: e.dateLabel != null,
-        ),
-      );
+  static Widget _row(
+    LatestTransactionEntry e, {
+    required bool masked,
+    required bool tight,
+  }) => Builder(
+    builder: (context) => SossoldiTransactionItem(
+      type: e.type,
+      leading: Icon(
+        e.icon,
+        size: 24,
+        color: e.iconColor ?? context.colors.textHigh,
+      ),
+      description: e.description,
+      account: e.account,
+      toAccount: e.toAccount,
+      amount: e.amount,
+      currencyCode: e.currency,
+      recurrenceLabel: e.dateLabel,
+      recurrenceChipType: e.dateChipType,
+      masked: masked,
+      compact: e.dateLabel != null,
+      verticalPadding: tight
+          ? (e.dateLabel != null ? SossoldiSpacing.zero : SossoldiSpacing.xs)
+          : null,
+    ),
+  );
 }
 
 class _Single extends StatelessWidget {

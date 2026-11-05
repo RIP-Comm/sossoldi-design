@@ -54,6 +54,11 @@ tabs that take a color when selected (`SossoldiTabData.text(..., activeRole:)`, 
 Inspector's menu), `SossoldiPopover(above:)` (opens above the trigger, for the Inspector's toolbar); the label of a
 `SossoldiUnitNavigator` is cut with an ellipsis. Each has a widgetbook entry.
 
+## Trend chart
+`SossoldiTrendChart` (Dashboard widgets) has the touch indicator and the tooltip of the other charts (`SossoldiChartTooltip`)
+when it gets `formatValue` (plus `pointTitles` per slot of the axis, `currentLabel`, `referenceLabel`, `masked`); without it
+it only draws.
+
 ## To be completed
 - Mapping of the real tokens (after importing the variables from Figma)
 - Full component list (after the components page in the linked Figma file)

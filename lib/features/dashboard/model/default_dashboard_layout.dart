@@ -2,8 +2,8 @@ import '../registry/dashboard_widget_ids.dart';
 import 'dashboard_layout.dart';
 
 /// What the Dashboard shows at the start: Monthly balance and Upcoming
-/// recurring side by side (S), then Latest transactions (L) and Monthly
-/// balance again (M).
+/// recurring side by side (S), then Latest transactions (L) and Budget
+/// status (M).
 const defaultDashboardLayout = DashboardLayout([
   DashboardItem(
     id: 'item_1',
@@ -22,7 +22,7 @@ const defaultDashboardLayout = DashboardLayout([
   ),
   DashboardItem(
     id: 'item_4',
-    widgetId: DashboardWidgetIds.monthlyBalance,
+    widgetId: DashboardWidgetIds.budgetStatus,
     size: DashboardWidgetSize.m,
   ),
 ]);

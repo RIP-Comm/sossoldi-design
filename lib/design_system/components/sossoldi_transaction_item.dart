@@ -27,6 +27,7 @@ class SossoldiTransactionItem extends StatelessWidget {
     this.recurrenceChipType = SossoldiChipType.info,
     this.masked = false,
     this.compact = false,
+    this.verticalPadding,
     this.onTap,
   }) : assert(
          type != SossoldiTransactionType.transfer || toAccount != null,
@@ -60,6 +61,9 @@ class SossoldiTransactionItem extends StatelessWidget {
   /// Less vertical padding, so a row with a [recurrenceLabel] (taller, the chip
   /// is under the amount) is as tall as one without it. Used by the Dashboard.
   final bool compact;
+
+  /// Overrides the vertical padding of the row (for the tightest lists).
+  final double? verticalPadding;
   final VoidCallback? onTap;
 
   static double _lineHeight(TextStyle style) =>
@@ -90,7 +94,9 @@ class SossoldiTransactionItem extends StatelessWidget {
       color: colors.surfaceHigh,
       padding: EdgeInsets.symmetric(
         horizontal: SossoldiSpacing.m,
-        vertical: compact ? SossoldiSpacing.xs : SossoldiSpacing.s,
+        vertical:
+            verticalPadding ??
+            (compact ? SossoldiSpacing.xs : SossoldiSpacing.s),
       ),
       child: Row(
         spacing: SossoldiSpacing.s,

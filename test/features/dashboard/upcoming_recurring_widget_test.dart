@@ -61,7 +61,8 @@ void main() {
 
       await _pump(tester, DashboardWidgetSize.m, brightness: b);
       expect(find.byType(SossoldiTransactionItem), findsNWidgets(3));
-      expect(find.byType(SossoldiChip), findsNWidgets(3));
+      // 3 dates and the type chip of the header.
+      expect(find.byType(SossoldiChip), findsNWidgets(4));
 
       await _pump(tester, DashboardWidgetSize.l, brightness: b);
       final rows = find.byType(SossoldiTransactionItem).evaluate().length;

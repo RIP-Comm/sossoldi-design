@@ -14,6 +14,7 @@ class SossoldiBudgetBar extends StatelessWidget {
     required this.color,
     required this.trackColor,
     this.exceeded = false,
+    this.thickness = height,
   });
 
   /// How much of the bar is filled, 0 to 1 (more is the same as full).
@@ -26,6 +27,10 @@ class SossoldiBudgetBar extends StatelessWidget {
   /// Marks the bar with the error outline.
   final bool exceeded;
 
+  /// Thickness of the bar; a thinner one for compact lists (added for the
+  /// Dashboard widget, not in Figma).
+  final double thickness;
+
   static const double height = 8;
 
   /// Width of the error outline.
@@ -37,7 +42,7 @@ class SossoldiBudgetBar extends StatelessWidget {
     final v = value.isNaN ? 0.0 : value.clamp(0.0, 1.0);
     return ExcludeSemantics(
       child: SizedBox(
-        height: height,
+        height: thickness,
         child: CustomPaint(
           painter: _BarPainter(
             value: v,

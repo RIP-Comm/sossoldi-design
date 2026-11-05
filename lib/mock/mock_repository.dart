@@ -35,6 +35,7 @@ import 'models/finance_overview.dart';
 import 'models/holding.dart';
 import 'models/investment_movement.dart';
 import 'models/movement_edit.dart';
+import 'models/net_worth.dart';
 import 'models/portfolio.dart';
 import 'models/price_point.dart';
 import 'models/recurring_occurrence.dart';
@@ -1007,8 +1008,12 @@ class MockRepository extends ChangeNotifier {
 
   /// The [count] most recent transactions (transfers included), newest
   /// first.
-  List<Transaction> latestTransactions(int count) =>
-      List.unmodifiable(_transactions.reversed.take(count));
+  List<Transaction> latestTransactions(int count, {TransactionType? type}) =>
+      List.unmodifiable(
+        _transactions.reversed
+            .where((t) => type == null || t.type == type)
+            .take(count),
+      );
 
   Transaction transaction(String id) =>
       _transactions.firstWhere((t) => t.id == id);
@@ -1491,6 +1496,7 @@ class MockRepository extends ChangeNotifier {
     int limit = 5,
     DateTime? until,
     bool includeToday = false,
+    TransactionType? type,
   }) {
     final end = dateOnly(
       until ?? DateTime(today.year + 1, today.month, today.day),
@@ -1500,6 +1506,7 @@ class MockRepository extends ChangeNotifier {
     while (!month.isAfter(end) && out.length < limit) {
       for (final o in recurringOccurrences(month.year, month.month)) {
         if (o.date.isAfter(end)) continue;
+        if (type != null && o.type != type) continue;
         final counts =
             o.isPlanned ||
             (includeToday &&
@@ -1557,17 +1564,34 @@ class MockRepository extends ChangeNotifier {
   }
 
   /// The budgets whose current period includes today, as in the Budget tab
-  /// (same statuses): the exceeded ones first, then by usage, highest first.
-  List<BudgetStatus> monthBudgets() {
-    final list = [for (final b in _budgets) budgetStatus(b)];
+  /// (same statuses), by relevance: see [budgetsByRelevance].
+  List<BudgetStatus> monthBudgets() => budgetsByRelevance();
+
+  /// Every budget on its own current period, most relevant first: the
+  /// exceeded ones (the highest usage first), then the ones at risk (from
+  /// 80%) by usage, then all the others by usage; on a tie the shortest
+  /// period goes first. [period] keeps only the budgets of that period,
+  /// [limit] cuts the list. Feeds the Finance Overview and the Dashboard
+  /// "Budget status" widget.
+  List<BudgetStatus> budgetsByRelevance({BudgetPeriod? period, int? limit}) {
+    int tier(BudgetState s) => switch (s) {
+      BudgetState.exceeded => 0,
+      BudgetState.warning => 1,
+      BudgetState.ok => 2,
+    };
+    final list = [
+      for (final b in _budgets)
+        if (period == null || b.period == period) budgetStatus(b),
+    ];
     list.sort((a, b) {
-      final ea = a.state == BudgetState.exceeded ? 0 : 1;
-      final eb = b.state == BudgetState.exceeded ? 0 : 1;
-      if (ea != eb) return ea.compareTo(eb);
+      final t = tier(a.state).compareTo(tier(b.state));
+      if (t != 0) return t;
       final c = b.usage.compareTo(a.usage);
-      return c != 0 ? c : a.budget.id.compareTo(b.budget.id);
+      if (c != 0) return c;
+      final p = a.budget.period.index.compareTo(b.budget.period.index);
+      return p != 0 ? p : a.budget.id.compareTo(b.budget.id);
     });
-    return List.unmodifiable(list);
+    return List.unmodifiable(limit == null ? list : list.take(limit));
   }
 
   /// From which day of the month the comparisons of the digest are shown.
@@ -2026,8 +2050,110 @@ class MockRepository extends ChangeNotifier {
 
   double get portfolioGain => round2(portfolioValue - portfolioCost);
 
-  /// Accounts plus investments, in the main currency.
+  /// Accounts plus investments, in the main currency. The liquidity of the
+  /// broker accounts is in the account balances and not in [portfolioValue]
+  /// (positions at market value only), so it is counted once.
   double get netWorth => round2(totalBalance + portfolioValue);
+
+  /// The first day with data (the earliest transaction or purchase), or null
+  /// with neither. Before it the accounts stand at their starting balance.
+  DateTime? get netWorthHistoryStart {
+    var first = _firstPurchase;
+    for (final t in _transactions) {
+      final d = dateOnly(t.date);
+      if (first == null || d.isBefore(first)) first = d;
+    }
+    return first;
+  }
+
+  /// Where [period] starts (today minus the months or years; for
+  /// [NetWorthPeriod.all] the start of the history, today without any).
+  DateTime netWorthPeriodStart(NetWorthPeriod period) => switch (period) {
+    NetWorthPeriod.threeMonths => DateTime(
+      today.year,
+      today.month - 3,
+      today.day,
+    ),
+    NetWorthPeriod.sixMonths => DateTime(
+      today.year,
+      today.month - 6,
+      today.day,
+    ),
+    NetWorthPeriod.year => DateTime(today.year - 1, today.month, today.day),
+    NetWorthPeriod.threeYears => DateTime(
+      today.year - 3,
+      today.month,
+      today.day,
+    ),
+    NetWorthPeriod.fiveYears => DateTime(
+      today.year - 5,
+      today.month,
+      today.day,
+    ),
+    NetWorthPeriod.all => netWorthHistoryStart ?? today,
+  };
+
+  /// Whether the history reaches back to the start of [period] ("All" only
+  /// needs some data).
+  bool netWorthPeriodAvailable(NetWorthPeriod period) {
+    final start = netWorthHistoryStart;
+    if (start == null) return false;
+    return period == NetWorthPeriod.all ||
+        !start.isAfter(netWorthPeriodStart(period));
+  }
+
+  /// Net worth at the end of [day]: the account balances (main currency) plus
+  /// the positions held then at the price of the last trading day. Today or
+  /// later it is [netWorth]. A transfer between accounts, or to a broker
+  /// account, does not change it.
+  double netWorthAt(DateTime day) {
+    final d = dateOnly(day);
+    if (!d.isBefore(today)) return netWorth;
+    final next = addDays(d, 1);
+    var accounts = 0.0;
+    for (final a in _accounts) {
+      accounts += toMain(accountBalanceAt(a.id, next), a.currency);
+    }
+    final days = _tradingDays;
+    var i = days.length - 1;
+    while (i >= 0 && days[i].isAfter(d)) {
+      i--;
+    }
+    final positions = i < 0
+        ? 0.0
+        : _portfolioAt(d, days[i], (id) => _priceHistories[id]![i].price).value;
+    return round2(round2(accounts) + positions);
+  }
+
+  /// The net worth for [period]: today's value and the series for the chart.
+  /// Empty (one point, no change) without history; shorter than the period
+  /// when the history is.
+  NetWorthSeries netWorthSeries(NetWorthPeriod period) {
+    final historyStart = netWorthHistoryStart;
+    final current = netWorth;
+    final points = <NetWorthPoint>[];
+    if (historyStart != null && historyStart.isBefore(today)) {
+      var from = netWorthPeriodStart(period);
+      if (from.isBefore(historyStart)) from = historyStart;
+      final span = today.difference(from).inDays;
+      final step = switch (period) {
+        NetWorthPeriod.threeMonths || NetWorthPeriod.sixMonths => 1,
+        NetWorthPeriod.year || NetWorthPeriod.threeYears => 7,
+        NetWorthPeriod.fiveYears => 14,
+        NetWorthPeriod.all => span > 3 * 365 ? 14 : (span > 365 ? 7 : 1),
+      };
+      for (var d = from; d.isBefore(today); d = addDays(d, step)) {
+        points.add(NetWorthPoint(time: d, value: netWorthAt(d)));
+      }
+    }
+    points.add(NetWorthPoint(time: today, value: current));
+    return NetWorthSeries(
+      period: period,
+      currency: mainCurrency,
+      current: current,
+      points: List.unmodifiable(points),
+    );
+  }
 
   // Investment movements
 

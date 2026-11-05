@@ -3253,6 +3253,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No recurring transactions'**
   String get dashboardNoUpcomingRecurring;
+
+  /// Dashboard widget: the budgets of the current periods
+  ///
+  /// In en, this message translates to:
+  /// **'Budget status'**
+  String get widgetBudgetStatusName;
+
+  /// Header of the Budget status widget (M and L)
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get widgetBudgetTitle;
+
+  /// Budget type selector of the Budget status widget: every type
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get budgetTypeAll;
+
+  /// Accessibility label of the budget type selector
+  ///
+  /// In en, this message translates to:
+  /// **'Budget type'**
+  String get budgetTypeSemantic;
+
+  /// Budget status widget with no budgets
+  ///
+  /// In en, this message translates to:
+  /// **'No budgets yet'**
+  String get widgetNoBudgets;
+
+  /// Budget status widget with none of the chosen type; period in lowercase, e.g. monthly
+  ///
+  /// In en, this message translates to:
+  /// **'No {period} budgets'**
+  String widgetNoBudgetsOfPeriod(String period);
+
+  /// Type chip of the Dashboard widgets
+  ///
+  /// In en, this message translates to:
+  /// **'Transfers'**
+  String get kindTransfers;
+
+  /// Accessibility label of the type chip of Latest transactions and Upcoming recurring
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction type'**
+  String get dashboardTransactionTypeSemantic;
+
+  /// Latest transactions with none of the chosen type; type in lowercase, e.g. expense
+  ///
+  /// In en, this message translates to:
+  /// **'No {type} transactions'**
+  String dashboardNoTransactionsOfType(String type);
+
+  /// Upcoming recurring with none of the chosen type; type in lowercase, e.g. income
+  ///
+  /// In en, this message translates to:
+  /// **'No {type} recurring transactions'**
+  String dashboardNoRecurringOfType(String type);
+
+  /// Dashboard widget: accounts plus investments
+  ///
+  /// In en, this message translates to:
+  /// **'Net worth'**
+  String get widgetNetWorthName;
+
+  /// Net worth widget chart with fewer than two points
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough history yet'**
+  String get widgetNetWorthNoHistory;
+
+  /// Accessibility label of the period chip of the Net worth widget
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get netWorthPeriodSemantic;
+
+  /// Net worth period: 3 months
+  ///
+  /// In en, this message translates to:
+  /// **'3M'**
+  String get netWorthPeriod3M;
+
+  /// Net worth period: 6 months
+  ///
+  /// In en, this message translates to:
+  /// **'6M'**
+  String get netWorthPeriod6M;
+
+  /// Net worth period: 1 year
+  ///
+  /// In en, this message translates to:
+  /// **'1Y'**
+  String get netWorthPeriod1Y;
+
+  /// Net worth period: 3 years
+  ///
+  /// In en, this message translates to:
+  /// **'3Y'**
+  String get netWorthPeriod3Y;
+
+  /// Net worth period: 5 years
+  ///
+  /// In en, this message translates to:
+  /// **'5Y'**
+  String get netWorthPeriod5Y;
+
+  /// Net worth period: from the start of the history
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get netWorthPeriodAll;
 }
 
 class _AppLocalizationsDelegate

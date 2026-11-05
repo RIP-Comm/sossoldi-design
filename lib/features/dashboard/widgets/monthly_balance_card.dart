@@ -26,6 +26,8 @@ class MonthlyBalanceCard extends StatelessWidget {
     this.expenseLabel = '',
     this.thisMonthLabel = '',
     this.lastMonthLabel = '',
+    this.pointTitles = const [],
+    this.formatValue,
   });
 
   final DashboardWidgetSize size;
@@ -44,6 +46,11 @@ class MonthlyBalanceCard extends StatelessWidget {
   final String expenseLabel;
   final String thisMonthLabel;
   final String lastMonthLabel;
+
+  /// Heading of the chart's tooltip for each day of the month, and how it
+  /// writes the amounts; without [formatValue] the chart has no tooltip.
+  final List<String> pointTitles;
+  final String Function(double)? formatValue;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +169,11 @@ class MonthlyBalanceCard extends StatelessWidget {
               length: trend.daysInPeriod,
               reference: trend.previous,
               tone: tone,
+              pointTitles: pointTitles,
+              currentLabel: thisMonthLabel,
+              referenceLabel: lastMonthLabel,
+              formatValue: formatValue,
+              masked: masked,
             ),
           ),
           if (isL)

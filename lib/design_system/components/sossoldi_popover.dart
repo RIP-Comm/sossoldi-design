@@ -15,6 +15,8 @@ class SossoldiPopover extends StatefulWidget {
     required this.child,
     this.width = 304,
     this.above = false,
+    this.alignEnd = false,
+    this.flipBelow = 0,
   });
 
   /// Shown in the panel.
@@ -27,6 +29,14 @@ class SossoldiPopover extends StatefulWidget {
   /// Opens above the trigger instead of below (for a trigger at the bottom
   /// of the screen, e.g. a floating toolbar). Not in Figma.
   final bool above;
+
+  /// Aligns the panel to the right edge of the trigger instead of the left
+  /// (for a trigger at the right of the screen). Not in Figma.
+  final bool alignEnd;
+
+  /// When the trigger has less than this much room below it (in logical
+  /// pixels), the panel opens above instead. 0 turns it off. Not in Figma.
+  final double flipBelow;
 
   /// Closes the popover that [context] (its content) is inside, if any.
   static void close(BuildContext context) =>
@@ -50,6 +60,16 @@ class _SossoldiPopoverState extends State<SossoldiPopover> {
   final _overlay = OverlayPortalController();
   final _link = LayerLink();
   final _tapRegionGroup = Object();
+  bool _flipped = false;
+
+  void _toggle() {
+    if (!_overlay.isShowing && widget.flipBelow > 0) {
+      final box = context.findRenderObject() as RenderBox;
+      final bottom = box.localToGlobal(Offset(0, box.size.height)).dy;
+      _flipped = MediaQuery.sizeOf(context).height - bottom < widget.flipBelow;
+    }
+    setState(_overlay.toggle);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,20 +82,28 @@ class _SossoldiPopoverState extends State<SossoldiPopover> {
           controller: _overlay,
           overlayChildBuilder: (_) => CompositedTransformFollower(
             link: _link,
-            targetAnchor: widget.above
-                ? Alignment.topLeft
-                : Alignment.bottomLeft,
-            followerAnchor: widget.above
-                ? Alignment.bottomLeft
-                : Alignment.topLeft,
+            targetAnchor: (widget.above || _flipped)
+                ? (widget.alignEnd ? Alignment.topRight : Alignment.topLeft)
+                : (widget.alignEnd
+                      ? Alignment.bottomRight
+                      : Alignment.bottomLeft),
+            followerAnchor: (widget.above || _flipped)
+                ? (widget.alignEnd
+                      ? Alignment.bottomRight
+                      : Alignment.bottomLeft)
+                : (widget.alignEnd ? Alignment.topRight : Alignment.topLeft),
             offset: Offset(
               0,
-              widget.above ? -SossoldiSpacing.s : SossoldiSpacing.s,
+              (widget.above || _flipped)
+                  ? -SossoldiSpacing.s
+                  : SossoldiSpacing.s,
             ),
             child: Align(
-              alignment: widget.above
-                  ? Alignment.bottomLeft
-                  : Alignment.topLeft,
+              alignment: (widget.above || _flipped)
+                  ? (widget.alignEnd
+                        ? Alignment.bottomRight
+                        : Alignment.bottomLeft)
+                  : (widget.alignEnd ? Alignment.topRight : Alignment.topLeft),
               child: TapRegion(
                 groupId: _tapRegionGroup,
                 child: SizedBox(
@@ -88,10 +116,7 @@ class _SossoldiPopoverState extends State<SossoldiPopover> {
               ),
             ),
           ),
-          child: SossoldiTappable(
-            onTap: () => setState(_overlay.toggle),
-            child: widget.child,
-          ),
+          child: SossoldiTappable(onTap: _toggle, child: widget.child),
         ),
       ),
     );

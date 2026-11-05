@@ -46,6 +46,12 @@ class DashboardController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Changes a choice of a widget (e.g. its budget type); kept in the layout.
+  void setSetting(String itemId, String key, String? value) {
+    _layout = _layout.setSetting(itemId, key, value);
+    notifyListeners();
+  }
+
   /// Adds a new placement of [widgetId]. The same widget can be added more
   /// than once.
   void addWidget(String widgetId, DashboardWidgetSize size) {

@@ -102,11 +102,37 @@ Quick overview of the user's finances. Customizable widget grid: 2 columns, widg
 S (1×1), M (2×1), L (2×2). Core widgets: Total balance, Income & expenses, Budget status,
 Latest transactions. Optional widgets: Upcoming recurring, Investments snapshot, Net worth,
 Savings goals, Insight of the moment. Net worth = accounts + investments.
-Available now (S/M/L): Monthly balance, Latest transactions and **Upcoming recurring** (optional, not in the initial
+Available now (S/M/L): Monthly balance, Latest transactions, **Budget status** (core) and **Upcoming recurring** (optional, not in the initial
 layout, in the add-widget list). Upcoming recurring: the next occurrences of the active recurring transactions from
 today on (today included, paused ones left out, all types), soonest first; S 1, M 3, L as many as fit (5-6); the row is
 the Latest transactions one with the date of the occurrence as a chip (same format as the Finance Overview list); no
 tap and no title, like Latest transactions; empty state "No recurring transactions".
+
+**Budget status**: the budgets valid today (each on its own current period, same numbers as the Budget tab) by
+relevance, the same rule as the Finance Overview: exceeded first (highest % first), then at risk (≥ 80%) by % descending,
+then the rest by % descending; on a tie the shortest period first. S: the first budget, no header; M: header + 3 rows
+(compact: period chip beside the name, thin bar); L: header + up to 6. Row: category name, period chip, "50% · 120€ left"
+or "112% · 34€ over", bar. Header (M, L): "Budget" and, at the right, a chip with a menu to choose the budget type (All, Weekly,
+Monthly, Quarterly, Semiannual, Yearly; default All); the filter applies to every size, is stored with the placement in
+the layout (survives reordering and resizing, memory only) and the chip is disabled in edit mode. Tap → the budget page.
+Empty: "No budgets yet" / "No {period} budgets". Initial layout: Monthly balance (S), Upcoming recurring (S), Latest
+transactions (L), Budget status (M); Monthly balance stays in the add-widget list.
+
+**Net worth** (optional, in the add-widget list, not in the initial layout): accounts + investments, main currency.
+The charts of Monthly balance and Net worth (M and L, not S) show, on tap or drag, an indicator and the tooltip of the other charts (the day; Monthly
+balance: this month and last month at that day; Net worth: the value that day). The
+liquidity of the broker accounts is in the account balances, so only the positions at market value are added to them
+(no double count; `MockRepository.netWorth`). S: title, value and the trend chart (as the S of Monthly balance); M and L:
+the headline with the period chip at the top right, then the value (3M, 6M, 1Y, 3Y, 5Y, All; default 1Y; a menu as in Budget status, the periods
+the history does not cover are shown but disabled), then the change in money and in percent (the percentage is hidden when
+the starting value is not above 0; nothing without history) and the chart (taller in L, one series, no comparison, no
+legend). The period is stored with the placement, disabled in edit mode. Transfers never change it. Empty: value 0 and "Not enough
+history yet" in place of the chart.
+
+**Headline of the M and L widgets** (Budget status, Latest transactions, Upcoming recurring): the title in Label Large bold
+at the left and, at the right, a chip with a menu for the type (Budget status: All, Weekly…; the two transaction widgets: All,
+Expenses, Income, Transfers). The choice is stored with the placement (as for Budget status), applies to every size
+(S has no headline), and the chip is disabled in edit mode. Rows of the transaction widgets: M tight (44 px, three under the headline), L as in the list (52 px, the space left shared between them).
 
 ## Finance
 Where the user goes to understand in detail where their money goes. Four sections, each

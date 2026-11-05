@@ -962,6 +962,73 @@ void main() {
       );
     });
 
+    test(
+      'relevance: exceeded by usage, at risk, rest; tie: shorter period',
+      () {
+        final repo = _repo(
+          _oct15,
+          transactions: [
+            _tx(DateTime(2026, 10, 3), 150, category: 'cat_health'), // 150%
+            _tx(DateTime(2026, 10, 3), 120, category: 'cat_leisure'), // 120%
+            _tx(DateTime(2026, 10, 3), 85, category: 'cat_home'), // 85%
+            _tx(DateTime(2026, 10, 3), 50, category: 'cat_shopping'), // 50%
+            _tx(DateTime(2026, 10, 3), 50, category: 'cat_groceries'), // 50%
+          ],
+          budgets: [
+            _budget('cat_health', 100, BudgetPeriod.monthly),
+            _budget('cat_leisure', 100, BudgetPeriod.yearly),
+            _budget('cat_home', 100, BudgetPeriod.monthly),
+            _budget('cat_shopping', 100, BudgetPeriod.yearly),
+            _budget('cat_groceries', 100, BudgetPeriod.quarterly),
+          ],
+        );
+        final list = repo.budgetsByRelevance();
+        expect(list.map((s) => s.budget.categoryId), [
+          'cat_health',
+          'cat_leisure',
+          'cat_home',
+          'cat_groceries', // 50% tie: quarterly before yearly
+          'cat_shopping',
+        ]);
+        expect(list[2].state, BudgetState.warning);
+        expect(list.first.overBy, greaterThan(0));
+        expect(repo.monthBudgets().map((s) => s.budget.id), [
+          for (final s in list) s.budget.id,
+        ]);
+      },
+    );
+
+    test('filter by period and limit', () {
+      final repo = _repo(
+        _oct15,
+        budgets: [
+          _budget('cat_home', 100, BudgetPeriod.monthly),
+          _budget('cat_health', 100, BudgetPeriod.yearly),
+          _budget('cat_leisure', 100, BudgetPeriod.monthly),
+        ],
+      );
+      final monthly = repo.budgetsByRelevance(period: BudgetPeriod.monthly);
+      expect(monthly.map((s) => s.budget.categoryId).toSet(), {
+        'cat_home',
+        'cat_leisure',
+      });
+      expect(repo.budgetsByRelevance(limit: 1), hasLength(1));
+      expect(repo.budgetsByRelevance(period: BudgetPeriod.weekly), isEmpty);
+    });
+
+    test('same numbers as the Budget tab', () {
+      final repo = MockRepository(now: _oct15);
+      final tab = repo.budgetOverview(BudgetPeriod.monthly).items;
+      final list = repo.budgetsByRelevance(period: BudgetPeriod.monthly);
+      expect(list.length, tab.length);
+      for (final s in tab) {
+        final same = list.firstWhere((e) => e.budget.id == s.budget.id);
+        expect(same.spent, s.spent);
+        expect(same.usage, s.usage);
+        expect(same.overBy, s.overBy);
+      }
+    });
+
     test('no budgets: an empty list', () {
       expect(_repo(_oct15).monthBudgets(), isEmpty);
     });

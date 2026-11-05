@@ -9,17 +9,23 @@ import 'dart:ui' show PathMetric;
 import 'package:flutter/material.dart';
 
 import '../theme/sossoldi_theme.dart';
+import 'sossoldi_chart_tooltip.dart';
 
 /// Colors the current line: income (green) or expense (red).
 enum SossoldiTrendTone { positive, negative }
 
-class SossoldiTrendChart extends StatelessWidget {
+class SossoldiTrendChart extends StatefulWidget {
   const SossoldiTrendChart({
     super.key,
     required this.current,
     required this.length,
     this.reference = const [],
     this.tone = SossoldiTrendTone.positive,
+    this.pointTitles = const [],
+    this.currentLabel = '',
+    this.referenceLabel = '',
+    this.formatValue,
+    this.masked = false,
   });
 
   /// Values of the current period, one per elapsed day, oldest first.
@@ -33,25 +39,133 @@ class SossoldiTrendChart extends StatelessWidget {
   final List<double> reference;
   final SossoldiTrendTone tone;
 
+  /// Touch or drag shows an indicator with the card of the shared chart
+  /// tooltip, once [formatValue] is given. Heading of the card for each of
+  /// the [length] slots of the axis (the date).
+  final List<String> pointTitles;
+
+  /// Names of the two rows of the card: the current line and the reference.
+  final String currentLabel;
+  final String referenceLabel;
+
+  /// Formats the amounts of the card; null turns the interaction off.
+  final String Function(double)? formatValue;
+
+  /// Hides the figures of the card (Hidden Mode).
+  final bool masked;
+
+  @override
+  State<SossoldiTrendChart> createState() => _SossoldiTrendChartState();
+}
+
+class _SossoldiTrendChartState extends State<SossoldiTrendChart> {
+  int? _selected;
+
+  SossoldiTrendChart get c => widget;
+  bool get _interactive => c.formatValue != null && c.length > 0;
+
+  void _select(double dx, double width) {
+    final slots = c.length;
+    final t = width <= 0 ? 0.0 : (dx / width).clamp(0.0, 1.0);
+    final i = slots <= 1 ? 0 : (t * (slots - 1)).round();
+    if (i != _selected) setState(() => _selected = i);
+  }
+
+  @override
+  void didUpdateWidget(SossoldiTrendChart old) {
+    super.didUpdateWidget(old);
+    if (_selected != null && _selected! >= c.length) _selected = null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final role = tone == SossoldiTrendTone.positive
+    final role = c.tone == SossoldiTrendTone.positive
         ? colors.income
         : colors.expense;
-    return ExcludeSemantics(
-      child: CustomPaint(
-        size: Size.infinite,
-        painter: _TrendPainter(
-          current: current,
-          length: length,
-          reference: reference,
-          line: role.onSurface,
-          fill: role.surface,
-          referenceLine: colors.shapeLow,
-        ),
+    final paint = CustomPaint(
+      size: Size.infinite,
+      painter: _TrendPainter(
+        current: c.current,
+        length: c.length,
+        reference: c.reference,
+        selected: _interactive ? _selected : null,
+        line: role.onSurface,
+        fill: role.surface,
+        referenceLine: colors.shapeLow,
+        indicator: colors.shapeMed,
       ),
     );
+    if (!_interactive) return ExcludeSemantics(child: paint);
+    return TapRegion(
+      onTapOutside: (_) {
+        if (_selected != null) setState(() => _selected = null);
+      },
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth;
+          final selected = _selected;
+          final slots = c.length;
+          final x = selected == null || slots <= 1
+              ? 0.0
+              : width * selected / (slots - 1);
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTapDown: (d) => _select(d.localPosition.dx, width),
+                onHorizontalDragStart: (d) =>
+                    _select(d.localPosition.dx, width),
+                onHorizontalDragUpdate: (d) =>
+                    _select(d.localPosition.dx, width),
+                child: ExcludeSemantics(child: paint),
+              ),
+              if (selected != null)
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: CustomSingleChildLayout(
+                      delegate: SossoldiChartTooltipLayout(x),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.topLeft,
+                        child: SossoldiChartTooltip(
+                          title: selected < c.pointTitles.length
+                              ? c.pointTitles[selected]
+                              : '',
+                          rows: [
+                            if (selected < c.current.length)
+                              (
+                                role.onSurface,
+                                c.currentLabel,
+                                c.current[selected],
+                              ),
+                            if (c.reference.isNotEmpty)
+                              (
+                                colors.shapeLow,
+                                c.referenceLabel,
+                                c.reference[_referenceIndex(selected)],
+                              ),
+                          ],
+                          totalLabel: null,
+                          masked: c.masked,
+                          formatValue: c.formatValue!,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  int _referenceIndex(int slot) {
+    final n = c.reference.length;
+    if (n <= 1 || c.length <= 1) return 0;
+    return (slot / (c.length - 1) * (n - 1)).round().clamp(0, n - 1);
   }
 }
 
@@ -60,17 +174,21 @@ class _TrendPainter extends CustomPainter {
     required this.current,
     required this.length,
     required this.reference,
+    required this.selected,
     required this.line,
     required this.fill,
     required this.referenceLine,
+    required this.indicator,
   });
 
   final List<double> current;
   final int length;
   final List<double> reference;
+  final int? selected;
   final Color line;
   final Color fill;
   final Color referenceLine;
+  final Color indicator;
 
   static const double _lineWidth = 1.5;
   static const double _referenceWidth = 1;
@@ -145,6 +263,36 @@ class _TrendPainter extends CustomPainter {
           ..strokeCap = StrokeCap.round,
       );
     }
+
+    final slot = selected;
+    if (slot != null && length > 0) {
+      final x = length <= 1 ? 0.0 : size.width * slot / (length - 1);
+      canvas.drawLine(
+        Offset(x, 0),
+        Offset(x, size.height),
+        Paint()
+          ..color = indicator
+          ..strokeWidth = 1,
+      );
+      if (slot < current.length) {
+        canvas.drawCircle(
+          Offset(x, y(current[slot])),
+          3,
+          Paint()..color = line,
+        );
+      }
+      if (reference.isNotEmpty) {
+        final n = reference.length;
+        final r = n <= 1 || length <= 1
+            ? 0
+            : (slot / (length - 1) * (n - 1)).round().clamp(0, n - 1);
+        canvas.drawCircle(
+          Offset(x, y(reference[r])),
+          3,
+          Paint()..color = referenceLine,
+        );
+      }
+    }
   }
 
   /// Smooth curve through [pts] (horizontal tangents at each point, so it
@@ -180,6 +328,8 @@ class _TrendPainter extends CustomPainter {
       old.current != current ||
       old.reference != reference ||
       old.length != length ||
+      old.selected != selected ||
+      old.indicator != indicator ||
       old.line != line ||
       old.fill != fill ||
       old.referenceLine != referenceLine;

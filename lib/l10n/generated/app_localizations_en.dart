@@ -1699,4 +1699,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashboardNoUpcomingRecurring => 'No recurring transactions';
+
+  @override
+  String get widgetBudgetStatusName => 'Budget status';
+
+  @override
+  String get widgetBudgetTitle => 'Budget';
+
+  @override
+  String get budgetTypeAll => 'All';
+
+  @override
+  String get budgetTypeSemantic => 'Budget type';
+
+  @override
+  String get widgetNoBudgets => 'No budgets yet';
+
+  @override
+  String widgetNoBudgetsOfPeriod(String period) {
+    return 'No $period budgets';
+  }
+
+  @override
+  String get kindTransfers => 'Transfers';
+
+  @override
+  String get dashboardTransactionTypeSemantic => 'Transaction type';
+
+  @override
+  String dashboardNoTransactionsOfType(String type) {
+    return 'No $type transactions';
+  }
+
+  @override
+  String dashboardNoRecurringOfType(String type) {
+    return 'No $type recurring transactions';
+  }
+
+  @override
+  String get widgetNetWorthName => 'Net worth';
+
+  @override
+  String get widgetNetWorthNoHistory => 'Not enough history yet';
+
+  @override
+  String get netWorthPeriodSemantic => 'Period';
+
+  @override
+  String get netWorthPeriod3M => '3M';
+
+  @override
+  String get netWorthPeriod6M => '6M';
+
+  @override
+  String get netWorthPeriod1Y => '1Y';
+
+  @override
+  String get netWorthPeriod3Y => '3Y';
+
+  @override
+  String get netWorthPeriod5Y => '5Y';
+
+  @override
+  String get netWorthPeriodAll => 'All';
 }

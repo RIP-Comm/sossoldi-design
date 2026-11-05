@@ -144,9 +144,18 @@ Keep this file up to date whenever the mock data changes.
   - `upcomingRecurrencesThisMonth({limit = 5})`: the planned dates after today, same as the Recurring tab.
   - `cashFlow()` → `CashFlow`: cumulative income, expenses (positive) and balance per elapsed day of the
     month, main currency, transfers excluded, summed in cents (agrees with `balanceTrend`).
-  - `monthBudgets()`: every budget in its current period, exceeded first, then by usage (same statuses as
-    the Budget tab).
+  - `monthBudgets()` = `budgetsByRelevance()`: every budget in its current period, exceeded first, then at risk (≥ 80%), then
+    the rest, each by usage descending, ties shortest period first (same statuses as the Budget tab).
+    `budgetsByRelevance({period, limit})` also feeds the Dashboard "Budget status" widget.
   - `MockRepository(accounts:, transactions:, budgets:, recurring:)` replace the generated data (tests only).
+- Net worth (`models/net_worth.dart`): `netWorth` = `totalBalance` (every account, broker accounts included) + `portfolioValue`
+  (positions at market value, liquidity excluded: no double count). `netWorthAt(day)` = account balances at the end of the
+  day + `_portfolioAt` at the last trading day (today or later: `netWorth`). `netWorthHistoryStart` = earliest transaction or
+  purchase (in the demo about 4 years, from the first purchase); before the first transaction the accounts stand at their
+  starting balance. `netWorthPeriodStart/Available(NetWorthPeriod)` (3M, 6M, 1Y, 3Y, 5Y, All) and `netWorthSeries(period)` →
+  `NetWorthSeries` (current, points sampled daily up to 6M, weekly for 1Y/3Y, every two weeks for 5Y; the last point is today and equals
+  `current`; with fewer than two points `start`/`change` are null; `changePercent` null when the start is not above 0).
+  A period starting before the history starts at it. Feeds the Dashboard "Net worth" widget.
 - Investments Overview (`models/portfolio.dart`):
   - `portfolioSummary()` → `PortfolioSummary`: market value of the positions, liquidity (broker account
     balance), cost (quantity x PMC), `totalValue` = positions + liquidity, `gain` = positions - cost

@@ -94,6 +94,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       onRemove: controller.remove,
                       onResize: controller.resize,
                       onReorder: controller.move,
+                      onSettingChanged: controller.setSetting,
                     ),
                     if (controller.layout.isEmpty)
                       _EmptyState(editing: editing, onAdd: _addFromEmptyState),
