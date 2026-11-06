@@ -17,6 +17,7 @@ List<(String, Color)> colorTokens(SossoldiColors colors) {
     ('surfaceLow', colors.surfaceLow),
     ('surfaceMed', colors.surfaceMed),
     ('surfaceHigh', colors.surfaceHigh),
+    ('surfaceHighPlus1', colors.surfaceHighPlus1),
     ('selectedSurface', colors.selectedSurface),
     ('selectedPrimarySurface', colors.selectedPrimarySurface),
     ('textHigh', colors.textHigh),

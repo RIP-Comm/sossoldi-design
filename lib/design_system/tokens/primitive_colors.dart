@@ -17,6 +17,7 @@ abstract final class SossoldiPrimitives {
   static const primary70 = Color(0xFF69B2FC);
   static const primary80 = Color(0xFF9BCCFD);
   static const primary90 = Color(0xFFCDE5FE);
+  static const primary93 = Color(0xFFE1EDFA); // try: light selected tint
   static const primary95 = Color(0xFFE6F2FE);
   static const primary97 = Color(0xFFF0F7FF);
   static const primary99 = Color(0xFFFAFCFF);
@@ -25,12 +26,14 @@ abstract final class SossoldiPrimitives {
   static const grey5 = Color(0xFF0B0D0F);
   static const grey10 = Color(0xFF161A1D);
   static const grey20 = Color(0xFF2C333A);
+  static const grey22 = Color(0xFF282F34); // try: dark surfaceHighPlus1
   static const grey30 = Color(0xFF424D57);
   static const grey40 = Color(0xFF586674);
   static const grey50 = Color(0xFF6E8091);
   static const grey60 = Color(0xFF8B99A7);
   static const grey70 = Color(0xFFA8B2BD);
   static const grey80 = Color(0xFFC5CCD3);
+  static const grey88 = Color(0xFFDFE3E7); // try: light surfaceLow
   static const grey90 = Color(0xFFE2E5E9);
   static const grey93 = Color(0xFFEBEDF0);
   static const grey95 = Color(0xFFF0F2F4);

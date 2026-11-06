@@ -132,9 +132,9 @@ void main() {
       expect(find.byIcon(PhosphorIconsRegular.check), findsOneWidget);
     });
 
-    test('the token is the primary 97 tint in light', () {
+    test('the token is the primary 93 tint in light', () {
       final colors = SossoldiTheme.light.extension<SossoldiColors>()!;
-      expect(colors.selectedPrimarySurface, SossoldiPrimitives.primary97);
+      expect(colors.selectedPrimarySurface, SossoldiPrimitives.primary93);
       expect(colors.selectedPrimarySurface, isNot(colors.selectedSurface));
     });
   });
