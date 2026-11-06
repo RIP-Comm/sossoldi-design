@@ -42,6 +42,7 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
     required this.surfaceLow,
     required this.surfaceMed,
     required this.surfaceHigh,
+    required this.surfaceHighPlus1,
     required this.selectedSurface,
     required this.selectedPrimarySurface,
     required this.textHigh,
@@ -67,6 +68,9 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
   final Color surfaceLow;
   final Color surfaceMed;
   final Color surfaceHigh;
+
+  /// One step above [surfaceHigh]: header buttons and the bottom bar.
+  final Color surfaceHighPlus1;
 
   /// Background of the selected item inside a surfaceHigh container
   /// (e.g. the active tab of the navbar). Figma: Primitives/Grey/93.
@@ -115,11 +119,12 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
   final Color disabledOnSurface;
 
   static const light = SossoldiColors(
-    surfaceLow: SossoldiPrimitives.grey90,
-    surfaceMed: SossoldiPrimitives.grey97,
-    surfaceHigh: SossoldiPrimitives.grey100,
+    surfaceLow: SossoldiPrimitives.grey88,
+    surfaceMed: SossoldiPrimitives.grey93,
+    surfaceHigh: SossoldiPrimitives.grey97,
+    surfaceHighPlus1: SossoldiPrimitives.grey100,
     selectedSurface: SossoldiPrimitives.grey93,
-    selectedPrimarySurface: SossoldiPrimitives.primary97,
+    selectedPrimarySurface: SossoldiPrimitives.primary93,
     textHigh: SossoldiPrimitives.grey10,
     textMed: SossoldiPrimitives.grey40,
     textLow: SossoldiPrimitives.grey60,
@@ -179,6 +184,7 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
     surfaceLow: SossoldiPrimitives.grey5,
     surfaceMed: SossoldiPrimitives.grey10,
     surfaceHigh: SossoldiPrimitives.grey20, // derived
+    surfaceHighPlus1: SossoldiPrimitives.grey22,
     selectedSurface: SossoldiPrimitives.grey30, // derived
     selectedPrimarySurface: SossoldiPrimitives.primary20, // derived
     textHigh: SossoldiPrimitives.grey95,
@@ -244,6 +250,7 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
     Color? surfaceLow,
     Color? surfaceMed,
     Color? surfaceHigh,
+    Color? surfaceHighPlus1,
     Color? selectedSurface,
     Color? selectedPrimarySurface,
     Color? textHigh,
@@ -269,6 +276,7 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
       surfaceLow: surfaceLow ?? this.surfaceLow,
       surfaceMed: surfaceMed ?? this.surfaceMed,
       surfaceHigh: surfaceHigh ?? this.surfaceHigh,
+      surfaceHighPlus1: surfaceHighPlus1 ?? this.surfaceHighPlus1,
       selectedSurface: selectedSurface ?? this.selectedSurface,
       selectedPrimarySurface:
           selectedPrimarySurface ?? this.selectedPrimarySurface,
@@ -303,6 +311,7 @@ class SossoldiColors extends ThemeExtension<SossoldiColors> {
       surfaceLow: c(surfaceLow, other.surfaceLow),
       surfaceMed: c(surfaceMed, other.surfaceMed),
       surfaceHigh: c(surfaceHigh, other.surfaceHigh),
+      surfaceHighPlus1: c(surfaceHighPlus1, other.surfaceHighPlus1),
       selectedSurface: c(selectedSurface, other.selectedSurface),
       selectedPrimarySurface: c(
         selectedPrimarySurface,

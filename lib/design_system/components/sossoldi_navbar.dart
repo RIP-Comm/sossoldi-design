@@ -2,6 +2,8 @@
 // a white pill with the page tabs and, apart from it, the round primary
 // action button ("+").
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
@@ -62,7 +64,6 @@ class SossoldiNavbar extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: _maxPillWidth),
           child: Container(
             height: height,
-            padding: const EdgeInsets.all(SossoldiSpacing.xs),
             // Not in Figma: the bar (surfaceHigh) is close to the background
             // and its shadow is faint, so a thin border marks its edge, the
             // same in light and dark. Drawn on top so it takes no space.
@@ -71,23 +72,33 @@ class SossoldiNavbar extends StatelessWidget {
               border: Border.all(color: colors.strokeMinus1),
             ),
             decoration: BoxDecoration(
-              color: colors.surfaceHigh,
               borderRadius: BorderRadius.circular(SossoldiRadius.max),
               boxShadow: SossoldiShadows.m,
             ),
-            child: Row(
-              // The selected pill fills the height inside the padding.
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                for (final (i, item) in items.indexed)
-                  Expanded(
-                    child: _Tab(
-                      item: item,
-                      selected: i == selectedIndex,
-                      onTap: () => onChanged(i),
-                    ),
+            // Try: light blur of what scrolls behind, translucent fill.
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(SossoldiRadius.max),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                child: Container(
+                  padding: const EdgeInsets.all(SossoldiSpacing.xs),
+                  color: colors.surfaceHighPlus1.withValues(alpha: 0.8),
+                  child: Row(
+                    // The selected pill fills the height inside the padding.
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (final (i, item) in items.indexed)
+                        Expanded(
+                          child: _Tab(
+                            item: item,
+                            selected: i == selectedIndex,
+                            onTap: () => onChanged(i),
+                          ),
+                        ),
+                    ],
                   ),
-              ],
+                ),
+              ),
             ),
           ),
         ),

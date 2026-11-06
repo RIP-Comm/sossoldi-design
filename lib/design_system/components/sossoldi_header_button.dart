@@ -2,6 +2,8 @@
 // the top action bar of the main screens: a 54px white round button with
 // an icon and the medium shadow.
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../theme/sossoldi_theme.dart';
@@ -39,15 +41,32 @@ class SossoldiHeaderButton extends StatelessWidget {
       child: Container(
         width: size,
         height: size,
-        decoration: BoxDecoration(
-          color: filled ? colors.primary.surface : colors.surfaceHigh,
+        // Same edge as the navbar: a thin border drawn on top.
+        foregroundDecoration: filled
+            ? null
+            : BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: colors.strokeMinus1),
+              ),
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           boxShadow: SossoldiShadows.m,
         ),
-        child: Icon(
-          icon,
-          size: 24,
-          color: filled ? colors.primary.onSurface : colors.textHigh,
+        // Try: light blur of what scrolls behind, so the fill is translucent.
+        child: ClipOval(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+            child: Container(
+              color: filled
+                  ? colors.primary.surface
+                  : colors.surfaceHighPlus1.withValues(alpha: 0.8),
+              child: Icon(
+                icon,
+                size: 24,
+                color: filled ? colors.primary.onSurface : colors.textHigh,
+              ),
+            ),
+          ),
         ),
       ),
     );
