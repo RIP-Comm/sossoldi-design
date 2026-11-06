@@ -19,7 +19,7 @@ the official repository.
 - Code: design system done (tokens, light/dark theme, typography, category colors and all
   Figma components, each with a widgetbook entry); mock database done; app shell (tabs, bottom bar) and Dashboard
   done in view and edit mode (long press, wiggle, drag to reorder, remove, resize, add-widget sheet) with five
-  widgets (Monthly balance, Latest transactions, Budget status, Net worth and Upcoming recurring, sizes S/M/L; layout and per-widget settings in memory only);
+  widgets (Monthly balance, Latest transactions, Budget status, Net worth, Investments, Allocation and Upcoming recurring, sizes S/M/L; layout and per-widget settings in memory only);
   Finance page with its four tabs and Transactions > List (search, filters, grouped by day, pagination)
   and > Charts (totals, donut, breakdown over time, hand-drawn with CustomPainter, no chart library);
   and Budget (overall, segmented bar, list, budget page with edit and delete, all in memory);
@@ -89,7 +89,8 @@ Backlog: docs/backlog.md — NON è caricato in automatico; leggilo solo quando 
     the reference for the developers instead of Figma. The app has two hooks for it: `AppEntry`
     (`lib/app/app_entry.dart`, where the shell opens) and `SossoldiApp.builder`. Screens of the menu in
     `inspector/lib/scenes.dart`; after adding a component or a screen widget run
-    `dart run tool/generate_widget_names.dart` in `inspector/`. Run: `cd inspector && flutter run -d chrome`.
+    `dart run tool/generate_widget_names.dart` in `inspector/` (it also checks `catalog/widgetbook_links.dart`,
+    the component → Widgetbook page map: add the new component there). Run: `cd inspector && flutter run -d chrome`.
     At every push on `main` (repo RIP-Comm/sossoldi-design) `.github/workflows/inspector.yml` tests and
     builds it into the `site` branch (static files for any host); it pins the Flutter version (3.47.8): keep it in step
 - Naming: files in snake_case, classes in PascalCase, one public widget per file.

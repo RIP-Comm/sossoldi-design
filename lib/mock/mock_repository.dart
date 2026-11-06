@@ -35,6 +35,7 @@ import 'models/finance_overview.dart';
 import 'models/holding.dart';
 import 'models/investment_movement.dart';
 import 'models/movement_edit.dart';
+import 'models/investments_snapshot.dart';
 import 'models/net_worth.dart';
 import 'models/portfolio.dart';
 import 'models/price_point.dart';
@@ -2079,6 +2080,8 @@ class MockRepository extends ChangeNotifier {
       today.month - 6,
       today.day,
     ),
+    // The last day of the previous year: the change is against its close.
+    NetWorthPeriod.yearToDate => DateTime(today.year - 1, 12, 31),
     NetWorthPeriod.year => DateTime(today.year - 1, today.month, today.day),
     NetWorthPeriod.threeYears => DateTime(
       today.year - 3,
@@ -2138,6 +2141,7 @@ class MockRepository extends ChangeNotifier {
       final span = today.difference(from).inDays;
       final step = switch (period) {
         NetWorthPeriod.threeMonths || NetWorthPeriod.sixMonths => 1,
+        NetWorthPeriod.yearToDate => span > 183 ? 7 : 1,
         NetWorthPeriod.year || NetWorthPeriod.threeYears => 7,
         NetWorthPeriod.fiveYears => 14,
         NetWorthPeriod.all => span > 3 * 365 ? 14 : (span > 365 ? 7 : 1),
@@ -2820,11 +2824,87 @@ class MockRepository extends ChangeNotifier {
     );
   }
 
+  /// The close of trading day [i] as a chart point (the last day is today,
+  /// with the current prices and the units held now).
+  ValuePoint _closePoint(int i) {
+    final days = _tradingDays;
+    final state = _portfolioAt(
+      i == days.length - 1 ? today : days[i],
+      days[i],
+      (id) => _priceHistories[id]![i].price,
+    );
+    return ValuePoint(
+      time: days[i],
+      value: state.value,
+      invested: state.invested,
+    );
+  }
+
+  /// Performance from [from] to [to]: the change of (value - invested), so
+  /// buys and sells do not count. The base of the percentage is the value at
+  /// the start plus what was invested in between.
+  InvestmentChange _performance(ValuePoint from, ValuePoint to) {
+    final amount = round2(
+      (to.value - to.invested) - (from.value - from.invested),
+    );
+    final base = from.value + (to.invested - from.invested);
+    return InvestmentChange(
+      amount: amount,
+      percent: base > 0 ? amount / base : null,
+    );
+  }
+
+  /// Everything of the Dashboard "Investments" widget for [period]: the value
+  /// (positions + liquidity, as the Overview), the daily change against the
+  /// previous close, the year-to-date change, the change of [period] and the
+  /// Overview's market value series. Changes are market performance (see
+  /// [InvestmentChange]); the Overview's own P&L is against the average cost.
+  InvestmentsSnapshot investmentsSnapshot(ValuePeriod period) {
+    final summary = portfolioSummary();
+    final series = marketValueSeries(period);
+    final first = _firstPurchase;
+    final days = _tradingDays;
+    final last = days.length - 1;
+    InvestmentChange? daily, ytd;
+    if (first != null && last >= 1 && !days[last - 1].isBefore(first)) {
+      daily = _performance(_closePoint(last - 1), _closePoint(last));
+    }
+    if (first != null) {
+      final start = days.lastIndexWhere((d) => d.year < today.year);
+      DateTime? from;
+      if (start >= 0 && !days[start].isBefore(first)) from = days[start];
+      from ??= first;
+      final startIndex = days.indexWhere((d) => !d.isBefore(from!));
+      if (startIndex >= 0 && startIndex < last) {
+        ytd = _performance(_closePoint(startIndex), _closePoint(last));
+      }
+    }
+    final points = series.points;
+    final periodChange = switch (period) {
+      ValuePeriod.day => daily,
+      ValuePeriod.yearToDate => ytd,
+      _ => points.length < 2 ? null : _performance(points.first, points.last),
+    };
+    return InvestmentsSnapshot(
+      period: period,
+      currency: mainCurrency,
+      hasPositions: holdings.isNotEmpty,
+      totalValue: summary.totalValue,
+      daily: daily,
+      yearToDate: ytd,
+      periodChange: periodChange,
+      series: series,
+    );
+  }
+
   /// How the portfolio is split, largest first with the liquidity last as a
   /// slice of its own; shares are of positions plus liquidity. By asset class
   /// (ETF, stocks, bonds, other = manual assets) or by single asset (the
   /// first five, the rest together as "other"). Empty when it is all zero.
-  List<AllocationSlice> assetAllocation(AllocationMode mode) {
+  List<AllocationSlice> assetAllocation(
+    AllocationMode mode, {
+    int topAssets = 5,
+  }) {
     final cash = liquidity;
     final total = portfolioValue + cash;
     if (total <= 0) return const [];
@@ -2859,7 +2939,7 @@ class MockRepository extends ChangeNotifier {
         for (final h in _open)
           if (holdingValue(h.id) > 0) (h.id, holdingValue(h.id)),
       ]..sort((a, b) => b.$2.compareTo(a.$2));
-      for (final (id, value) in held.take(5)) {
+      for (final (id, value) in held.take(topAssets)) {
         slices.add(
           AllocationSlice(
             kind: AllocationKind.asset,
@@ -2869,7 +2949,7 @@ class MockRepository extends ChangeNotifier {
           ),
         );
       }
-      final rest = held.skip(5).fold(0.0, (sum, e) => sum + e.$2);
+      final rest = held.skip(topAssets).fold(0.0, (sum, e) => sum + e.$2);
       if (rest > 0) {
         slices.add(
           AllocationSlice(
@@ -2890,6 +2970,53 @@ class MockRepository extends ChangeNotifier {
       );
     }
     return List.unmodifiable(slices);
+  }
+
+  /// [assetAllocation] as the Dashboard "Allocation" widget shows it: at most
+  /// [maxRows] slices as they are (single mode: the first six assets), the rest
+  /// summed in one "other" row (a lone leftover slice stays what it is), and
+  /// whole percentages that add up to exactly 100 (largest remainder).
+  List<AllocationRow> allocationBreakdown(AllocationMode mode, {int? maxRows}) {
+    final all = assetAllocation(mode, topAssets: 6);
+    var slices = all;
+    if (maxRows != null && all.length > maxRows + 1) {
+      final rest = all.skip(maxRows);
+      slices = [
+        ...all.take(maxRows),
+        AllocationSlice(
+          kind: AllocationKind.other,
+          value: round2(rest.fold(0.0, (s, e) => s + e.value)),
+          share: rest.fold(0.0, (s, e) => s + e.share),
+        ),
+      ];
+    }
+    final percents = _wholePercents([for (final s in slices) s.share]);
+    return List.unmodifiable([
+      for (final (i, s) in slices.indexed)
+        AllocationRow(slice: s, percent: percents[i]),
+    ]);
+  }
+
+  /// Rounds [shares] (fractions that add up to 1) to whole percentages that
+  /// add up to 100.
+  @visibleForTesting
+  static List<int> debugWholePercents(List<double> shares) =>
+      _wholePercents(shares);
+
+  static List<int> _wholePercents(List<double> shares) {
+    if (shares.isEmpty) return const [];
+    final total = shares.fold(0.0, (s, e) => s + e);
+    final exact = [for (final s in shares) s / total * 100];
+    final floors = [for (final e in exact) e.floor()];
+    var missing = 100 - floors.fold(0, (s, e) => s + e);
+    final order = List.generate(exact.length, (i) => i)
+      ..sort((a, b) => (exact[b] - floors[b]).compareTo(exact[a] - floors[a]));
+    for (final i in order) {
+      if (missing <= 0) break;
+      floors[i]++;
+      missing--;
+    }
+    return floors;
   }
 
   /// Intraday prices (every 15 minutes) of the last five trading days,

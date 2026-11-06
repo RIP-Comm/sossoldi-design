@@ -68,6 +68,29 @@ class AmountUseCase extends StatelessWidget {
             SossoldiChangeTag.percent(value: -0.031),
           ],
         ),
+        FoundationSection(
+          title: 'Change indicator',
+          children: [
+            SossoldiChangeIndicator(
+              amount: 147.45,
+              currencyCode: _eur,
+              percent: 0.0085,
+            ),
+            SossoldiChangeIndicator(
+              amount: -2310,
+              currencyCode: _eur,
+              percent: -0.031,
+            ),
+            SossoldiChangeIndicator(amount: 0, currencyCode: _eur, percent: 0),
+            SossoldiChangeIndicator(amount: 500, currencyCode: _eur),
+            SossoldiChangeIndicator(
+              amount: 147.45,
+              currencyCode: _eur,
+              percent: 0.0085,
+              masked: true,
+            ),
+          ],
+        ),
       ],
     );
   }

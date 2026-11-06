@@ -17,6 +17,7 @@ class NetWorthCard extends StatelessWidget {
     super.key,
     required this.size,
     required this.title,
+    required this.smallLabel,
     required this.value,
     required this.currency,
     required this.values,
@@ -31,6 +32,9 @@ class NetWorthCard extends StatelessWidget {
 
   final DashboardWidgetSize size;
   final String title;
+
+  /// S only: what the change refers to (no chip in S).
+  final String smallLabel;
   final double value;
   final String currency;
 
@@ -60,7 +64,7 @@ class NetWorthCard extends StatelessWidget {
         ? SossoldiTrendTone.negative
         : SossoldiTrendTone.positive;
 
-    final amount = Expanded(
+    final amount = Flexible(
       // Very large amounts shrink instead of wrapping or clipping.
       child: FittedBox(
         fit: BoxFit.scaleDown,
@@ -72,6 +76,13 @@ class NetWorthCard extends StatelessWidget {
           style: typography.headlineSmall,
         ),
       ),
+    );
+
+    Widget indicator() => SossoldiChangeIndicator(
+      amount: change!,
+      currencyCode: currency,
+      percent: changePercent,
+      masked: masked,
     );
 
     return SossoldiWidgetCard(
@@ -90,33 +101,35 @@ class NetWorthCard extends StatelessWidget {
               spacing: SossoldiSpacing.xs,
               children: [
                 if (isS)
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: typography.labelMedium.copyWith(
-                      color: colors.textMed,
-                    ),
-                  )
-                else
-                  DashboardWidgetHeader(title: title, selector: selector),
-                Row(children: [amount]),
-                if (!isS && change != null)
                   Row(
                     spacing: SossoldiSpacing.xs,
                     children: [
-                      SossoldiChangeTag.money(
-                        value: change!,
-                        currencyCode: currency,
-                        masked: masked,
-                      ),
-                      if (changePercent != null)
-                        SossoldiChangeTag.percent(
-                          value: changePercent!,
-                          masked: masked,
+                      Expanded(
+                        child: Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: typography.labelMedium.copyWith(
+                            color: colors.textMed,
+                          ),
                         ),
+                      ),
+                      Text(
+                        smallLabel,
+                        style: typography.labelSmall.copyWith(
+                          color: colors.textMed,
+                        ),
+                      ),
                     ],
-                  ),
+                  )
+                else
+                  DashboardWidgetHeader(title: title, selector: selector),
+                Row(
+                  spacing: SossoldiSpacing.s,
+                  children: [amount, if (!isS && change != null) indicator()],
+                ),
+                if (isS && change != null)
+                  Align(alignment: Alignment.centerLeft, child: indicator()),
               ],
             ),
           ),

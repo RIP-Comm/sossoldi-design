@@ -8,7 +8,9 @@ import '../theme/sossoldi_theme.dart';
 import '../tokens/radius.dart';
 import '../tokens/spacing.dart';
 
-enum SossoldiTagType { standard, positive, negative }
+/// [info] (blue) is not in Figma: added to name a variable or a reference
+/// (the Inspector's design tokens).
+enum SossoldiTagType { standard, positive, negative, info }
 
 class SossoldiTag extends StatelessWidget {
   const SossoldiTag({
@@ -44,6 +46,11 @@ class SossoldiTag extends StatelessWidget {
         colors.expense.surface,
         colors.expense.onSurface,
         colors.expense.stroke,
+      ),
+      SossoldiTagType.info => (
+        colors.info.surface,
+        colors.info.onSurface,
+        colors.info.stroke,
       ),
     };
 

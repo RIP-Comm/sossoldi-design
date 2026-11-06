@@ -1,7 +1,9 @@
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../model/dashboard_layout.dart';
+import '../widgets/allocation_widget.dart';
 import '../widgets/budget_status_widget.dart';
+import '../widgets/investments_widget.dart';
 import '../widgets/latest_transactions_widget.dart';
 import '../widgets/monthly_balance_widget.dart';
 import '../widgets/net_worth_widget.dart';
@@ -71,6 +73,26 @@ final dashboardWidgetRegistry = DashboardWidgetRegistry([
       for (final size in DashboardWidgetSize.values)
         size: (context, instance) =>
             NetWorthWidget(size: size, instance: instance),
+    },
+  ),
+  DashboardWidgetDefinition(
+    id: DashboardWidgetIds.investments,
+    name: (l10n) => l10n.widgetInvestmentsName,
+    icon: PhosphorIconsRegular.coins,
+    builders: {
+      for (final size in DashboardWidgetSize.values)
+        size: (context, instance) =>
+            InvestmentsWidget(size: size, instance: instance),
+    },
+  ),
+  DashboardWidgetDefinition(
+    id: DashboardWidgetIds.allocation,
+    name: (l10n) => l10n.widgetAllocationName,
+    icon: PhosphorIconsRegular.chartPie,
+    builders: {
+      for (final size in DashboardWidgetSize.values)
+        size: (context, instance) =>
+            AllocationWidget(size: size, instance: instance),
     },
   ),
 ]);

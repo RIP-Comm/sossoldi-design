@@ -2020,5 +2020,21 @@
   "netWorthPeriodAll": "All",
   "@netWorthPeriodAll": {
     "description": "Net worth period: from the start of the history"
+  },
+  "widgetInvestmentsName": "Investments",
+  "@widgetInvestmentsName": {
+    "description": "Dashboard widget: value and performance of the portfolio"
+  },
+  "widgetInvestmentsPeriodSemantic": "Period",
+  "@widgetInvestmentsPeriodSemantic": {
+    "description": "Accessibility label of the period chip of the Investments widget"
+  },
+  "netWorthPeriodYtd": "YTD",
+  "@netWorthPeriodYtd": {
+    "description": "Net worth period: year to date"
+  },
+  "widgetAllocationName": "Allocation",
+  "@widgetAllocationName": {
+    "description": "Dashboard widget: asset allocation of the portfolio"
   }
 }

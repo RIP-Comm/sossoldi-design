@@ -44,13 +44,17 @@ Sossoldi's Figma, not the original Moon library.
 `SossoldiCategoryItem` toggles its subcategories on a tap of the whole row (Figma Default / Open). With `onRowTap` the
 row does something else (edit) and only the caret opens and closes the list (added for the onboarding, Figma 13:3685).
 
+## Change indicator
+`SossoldiChangeIndicator(amount, currencyCode, percent?)`: tag with arrow icon and percentage plus the amount in plain text; without
+percentage the tag has the amount. Used by the Net worth and Investments widgets (widgetbook: Domain). Not in Figma.
+
 ## Components of the Add sheet
 Not in Figma, built from tokens: `SossoldiAmountInput` (big number with a fixed prefix such as the "−" of an expense,
 currency, numeric keyboard), `showSossoldiDatePicker` (one day, in a bottom sheet, on `SossoldiDateRangePicker`),
 tabs that take a color when selected (`SossoldiTabData.text(..., activeRole:)`, for expense / income / transfer),
 `SossoldiSnackbar` with a text action ("Undo") and `showSossoldiSnackbar(messenger:, bottomMargin:)`,
 `SossoldiBottomSheetToolbar.icon(titleWidget:)` (title that opens a menu), `SossoldiPopover.close(context)`,
-`SossoldiSwitchRow(description:)`, `SossoldiAccountItem(tag:)`, `SossoldiTextInput(focusNode:)`, `SossoldiMenuItem(dense:)` (compact row for the
+`SossoldiSwitchRow(description:)`, `SossoldiAccountItem(tag:)`, `SossoldiTextInput(focusNode:)`, `SossoldiSwitch(size: SossoldiSwitchSize.small)` (40 × 22, for the Inspector's light/dark switch only: no Widgetbook entry on purpose), `SossoldiTagType.info` (blue, to name a variable: the Inspector's design tokens), `SossoldiMenuItem(dense:)` (compact row for the
 Inspector's menu), `SossoldiPopover(above:)` (opens above the trigger, for the Inspector's toolbar); the label of a
 `SossoldiUnitNavigator` is cut with an ellipsis. Each has a widgetbook entry.
 

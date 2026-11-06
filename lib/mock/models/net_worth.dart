@@ -2,7 +2,15 @@ import 'package:flutter/foundation.dart';
 
 /// Periods of the Dashboard "Net worth" widget. [all] starts at the first
 /// day with data.
-enum NetWorthPeriod { threeMonths, sixMonths, year, threeYears, fiveYears, all }
+enum NetWorthPeriod {
+  threeMonths,
+  sixMonths,
+  yearToDate,
+  year,
+  threeYears,
+  fiveYears,
+  all,
+}
 
 @immutable
 class NetWorthPoint {

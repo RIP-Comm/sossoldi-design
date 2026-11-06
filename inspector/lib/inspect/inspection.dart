@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../catalog/widget_names.g.dart';
+import 'node_kind.dart';
 
 /// One element of the app picked by the inspector.
 class InspectedNode {
@@ -16,11 +17,14 @@ class InspectedNode {
   /// The widget that made [box] (its element), when found.
   final Element? element;
 
+  /// The same layer is the same box *and* the same widget: a screen and the
+  /// component it wraps share their box and are two layers.
   @override
-  bool operator ==(Object other) => other is InspectedNode && other.box == box;
+  bool operator ==(Object other) =>
+      other is InspectedNode && other.box == box && other.element == element;
 
   @override
-  int get hashCode => box.hashCode;
+  int get hashCode => Object.hash(box, element);
 }
 
 class Inspection {
@@ -127,34 +131,36 @@ class Inspection {
 String? widgetName(Widget widget) =>
     designSystemName(widget) ?? featureName(widget);
 
-/// What [node] is, for the panel title: the class of a named widget, else
-/// the kind of box ("Text", "Row", "Box"...).
-String describeNode(InspectedNode node) {
+/// The kind of layer [node] is.
+NodeKind kindOf(InspectedNode node) {
   final element = node.element;
   if (element != null) {
-    final named = widgetName(element.widget);
-    if (named != null) return named;
+    if (designSystemName(element.widget) != null) return NodeKind.component;
+    if (featureName(element.widget) != null) return NodeKind.feature;
     Element? icon;
     element.visitAncestorElements((e) {
       if (e.widget is Icon) icon = e;
       return icon == null && e.renderObject == node.box;
     });
-    if (icon != null) return 'Icon';
+    if (icon != null) return NodeKind.icon;
   }
   return switch (node.box) {
-    RenderParagraph() => 'Text',
+    RenderParagraph() => NodeKind.text,
     RenderFlex(:final direction) =>
-      direction == Axis.horizontal ? 'Row' : 'Column',
-    RenderDecoratedBox() => 'Box',
-    RenderPadding() => 'Padding',
-    RenderImage() => 'Image',
-    RenderClipRRect() || RenderClipRect() || RenderClipOval() => 'Clip',
-    RenderPhysicalModel() || RenderPhysicalShape() => 'Surface',
-    RenderCustomPaint() => 'Custom paint',
-    RenderStack() => 'Stack',
-    RenderEditable() => 'Text field',
-    RenderViewportBase() => 'Scroll view',
-    RenderWrap() => 'Wrap',
-    _ => 'Box',
+      direction == Axis.horizontal ? NodeKind.row : NodeKind.column,
+    RenderImage() => NodeKind.image,
+    RenderCustomPaint() => NodeKind.paint,
+    RenderStack() => NodeKind.stack,
+    RenderEditable() => NodeKind.textField,
+    RenderViewportBase() => NodeKind.scroll,
+    _ => NodeKind.box,
   };
+}
+
+/// What [node] is, for the panel title: the class of a named widget, else
+/// the name of its kind ("Text", "Row", "Box"...).
+String describeNode(InspectedNode node) {
+  final element = node.element;
+  final named = element == null ? null : widgetName(element.widget);
+  return named ?? kindOf(node).label;
 }

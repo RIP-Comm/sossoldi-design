@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:sossoldi/design_system/design_system.dart';
 
 import 'device/device_stage.dart';
@@ -17,8 +18,18 @@ void main() {
   runApp(const InspectorApp());
 }
 
-class InspectorApp extends StatelessWidget {
+/// The theme of the Inspector itself (the sidebar, the panel, the toolbar) is
+/// its own: light until the switch in the sidebar says otherwise, whatever the
+/// device uses. The theme of the app in the phone is in the toolbar.
+class InspectorApp extends StatefulWidget {
   const InspectorApp({super.key});
+
+  @override
+  State<InspectorApp> createState() => _InspectorAppState();
+}
+
+class _InspectorAppState extends State<InspectorApp> {
+  bool _dark = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +38,21 @@ class InspectorApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: SossoldiTheme.light,
       darkTheme: SossoldiTheme.dark,
-      home: const InspectorPage(),
+      themeMode: _dark ? ThemeMode.dark : ThemeMode.light,
+      home: InspectorPage(
+        dark: _dark,
+        onDarkChanged: (value) => setState(() => _dark = value),
+      ),
     );
   }
 }
 
 class InspectorPage extends StatefulWidget {
-  const InspectorPage({super.key});
+  const InspectorPage({super.key, this.dark = false, this.onDarkChanged});
+
+  /// Whether the Inspector itself is dark.
+  final bool dark;
+  final ValueChanged<bool>? onDarkChanged;
 
   @override
   State<InspectorPage> createState() => _InspectorPageState();
@@ -92,14 +111,14 @@ class _InspectorPageState extends State<InspectorPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _Side(
-            width: 264,
+            width: 288,
             border: BorderDirectional(
               end: BorderSide(color: colors.strokeMinus1),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const _Brand(),
+                _Brand(dark: widget.dark, onDarkChanged: widget.onDarkChanged),
                 Expanded(child: SceneMenu(controller: _controller)),
               ],
             ),
@@ -197,7 +216,10 @@ class _Side extends StatelessWidget {
 }
 
 class _Brand extends StatelessWidget {
-  const _Brand();
+  const _Brand({required this.dark, required this.onDarkChanged});
+
+  final bool dark;
+  final ValueChanged<bool>? onDarkChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -210,16 +232,37 @@ class _Brand extends StatelessWidget {
         SossoldiSpacing.l,
         0,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        spacing: SossoldiSpacing.s,
         children: [
-          Text(
-            'Sossoldi Inspector',
-            style: typography.titleMedium.copyWith(color: colors.textHigh),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Sossoldi Inspector',
+                  style: typography.titleMedium.copyWith(
+                    color: colors.textHigh,
+                  ),
+                ),
+                Text(
+                  'V2 prototype',
+                  style: typography.labelSmall.copyWith(color: colors.textMed),
+                ),
+              ],
+            ),
           ),
-          Text(
-            'V2 prototype · dev mode',
-            style: typography.labelSmall.copyWith(color: colors.textMed),
+          // Light or dark, for the Inspector only.
+          Icon(
+            dark ? PhosphorIconsRegular.moon : PhosphorIconsRegular.sun,
+            size: 20,
+            color: colors.textMed,
+          ),
+          SossoldiSwitch(
+            value: dark,
+            onChanged: onDarkChanged,
+            semanticLabel: 'Inspector dark mode',
+            size: SossoldiSwitchSize.small,
           ),
         ],
       ),

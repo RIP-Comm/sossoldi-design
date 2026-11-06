@@ -80,10 +80,9 @@ void main() {
         await _pump(tester, size, brightness: b);
         expect(find.text('Net worth'), findsOneWidget);
         expect(find.byType(SossoldiTrendChart), findsOneWidget);
-        // The chip and the change tags are in M and L only.
-        final chip = size == DashboardWidgetSize.s ? 0 : 1;
-        expect(find.text('1Y'), findsNWidgets(chip));
-        expect(find.byType(SossoldiChangeTag), findsNWidgets(chip * 2));
+        // Year to date everywhere: S as a label, M and L as the chip.
+        expect(find.text('YTD'), findsOneWidget);
+        expect(find.byType(SossoldiChangeIndicator), findsOneWidget);
         expect(tester.takeException(), isNull);
       }
     });
@@ -100,7 +99,7 @@ void main() {
       ]),
     );
     await _pump(tester, DashboardWidgetSize.m, controller: c);
-    await tester.tap(find.text('1Y'));
+    await tester.tap(find.text('YTD'));
     await tester.pumpAndSettle();
     final fiveYears = tester.widget<SossoldiMenuItem>(
       find.widgetWithText(SossoldiMenuItem, '5Y'),
@@ -118,7 +117,7 @@ void main() {
 
   testWidgets('the chip is disabled while editing', (tester) async {
     await _pump(tester, DashboardWidgetSize.m, editing: true);
-    await tester.tap(find.text('1Y'), warnIfMissed: false);
+    await tester.tap(find.text('YTD'), warnIfMissed: false);
     await tester.pumpAndSettle();
     expect(find.byType(SossoldiMenuItem), findsNothing);
   });
@@ -134,7 +133,7 @@ void main() {
       DashboardWidgetSize.m,
       repo: MockRepository.newUser(now: _now),
     );
-    expect(find.byType(SossoldiChangeTag), findsNothing);
+    expect(find.byType(SossoldiChangeIndicator), findsNothing);
     expect(find.byType(SossoldiTrendChart), findsNothing);
     expect(find.text('Not enough history yet'), findsOneWidget);
     expect(find.textContaining('0.00', findRichText: true), findsWidgets);
@@ -167,7 +166,7 @@ void main() {
 
   testWidgets('the chip is at the top right, above the value', (tester) async {
     await _pump(tester, DashboardWidgetSize.m);
-    final chip = tester.getTopRight(find.text('1Y'));
+    final chip = tester.getTopRight(find.text('YTD'));
     final amount = tester.getTopLeft(find.byType(SossoldiAmount));
     expect(chip.dy, lessThan(amount.dy));
     expect(chip.dx, greaterThan(300));

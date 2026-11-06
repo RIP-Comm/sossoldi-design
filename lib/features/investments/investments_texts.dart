@@ -93,6 +93,29 @@ String allocationLabel(BuildContext context, AllocationSlice s) {
   };
 }
 
+/// Color of a slice of the allocation, from the category palette: an asset
+/// class keeps its own, single assets take them in turn by [index], "other"
+/// and the liquidity are neutral. Shared by the Overview and the Dashboard
+/// "Allocation" widget.
+Color allocationColor(BuildContext context, int index, AllocationSlice s) {
+  const palette = [25, 12, 28, 5, 0, 17];
+  const classColors = {
+    AssetClass.etf: 25,
+    AssetClass.stock: 28,
+    AssetClass.bond: 5,
+    AssetClass.other: 12,
+  };
+  final colors = context.colors;
+  return switch (s.kind) {
+    AllocationKind.liquidity => colors.shapeLow,
+    AllocationKind.other => colors.shapeMed,
+    AllocationKind.assetClass =>
+      CategoryColors.all[classColors[s.assetClass]!].main,
+    AllocationKind.asset =>
+      CategoryColors.all[palette[index % palette.length]].main,
+  };
+}
+
 /// The title and the sentence of a message of the Investments digest.
 /// Amounts are hidden with Hidden Mode; what is between "**" is bold.
 ({String title, String message}) investmentDigestText(

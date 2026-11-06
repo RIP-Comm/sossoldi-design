@@ -18,6 +18,7 @@ import '../features/investments/investments_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../l10n/l10n.dart';
 import 'app_entry.dart';
+import 'app_shell_scope.dart';
 import 'app_scope.dart';
 
 class AppShell extends StatefulWidget {
@@ -122,16 +123,22 @@ class _AppShellState extends State<AppShell> {
               data: media.copyWith(
                 padding: media.padding.copyWith(bottom: barArea),
               ),
-              child: IndexedStack(
-                index: _index,
-                children: [
-                  DashboardScreen(
-                    controller: _dashboard,
-                    onOpenSettings: () => _push(const SettingsScreen()),
-                  ),
-                  FinanceScreen(controller: _finance),
-                  InvestmentsScreen(controller: _investments),
-                ],
+              child: AppShellScope(
+                openInvestmentsOverview: () {
+                  _investments.selectTab(InvestmentsTab.overview);
+                  setState(() => _index = 2);
+                },
+                child: IndexedStack(
+                  index: _index,
+                  children: [
+                    DashboardScreen(
+                      controller: _dashboard,
+                      onOpenSettings: () => _push(const SettingsScreen()),
+                    ),
+                    FinanceScreen(controller: _finance),
+                    InvestmentsScreen(controller: _investments),
+                  ],
+                ),
               ),
             ),
             Positioned(

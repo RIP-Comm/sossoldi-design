@@ -73,10 +73,70 @@ void main() {
     ..writeln('/// The screen or feature widget [widget] is, or null.');
   _writeFunction(out, 'featureName', features);
 
+  out
+    ..writeln()
+    ..writeln('/// The file of each widget, from the root of the repository.')
+    ..writeln('const widgetFiles = <String, String>{');
+  for (final (path, cls) in [...components, ...features]) {
+    out.writeln("  '$cls': 'lib/$path',");
+  }
+  out.writeln('};');
+
   File('lib/catalog/widget_names.g.dart')
     ..createSync(recursive: true)
     ..writeAsStringSync(out.toString());
   stdout.writeln(
     '${components.length} components, ${features.length} feature widgets',
   );
+  _checkWidgetbookLinks([for (final (_, cls) in components) cls]);
+}
+
+/// The "Folder/Component" nodes of widgetbook/lib/main.dart.
+Set<String> _widgetbookNodes() {
+  final main = File('../widgetbook/lib/main.dart').readAsStringSync();
+  final nodes = <String>{};
+  String? folder;
+  final entry = RegExp(
+    r"WidgetbookFolder\(\s*name:\s*'([^']*)'|_component\(\s*'([^']*)'",
+  );
+  for (final m in entry.allMatches(main)) {
+    if (m.group(1) != null) {
+      folder = m.group(1);
+    } else if (folder != null) {
+      nodes.add('$folder/${m.group(2)}');
+    }
+  }
+  return nodes;
+}
+
+/// Every entry of lib/catalog/widgetbook_links.dart must exist in Widgetbook;
+/// the components with no entry are only listed (not an error).
+void _checkWidgetbookLinks(List<String> components) {
+  final source = File('lib/catalog/widgetbook_links.dart').readAsStringSync();
+  final links = {
+    for (final m in RegExp(r"'(Sossoldi\w+)': '([^']+)'").allMatches(source))
+      m.group(1)!: m.group(2)!,
+  };
+  final nodes = _widgetbookNodes();
+  final broken = [
+    for (final e in links.entries)
+      if (!nodes.contains(e.value)) '${e.key} -> ${e.value}',
+  ];
+  final unknown = links.keys.where((c) => !components.contains(c)).toList();
+  final missing = components.where((c) => !links.containsKey(c)).toList();
+  if (missing.isNotEmpty) {
+    stdout.writeln(
+      'No Widgetbook link (add to widgetbook_links.dart if shown): ${missing.join(', ')}',
+    );
+  }
+  if (unknown.isNotEmpty || broken.isNotEmpty) {
+    stderr.writeln('widgetbook_links.dart is out of date:');
+    for (final c in unknown) {
+      stderr.writeln('  $c is not a design system component any more');
+    }
+    for (final b in broken) {
+      stderr.writeln('  $b: not in widgetbook/lib/main.dart');
+    }
+    exitCode = 1;
+  }
 }

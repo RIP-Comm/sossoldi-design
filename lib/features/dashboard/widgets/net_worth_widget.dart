@@ -27,7 +27,7 @@ class NetWorthWidget extends StatelessWidget {
 
   /// Key of the period in the placement's settings.
   static const periodSetting = 'period';
-  static const defaultPeriod = NetWorthPeriod.year;
+  static const defaultPeriod = NetWorthPeriod.yearToDate;
 
   static NetWorthPeriod periodOf(Map<String, String> settings) {
     for (final p in NetWorthPeriod.values) {
@@ -40,6 +40,7 @@ class NetWorthWidget extends StatelessWidget {
       switch (p) {
         NetWorthPeriod.threeMonths => l10n.netWorthPeriod3M,
         NetWorthPeriod.sixMonths => l10n.netWorthPeriod6M,
+        NetWorthPeriod.yearToDate => l10n.netWorthPeriodYtd,
         NetWorthPeriod.year => l10n.netWorthPeriod1Y,
         NetWorthPeriod.threeYears => l10n.netWorthPeriod3Y,
         NetWorthPeriod.fiveYears => l10n.netWorthPeriod5Y,
@@ -50,13 +51,17 @@ class NetWorthWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final repo = context.repository;
-    final period = periodOf(instance.settings);
+    // S has no chip: it always shows the year to date.
+    final period = size == DashboardWidgetSize.s
+        ? NetWorthPeriod.yearToDate
+        : periodOf(instance.settings);
     final series = repo.netWorthSeries(period);
     final locale = Localizations.localeOf(context).toString();
     final date = DateFormat.yMMMd(locale);
     return NetWorthCard(
       size: size,
       title: l10n.widgetNetWorthName,
+      smallLabel: l10n.netWorthPeriodYtd,
       value: series.current,
       currency: series.currency,
       values: [for (final p in series.points) p.value],

@@ -152,10 +152,18 @@ Keep this file up to date whenever the mock data changes.
   (positions at market value, liquidity excluded: no double count). `netWorthAt(day)` = account balances at the end of the
   day + `_portfolioAt` at the last trading day (today or later: `netWorth`). `netWorthHistoryStart` = earliest transaction or
   purchase (in the demo about 4 years, from the first purchase); before the first transaction the accounts stand at their
-  starting balance. `netWorthPeriodStart/Available(NetWorthPeriod)` (3M, 6M, 1Y, 3Y, 5Y, All) and `netWorthSeries(period)` →
+  starting balance. `netWorthPeriodStart/Available(NetWorthPeriod)` (3M, 6M, YTD, 1Y, 3Y, 5Y, All; YTD starts at the close of 31 December, daily points up to about 6 months, then weekly) and `netWorthSeries(period)` →
   `NetWorthSeries` (current, points sampled daily up to 6M, weekly for 1Y/3Y, every two weeks for 5Y; the last point is today and equals
   `current`; with fewer than two points `start`/`change` are null; `changePercent` null when the start is not above 0).
   A period starting before the history starts at it. Feeds the Dashboard "Net worth" widget.
+- `investmentsSnapshot(ValuePeriod)` → `InvestmentsSnapshot` (`models/investments_snapshot.dart`): `totalValue` (= `portfolioSummary`),
+  `daily` (last close against the previous one), `yearToDate` (against the last close of the previous year, or the first purchase),
+  `periodChange` (first to last point of `series`; = daily for 1D, = YTD for YTD) and `series` (= `marketValueSeries`). An
+  `InvestmentChange` is performance net of contributions: delta of (value - invested), percent over start value + invested in
+  between, null when that base is not above 0. Null changes with fewer than two days of history. Feeds the Dashboard "Investments" widget.
+- `allocationBreakdown(AllocationMode, {maxRows})` → `AllocationRow`s (slice + whole percent, the percents add up to 100 by largest
+  remainder): `assetAllocation` with six single assets, the slices after `maxRows` summed in one "other" row (a lone leftover stays as it is).
+  Feeds the Dashboard "Allocation" widget; `assetAllocation(mode, {topAssets = 5})` is unchanged for the Overview.
 - Investments Overview (`models/portfolio.dart`):
   - `portfolioSummary()` → `PortfolioSummary`: market value of the positions, liquidity (broker account
     balance), cost (quantity x PMC), `totalValue` = positions + liquidity, `gain` = positions - cost

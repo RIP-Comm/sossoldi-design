@@ -3,14 +3,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
-import 'package:sossoldi/app/app.dart';
 import 'package:sossoldi/design_system/design_system.dart';
 
 import '../catalog/tokens.dart';
 import '../catalog/widget_names.g.dart';
 import '../inspect/inspection.dart';
+import '../inspect/node_kind.dart';
 import '../inspect/node_properties.dart';
 import '../inspector_controller.dart';
+import 'component_section.dart';
+import 'layers_tree.dart';
 import 'panel_rows.dart';
 
 class InspectPanel extends StatelessWidget {
@@ -46,14 +48,20 @@ class InspectPanel extends StatelessWidget {
         ),
       );
     }
-    return SelectionArea(
-      child: ListView(
-        padding: const EdgeInsets.all(SossoldiSpacing.l),
-        children: [
-          _Header(controller: controller, inspection: i, node: node),
-          ..._sections(context, i, node),
-        ],
-      ),
+    return ListView(
+      padding: const EdgeInsets.all(SossoldiSpacing.l),
+      children: [
+        // The layers are outside the selectable area: there a press selects a
+        // layer (and the pointer is a hand), not a piece of text.
+        _Header(controller: controller, inspection: i, node: node),
+        // The values below can be selected and copied.
+        SelectionArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: _sections(context, i, node),
+          ),
+        ),
+      ],
     );
   }
 
@@ -69,7 +77,10 @@ class InspectPanel extends StatelessWidget {
         ? SossoldiColors.dark
         : SossoldiColors.light;
     final typography = context.typography;
+    final widget = node.element?.widget;
+    final component = widget == null ? null : designSystemName(widget);
     return [
+      if (component != null) ComponentSection(name: component),
       PanelSection(
         title: 'Layout',
         children: [
@@ -106,7 +117,7 @@ class InspectPanel extends StatelessWidget {
             PanelRow(
               label: 'Gap',
               value: px(flex.spacing),
-              token: spacingToken(flex.spacing),
+              tokens: [?spacingToken(flex.spacing)],
             ),
             PanelRow(label: 'Main axis', value: flex.mainAxisAlignment.name),
             PanelRow(label: 'Cross axis', value: flex.crossAxisAlignment.name),
@@ -140,7 +151,7 @@ class InspectPanel extends StatelessWidget {
               PanelRow(
                 label: 'Shadow',
                 value: _shadowCss(p.shadows),
-                token: _shadowToken(p.shadows),
+                tokens: [?_shadowToken(p.shadows)],
               ),
             if (p.elevation case final e?)
               PanelRow(label: 'Elevation', value: px(e)),
@@ -161,11 +172,10 @@ class InspectPanel extends StatelessWidget {
                 style: typography.bodyMedium.copyWith(color: colors.textHigh),
               ),
             ),
-            PanelRow(
-              label: 'Style',
-              value: typographyToken(text.style, typography) ?? 'Custom',
-              highlight: typographyToken(text.style, typography) != null,
-            ),
+            if (typographyToken(text.style, typography) case final styles?)
+              PanelRow(label: 'Style', tokens: styles.split(' / '))
+            else
+              const PanelRow(label: 'Style', value: 'Custom'),
             PanelRow(label: 'Font', value: text.style.fontFamily ?? '-'),
             PanelRow(
               label: 'Weight',
@@ -207,7 +217,7 @@ class InspectPanel extends StatelessWidget {
     return PanelRow(
       label: corners == 'superellipse' ? 'Radius (smooth)' : 'Radius',
       value: value,
-      token: values.length == 1 ? radiusToken(r.topLeft.x) : null,
+      tokens: [?(values.length == 1 ? radiusToken(r.topLeft.x) : null)],
     );
   }
 
@@ -249,27 +259,19 @@ class _Header extends StatelessWidget {
     final colors = context.colors;
     final typography = context.typography;
     final name = describeNode(node);
-    final widget = node.element?.widget;
-    final isComponent = widget != null && designSystemName(widget) != null;
-    final isFeature = widget != null && featureName(widget) != null;
-    // Outermost first, the box itself last.
-    final path = inspection
-        .namedAncestors(node)
-        .where((a) => a != node && a.element!.widget is! SossoldiApp)
-        .take(5)
-        .toList()
-        .reversed
-        .toList();
+    final kind = kindOf(node);
     final parent = inspection.parentOf(node);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: SossoldiSpacing.l),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: SossoldiSpacing.s,
         children: [
           Row(
             spacing: SossoldiSpacing.s,
             children: [
+              Icon(kind.glyph, size: 20, color: kind.color(colors)),
               Expanded(
                 child: Text(
                   name,
@@ -281,11 +283,11 @@ class _Header extends StatelessWidget {
                 ),
               ),
               SossoldiTag(
-                label: isComponent
-                    ? 'Component'
-                    : isFeature
-                    ? 'Feature'
-                    : 'Element',
+                label: switch (kind) {
+                  NodeKind.component => 'Component',
+                  NodeKind.feature => 'Feature',
+                  _ => 'Element',
+                },
                 hasStroke: true,
               ),
               SossoldiIconButton(
@@ -297,27 +299,12 @@ class _Header extends StatelessWidget {
               ),
             ],
           ),
-          // Where it sits: the components and screens around it, nearest last.
-          for (final (depth, a) in path.indexed)
-            SossoldiTappable(
-              onTap: () => controller.select(a),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: depth * SossoldiSpacing.m,
-                  top: SossoldiSpacing.xs / 2,
-                  bottom: SossoldiSpacing.xs / 2,
-                ),
-                child: Text(
-                  '› ${widgetName(a.element!.widget)}',
-                  overflow: TextOverflow.ellipsis,
-                  style: typography.labelMedium.copyWith(
-                    color: designSystemName(a.element!.widget) != null
-                        ? colors.primary.text
-                        : colors.textMed,
-                  ),
-                ),
-              ),
-            ),
+          // Where it sits: the components and screens around it.
+          LayersTree(
+            controller: controller,
+            inspection: inspection,
+            node: node,
+          ),
         ],
       ),
     );

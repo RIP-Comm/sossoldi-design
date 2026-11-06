@@ -1762,4 +1762,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get netWorthPeriodAll => 'All';
+
+  @override
+  String get widgetInvestmentsName => 'Investments';
+
+  @override
+  String get widgetInvestmentsPeriodSemantic => 'Period';
+
+  @override
+  String get netWorthPeriodYtd => 'YTD';
+
+  @override
+  String get widgetAllocationName => 'Allocation';
 }

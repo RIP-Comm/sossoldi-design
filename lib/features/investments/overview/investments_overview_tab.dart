@@ -171,30 +171,12 @@ class _Allocation extends StatelessWidget {
 
   final InvestmentsController controller;
 
-  /// Colors of the slices, from the category palette; the liquidity is grey.
-  static const _palette = [25, 12, 28, 5, 0, 17];
-  static const _classColors = {
-    AssetClass.etf: 25,
-    AssetClass.stock: 28,
-    AssetClass.bond: 5,
-    AssetClass.other: 12,
-  };
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final colors = context.colors;
     final repo = context.repository;
     final slices = repo.assetAllocation(controller.allocation);
-    // An asset class keeps its color; single assets take them in turn.
-    Color colorOf(int i, AllocationSlice s) => switch (s.kind) {
-      AllocationKind.liquidity => colors.shapeLow,
-      AllocationKind.other => colors.shapeMed,
-      AllocationKind.assetClass =>
-        CategoryColors.all[_classColors[s.assetClass]!].main,
-      AllocationKind.asset =>
-        CategoryColors.all[_palette[i % _palette.length]].main,
-    };
+    Color colorOf(int i, AllocationSlice s) => allocationColor(context, i, s);
     return _card(
       context,
       child: Column(

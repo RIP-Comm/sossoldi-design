@@ -86,6 +86,16 @@ class PortfolioSummary {
   double get gainPercent => cost == 0 ? 0 : gain / cost;
 }
 
+/// A row of the Dashboard "Allocation" widget: a slice and its whole
+/// percentage (the rows add up to exactly 100; 0 means under 1%).
+@immutable
+class AllocationRow {
+  const AllocationRow({required this.slice, required this.percent});
+
+  final AllocationSlice slice;
+  final int percent;
+}
+
 /// How the allocation is split.
 enum AllocationMode { assetClass, singleAsset }
 

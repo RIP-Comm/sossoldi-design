@@ -100,7 +100,7 @@ Overview cash flow ("No income or expenses this month yet"). With no broker acco
 ## Dashboard
 Quick overview of the user's finances. Customizable widget grid: 2 columns, widget sizes
 S (1×1), M (2×1), L (2×2). Core widgets: Total balance, Income & expenses, Budget status,
-Latest transactions. Optional widgets: Upcoming recurring, Investments snapshot, Net worth,
+Latest transactions. Optional widgets: Upcoming recurring, Investments (snapshot), Allocation, Net worth,
 Savings goals, Insight of the moment. Net worth = accounts + investments.
 Available now (S/M/L): Monthly balance, Latest transactions, **Budget status** (core) and **Upcoming recurring** (optional, not in the initial
 layout, in the add-widget list). Upcoming recurring: the next occurrences of the active recurring transactions from
@@ -122,12 +122,36 @@ transactions (L), Budget status (M); Monthly balance stays in the add-widget lis
 The charts of Monthly balance and Net worth (M and L, not S) show, on tap or drag, an indicator and the tooltip of the other charts (the day; Monthly
 balance: this month and last month at that day; Net worth: the value that day). The
 liquidity of the broker accounts is in the account balances, so only the positions at market value are added to them
-(no double count; `MockRepository.netWorth`). S: title, value and the trend chart (as the S of Monthly balance); M and L:
-the headline with the period chip at the top right, then the value (3M, 6M, 1Y, 3Y, 5Y, All; default 1Y; a menu as in Budget status, the periods
-the history does not cover are shown but disabled), then the change in money and in percent (the percentage is hidden when
+(no double count; `MockRepository.netWorth`). S: title with the label "YTD" (no chip), value, the year-to-date change under it and the trend chart; M and L:
+the headline with the period chip at the top right, then the value (3M, 6M, YTD, 1Y, 3Y, 5Y, All; default YTD, against the close of 31 December; a menu as in Budget status, the periods
+the history does not cover are shown but disabled) with the change at its right (money and percent; the percentage is hidden when
 the starting value is not above 0; nothing without history) and the chart (taller in L, one series, no comparison, no
 legend). The period is stored with the placement, disabled in edit mode. Transfers never change it. Empty: value 0 and "Not enough
 history yet" in place of the chart.
+
+**Change rendering** (Net worth M/L and Investments, `SossoldiChangeIndicator`): a tag with an up/down arrow and the percentage
+(green/red, neutral at exactly 0) and, beside it, the amount in plain text with its sign; when the percentage cannot be worked out
+(base zero) the tag shows the amount and the plain text goes away. Hidden Mode masks both figures (arrow and color stay).
+
+**Investments** (optional, add-widget list, not in the initial layout; no Figma node, follows Net worth): value = positions + liquidity
+(as the Investments Overview). Changes are **market performance**, net of buys and sells: change of (market value - invested)
+between two moments, percentage over the starting value plus what was invested meanwhile (the Overview's own P&L is instead
+against the average cost). **Year to date is the default everywhere.** S: title with the label "YTD" (no chip), value, the
+year-to-date change under it and the trend chart edge to edge (no axes, legend or tooltip). M: the period chip at the top right (same
+periods as the Overview chart, default YTD, in memory with the placement, disabled in edit mode), the change of the period at the
+right of the value and the trend chart of the period edge to edge (tooltip, no axes or legend). L: the same chip and change, and the
+Overview's market value chart (axes, tooltip) with its legend under it. Tap on the figures → Investments >
+Overview (not on the chart). No positions: "No investments yet". With fewer than two days of history the changes are not shown.
+
+**Allocation** (optional, add-widget list, not in the initial layout; no Figma node): the Investments Overview's allocation (same data, colors,
+donut; the liquidity is its own slice, as there), by asset class or by single asset. Rows after the first N are summed in "Other" (neutral
+color; a lone leftover slice keeps its name); whole percentages that add up to 100 (under 1% is written "<1%"). Every legend row: dot, name,
+percentage and amount side by side at the right (amounts hidden with Hidden Mode; percentages stay; S without decimals). S: the title with a
+small donut at its right (sized so the title is always shown whole), 4 rows + Other in the small type. M: donut at the left, legend at the right (5
+rows + Other), one type step up. L: selector "Asset class" / "Single asset" centered under the title, the donut takes the room left and pushes the legend down, legend one step up with more space between rows (4 px in M). No percentage in
+the middle of the donut. Single asset: the first six assets + Other. The view is stored with the placement (memory
+only; S and M follow it, default Asset class), independent of the Investments page; the selector is disabled in edit mode. Tap → Investments >
+Overview. No investments: "No investments yet" with an empty donut.
 
 **Headline of the M and L widgets** (Budget status, Latest transactions, Upcoming recurring): the title in Label Large bold
 at the left and, at the right, a chip with a menu for the type (Budget status: All, Weekly…; the two transaction widgets: All,

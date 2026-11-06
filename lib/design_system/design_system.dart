@@ -18,6 +18,7 @@ export 'components/sossoldi_button.dart';
 export 'components/sossoldi_calendar.dart';
 export 'components/sossoldi_cash_flow_chart.dart';
 export 'components/sossoldi_category_item.dart';
+export 'components/sossoldi_change_indicator.dart';
 export 'components/sossoldi_change_tag.dart';
 export 'components/sossoldi_chart_legend.dart';
 export 'components/sossoldi_chart_tooltip.dart';

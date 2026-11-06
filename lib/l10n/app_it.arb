@@ -544,5 +544,9 @@
   "netWorthPeriod1Y": "1A",
   "netWorthPeriod3Y": "3A",
   "netWorthPeriod5Y": "5A",
-  "netWorthPeriodAll": "Tutto"
+  "netWorthPeriodAll": "Tutto",
+  "widgetInvestmentsName": "Investimenti",
+  "widgetInvestmentsPeriodSemantic": "Periodo",
+  "netWorthPeriodYtd": "YTD",
+  "widgetAllocationName": "Allocazione"
 }

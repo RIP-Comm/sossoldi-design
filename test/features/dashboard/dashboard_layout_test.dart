@@ -152,6 +152,8 @@ void main() {
         'upcoming_recurring',
         'budget_status',
         'net_worth',
+        'investments',
+        'allocation',
       ]);
       for (final d in defs) {
         expect(d.supportedSizes, {

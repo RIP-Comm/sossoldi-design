@@ -37,26 +37,35 @@ class PanelSection extends StatelessWidget {
   }
 }
 
-/// A label on the left, the value and its token on the right.
+/// A variable of the design system (a color, a spacing, a text style...): a
+/// blue informative chip next to the value it stands for.
+class TokenChip extends StatelessWidget {
+  const TokenChip(this.name, {super.key});
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) =>
+      SossoldiTag(label: name, type: SossoldiTagType.info);
+}
+
+/// A label on the left; on the right the value as it is and, when it comes
+/// from the design system, the variables it matches in blue chips.
 class PanelRow extends StatelessWidget {
   const PanelRow({
     super.key,
     required this.label,
-    required this.value,
-    this.token,
+    this.value,
+    this.tokens = const [],
     this.leading,
-    this.highlight = false,
   });
 
   final String label;
-  final String value;
+  final String? value;
 
-  /// The design system token of [value], shown as a tag.
-  final String? token;
+  /// The design system variables of [value].
+  final List<String> tokens;
   final Widget? leading;
-
-  /// Shows [value] itself as a token.
-  final bool highlight;
 
   @override
   Widget build(BuildContext context) {
@@ -80,14 +89,14 @@ class PanelRow extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               ?leading,
-              Text(
-                value,
-                style: typography.labelBoldMedium.copyWith(
-                  color: highlight ? colors.primary.text : colors.textHigh,
+              if (value != null)
+                Text(
+                  value!,
+                  style: typography.labelBoldMedium.copyWith(
+                    color: colors.textHigh,
+                  ),
                 ),
-              ),
-              if (token != null)
-                SossoldiTag(label: token!, type: SossoldiTagType.positive),
+              for (final token in tokens) TokenChip(token),
             ],
           ),
         ),
@@ -96,7 +105,7 @@ class PanelRow extends StatelessWidget {
   }
 }
 
-/// A color: swatch, semantic tokens (or the primitive) and the hex value.
+/// A color: swatch, its value and, when it is one, its variables.
 class ColorRow extends StatelessWidget {
   const ColorRow({super.key, required this.label, required this.info});
 
@@ -106,9 +115,6 @@ class ColorRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final names = info.semantic.isNotEmpty
-        ? info.semantic.join(' · ')
-        : info.primitive;
     final opacity = info.opacityPercent;
     return PanelRow(
       label: label,
@@ -121,11 +127,8 @@ class ColorRow extends StatelessWidget {
           border: Border.all(color: colors.strokeDefault),
         ),
       ),
-      value: names ?? info.hex,
-      highlight: names != null,
-      token: names != null
-          ? '${info.hex}${opacity != null ? ' · $opacity%' : ''}'
-          : null,
+      value: '${info.hex}${opacity != null ? ' · $opacity%' : ''}',
+      tokens: info.semantic.isNotEmpty ? info.semantic : [?info.primitive],
     );
   }
 }
@@ -195,11 +198,16 @@ class InsetsBox extends StatelessWidget {
     final typography = context.typography;
     Widget value(double v) {
       final token = spacingToken(v);
-      return Text(
-        token == null ? px(v) : '${px(v)} · $token',
-        style: typography.labelBoldSmall.copyWith(
-          color: token == null ? colors.textHigh : colors.success.text,
-        ),
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: SossoldiSpacing.xs,
+        children: [
+          Text(
+            px(v),
+            style: typography.labelBoldSmall.copyWith(color: colors.textHigh),
+          ),
+          if (token != null) TokenChip(token),
+        ],
       );
     }
 

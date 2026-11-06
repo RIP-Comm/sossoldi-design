@@ -3367,6 +3367,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get netWorthPeriodAll;
+
+  /// Dashboard widget: value and performance of the portfolio
+  ///
+  /// In en, this message translates to:
+  /// **'Investments'**
+  String get widgetInvestmentsName;
+
+  /// Accessibility label of the period chip of the Investments widget
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get widgetInvestmentsPeriodSemantic;
+
+  /// Net worth period: year to date
+  ///
+  /// In en, this message translates to:
+  /// **'YTD'**
+  String get netWorthPeriodYtd;
+
+  /// Dashboard widget: asset allocation of the portfolio
+  ///
+  /// In en, this message translates to:
+  /// **'Allocation'**
+  String get widgetAllocationName;
 }
 
 class _AppLocalizationsDelegate

@@ -87,7 +87,7 @@ class InspectorToolbar extends StatelessWidget {
                 ? _MenuTool<bool>(
                     title: 'Click selects',
                     icon: c.pickComponents
-                        ? PhosphorIconsRegular.squaresFour
+                        ? PhosphorIconsRegular.diamondsFour
                         : PhosphorIconsRegular.selection,
                     value: c.pickComponents,
                     options: const [(false, 'Element'), (true, 'Component')],
