@@ -4,7 +4,7 @@
 // Presentation only: LatestTransactionsWidget wires it to the repository.
 //
 // S shows the most recent transaction large; M and L have a headline (title
-// and type chip) and a list of rows, as many as fit (3 tight ones in M).
+// and type chip) and a list of rows, as many as fit (the rows of M are the ones of L).
 
 import 'package:flutter/material.dart';
 
@@ -38,10 +38,8 @@ class LatestTransactionsCard extends StatelessWidget {
   /// Shown with no entries; default: no transactions yet.
   final String? emptyText;
 
-  /// Height of a list row in L (8 + 36 + 8; with a date chip 4 + 44 + 4).
-  /// In M the rows are tighter, 44, so that three fit under the headline.
+  /// Height of a list row in M and L (8 + 36 + 8; with a date chip 4 + 44 + 4).
   static const double _rowHeight = 52;
-  static const double _tightRowHeight = 44;
 
   @override
   Widget build(BuildContext context) {
@@ -72,31 +70,38 @@ class LatestTransactionsCard extends StatelessWidget {
             padding: const EdgeInsets.only(
               left: SossoldiSpacing.m,
               right: SossoldiSpacing.m,
-              top: SossoldiSpacing.s,
+              top: SossoldiSpacing.m,
             ),
             child: DashboardWidgetHeader(title: title, selector: selector),
           ),
           Expanded(
             child: entries.isEmpty
                 ? empty
-                : LayoutBuilder(
-                    builder: (context, constraints) {
-                      final tight = size == DashboardWidgetSize.m;
-                      final height = tight ? _tightRowHeight : _rowHeight;
-                      final fit = (constraints.maxHeight / height).floor();
-                      final count = fit.clamp(1, entries.length);
-                      return Column(
-                        // L: what is left goes between the rows, so they
-                        // are not stuck together; M has no room to spare.
-                        mainAxisAlignment: count == fit && !tight
-                            ? MainAxisAlignment.spaceBetween
-                            : MainAxisAlignment.start,
-                        children: [
-                          for (final entry in entries.take(count))
-                            _row(entry, masked: masked, tight: tight),
-                        ],
-                      );
-                    },
+                : Padding(
+                    // The rows carry some padding of their own: the rest of
+                    // the 12 px under the last one.
+                    padding: EdgeInsets.only(
+                      bottom: SossoldiSpacing.m - _rowPadding(entries.first),
+                    ),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final height = _rowHeight;
+                        final fit = (constraints.maxHeight / height).floor();
+                        final count = fit.clamp(1, entries.length);
+                        return Column(
+                          // L: what is left goes between the rows, so they
+                          // are not stuck together; M keeps the same rhythm as L (rows 52 apart).
+                          mainAxisAlignment:
+                              size == DashboardWidgetSize.l && count == fit
+                              ? MainAxisAlignment.spaceBetween
+                              : MainAxisAlignment.start,
+                          children: [
+                            for (final entry in entries.take(count))
+                              _row(entry, masked: masked),
+                          ],
+                        );
+                      },
+                    ),
                   ),
           ),
         ],
@@ -104,32 +109,31 @@ class LatestTransactionsCard extends StatelessWidget {
     );
   }
 
-  static Widget _row(
-    LatestTransactionEntry e, {
-    required bool masked,
-    required bool tight,
-  }) => Builder(
-    builder: (context) => SossoldiTransactionItem(
-      type: e.type,
-      leading: Icon(
-        e.icon,
-        size: 24,
-        color: e.iconColor ?? context.colors.textHigh,
-      ),
-      description: e.description,
-      account: e.account,
-      toAccount: e.toAccount,
-      amount: e.amount,
-      currencyCode: e.currency,
-      recurrenceLabel: e.dateLabel,
-      recurrenceChipType: e.dateChipType,
-      masked: masked,
-      compact: e.dateLabel != null,
-      verticalPadding: tight
-          ? (e.dateLabel != null ? SossoldiSpacing.zero : SossoldiSpacing.xs)
-          : null,
-    ),
-  );
+  /// The vertical padding of a row of the list (see [SossoldiTransactionItem]).
+  static double _rowPadding(LatestTransactionEntry e) =>
+      e.dateLabel != null ? SossoldiSpacing.xs : SossoldiSpacing.s;
+
+  static Widget _row(LatestTransactionEntry e, {required bool masked}) =>
+      Builder(
+        builder: (context) => SossoldiTransactionItem(
+          type: e.type,
+          leading: Icon(
+            e.icon,
+            size: 24,
+            color: e.iconColor ?? context.colors.textHigh,
+          ),
+          description: e.description,
+          account: e.account,
+          toAccount: e.toAccount,
+          amount: e.amount,
+          currencyCode: e.currency,
+          recurrenceLabel: e.dateLabel,
+          recurrenceChipType: e.dateChipType,
+          masked: masked,
+          compact: e.dateLabel != null,
+          verticalPadding: _rowPadding(e),
+        ),
+      );
 }
 
 class _Single extends StatelessWidget {
@@ -148,10 +152,7 @@ class _Single extends StatelessWidget {
       _ => entry.amount,
     };
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: SossoldiSpacing.m,
-        vertical: SossoldiSpacing.s,
-      ),
+      padding: const EdgeInsets.all(SossoldiSpacing.m),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: SossoldiSpacing.s,

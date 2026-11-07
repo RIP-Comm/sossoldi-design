@@ -52,7 +52,7 @@ Future<void> _pump(
 
 void main() {
   for (final b in Brightness.values) {
-    testWidgets('S shows 1 row, M 3 and L the most that fit (${b.name})', (
+    testWidgets('S shows 1 row, M 2 and L the most that fit (${b.name})', (
       tester,
     ) async {
       await _pump(tester, DashboardWidgetSize.s, brightness: b);
@@ -60,9 +60,10 @@ void main() {
       expect(tester.takeException(), isNull);
 
       await _pump(tester, DashboardWidgetSize.m, brightness: b);
-      expect(find.byType(SossoldiTransactionItem), findsNWidgets(3));
-      // 3 dates and the type chip of the header.
-      expect(find.byType(SossoldiChip), findsNWidgets(4));
+      // With 12 px around, two rows of a date fit under the header.
+      expect(find.byType(SossoldiTransactionItem), findsNWidgets(2));
+      // 2 dates and the type chip of the header.
+      expect(find.byType(SossoldiChip), findsNWidgets(3));
 
       await _pump(tester, DashboardWidgetSize.l, brightness: b);
       final rows = find.byType(SossoldiTransactionItem).evaluate().length;

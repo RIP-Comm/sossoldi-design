@@ -19,7 +19,7 @@ the official repository.
 - Code: design system done (tokens, light/dark theme, typography, category colors and all
   Figma components, each with a widgetbook entry); mock database done; app shell (tabs, bottom bar) and Dashboard
   done in view and edit mode (long press, wiggle, drag to reorder, remove, resize, add-widget sheet) with five
-  widgets (Monthly balance, Latest transactions, Budget status, Net worth, Investments, Allocation and Upcoming recurring, sizes S/M/L; layout and per-widget settings in memory only);
+  widgets (Monthly balance, Latest transactions, Budget status, Net worth, Investments, Allocation and Upcoming recurring, sizes S/M/L, plus Insight of the moment in S with its reusable rules engine in `lib/insights/`; layout and per-widget settings in memory only);
   Finance page with its four tabs and Transactions > List (search, filters, grouped by day, pagination)
   and > Charts (totals, donut, breakdown over time, hand-drawn with CustomPainter, no chart library);
   and Budget (overall, segmented bar, list, budget page with edit and delete, all in memory);
@@ -80,6 +80,7 @@ Backlog: docs/backlog.md — NON è caricato in automatico; leggilo solo quando 
     `transactions/` the list, active filter chips and the filters sheet, `charts/` the Charts view with its
     own controller and filters sheet, `budget/` the Budget tab and the page of one budget, `overview/` the Overview tab, `recurring/` the Recurring tab (calendar, list)
     and the page of one recurring transaction)
+  - `lib/insights/` → `InsightEngine` (pure Dart, injectable `now`), `insight.dart` (typed result) and `insight_constants.dart` (every threshold); text comes from l10n in the Dashboard widget
   - `lib/mock/` → mock database: `models/`, `data/`, `mock_repository.dart`
   - `lib/l10n/` → localized strings: edit `app_en.arb` / `app_it.arb`, then run `flutter gen-l10n`
     (output in `lib/l10n/generated/`); use `context.l10n.<key>`

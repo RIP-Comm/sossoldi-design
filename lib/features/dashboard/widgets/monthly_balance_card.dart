@@ -110,7 +110,7 @@ class MonthlyBalanceCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(
               SossoldiSpacing.m,
-              SossoldiSpacing.s,
+              SossoldiSpacing.m,
               SossoldiSpacing.m,
               0,
             ),

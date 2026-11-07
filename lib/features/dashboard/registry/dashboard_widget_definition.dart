@@ -11,6 +11,7 @@ class DashboardWidgetInstance {
     this.settings = const {},
     this.editing = false,
     this.onSettingChanged,
+    this.preview = false,
   });
 
   final Map<String, String> settings;
@@ -18,6 +19,10 @@ class DashboardWidgetInstance {
   /// Edit mode: the controls of the widget are disabled.
   final bool editing;
   final void Function(String key, String? value)? onSettingChanged;
+
+  /// Drawn in the "add widget" list: a widget with data of its own to pick
+  /// (the insight) shows a fixed example instead.
+  final bool preview;
 }
 
 typedef DashboardWidgetBuilder = Widget Function(

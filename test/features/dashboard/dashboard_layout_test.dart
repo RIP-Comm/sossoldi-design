@@ -111,17 +111,21 @@ void main() {
       }
     });
 
-    test('default layout: S, S, L, M with four different widgets', () {
-      expect(defaultDashboardLayout.items.map((i) => i.size), [
-        s,
-        s,
-        DashboardWidgetSize.l,
-        DashboardWidgetSize.m,
-      ]);
+    test('default layout: every widget, in different sizes', () {
+      final ids = defaultDashboardLayout.items.map((i) => i.widgetId).toList();
+      expect(ids.toSet(), hasLength(ids.length));
       expect(
-        defaultDashboardLayout.items.map((i) => i.widgetId).toSet(),
-        hasLength(4),
+        ids.toSet(),
+        dashboardWidgetRegistry.definitions.map((d) => d.id).toSet(),
       );
+      expect(defaultDashboardLayout.items.map((i) => i.size).toSet(), {
+        s,
+        DashboardWidgetSize.m,
+        DashboardWidgetSize.l,
+      });
+      // The Insight is in the first view, first of the first row.
+      expect(defaultDashboardLayout.items.first.widgetId, 'insight');
+      expect(defaultDashboardLayout.items.first.size, s);
     });
 
     test(
@@ -144,24 +148,30 @@ void main() {
       expect(itemIds.toSet(), hasLength(itemIds.length));
     });
 
-    test('the widgets are registered in S, M and L', () {
-      final defs = dashboardWidgetRegistry.definitions;
-      expect(defs.map((d) => d.id), [
-        'monthly_balance',
-        'latest_transactions',
-        'upcoming_recurring',
-        'budget_status',
-        'net_worth',
-        'investments',
-        'allocation',
-      ]);
-      for (final d in defs) {
-        expect(d.supportedSizes, {
-          s,
-          DashboardWidgetSize.m,
-          DashboardWidgetSize.l,
-        });
-      }
-    });
+    test(
+      'the widgets are registered in S, M and L (the insight in S only)',
+      () {
+        final defs = dashboardWidgetRegistry.definitions;
+        expect(defs.map((d) => d.id), [
+          'monthly_balance',
+          'latest_transactions',
+          'upcoming_recurring',
+          'budget_status',
+          'net_worth',
+          'investments',
+          'allocation',
+          'insight',
+        ]);
+        for (final d in defs) {
+          expect(d.supportedSizes, {
+            s,
+            if (d.id != 'insight') ...[
+              DashboardWidgetSize.m,
+              DashboardWidgetSize.l,
+            ],
+          });
+        }
+      },
+    );
   });
 }

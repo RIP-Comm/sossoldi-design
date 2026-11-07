@@ -3,6 +3,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import '../model/dashboard_layout.dart';
 import '../widgets/allocation_widget.dart';
 import '../widgets/budget_status_widget.dart';
+import '../widgets/insight_widget.dart';
 import '../widgets/investments_widget.dart';
 import '../widgets/latest_transactions_widget.dart';
 import '../widgets/monthly_balance_widget.dart';
@@ -93,6 +94,16 @@ final dashboardWidgetRegistry = DashboardWidgetRegistry([
       for (final size in DashboardWidgetSize.values)
         size: (context, instance) =>
             AllocationWidget(size: size, instance: instance),
+    },
+  ),
+  DashboardWidgetDefinition(
+    id: DashboardWidgetIds.insight,
+    name: (l10n) => l10n.widgetInsightName,
+    icon: PhosphorIconsRegular.lightbulb,
+    // Only S: a single insight needs no more room.
+    builders: {
+      DashboardWidgetSize.s: (context, instance) =>
+          InsightWidget(size: DashboardWidgetSize.s, instance: instance),
     },
   ),
 ]);

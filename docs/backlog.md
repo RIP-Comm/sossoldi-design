@@ -1,20 +1,20 @@
 # Backlog — Sossoldi V2 prototype
 
 NON caricato in automatico (fuori da `.claude/rules/`). Leggerlo solo per stato, "cosa manca", priorità.
-Stato: todo / needs design / blocked. Aggiornato: 2026-11-03 (navbar, blur, tendine).
+Stato: todo / needs design / blocked. Aggiornato: 2026-11-07 (Dashboard completata).
 
 ## Next up (max 5)
 - [ ] Account principale: scelta dell'account da Settings > Accounts (la flag esiste) — todo — `mock/models/account.dart`
 - [ ] Settings: Accounts e Categories & budgets (riusano i form di onboarding; qui arrivano anche i "Manage") — todo — `features/accounts`, `categories`, `budgets`
-- [ ] Widget Dashboard core mancanti: Income & expenses (Budget status fatto) — todo (spec S/M/L in Figma "Widget - Components") — `dashboard/registry/dashboard_widget_registry.dart`
 - [ ] Dettaglio, modifica ed eliminazione di una transazione (il tap oggi non fa nulla) — needs design — `transaction_row.dart`
 - [ ] Settings > General (autenticazione) e sezioni restanti — needs design — `settings_screen.dart`
 
 ## To do
 
 ### Dashboard
-- [ ] Widget opzionali: Insight of the moment — todo, spec in Figma "Widget - Components" — registry (Net worth e Investments snapshot fatti)
-- [ ] Widget Savings goals — needs design; nessun modello dati per gli obiettivi in `lib/mock/models/` (verificato) — blocked
+- [x] Widget opzionale Insight of the moment (solo S, con i componenti di Budget, Investimenti e Patrimonio) — fatto — `dashboard/widgets/insight_widget.dart`, motore in `lib/insights/`
+- [x] Dashboard completata: tutti i widget (Monthly balance, Latest transactions, Upcoming recurring, Budget status, Net worth, Investments, Allocation, Insight of the moment), layout iniziale d'esempio e showcase — fatto (Income & expenses è coperto da Monthly balance, che mostra entrate e uscite in L)
+- Widget Savings goals: non si farà (deciso 2026-11-07)
 
 ### Finance
 - [ ] "Manage" conti (Overview) → Settings > Accounts — todo, oggi PlaceholderScreen — `finance/overview/overview_tab_view.dart:120`
@@ -63,9 +63,15 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-03 (navbar, blur, tend
 - [ ] Conti broker: le operazioni non spostano denaro tra conti (semplificazione nota) — todo/decidere
 
 ## Open questions
-- Nessuna aperta. Decise: nessun insight → non si mostra nulla, non sono tappabili; conti e categorie in ordine alfabetico (si rivede in Settings)
+- Nessuna aperta. Decise: gli insight sono tappabili e nessun insight → stato neutro "All good" (widget Insight of the moment); conti e categorie in ordine alfabetico (si rivede in Settings)
 
 ## Done (più recente in alto)
+- [x] 2026-11-07 — Dashboard chiusa: Income & expenses coperto da Monthly balance, Savings goals scartato
+- [x] 2026-11-07 — Righe di Ultime transazioni e Prossime ricorrenze in M come in L (stessa spaziatura, 2 righe); pagina "Showcase dei widget" in Settings > Prototipo con tutti i widget, taglie e casi (cluster per widget, dati demo e nuovo utente); corretti overflow in Budget status (chip del periodo) e Allocazione S (legenda stretta)
+- [x] 2026-11-07 — Widget Dashboard: padding di 12 px su tutti i lati in tutte le taglie (solo i grafici senza assi vanno a filo); chip "Tutte" (non "Tutti") in Ultime transazioni e Prossime ricorrenze; Upcoming recurring M ora mostra 2 righe
+- [x] 2026-11-07 — Dashboard iniziale: set completo di widget in taglie diverse (Insight S e Monthly balance S, Budget status M, Net worth M, Upcoming recurring S e Allocation S, Latest transactions L, Investments L); Insight portafoglio e patrimonio con il valore in title large
+- [x] 2026-11-07 — Insight: solo taglia S, dettaglio ancorato in basso con i componenti degli altri widget (figure e barra del budget, importo, change indicator); rimosse M e bottone; pagina showcase in Settings > Prototipo
+- [x] 2026-11-07 — Widget Dashboard "Insight of the moment" (solo S dopo la revisione del 2026-11-07, opzionale, non nel layout iniziale): un solo insight scelto da `InsightEngine` (`lib/insights/`, Dart puro, `now` iniettabile, soglie in `insight_constants.dart`) con 8 livelli di priorità (budget sforato negli ultimi 7 giorni, ricorrente oggi/domani, budget a rischio, spesa anomala, calo portafoglio e sforamenti vecchi, promemoria, notizia positiva, "All good"); tono → colore semantico, tap e bottone (M) aprono budget, ricorrente, lista transazioni (filtrata sulla categoria), Investments > Overview o l'Add sheet; ricalcolo su cambio dati, ritorno in primo piano e alle 18:00/mezzanotte; nuovi metodi `budgetExceededOn`, `categoryExpenseStats`, `lastTransactionDate`, `netWorthHighBefore`; `AppShellScope.openTransactions`
 - [x] 2026-11-06 — Widget Dashboard "Asset allocation" (S/M/L, opzionale): composizione dell'Overview (stessi dati e colori: `allocationColor`), `allocationBreakdown` con "Other" e percentuali intere che sommano 100; S 4 righe + Other, M 5 + Other, L con selettore Asset class / Single asset (primi 6 asset + Other) e importi mascherabili; la vista è nell'istanza del widget; tap → Investments > Overview
 - [x] 2026-11-06 — Investments e Net worth: default year to date ovunque (nuovo periodo YTD in Net worth); S con etichetta YTD senza chip e variazione YTD (anche Net worth S), M e L con chip in alto a destra
 - [x] 2026-11-06 — Investments e Net worth: variazione a destra del valore; Investments S/M con grafico a tutta larghezza senza assi né legenda (S 1M con la variazione del mese, M YTD), L con chip in alto a destra, solo variazione del periodo e legenda sotto il grafico

@@ -389,7 +389,7 @@ void main() {
       int rows() => find.byType(SossoldiTransactionItem).evaluate().length;
       // S is a single large entry (no list row).
       expect(find.text('Upcoming recurring'), findsNothing);
-      for (final (size, expected) in [(_m, 3), (_l, 5)]) {
+      for (final (size, expected) in [(_m, 2), (_l, 5)]) {
         c.resize(added.id, size);
         await _settle(tester);
         expect(rows() >= expected, isTrue, reason: size.name);

@@ -10,6 +10,7 @@ import '../../app/app_scope.dart';
 import '../../app/app_state.dart';
 import '../../design_system/design_system.dart';
 import '../../l10n/l10n.dart';
+import 'widget_showcase_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -132,6 +133,19 @@ class SettingsScreen extends StatelessWidget {
                           ),
                           onTap: () =>
                               _switchData(context, (s) => s.startOnboarding()),
+                        ),
+                        SossoldiMenuItem(
+                          label: l10n.settingsWidgetShowcase,
+                          leading: Icon(
+                            PhosphorIconsRegular.lightbulb,
+                            size: 24,
+                            color: colors.textHigh,
+                          ),
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => const WidgetShowcaseScreen(),
+                            ),
+                          ),
                         ),
                         SossoldiMenuItem(
                           label: l10n.settingsLoadDemo,

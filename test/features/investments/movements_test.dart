@@ -874,7 +874,8 @@ void main() {
 
     testWidgets('in Investments it opens the form of a buy', (tester) async {
       await pumpApp(tester);
-      await tester.tap(find.text('Investments'));
+      // The Dashboard has an Investments widget too: the bar label comes last.
+      await tester.tap(find.text('Investments').last);
       await tester.pump();
       for (final tab in ['Overview', 'Positions', 'Movements']) {
         await tester.tap(find.text(tab).first);
