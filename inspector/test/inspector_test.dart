@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:sossoldi/design_system/design_system.dart';
+import 'package:sossoldi/features/dashboard/model/dashboard_layout.dart';
+import 'package:sossoldi/features/dashboard/model/default_dashboard_layout.dart';
+import 'package:sossoldi/features/dashboard/registry/dashboard_widget_ids.dart';
 import 'package:sossoldi_inspector/catalog/widgetbook_links.dart';
 import 'package:sossoldi_inspector/main.dart';
 import 'package:sossoldi_inspector/panel/component_section.dart';
@@ -16,6 +19,32 @@ Future<void> _pumpInspector(WidgetTester tester) async {
   tester.view.physicalSize = const Size(1440, 1000);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
+  // The default Dashboard has many widgets and Latest transactions is below
+  // the first view: these tests need Monthly balance and the transactions in
+  // sight, as in the old default layout.
+  startDashboardLayout = const DashboardLayout([
+    DashboardItem(
+      id: 'item_1',
+      widgetId: DashboardWidgetIds.monthlyBalance,
+      size: DashboardWidgetSize.s,
+    ),
+    DashboardItem(
+      id: 'item_2',
+      widgetId: DashboardWidgetIds.upcomingRecurring,
+      size: DashboardWidgetSize.s,
+    ),
+    DashboardItem(
+      id: 'item_3',
+      widgetId: DashboardWidgetIds.latestTransactions,
+      size: DashboardWidgetSize.l,
+    ),
+    DashboardItem(
+      id: 'item_4',
+      widgetId: DashboardWidgetIds.budgetStatus,
+      size: DashboardWidgetSize.m,
+    ),
+  ]);
+  addTearDown(() => startDashboardLayout = defaultDashboardLayout);
   await tester.pumpWidget(const InspectorApp());
   await tester.pump(const Duration(seconds: 1));
 }
