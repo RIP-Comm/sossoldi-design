@@ -2036,5 +2036,154 @@
   "widgetAllocationName": "Allocation",
   "@widgetAllocationName": {
     "description": "Dashboard widget: asset allocation of the portfolio"
+  },
+  "widgetInsightName": "Insight of the moment",
+  "@widgetInsightName": {
+    "description": "Dashboard widget: the one most relevant insight right now"
+  },
+  "insightBudgetExceededTitle": "{category} over budget",
+  "@insightBudgetExceededTitle": {
+    "description": "Insight title: a budget was exceeded",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "insightBudgetAtRiskTitle": "{category} budget at risk",
+  "@insightBudgetAtRiskTitle": {
+    "description": "Insight title: a budget is close to its limit",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "insightRecurringDueToday": "Payment due today",
+  "@insightRecurringDueToday": {
+    "description": "Insight title: a recurring expense is due today"
+  },
+  "insightRecurringDueTomorrow": "Payment due tomorrow",
+  "@insightRecurringDueTomorrow": {
+    "description": "Insight title: a recurring expense is due tomorrow"
+  },
+  "insightUnusualTitle": "Unusual {category} expense",
+  "@insightUnusualTitle": {
+    "description": "Insight title: an expense far above the usual of its category",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "insightUnusualDetail": "{ratio}× the usual",
+  "@insightUnusualDetail": {
+    "description": "Insight detail: how many times the usual expense of the category",
+    "placeholders": {
+      "ratio": {
+        "type": "String"
+      }
+    }
+  },
+  "insightPortfolioDropTitle": "Portfolio down today",
+  "@insightPortfolioDropTitle": {
+    "description": "Insight title: the portfolio lost value today"
+  },
+  "insightPortfolioGainTitle": "Portfolio up today",
+  "@insightPortfolioGainTitle": {
+    "description": "Insight title: the portfolio gained value today"
+  },
+  "insightNetWorthHighTitle": "Highest net worth in a month",
+  "@insightNetWorthHighTitle": {
+    "description": "Insight title: net worth above the previous days"
+  },
+  "insightNoTransactionTodayTitle": "Nothing recorded today",
+  "@insightNoTransactionTodayTitle": {
+    "description": "Insight title: evening reminder, no transaction today"
+  },
+  "insightNoTransactionTodayDetail": "Add today's transactions",
+  "@insightNoTransactionTodayDetail": {
+    "description": "Insight detail: evening reminder"
+  },
+  "insightNoRecentTitle": "No recent transactions",
+  "@insightNoRecentTitle": {
+    "description": "Insight title: the last transaction is some days old"
+  },
+  "insightNoRecentDetail": "{count, plural, =1{1 day since the last one} other{{count} days since the last one}}",
+  "@insightNoRecentDetail": {
+    "description": "Insight detail: days since the last transaction",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "insightFirstTransactionTitle": "Add your first transaction",
+  "@insightFirstTransactionTitle": {
+    "description": "Insight title: new user without transactions"
+  },
+  "insightFirstTransactionDetail": "Start tracking your finances",
+  "@insightFirstTransactionDetail": {
+    "description": "Insight detail: new user"
+  },
+  "insightAllGoodTitle": "All good for today",
+  "@insightAllGoodTitle": {
+    "description": "Insight title: neutral state, nothing to report"
+  },
+  "insightAllGoodDetail": "Nothing needs your attention",
+  "@insightAllGoodDetail": {
+    "description": "Insight detail: neutral state"
+  },
+  "showcaseBudgetExceeded": "Budget exceeded",
+  "@showcaseBudgetExceeded": {
+    "description": "Showcase group"
+  },
+  "showcaseRecurringDue": "Recurring payment due",
+  "@showcaseRecurringDue": {
+    "description": "Showcase group"
+  },
+  "showcaseBudgetAtRisk": "Budget at risk",
+  "@showcaseBudgetAtRisk": {
+    "description": "Showcase group"
+  },
+  "showcaseUnusualExpense": "Unusual expense",
+  "@showcaseUnusualExpense": {
+    "description": "Showcase group"
+  },
+  "showcasePortfolioDrop": "Portfolio drop",
+  "@showcasePortfolioDrop": {
+    "description": "Showcase group"
+  },
+  "showcaseReminder": "Reminder",
+  "@showcaseReminder": {
+    "description": "Showcase group"
+  },
+  "showcasePositive": "Good news",
+  "@showcasePositive": {
+    "description": "Showcase group"
+  },
+  "showcaseAllGood": "No insight",
+  "@showcaseAllGood": {
+    "description": "Showcase group"
+  },
+  "transactionTypeAll": "All",
+  "@transactionTypeAll": {
+    "description": "Type selector of the transaction widgets (Latest transactions, Upcoming recurring): every type, feminine in Italian (\"tutte\" the transactions)"
+  },
+  "settingsWidgetShowcase": "Widget showcase",
+  "@settingsWidgetShowcase": {
+    "description": "Settings > Prototype row: opens the page with every Dashboard widget"
+  },
+  "showcaseIntro": "Every widget, case and size, on demo data",
+  "@showcaseIntro": {
+    "description": "Subtitle of the widget showcase page"
+  },
+  "showcaseWithData": "With data",
+  "@showcaseWithData": {
+    "description": "Showcase case: widget on the demo data"
+  },
+  "showcaseNewUser": "New user, no data",
+  "@showcaseNewUser": {
+    "description": "Showcase case: widget of a new user with no data"
   }
 }

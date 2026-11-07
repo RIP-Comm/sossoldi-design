@@ -20,7 +20,7 @@ abstract final class TransactionTypeSetting {
   static String label(BuildContext context, TransactionType? type) {
     final l10n = context.l10n;
     return switch (type) {
-      null => l10n.budgetTypeAll,
+      null => l10n.transactionTypeAll,
       TransactionType.expense => l10n.kindExpenses,
       TransactionType.income => l10n.kindIncome,
       TransactionType.transfer => l10n.kindTransfers,

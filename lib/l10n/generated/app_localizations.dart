@@ -3391,6 +3391,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Allocation'**
   String get widgetAllocationName;
+
+  /// Dashboard widget: the one most relevant insight right now
+  ///
+  /// In en, this message translates to:
+  /// **'Insight of the moment'**
+  String get widgetInsightName;
+
+  /// Insight title: a budget was exceeded
+  ///
+  /// In en, this message translates to:
+  /// **'{category} over budget'**
+  String insightBudgetExceededTitle(String category);
+
+  /// Insight title: a budget is close to its limit
+  ///
+  /// In en, this message translates to:
+  /// **'{category} budget at risk'**
+  String insightBudgetAtRiskTitle(String category);
+
+  /// Insight title: a recurring expense is due today
+  ///
+  /// In en, this message translates to:
+  /// **'Payment due today'**
+  String get insightRecurringDueToday;
+
+  /// Insight title: a recurring expense is due tomorrow
+  ///
+  /// In en, this message translates to:
+  /// **'Payment due tomorrow'**
+  String get insightRecurringDueTomorrow;
+
+  /// Insight title: an expense far above the usual of its category
+  ///
+  /// In en, this message translates to:
+  /// **'Unusual {category} expense'**
+  String insightUnusualTitle(String category);
+
+  /// Insight detail: how many times the usual expense of the category
+  ///
+  /// In en, this message translates to:
+  /// **'{ratio}× the usual'**
+  String insightUnusualDetail(String ratio);
+
+  /// Insight title: the portfolio lost value today
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolio down today'**
+  String get insightPortfolioDropTitle;
+
+  /// Insight title: the portfolio gained value today
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolio up today'**
+  String get insightPortfolioGainTitle;
+
+  /// Insight title: net worth above the previous days
+  ///
+  /// In en, this message translates to:
+  /// **'Highest net worth in a month'**
+  String get insightNetWorthHighTitle;
+
+  /// Insight title: evening reminder, no transaction today
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing recorded today'**
+  String get insightNoTransactionTodayTitle;
+
+  /// Insight detail: evening reminder
+  ///
+  /// In en, this message translates to:
+  /// **'Add today\'s transactions'**
+  String get insightNoTransactionTodayDetail;
+
+  /// Insight title: the last transaction is some days old
+  ///
+  /// In en, this message translates to:
+  /// **'No recent transactions'**
+  String get insightNoRecentTitle;
+
+  /// Insight detail: days since the last transaction
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day since the last one} other{{count} days since the last one}}'**
+  String insightNoRecentDetail(int count);
+
+  /// Insight title: new user without transactions
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first transaction'**
+  String get insightFirstTransactionTitle;
+
+  /// Insight detail: new user
+  ///
+  /// In en, this message translates to:
+  /// **'Start tracking your finances'**
+  String get insightFirstTransactionDetail;
+
+  /// Insight title: neutral state, nothing to report
+  ///
+  /// In en, this message translates to:
+  /// **'All good for today'**
+  String get insightAllGoodTitle;
+
+  /// Insight detail: neutral state
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing needs your attention'**
+  String get insightAllGoodDetail;
+
+  /// Showcase group
+  ///
+  /// In en, this message translates to:
+  /// **'Budget exceeded'**
+  String get showcaseBudgetExceeded;
+
+  /// Showcase group
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring payment due'**
+  String get showcaseRecurringDue;
+
+  /// Showcase group
+  ///
+  /// In en, this message translates to:
+  /// **'Budget at risk'**
+  String get showcaseBudgetAtRisk;
+
+  /// Showcase group
+  ///
+  /// In en, this message translates to:
+  /// **'Unusual expense'**
+  String get showcaseUnusualExpense;
+
+  /// Showcase group
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolio drop'**
+  String get showcasePortfolioDrop;
+
+  /// Showcase group
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder'**
+  String get showcaseReminder;
+
+  /// Showcase group
+  ///
+  /// In en, this message translates to:
+  /// **'Good news'**
+  String get showcasePositive;
+
+  /// Showcase group
+  ///
+  /// In en, this message translates to:
+  /// **'No insight'**
+  String get showcaseAllGood;
+
+  /// Type selector of the transaction widgets (Latest transactions, Upcoming recurring): every type, feminine in Italian ("tutte" the transactions)
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get transactionTypeAll;
+
+  /// Settings > Prototype row: opens the page with every Dashboard widget
+  ///
+  /// In en, this message translates to:
+  /// **'Widget showcase'**
+  String get settingsWidgetShowcase;
+
+  /// Subtitle of the widget showcase page
+  ///
+  /// In en, this message translates to:
+  /// **'Every widget, case and size, on demo data'**
+  String get showcaseIntro;
+
+  /// Showcase case: widget on the demo data
+  ///
+  /// In en, this message translates to:
+  /// **'With data'**
+  String get showcaseWithData;
+
+  /// Showcase case: widget of a new user with no data
+  ///
+  /// In en, this message translates to:
+  /// **'New user, no data'**
+  String get showcaseNewUser;
 }
 
 class _AppLocalizationsDelegate

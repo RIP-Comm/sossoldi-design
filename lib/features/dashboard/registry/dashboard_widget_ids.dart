@@ -7,4 +7,5 @@ abstract final class DashboardWidgetIds {
   static const netWorth = 'net_worth';
   static const investments = 'investments';
   static const allocation = 'allocation';
+  static const insight = 'insight';
 }

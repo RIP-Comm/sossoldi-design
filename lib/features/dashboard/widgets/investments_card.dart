@@ -123,7 +123,7 @@ class InvestmentsCard extends StatelessWidget {
     final top = Padding(
       padding: const EdgeInsets.fromLTRB(
         SossoldiSpacing.m,
-        SossoldiSpacing.s,
+        SossoldiSpacing.m,
         SossoldiSpacing.m,
         0,
       ),
@@ -210,7 +210,7 @@ class InvestmentsCard extends StatelessWidget {
                 SossoldiSpacing.m,
                 SossoldiSpacing.xs,
                 SossoldiSpacing.m,
-                SossoldiSpacing.s,
+                SossoldiSpacing.m,
               ),
               child: legend,
             ),

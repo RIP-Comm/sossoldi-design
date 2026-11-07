@@ -1774,4 +1774,113 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get widgetAllocationName => 'Allocation';
+
+  @override
+  String get widgetInsightName => 'Insight of the moment';
+
+  @override
+  String insightBudgetExceededTitle(String category) {
+    return '$category over budget';
+  }
+
+  @override
+  String insightBudgetAtRiskTitle(String category) {
+    return '$category budget at risk';
+  }
+
+  @override
+  String get insightRecurringDueToday => 'Payment due today';
+
+  @override
+  String get insightRecurringDueTomorrow => 'Payment due tomorrow';
+
+  @override
+  String insightUnusualTitle(String category) {
+    return 'Unusual $category expense';
+  }
+
+  @override
+  String insightUnusualDetail(String ratio) {
+    return '$ratio× the usual';
+  }
+
+  @override
+  String get insightPortfolioDropTitle => 'Portfolio down today';
+
+  @override
+  String get insightPortfolioGainTitle => 'Portfolio up today';
+
+  @override
+  String get insightNetWorthHighTitle => 'Highest net worth in a month';
+
+  @override
+  String get insightNoTransactionTodayTitle => 'Nothing recorded today';
+
+  @override
+  String get insightNoTransactionTodayDetail => 'Add today\'s transactions';
+
+  @override
+  String get insightNoRecentTitle => 'No recent transactions';
+
+  @override
+  String insightNoRecentDetail(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days since the last one',
+      one: '1 day since the last one',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get insightFirstTransactionTitle => 'Add your first transaction';
+
+  @override
+  String get insightFirstTransactionDetail => 'Start tracking your finances';
+
+  @override
+  String get insightAllGoodTitle => 'All good for today';
+
+  @override
+  String get insightAllGoodDetail => 'Nothing needs your attention';
+
+  @override
+  String get showcaseBudgetExceeded => 'Budget exceeded';
+
+  @override
+  String get showcaseRecurringDue => 'Recurring payment due';
+
+  @override
+  String get showcaseBudgetAtRisk => 'Budget at risk';
+
+  @override
+  String get showcaseUnusualExpense => 'Unusual expense';
+
+  @override
+  String get showcasePortfolioDrop => 'Portfolio drop';
+
+  @override
+  String get showcaseReminder => 'Reminder';
+
+  @override
+  String get showcasePositive => 'Good news';
+
+  @override
+  String get showcaseAllGood => 'No insight';
+
+  @override
+  String get transactionTypeAll => 'All';
+
+  @override
+  String get settingsWidgetShowcase => 'Widget showcase';
+
+  @override
+  String get showcaseIntro => 'Every widget, case and size, on demo data';
+
+  @override
+  String get showcaseWithData => 'With data';
+
+  @override
+  String get showcaseNewUser => 'New user, no data';
 }

@@ -227,7 +227,13 @@ class _PreviewState extends State<_Preview> {
                             height: height,
                             child: ExcludeSemantics(
                               child: IgnorePointer(
-                                child: widget.definition.build(context, size)!,
+                                child: widget.definition.build(
+                                  context,
+                                  size,
+                                  instance: const DashboardWidgetInstance(
+                                    preview: true,
+                                  ),
+                                )!,
                               ),
                             ),
                           ),

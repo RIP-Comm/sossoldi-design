@@ -2,264 +2,138 @@
 // ignore_for_file: directives_ordering, curly_braces_in_flow_control_structures
 
 import 'package:flutter/widgets.dart';
-import 'package:sossoldi/design_system/components/sossoldi_accordion.dart'
-    show SossoldiAccordion;
-import 'package:sossoldi/design_system/components/sossoldi_account_item.dart'
-    show SossoldiAccountItem;
-import 'package:sossoldi/design_system/components/sossoldi_alert.dart'
-    show SossoldiAlert;
-import 'package:sossoldi/design_system/components/sossoldi_alert_carousel.dart'
-    show SossoldiAlertCarousel;
-import 'package:sossoldi/design_system/components/sossoldi_amount.dart'
-    show SossoldiAmount;
-import 'package:sossoldi/design_system/components/sossoldi_amount_input.dart'
-    show SossoldiAmountInput;
-import 'package:sossoldi/design_system/components/sossoldi_asset_item.dart'
-    show SossoldiAssetItem;
-import 'package:sossoldi/design_system/components/sossoldi_auth_code.dart'
-    show SossoldiAuthCode;
-import 'package:sossoldi/design_system/components/sossoldi_avatar.dart'
-    show SossoldiAvatar;
-import 'package:sossoldi/design_system/components/sossoldi_bottom_sheet.dart'
-    show SossoldiBottomSheet;
-import 'package:sossoldi/design_system/components/sossoldi_bottom_sheet_toolbar.dart'
-    show SossoldiBottomSheetToolbar;
-import 'package:sossoldi/design_system/components/sossoldi_breadcrumb.dart'
-    show SossoldiBreadcrumb;
-import 'package:sossoldi/design_system/components/sossoldi_breakdown_item.dart'
-    show SossoldiBreakdownItem;
-import 'package:sossoldi/design_system/components/sossoldi_budget_bar.dart'
-    show SossoldiBudgetBar;
-import 'package:sossoldi/design_system/components/sossoldi_budget_item.dart'
-    show SossoldiBudgetItem;
-import 'package:sossoldi/design_system/components/sossoldi_button.dart'
-    show SossoldiButton;
-import 'package:sossoldi/design_system/components/sossoldi_calendar.dart'
-    show SossoldiCalendar;
-import 'package:sossoldi/design_system/components/sossoldi_cash_flow_chart.dart'
-    show SossoldiCashFlowChart;
-import 'package:sossoldi/design_system/components/sossoldi_category_item.dart'
-    show SossoldiCategoryItem;
-import 'package:sossoldi/design_system/components/sossoldi_change_indicator.dart'
-    show SossoldiChangeIndicator;
-import 'package:sossoldi/design_system/components/sossoldi_change_tag.dart'
-    show SossoldiChangeTag;
-import 'package:sossoldi/design_system/components/sossoldi_chart_legend.dart'
-    show SossoldiChartLegend;
-import 'package:sossoldi/design_system/components/sossoldi_chart_tooltip.dart'
-    show SossoldiChartTooltip;
-import 'package:sossoldi/design_system/components/sossoldi_checkbox.dart'
-    show SossoldiCheckbox;
-import 'package:sossoldi/design_system/components/sossoldi_chip.dart'
-    show SossoldiChip;
-import 'package:sossoldi/design_system/components/sossoldi_color_picker.dart'
-    show SossoldiColorPicker;
-import 'package:sossoldi/design_system/components/sossoldi_date_range_picker.dart'
-    show SossoldiDateRangePicker;
-import 'package:sossoldi/design_system/components/sossoldi_day_header.dart'
-    show SossoldiDayHeader;
-import 'package:sossoldi/design_system/components/sossoldi_donut_chart.dart'
-    show SossoldiDonutChart;
-import 'package:sossoldi/design_system/components/sossoldi_dropdown.dart'
-    show SossoldiDropdown;
-import 'package:sossoldi/design_system/components/sossoldi_empty_state.dart'
-    show SossoldiEmptyState;
-import 'package:sossoldi/design_system/components/sossoldi_field_frame.dart'
-    show SossoldiFieldFrame;
-import 'package:sossoldi/design_system/components/sossoldi_filter_button.dart'
-    show SossoldiFilterButton;
-import 'package:sossoldi/design_system/components/sossoldi_filter_chip.dart'
-    show SossoldiFilterChip;
-import 'package:sossoldi/design_system/components/sossoldi_header_button.dart'
-    show SossoldiHeaderButton;
-import 'package:sossoldi/design_system/components/sossoldi_icon_button.dart'
-    show SossoldiIconButton;
-import 'package:sossoldi/design_system/components/sossoldi_icon_picker.dart'
-    show SossoldiIconPicker;
-import 'package:sossoldi/design_system/components/sossoldi_list.dart'
-    show SossoldiList;
-import 'package:sossoldi/design_system/components/sossoldi_list_add_button.dart'
-    show SossoldiListAddButton;
-import 'package:sossoldi/design_system/components/sossoldi_loader.dart'
-    show SossoldiLoader;
-import 'package:sossoldi/design_system/components/sossoldi_menu_item.dart'
-    show SossoldiMenuItem;
-import 'package:sossoldi/design_system/components/sossoldi_modal.dart'
-    show SossoldiModal;
-import 'package:sossoldi/design_system/components/sossoldi_month_selector.dart'
-    show SossoldiMonthSelector;
-import 'package:sossoldi/design_system/components/sossoldi_movement_item.dart'
-    show SossoldiMovementItem;
-import 'package:sossoldi/design_system/components/sossoldi_navbar.dart'
-    show SossoldiNavbar;
-import 'package:sossoldi/design_system/components/sossoldi_operation_item.dart'
-    show SossoldiOperationItem;
-import 'package:sossoldi/design_system/components/sossoldi_page_indicator.dart'
-    show SossoldiPageIndicator;
-import 'package:sossoldi/design_system/components/sossoldi_pagination.dart'
-    show SossoldiPagination;
-import 'package:sossoldi/design_system/components/sossoldi_popover.dart'
-    show SossoldiPopover;
-import 'package:sossoldi/design_system/components/sossoldi_portfolio_card.dart'
-    show SossoldiPortfolioCard;
-import 'package:sossoldi/design_system/components/sossoldi_progress_circular.dart'
-    show SossoldiProgressCircular;
-import 'package:sossoldi/design_system/components/sossoldi_progress_linear.dart'
-    show SossoldiProgressLinear;
-import 'package:sossoldi/design_system/components/sossoldi_radio.dart'
-    show SossoldiRadio;
-import 'package:sossoldi/design_system/components/sossoldi_remove_badge.dart'
-    show SossoldiRemoveBadge;
-import 'package:sossoldi/design_system/components/sossoldi_resize_handle.dart'
-    show SossoldiResizeHandle;
-import 'package:sossoldi/design_system/components/sossoldi_right_chart.dart'
-    show SossoldiRightChart;
-import 'package:sossoldi/design_system/components/sossoldi_search_button.dart'
-    show SossoldiSearchButton;
-import 'package:sossoldi/design_system/components/sossoldi_search_field.dart'
-    show SossoldiSearchField;
-import 'package:sossoldi/design_system/components/sossoldi_segmented_bar.dart'
-    show SossoldiSegmentedBar;
-import 'package:sossoldi/design_system/components/sossoldi_select.dart'
-    show SossoldiSelect;
-import 'package:sossoldi/design_system/components/sossoldi_snackbar.dart'
-    show SossoldiSnackbar;
-import 'package:sossoldi/design_system/components/sossoldi_stacked_area_chart.dart'
-    show SossoldiStackedAreaChart;
-import 'package:sossoldi/design_system/components/sossoldi_switch.dart'
-    show SossoldiSwitch;
-import 'package:sossoldi/design_system/components/sossoldi_switch_row.dart'
-    show SossoldiSwitchRow;
-import 'package:sossoldi/design_system/components/sossoldi_tab.dart'
-    show SossoldiTab;
-import 'package:sossoldi/design_system/components/sossoldi_tab_navigation.dart'
-    show SossoldiTabNavigation;
-import 'package:sossoldi/design_system/components/sossoldi_tag.dart'
-    show SossoldiTag;
-import 'package:sossoldi/design_system/components/sossoldi_tappable.dart'
-    show SossoldiTappable;
-import 'package:sossoldi/design_system/components/sossoldi_text_input.dart'
-    show SossoldiTextInput;
-import 'package:sossoldi/design_system/components/sossoldi_textarea.dart'
-    show SossoldiTextarea;
-import 'package:sossoldi/design_system/components/sossoldi_tooltip.dart'
-    show SossoldiTooltip;
-import 'package:sossoldi/design_system/components/sossoldi_tooltip_target.dart'
-    show SossoldiTooltipTarget;
-import 'package:sossoldi/design_system/components/sossoldi_transaction_item.dart'
-    show SossoldiTransactionItem;
-import 'package:sossoldi/design_system/components/sossoldi_trend_chart.dart'
-    show SossoldiTrendChart, SossoldiTrendLegend;
-import 'package:sossoldi/design_system/components/sossoldi_unit_navigator.dart'
-    show SossoldiUnitNavigator;
-import 'package:sossoldi/design_system/components/sossoldi_value_chart.dart'
-    show SossoldiValueChart;
-import 'package:sossoldi/design_system/components/sossoldi_widget_card.dart'
-    show SossoldiWidgetCard;
-import 'package:sossoldi/features/add_transaction/date_fields.dart'
-    show DateChipsField, DateButtonField;
-import 'package:sossoldi/features/add_transaction/transaction_form_fields.dart'
-    show TransactionFormFields;
-import 'package:sossoldi/features/dashboard/add_widget/add_widget_sheet.dart'
-    show AddWidgetSheet;
-import 'package:sossoldi/features/dashboard/dashboard_grid.dart'
-    show DashboardGrid;
-import 'package:sossoldi/features/dashboard/dashboard_screen.dart'
-    show DashboardScreen;
-import 'package:sossoldi/features/dashboard/widgets/allocation_card.dart'
-    show AllocationCard;
-import 'package:sossoldi/features/dashboard/widgets/allocation_widget.dart'
-    show AllocationWidget;
-import 'package:sossoldi/features/dashboard/widgets/budget_status_card.dart'
-    show BudgetStatusCard;
-import 'package:sossoldi/features/dashboard/widgets/budget_status_widget.dart'
-    show BudgetStatusWidget;
-import 'package:sossoldi/features/dashboard/widgets/dashboard_type_selector.dart'
-    show DashboardTypeSelector;
-import 'package:sossoldi/features/dashboard/widgets/dashboard_widget_header.dart'
-    show DashboardWidgetHeader;
-import 'package:sossoldi/features/dashboard/widgets/investments_card.dart'
-    show InvestmentsCard;
-import 'package:sossoldi/features/dashboard/widgets/investments_widget.dart'
-    show InvestmentsWidget;
-import 'package:sossoldi/features/dashboard/widgets/latest_transactions_card.dart'
-    show LatestTransactionsCard;
-import 'package:sossoldi/features/dashboard/widgets/latest_transactions_widget.dart'
-    show LatestTransactionsWidget;
-import 'package:sossoldi/features/dashboard/widgets/monthly_balance_card.dart'
-    show MonthlyBalanceCard;
-import 'package:sossoldi/features/dashboard/widgets/monthly_balance_widget.dart'
-    show MonthlyBalanceWidget;
-import 'package:sossoldi/features/dashboard/widgets/net_worth_card.dart'
-    show NetWorthCard;
-import 'package:sossoldi/features/dashboard/widgets/net_worth_widget.dart'
-    show NetWorthWidget;
-import 'package:sossoldi/features/dashboard/widgets/upcoming_recurring_widget.dart'
-    show UpcomingRecurringWidget;
-import 'package:sossoldi/features/finance/budget/budget_detail_screen.dart'
-    show BudgetDetailScreen;
-import 'package:sossoldi/features/finance/budget/budget_tab_view.dart'
-    show BudgetTabView;
-import 'package:sossoldi/features/finance/charts/transaction_charts_filters_sheet.dart'
-    show TransactionChartsFiltersSheet;
-import 'package:sossoldi/features/finance/charts/transaction_charts_view.dart'
-    show TransactionChartsView;
-import 'package:sossoldi/features/finance/filter_check_row.dart'
-    show FilterCheckRow;
-import 'package:sossoldi/features/finance/finance_screen.dart'
-    show FinanceScreen;
-import 'package:sossoldi/features/finance/overview/overview_tab_view.dart'
-    show OverviewTabView;
-import 'package:sossoldi/features/finance/recurring/recurring_detail_screen.dart'
-    show RecurringDetailScreen;
-import 'package:sossoldi/features/finance/recurring/recurring_item.dart'
-    show RecurringItem;
-import 'package:sossoldi/features/finance/recurring/recurring_tab_view.dart'
-    show RecurringTabView;
-import 'package:sossoldi/features/finance/transactions/active_filter_chips.dart'
-    show ActiveFilterChips;
-import 'package:sossoldi/features/finance/transactions/transaction_day_list.dart'
-    show TransactionDayList;
-import 'package:sossoldi/features/finance/transactions/transaction_filters_sheet.dart'
-    show TransactionFiltersSheet;
-import 'package:sossoldi/features/finance/transactions/transaction_row.dart'
-    show TransactionRow;
-import 'package:sossoldi/features/finance/transactions/transactions_list_view.dart'
-    show TransactionsListView;
-import 'package:sossoldi/features/investments/investments_screen.dart'
-    show InvestmentsScreen;
-import 'package:sossoldi/features/investments/movements/movement_detail_screen.dart'
-    show MovementDetailScreen;
-import 'package:sossoldi/features/investments/movements/movement_form_fields.dart'
-    show MovementFormFields;
-import 'package:sossoldi/features/investments/movements/movements_tab.dart'
-    show MovementsTab;
-import 'package:sossoldi/features/investments/overview/investments_overview_tab.dart'
-    show InvestmentsOverviewTab;
-import 'package:sossoldi/features/investments/portfolio_value_card.dart'
-    show PortfolioValueCard;
-import 'package:sossoldi/features/investments/positions/position_detail_screen.dart'
-    show PositionDetailScreen;
-import 'package:sossoldi/features/investments/positions/positions_tab.dart'
-    show PositionsTab;
-import 'package:sossoldi/features/onboarding/onboarding_accounts_screen.dart'
-    show OnboardingAccountsScreen;
-import 'package:sossoldi/features/onboarding/onboarding_assets_screen.dart'
-    show OnboardingAssetsScreen;
-import 'package:sossoldi/features/onboarding/onboarding_back_button.dart'
-    show OnboardingBackButton;
-import 'package:sossoldi/features/onboarding/onboarding_categories_screen.dart'
-    show OnboardingCategoriesScreen;
-import 'package:sossoldi/features/onboarding/onboarding_flow.dart'
-    show OnboardingFlow;
-import 'package:sossoldi/features/onboarding/onboarding_splash_screen.dart'
-    show OnboardingSplashScreen;
-import 'package:sossoldi/features/onboarding/onboarding_welcome_screen.dart'
-    show OnboardingWelcomeScreen;
-import 'package:sossoldi/features/onboarding/sossoldi_logo.dart'
-    show SossoldiLogo;
-import 'package:sossoldi/features/settings/settings_screen.dart'
-    show SettingsScreen;
+import 'package:sossoldi/design_system/components/sossoldi_accordion.dart' show SossoldiAccordion;
+import 'package:sossoldi/design_system/components/sossoldi_account_item.dart' show SossoldiAccountItem;
+import 'package:sossoldi/design_system/components/sossoldi_alert.dart' show SossoldiAlert;
+import 'package:sossoldi/design_system/components/sossoldi_alert_carousel.dart' show SossoldiAlertCarousel;
+import 'package:sossoldi/design_system/components/sossoldi_amount.dart' show SossoldiAmount;
+import 'package:sossoldi/design_system/components/sossoldi_amount_input.dart' show SossoldiAmountInput;
+import 'package:sossoldi/design_system/components/sossoldi_asset_item.dart' show SossoldiAssetItem;
+import 'package:sossoldi/design_system/components/sossoldi_auth_code.dart' show SossoldiAuthCode;
+import 'package:sossoldi/design_system/components/sossoldi_avatar.dart' show SossoldiAvatar;
+import 'package:sossoldi/design_system/components/sossoldi_bottom_sheet.dart' show SossoldiBottomSheet;
+import 'package:sossoldi/design_system/components/sossoldi_bottom_sheet_toolbar.dart' show SossoldiBottomSheetToolbar;
+import 'package:sossoldi/design_system/components/sossoldi_breadcrumb.dart' show SossoldiBreadcrumb;
+import 'package:sossoldi/design_system/components/sossoldi_breakdown_item.dart' show SossoldiBreakdownItem;
+import 'package:sossoldi/design_system/components/sossoldi_budget_bar.dart' show SossoldiBudgetBar;
+import 'package:sossoldi/design_system/components/sossoldi_budget_item.dart' show SossoldiBudgetItem;
+import 'package:sossoldi/design_system/components/sossoldi_button.dart' show SossoldiButton;
+import 'package:sossoldi/design_system/components/sossoldi_calendar.dart' show SossoldiCalendar;
+import 'package:sossoldi/design_system/components/sossoldi_cash_flow_chart.dart' show SossoldiCashFlowChart;
+import 'package:sossoldi/design_system/components/sossoldi_category_item.dart' show SossoldiCategoryItem;
+import 'package:sossoldi/design_system/components/sossoldi_change_indicator.dart' show SossoldiChangeIndicator;
+import 'package:sossoldi/design_system/components/sossoldi_change_tag.dart' show SossoldiChangeTag;
+import 'package:sossoldi/design_system/components/sossoldi_chart_legend.dart' show SossoldiChartLegend;
+import 'package:sossoldi/design_system/components/sossoldi_chart_tooltip.dart' show SossoldiChartTooltip;
+import 'package:sossoldi/design_system/components/sossoldi_checkbox.dart' show SossoldiCheckbox;
+import 'package:sossoldi/design_system/components/sossoldi_chip.dart' show SossoldiChip;
+import 'package:sossoldi/design_system/components/sossoldi_color_picker.dart' show SossoldiColorPicker;
+import 'package:sossoldi/design_system/components/sossoldi_date_range_picker.dart' show SossoldiDateRangePicker;
+import 'package:sossoldi/design_system/components/sossoldi_day_header.dart' show SossoldiDayHeader;
+import 'package:sossoldi/design_system/components/sossoldi_donut_chart.dart' show SossoldiDonutChart;
+import 'package:sossoldi/design_system/components/sossoldi_dropdown.dart' show SossoldiDropdown;
+import 'package:sossoldi/design_system/components/sossoldi_empty_state.dart' show SossoldiEmptyState;
+import 'package:sossoldi/design_system/components/sossoldi_field_frame.dart' show SossoldiFieldFrame;
+import 'package:sossoldi/design_system/components/sossoldi_filter_button.dart' show SossoldiFilterButton;
+import 'package:sossoldi/design_system/components/sossoldi_filter_chip.dart' show SossoldiFilterChip;
+import 'package:sossoldi/design_system/components/sossoldi_header_button.dart' show SossoldiHeaderButton;
+import 'package:sossoldi/design_system/components/sossoldi_icon_button.dart' show SossoldiIconButton;
+import 'package:sossoldi/design_system/components/sossoldi_icon_picker.dart' show SossoldiIconPicker;
+import 'package:sossoldi/design_system/components/sossoldi_list.dart' show SossoldiList;
+import 'package:sossoldi/design_system/components/sossoldi_list_add_button.dart' show SossoldiListAddButton;
+import 'package:sossoldi/design_system/components/sossoldi_loader.dart' show SossoldiLoader;
+import 'package:sossoldi/design_system/components/sossoldi_menu_item.dart' show SossoldiMenuItem;
+import 'package:sossoldi/design_system/components/sossoldi_modal.dart' show SossoldiModal;
+import 'package:sossoldi/design_system/components/sossoldi_month_selector.dart' show SossoldiMonthSelector;
+import 'package:sossoldi/design_system/components/sossoldi_movement_item.dart' show SossoldiMovementItem;
+import 'package:sossoldi/design_system/components/sossoldi_navbar.dart' show SossoldiNavbar;
+import 'package:sossoldi/design_system/components/sossoldi_operation_item.dart' show SossoldiOperationItem;
+import 'package:sossoldi/design_system/components/sossoldi_page_indicator.dart' show SossoldiPageIndicator;
+import 'package:sossoldi/design_system/components/sossoldi_pagination.dart' show SossoldiPagination;
+import 'package:sossoldi/design_system/components/sossoldi_popover.dart' show SossoldiPopover;
+import 'package:sossoldi/design_system/components/sossoldi_portfolio_card.dart' show SossoldiPortfolioCard;
+import 'package:sossoldi/design_system/components/sossoldi_progress_circular.dart' show SossoldiProgressCircular;
+import 'package:sossoldi/design_system/components/sossoldi_progress_linear.dart' show SossoldiProgressLinear;
+import 'package:sossoldi/design_system/components/sossoldi_radio.dart' show SossoldiRadio;
+import 'package:sossoldi/design_system/components/sossoldi_remove_badge.dart' show SossoldiRemoveBadge;
+import 'package:sossoldi/design_system/components/sossoldi_resize_handle.dart' show SossoldiResizeHandle;
+import 'package:sossoldi/design_system/components/sossoldi_right_chart.dart' show SossoldiRightChart;
+import 'package:sossoldi/design_system/components/sossoldi_search_button.dart' show SossoldiSearchButton;
+import 'package:sossoldi/design_system/components/sossoldi_search_field.dart' show SossoldiSearchField;
+import 'package:sossoldi/design_system/components/sossoldi_segmented_bar.dart' show SossoldiSegmentedBar;
+import 'package:sossoldi/design_system/components/sossoldi_select.dart' show SossoldiSelect;
+import 'package:sossoldi/design_system/components/sossoldi_snackbar.dart' show SossoldiSnackbar;
+import 'package:sossoldi/design_system/components/sossoldi_stacked_area_chart.dart' show SossoldiStackedAreaChart;
+import 'package:sossoldi/design_system/components/sossoldi_switch.dart' show SossoldiSwitch;
+import 'package:sossoldi/design_system/components/sossoldi_switch_row.dart' show SossoldiSwitchRow;
+import 'package:sossoldi/design_system/components/sossoldi_tab.dart' show SossoldiTab;
+import 'package:sossoldi/design_system/components/sossoldi_tab_navigation.dart' show SossoldiTabNavigation;
+import 'package:sossoldi/design_system/components/sossoldi_tag.dart' show SossoldiTag;
+import 'package:sossoldi/design_system/components/sossoldi_tappable.dart' show SossoldiTappable;
+import 'package:sossoldi/design_system/components/sossoldi_text_input.dart' show SossoldiTextInput;
+import 'package:sossoldi/design_system/components/sossoldi_textarea.dart' show SossoldiTextarea;
+import 'package:sossoldi/design_system/components/sossoldi_tooltip.dart' show SossoldiTooltip;
+import 'package:sossoldi/design_system/components/sossoldi_tooltip_target.dart' show SossoldiTooltipTarget;
+import 'package:sossoldi/design_system/components/sossoldi_transaction_item.dart' show SossoldiTransactionItem;
+import 'package:sossoldi/design_system/components/sossoldi_trend_chart.dart' show SossoldiTrendChart, SossoldiTrendLegend;
+import 'package:sossoldi/design_system/components/sossoldi_unit_navigator.dart' show SossoldiUnitNavigator;
+import 'package:sossoldi/design_system/components/sossoldi_value_chart.dart' show SossoldiValueChart;
+import 'package:sossoldi/design_system/components/sossoldi_widget_card.dart' show SossoldiWidgetCard;
+import 'package:sossoldi/features/add_transaction/date_fields.dart' show DateChipsField, DateButtonField;
+import 'package:sossoldi/features/add_transaction/transaction_form_fields.dart' show TransactionFormFields;
+import 'package:sossoldi/features/dashboard/add_widget/add_widget_sheet.dart' show AddWidgetSheet;
+import 'package:sossoldi/features/dashboard/dashboard_grid.dart' show DashboardGrid;
+import 'package:sossoldi/features/dashboard/dashboard_screen.dart' show DashboardScreen;
+import 'package:sossoldi/features/dashboard/widgets/allocation_card.dart' show AllocationCard;
+import 'package:sossoldi/features/dashboard/widgets/allocation_widget.dart' show AllocationWidget;
+import 'package:sossoldi/features/dashboard/widgets/budget_status_card.dart' show BudgetStatusCard, BudgetPercentBadge;
+import 'package:sossoldi/features/dashboard/widgets/budget_status_widget.dart' show BudgetStatusWidget;
+import 'package:sossoldi/features/dashboard/widgets/dashboard_type_selector.dart' show DashboardTypeSelector;
+import 'package:sossoldi/features/dashboard/widgets/dashboard_widget_header.dart' show DashboardWidgetHeader;
+import 'package:sossoldi/features/dashboard/widgets/insight_card.dart' show InsightCard;
+import 'package:sossoldi/features/dashboard/widgets/insight_widget.dart' show InsightWidget;
+import 'package:sossoldi/features/dashboard/widgets/investments_card.dart' show InvestmentsCard;
+import 'package:sossoldi/features/dashboard/widgets/investments_widget.dart' show InvestmentsWidget;
+import 'package:sossoldi/features/dashboard/widgets/latest_transactions_card.dart' show LatestTransactionsCard;
+import 'package:sossoldi/features/dashboard/widgets/latest_transactions_widget.dart' show LatestTransactionsWidget;
+import 'package:sossoldi/features/dashboard/widgets/monthly_balance_card.dart' show MonthlyBalanceCard;
+import 'package:sossoldi/features/dashboard/widgets/monthly_balance_widget.dart' show MonthlyBalanceWidget;
+import 'package:sossoldi/features/dashboard/widgets/net_worth_card.dart' show NetWorthCard;
+import 'package:sossoldi/features/dashboard/widgets/net_worth_widget.dart' show NetWorthWidget;
+import 'package:sossoldi/features/dashboard/widgets/upcoming_recurring_widget.dart' show UpcomingRecurringWidget;
+import 'package:sossoldi/features/finance/budget/budget_detail_screen.dart' show BudgetDetailScreen;
+import 'package:sossoldi/features/finance/budget/budget_tab_view.dart' show BudgetTabView;
+import 'package:sossoldi/features/finance/charts/transaction_charts_filters_sheet.dart' show TransactionChartsFiltersSheet;
+import 'package:sossoldi/features/finance/charts/transaction_charts_view.dart' show TransactionChartsView;
+import 'package:sossoldi/features/finance/filter_check_row.dart' show FilterCheckRow;
+import 'package:sossoldi/features/finance/finance_screen.dart' show FinanceScreen;
+import 'package:sossoldi/features/finance/overview/overview_tab_view.dart' show OverviewTabView;
+import 'package:sossoldi/features/finance/recurring/recurring_detail_screen.dart' show RecurringDetailScreen;
+import 'package:sossoldi/features/finance/recurring/recurring_item.dart' show RecurringItem;
+import 'package:sossoldi/features/finance/recurring/recurring_tab_view.dart' show RecurringTabView;
+import 'package:sossoldi/features/finance/transactions/active_filter_chips.dart' show ActiveFilterChips;
+import 'package:sossoldi/features/finance/transactions/transaction_day_list.dart' show TransactionDayList;
+import 'package:sossoldi/features/finance/transactions/transaction_filters_sheet.dart' show TransactionFiltersSheet;
+import 'package:sossoldi/features/finance/transactions/transaction_row.dart' show TransactionRow;
+import 'package:sossoldi/features/finance/transactions/transactions_list_view.dart' show TransactionsListView;
+import 'package:sossoldi/features/investments/investments_screen.dart' show InvestmentsScreen;
+import 'package:sossoldi/features/investments/movements/movement_detail_screen.dart' show MovementDetailScreen;
+import 'package:sossoldi/features/investments/movements/movement_form_fields.dart' show MovementFormFields;
+import 'package:sossoldi/features/investments/movements/movements_tab.dart' show MovementsTab;
+import 'package:sossoldi/features/investments/overview/investments_overview_tab.dart' show InvestmentsOverviewTab;
+import 'package:sossoldi/features/investments/portfolio_value_card.dart' show PortfolioValueCard;
+import 'package:sossoldi/features/investments/positions/position_detail_screen.dart' show PositionDetailScreen;
+import 'package:sossoldi/features/investments/positions/positions_tab.dart' show PositionsTab;
+import 'package:sossoldi/features/onboarding/onboarding_accounts_screen.dart' show OnboardingAccountsScreen;
+import 'package:sossoldi/features/onboarding/onboarding_assets_screen.dart' show OnboardingAssetsScreen;
+import 'package:sossoldi/features/onboarding/onboarding_back_button.dart' show OnboardingBackButton;
+import 'package:sossoldi/features/onboarding/onboarding_categories_screen.dart' show OnboardingCategoriesScreen;
+import 'package:sossoldi/features/onboarding/onboarding_flow.dart' show OnboardingFlow;
+import 'package:sossoldi/features/onboarding/onboarding_splash_screen.dart' show OnboardingSplashScreen;
+import 'package:sossoldi/features/onboarding/onboarding_welcome_screen.dart' show OnboardingWelcomeScreen;
+import 'package:sossoldi/features/onboarding/sossoldi_logo.dart' show SossoldiLogo;
+import 'package:sossoldi/features/settings/settings_screen.dart' show SettingsScreen;
+import 'package:sossoldi/features/settings/widget_showcase_screen.dart' show WidgetShowcaseScreen;
 import 'package:sossoldi/app/app.dart' show SossoldiApp;
 import 'package:sossoldi/app/app_shell.dart' show AppShell;
 import 'package:sossoldi/app/placeholder_screen.dart' show PlaceholderScreen;
@@ -359,9 +233,12 @@ String? featureName(Widget widget) {
   if (widget is AllocationCard) return 'AllocationCard';
   if (widget is AllocationWidget) return 'AllocationWidget';
   if (widget is BudgetStatusCard) return 'BudgetStatusCard';
+  if (widget is BudgetPercentBadge) return 'BudgetPercentBadge';
   if (widget is BudgetStatusWidget) return 'BudgetStatusWidget';
   if (widget is DashboardTypeSelector) return 'DashboardTypeSelector';
   if (widget is DashboardWidgetHeader) return 'DashboardWidgetHeader';
+  if (widget is InsightCard) return 'InsightCard';
+  if (widget is InsightWidget) return 'InsightWidget';
   if (widget is InvestmentsCard) return 'InvestmentsCard';
   if (widget is InvestmentsWidget) return 'InvestmentsWidget';
   if (widget is LatestTransactionsCard) return 'LatestTransactionsCard';
@@ -373,8 +250,7 @@ String? featureName(Widget widget) {
   if (widget is UpcomingRecurringWidget) return 'UpcomingRecurringWidget';
   if (widget is BudgetDetailScreen) return 'BudgetDetailScreen';
   if (widget is BudgetTabView) return 'BudgetTabView';
-  if (widget is TransactionChartsFiltersSheet)
-    return 'TransactionChartsFiltersSheet';
+  if (widget is TransactionChartsFiltersSheet) return 'TransactionChartsFiltersSheet';
   if (widget is TransactionChartsView) return 'TransactionChartsView';
   if (widget is FilterCheckRow) return 'FilterCheckRow';
   if (widget is FinanceScreen) return 'FinanceScreen';
@@ -404,6 +280,7 @@ String? featureName(Widget widget) {
   if (widget is OnboardingWelcomeScreen) return 'OnboardingWelcomeScreen';
   if (widget is SossoldiLogo) return 'SossoldiLogo';
   if (widget is SettingsScreen) return 'SettingsScreen';
+  if (widget is WidgetShowcaseScreen) return 'WidgetShowcaseScreen';
   if (widget is SossoldiApp) return 'SossoldiApp';
   if (widget is AppShell) return 'AppShell';
   if (widget is PlaceholderScreen) return 'PlaceholderScreen';
@@ -415,206 +292,140 @@ String? featureName(Widget widget) {
 /// The file of each widget, from the root of the repository.
 const widgetFiles = <String, String>{
   'SossoldiAccordion': 'lib/design_system/components/sossoldi_accordion.dart',
-  'SossoldiAccountItem':
-      'lib/design_system/components/sossoldi_account_item.dart',
+  'SossoldiAccountItem': 'lib/design_system/components/sossoldi_account_item.dart',
   'SossoldiAlert': 'lib/design_system/components/sossoldi_alert.dart',
-  'SossoldiAlertCarousel':
-      'lib/design_system/components/sossoldi_alert_carousel.dart',
+  'SossoldiAlertCarousel': 'lib/design_system/components/sossoldi_alert_carousel.dart',
   'SossoldiAmount': 'lib/design_system/components/sossoldi_amount.dart',
-  'SossoldiAmountInput':
-      'lib/design_system/components/sossoldi_amount_input.dart',
+  'SossoldiAmountInput': 'lib/design_system/components/sossoldi_amount_input.dart',
   'SossoldiAssetItem': 'lib/design_system/components/sossoldi_asset_item.dart',
   'SossoldiAuthCode': 'lib/design_system/components/sossoldi_auth_code.dart',
   'SossoldiAvatar': 'lib/design_system/components/sossoldi_avatar.dart',
-  'SossoldiBottomSheet':
-      'lib/design_system/components/sossoldi_bottom_sheet.dart',
-  'SossoldiBottomSheetToolbar':
-      'lib/design_system/components/sossoldi_bottom_sheet_toolbar.dart',
+  'SossoldiBottomSheet': 'lib/design_system/components/sossoldi_bottom_sheet.dart',
+  'SossoldiBottomSheetToolbar': 'lib/design_system/components/sossoldi_bottom_sheet_toolbar.dart',
   'SossoldiBreadcrumb': 'lib/design_system/components/sossoldi_breadcrumb.dart',
-  'SossoldiBreakdownItem':
-      'lib/design_system/components/sossoldi_breakdown_item.dart',
+  'SossoldiBreakdownItem': 'lib/design_system/components/sossoldi_breakdown_item.dart',
   'SossoldiBudgetBar': 'lib/design_system/components/sossoldi_budget_bar.dart',
-  'SossoldiBudgetItem':
-      'lib/design_system/components/sossoldi_budget_item.dart',
+  'SossoldiBudgetItem': 'lib/design_system/components/sossoldi_budget_item.dart',
   'SossoldiButton': 'lib/design_system/components/sossoldi_button.dart',
   'SossoldiCalendar': 'lib/design_system/components/sossoldi_calendar.dart',
-  'SossoldiCashFlowChart':
-      'lib/design_system/components/sossoldi_cash_flow_chart.dart',
-  'SossoldiCategoryItem':
-      'lib/design_system/components/sossoldi_category_item.dart',
-  'SossoldiChangeIndicator':
-      'lib/design_system/components/sossoldi_change_indicator.dart',
+  'SossoldiCashFlowChart': 'lib/design_system/components/sossoldi_cash_flow_chart.dart',
+  'SossoldiCategoryItem': 'lib/design_system/components/sossoldi_category_item.dart',
+  'SossoldiChangeIndicator': 'lib/design_system/components/sossoldi_change_indicator.dart',
   'SossoldiChangeTag': 'lib/design_system/components/sossoldi_change_tag.dart',
-  'SossoldiChartLegend':
-      'lib/design_system/components/sossoldi_chart_legend.dart',
-  'SossoldiChartTooltip':
-      'lib/design_system/components/sossoldi_chart_tooltip.dart',
+  'SossoldiChartLegend': 'lib/design_system/components/sossoldi_chart_legend.dart',
+  'SossoldiChartTooltip': 'lib/design_system/components/sossoldi_chart_tooltip.dart',
   'SossoldiCheckbox': 'lib/design_system/components/sossoldi_checkbox.dart',
   'SossoldiChip': 'lib/design_system/components/sossoldi_chip.dart',
-  'SossoldiColorPicker':
-      'lib/design_system/components/sossoldi_color_picker.dart',
-  'SossoldiDateRangePicker':
-      'lib/design_system/components/sossoldi_date_range_picker.dart',
+  'SossoldiColorPicker': 'lib/design_system/components/sossoldi_color_picker.dart',
+  'SossoldiDateRangePicker': 'lib/design_system/components/sossoldi_date_range_picker.dart',
   'SossoldiDayHeader': 'lib/design_system/components/sossoldi_day_header.dart',
-  'SossoldiDonutChart':
-      'lib/design_system/components/sossoldi_donut_chart.dart',
+  'SossoldiDonutChart': 'lib/design_system/components/sossoldi_donut_chart.dart',
   'SossoldiDropdown': 'lib/design_system/components/sossoldi_dropdown.dart',
-  'SossoldiEmptyState':
-      'lib/design_system/components/sossoldi_empty_state.dart',
-  'SossoldiFieldFrame':
-      'lib/design_system/components/sossoldi_field_frame.dart',
-  'SossoldiFilterButton':
-      'lib/design_system/components/sossoldi_filter_button.dart',
-  'SossoldiFilterChip':
-      'lib/design_system/components/sossoldi_filter_chip.dart',
-  'SossoldiHeaderButton':
-      'lib/design_system/components/sossoldi_header_button.dart',
-  'SossoldiIconButton':
-      'lib/design_system/components/sossoldi_icon_button.dart',
-  'SossoldiIconPicker':
-      'lib/design_system/components/sossoldi_icon_picker.dart',
+  'SossoldiEmptyState': 'lib/design_system/components/sossoldi_empty_state.dart',
+  'SossoldiFieldFrame': 'lib/design_system/components/sossoldi_field_frame.dart',
+  'SossoldiFilterButton': 'lib/design_system/components/sossoldi_filter_button.dart',
+  'SossoldiFilterChip': 'lib/design_system/components/sossoldi_filter_chip.dart',
+  'SossoldiHeaderButton': 'lib/design_system/components/sossoldi_header_button.dart',
+  'SossoldiIconButton': 'lib/design_system/components/sossoldi_icon_button.dart',
+  'SossoldiIconPicker': 'lib/design_system/components/sossoldi_icon_picker.dart',
   'SossoldiList': 'lib/design_system/components/sossoldi_list.dart',
-  'SossoldiListAddButton':
-      'lib/design_system/components/sossoldi_list_add_button.dart',
+  'SossoldiListAddButton': 'lib/design_system/components/sossoldi_list_add_button.dart',
   'SossoldiLoader': 'lib/design_system/components/sossoldi_loader.dart',
   'SossoldiMenuItem': 'lib/design_system/components/sossoldi_menu_item.dart',
   'SossoldiModal': 'lib/design_system/components/sossoldi_modal.dart',
-  'SossoldiMonthSelector':
-      'lib/design_system/components/sossoldi_month_selector.dart',
-  'SossoldiMovementItem':
-      'lib/design_system/components/sossoldi_movement_item.dart',
+  'SossoldiMonthSelector': 'lib/design_system/components/sossoldi_month_selector.dart',
+  'SossoldiMovementItem': 'lib/design_system/components/sossoldi_movement_item.dart',
   'SossoldiNavbar': 'lib/design_system/components/sossoldi_navbar.dart',
-  'SossoldiOperationItem':
-      'lib/design_system/components/sossoldi_operation_item.dart',
-  'SossoldiPageIndicator':
-      'lib/design_system/components/sossoldi_page_indicator.dart',
+  'SossoldiOperationItem': 'lib/design_system/components/sossoldi_operation_item.dart',
+  'SossoldiPageIndicator': 'lib/design_system/components/sossoldi_page_indicator.dart',
   'SossoldiPagination': 'lib/design_system/components/sossoldi_pagination.dart',
   'SossoldiPopover': 'lib/design_system/components/sossoldi_popover.dart',
-  'SossoldiPortfolioCard':
-      'lib/design_system/components/sossoldi_portfolio_card.dart',
-  'SossoldiProgressCircular':
-      'lib/design_system/components/sossoldi_progress_circular.dart',
-  'SossoldiProgressLinear':
-      'lib/design_system/components/sossoldi_progress_linear.dart',
+  'SossoldiPortfolioCard': 'lib/design_system/components/sossoldi_portfolio_card.dart',
+  'SossoldiProgressCircular': 'lib/design_system/components/sossoldi_progress_circular.dart',
+  'SossoldiProgressLinear': 'lib/design_system/components/sossoldi_progress_linear.dart',
   'SossoldiRadio': 'lib/design_system/components/sossoldi_radio.dart',
-  'SossoldiRemoveBadge':
-      'lib/design_system/components/sossoldi_remove_badge.dart',
-  'SossoldiResizeHandle':
-      'lib/design_system/components/sossoldi_resize_handle.dart',
-  'SossoldiRightChart':
-      'lib/design_system/components/sossoldi_right_chart.dart',
-  'SossoldiSearchButton':
-      'lib/design_system/components/sossoldi_search_button.dart',
-  'SossoldiSearchField':
-      'lib/design_system/components/sossoldi_search_field.dart',
-  'SossoldiSegmentedBar':
-      'lib/design_system/components/sossoldi_segmented_bar.dart',
+  'SossoldiRemoveBadge': 'lib/design_system/components/sossoldi_remove_badge.dart',
+  'SossoldiResizeHandle': 'lib/design_system/components/sossoldi_resize_handle.dart',
+  'SossoldiRightChart': 'lib/design_system/components/sossoldi_right_chart.dart',
+  'SossoldiSearchButton': 'lib/design_system/components/sossoldi_search_button.dart',
+  'SossoldiSearchField': 'lib/design_system/components/sossoldi_search_field.dart',
+  'SossoldiSegmentedBar': 'lib/design_system/components/sossoldi_segmented_bar.dart',
   'SossoldiSelect': 'lib/design_system/components/sossoldi_select.dart',
   'SossoldiSnackbar': 'lib/design_system/components/sossoldi_snackbar.dart',
-  'SossoldiStackedAreaChart':
-      'lib/design_system/components/sossoldi_stacked_area_chart.dart',
+  'SossoldiStackedAreaChart': 'lib/design_system/components/sossoldi_stacked_area_chart.dart',
   'SossoldiSwitch': 'lib/design_system/components/sossoldi_switch.dart',
   'SossoldiSwitchRow': 'lib/design_system/components/sossoldi_switch_row.dart',
   'SossoldiTab': 'lib/design_system/components/sossoldi_tab.dart',
-  'SossoldiTabNavigation':
-      'lib/design_system/components/sossoldi_tab_navigation.dart',
+  'SossoldiTabNavigation': 'lib/design_system/components/sossoldi_tab_navigation.dart',
   'SossoldiTag': 'lib/design_system/components/sossoldi_tag.dart',
   'SossoldiTappable': 'lib/design_system/components/sossoldi_tappable.dart',
   'SossoldiTextInput': 'lib/design_system/components/sossoldi_text_input.dart',
   'SossoldiTextarea': 'lib/design_system/components/sossoldi_textarea.dart',
   'SossoldiTooltip': 'lib/design_system/components/sossoldi_tooltip.dart',
-  'SossoldiTooltipTarget':
-      'lib/design_system/components/sossoldi_tooltip_target.dart',
-  'SossoldiTransactionItem':
-      'lib/design_system/components/sossoldi_transaction_item.dart',
-  'SossoldiTrendChart':
-      'lib/design_system/components/sossoldi_trend_chart.dart',
-  'SossoldiTrendLegend':
-      'lib/design_system/components/sossoldi_trend_chart.dart',
-  'SossoldiUnitNavigator':
-      'lib/design_system/components/sossoldi_unit_navigator.dart',
-  'SossoldiValueChart':
-      'lib/design_system/components/sossoldi_value_chart.dart',
-  'SossoldiWidgetCard':
-      'lib/design_system/components/sossoldi_widget_card.dart',
+  'SossoldiTooltipTarget': 'lib/design_system/components/sossoldi_tooltip_target.dart',
+  'SossoldiTransactionItem': 'lib/design_system/components/sossoldi_transaction_item.dart',
+  'SossoldiTrendChart': 'lib/design_system/components/sossoldi_trend_chart.dart',
+  'SossoldiTrendLegend': 'lib/design_system/components/sossoldi_trend_chart.dart',
+  'SossoldiUnitNavigator': 'lib/design_system/components/sossoldi_unit_navigator.dart',
+  'SossoldiValueChart': 'lib/design_system/components/sossoldi_value_chart.dart',
+  'SossoldiWidgetCard': 'lib/design_system/components/sossoldi_widget_card.dart',
   'DateChipsField': 'lib/features/add_transaction/date_fields.dart',
   'DateButtonField': 'lib/features/add_transaction/date_fields.dart',
-  'TransactionFormFields':
-      'lib/features/add_transaction/transaction_form_fields.dart',
+  'TransactionFormFields': 'lib/features/add_transaction/transaction_form_fields.dart',
   'AddWidgetSheet': 'lib/features/dashboard/add_widget/add_widget_sheet.dart',
   'DashboardGrid': 'lib/features/dashboard/dashboard_grid.dart',
   'DashboardScreen': 'lib/features/dashboard/dashboard_screen.dart',
   'AllocationCard': 'lib/features/dashboard/widgets/allocation_card.dart',
   'AllocationWidget': 'lib/features/dashboard/widgets/allocation_widget.dart',
   'BudgetStatusCard': 'lib/features/dashboard/widgets/budget_status_card.dart',
-  'BudgetStatusWidget':
-      'lib/features/dashboard/widgets/budget_status_widget.dart',
-  'DashboardTypeSelector':
-      'lib/features/dashboard/widgets/dashboard_type_selector.dart',
-  'DashboardWidgetHeader':
-      'lib/features/dashboard/widgets/dashboard_widget_header.dart',
+  'BudgetPercentBadge': 'lib/features/dashboard/widgets/budget_status_card.dart',
+  'BudgetStatusWidget': 'lib/features/dashboard/widgets/budget_status_widget.dart',
+  'DashboardTypeSelector': 'lib/features/dashboard/widgets/dashboard_type_selector.dart',
+  'DashboardWidgetHeader': 'lib/features/dashboard/widgets/dashboard_widget_header.dart',
+  'InsightCard': 'lib/features/dashboard/widgets/insight_card.dart',
+  'InsightWidget': 'lib/features/dashboard/widgets/insight_widget.dart',
   'InvestmentsCard': 'lib/features/dashboard/widgets/investments_card.dart',
   'InvestmentsWidget': 'lib/features/dashboard/widgets/investments_widget.dart',
-  'LatestTransactionsCard':
-      'lib/features/dashboard/widgets/latest_transactions_card.dart',
-  'LatestTransactionsWidget':
-      'lib/features/dashboard/widgets/latest_transactions_widget.dart',
-  'MonthlyBalanceCard':
-      'lib/features/dashboard/widgets/monthly_balance_card.dart',
-  'MonthlyBalanceWidget':
-      'lib/features/dashboard/widgets/monthly_balance_widget.dart',
+  'LatestTransactionsCard': 'lib/features/dashboard/widgets/latest_transactions_card.dart',
+  'LatestTransactionsWidget': 'lib/features/dashboard/widgets/latest_transactions_widget.dart',
+  'MonthlyBalanceCard': 'lib/features/dashboard/widgets/monthly_balance_card.dart',
+  'MonthlyBalanceWidget': 'lib/features/dashboard/widgets/monthly_balance_widget.dart',
   'NetWorthCard': 'lib/features/dashboard/widgets/net_worth_card.dart',
   'NetWorthWidget': 'lib/features/dashboard/widgets/net_worth_widget.dart',
-  'UpcomingRecurringWidget':
-      'lib/features/dashboard/widgets/upcoming_recurring_widget.dart',
+  'UpcomingRecurringWidget': 'lib/features/dashboard/widgets/upcoming_recurring_widget.dart',
   'BudgetDetailScreen': 'lib/features/finance/budget/budget_detail_screen.dart',
   'BudgetTabView': 'lib/features/finance/budget/budget_tab_view.dart',
-  'TransactionChartsFiltersSheet':
-      'lib/features/finance/charts/transaction_charts_filters_sheet.dart',
-  'TransactionChartsView':
-      'lib/features/finance/charts/transaction_charts_view.dart',
+  'TransactionChartsFiltersSheet': 'lib/features/finance/charts/transaction_charts_filters_sheet.dart',
+  'TransactionChartsView': 'lib/features/finance/charts/transaction_charts_view.dart',
   'FilterCheckRow': 'lib/features/finance/filter_check_row.dart',
   'FinanceScreen': 'lib/features/finance/finance_screen.dart',
   'OverviewTabView': 'lib/features/finance/overview/overview_tab_view.dart',
-  'RecurringDetailScreen':
-      'lib/features/finance/recurring/recurring_detail_screen.dart',
+  'RecurringDetailScreen': 'lib/features/finance/recurring/recurring_detail_screen.dart',
   'RecurringItem': 'lib/features/finance/recurring/recurring_item.dart',
   'RecurringTabView': 'lib/features/finance/recurring/recurring_tab_view.dart',
-  'ActiveFilterChips':
-      'lib/features/finance/transactions/active_filter_chips.dart',
-  'TransactionDayList':
-      'lib/features/finance/transactions/transaction_day_list.dart',
-  'TransactionFiltersSheet':
-      'lib/features/finance/transactions/transaction_filters_sheet.dart',
+  'ActiveFilterChips': 'lib/features/finance/transactions/active_filter_chips.dart',
+  'TransactionDayList': 'lib/features/finance/transactions/transaction_day_list.dart',
+  'TransactionFiltersSheet': 'lib/features/finance/transactions/transaction_filters_sheet.dart',
   'TransactionRow': 'lib/features/finance/transactions/transaction_row.dart',
-  'TransactionsListView':
-      'lib/features/finance/transactions/transactions_list_view.dart',
+  'TransactionsListView': 'lib/features/finance/transactions/transactions_list_view.dart',
   'InvestmentsScreen': 'lib/features/investments/investments_screen.dart',
-  'MovementDetailScreen':
-      'lib/features/investments/movements/movement_detail_screen.dart',
-  'MovementFormFields':
-      'lib/features/investments/movements/movement_form_fields.dart',
+  'MovementDetailScreen': 'lib/features/investments/movements/movement_detail_screen.dart',
+  'MovementFormFields': 'lib/features/investments/movements/movement_form_fields.dart',
   'MovementsTab': 'lib/features/investments/movements/movements_tab.dart',
-  'InvestmentsOverviewTab':
-      'lib/features/investments/overview/investments_overview_tab.dart',
+  'InvestmentsOverviewTab': 'lib/features/investments/overview/investments_overview_tab.dart',
   'PortfolioValueCard': 'lib/features/investments/portfolio_value_card.dart',
-  'PositionDetailScreen':
-      'lib/features/investments/positions/position_detail_screen.dart',
+  'PositionDetailScreen': 'lib/features/investments/positions/position_detail_screen.dart',
   'PositionsTab': 'lib/features/investments/positions/positions_tab.dart',
-  'OnboardingAccountsScreen':
-      'lib/features/onboarding/onboarding_accounts_screen.dart',
-  'OnboardingAssetsScreen':
-      'lib/features/onboarding/onboarding_assets_screen.dart',
+  'OnboardingAccountsScreen': 'lib/features/onboarding/onboarding_accounts_screen.dart',
+  'OnboardingAssetsScreen': 'lib/features/onboarding/onboarding_assets_screen.dart',
   'OnboardingBackButton': 'lib/features/onboarding/onboarding_back_button.dart',
-  'OnboardingCategoriesScreen':
-      'lib/features/onboarding/onboarding_categories_screen.dart',
+  'OnboardingCategoriesScreen': 'lib/features/onboarding/onboarding_categories_screen.dart',
   'OnboardingFlow': 'lib/features/onboarding/onboarding_flow.dart',
-  'OnboardingSplashScreen':
-      'lib/features/onboarding/onboarding_splash_screen.dart',
-  'OnboardingWelcomeScreen':
-      'lib/features/onboarding/onboarding_welcome_screen.dart',
+  'OnboardingSplashScreen': 'lib/features/onboarding/onboarding_splash_screen.dart',
+  'OnboardingWelcomeScreen': 'lib/features/onboarding/onboarding_welcome_screen.dart',
   'SossoldiLogo': 'lib/features/onboarding/sossoldi_logo.dart',
   'SettingsScreen': 'lib/features/settings/settings_screen.dart',
+  'WidgetShowcaseScreen': 'lib/features/settings/widget_showcase_screen.dart',
   'SossoldiApp': 'lib/app/app.dart',
   'AppShell': 'lib/app/app_shell.dart',
   'PlaceholderScreen': 'lib/app/placeholder_screen.dart',

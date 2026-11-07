@@ -101,12 +101,40 @@ Overview cash flow ("No income or expenses this month yet"). With no broker acco
 Quick overview of the user's finances. Customizable widget grid: 2 columns, widget sizes
 S (1×1), M (2×1), L (2×2). Core widgets: Total balance, Income & expenses, Budget status,
 Latest transactions. Optional widgets: Upcoming recurring, Investments (snapshot), Allocation, Net worth,
-Savings goals, Insight of the moment. Net worth = accounts + investments.
-Available now (S/M/L): Monthly balance, Latest transactions, **Budget status** (core) and **Upcoming recurring** (optional, not in the initial
+Insight of the moment (Savings goals will not be built; Income & expenses is covered by Monthly balance). Net worth = accounts + investments.
+Available now (S/M/L; Insight of the moment S only): Monthly balance, Latest transactions, **Budget status** (core) and **Upcoming recurring** (optional, not in the initial
 layout, in the add-widget list). Upcoming recurring: the next occurrences of the active recurring transactions from
-today on (today included, paused ones left out, all types), soonest first; S 1, M 3, L as many as fit (5-6); the row is
+today on (today included, paused ones left out, all types), soonest first; S 1, M 2, L as many as fit (5-6); the row is
 the Latest transactions one with the date of the occurrence as a chip (same format as the Finance Overview list); no
 tap and no title, like Latest transactions; empty state "No recurring transactions".
+
+**Insight of the moment** (optional, add-widget list, S only, first widget of the initial layout; no Figma node: the card style of the other
+widgets): one insight, the most relevant right now, chosen by `InsightEngine` (`lib/insights/`, pure Dart, injectable `now`, every
+threshold in `insight_constants.dart`; reusable, not linked elsewhere). The first level with a candidate wins, inside a level the most
+serious (ties keep a stable order). Days are counted back from today, inclusive.
+1. Budget exceeded (>100%) within the last 7 days (the day comes from the transactions): highest % first. Tone negative. Tap → budget page.
+2. Recurring expense due today or tomorrow (active, expenses only; same occurrences as the Upcoming widget, so one already booked today counts):
+   nearest, then largest amount. Attention. Tap → recurring page.
+3. Budget at risk (≥ 80%, not exceeded): highest %; shows the days left in the period. Attention. Tap → budget page.
+4. Unusual expense: in the last 3 days, ≥ 3× the average expense of its category over the 90 days before that window and ≥ 50 € (main
+   currency); needs ≥ 5 such expenses; transactions of a recurrence never count; highest ratio first. Attention. Tap → Finance >
+   Transactions > List filtered on the category and the last 3 days.
+5. Portfolio down 2% or more today (the Investments snapshot's daily change) first, then budgets exceeded more than 7 days ago (highest %).
+   Negative. Tap → Investments > Overview / budget page.
+6. Reminder (neutral, tap → Add sheet): no transaction ever ("Add your first transaction"); else the last one more than 2 days old; else, from
+   18:00 local, none dated today. All transaction types count.
+7. Good news (positive): portfolio up 2% or more today (tap → Investments > Overview); net worth above every end-of-day value of the previous
+   30 days (needs 30 days of history; no tap).
+8. Nothing: "All good for today" (neutral, check icon, no tap).
+Size S only: icon in the tone color, title (2 lines), and the detail anchored to the bottom, built from the components the other widgets use for the
+same thing: budgets (exceeded or at risk) the Budget status figures (error chip with the %, or bold % in the tone color, then "34 € over" /
+"60 € left") and the budget bar; recurring the payment name with its amount (negative, red); unusual expense the amount (one step above the
+title, red) with "4× the usual" under it in neutral text; portfolio drop or gain the portfolio value in title large over the change indicator (percentage tag + amount, as in
+Investments); net worth at a high ("Highest net worth in a month") the net worth amount in title large with the change indicator over the 30 days (as in Net
+worth); reminders a neutral line; "All good" has its line right under the title (up to 2 lines). What does not fit is scaled down. Tap on the
+card, disabled in edit mode (no M size, no button). Budget numbers are `budgetStatus` (same % and state as the Budget tab). Amounts follow Hidden Mode, percentages stay.
+The insight is worked out again only when the repository changes, when the app returns to the foreground and at the next boundary (18:00,
+midnight), never on a rebuild. The add-widget preview shows a fixed example (portfolio down).
 
 **Budget status**: the budgets valid today (each on its own current period, same numbers as the Budget tab) by
 relevance, the same rule as the Finance Overview: exceeded first (highest % first), then at risk (≥ 80%) by % descending,
@@ -115,10 +143,10 @@ then the rest by % descending; on a tie the shortest period first. S: the first 
 or "112% · 34€ over", bar. Header (M, L): "Budget" and, at the right, a chip with a menu to choose the budget type (All, Weekly,
 Monthly, Quarterly, Semiannual, Yearly; default All); the filter applies to every size, is stored with the placement in
 the layout (survives reordering and resizing, memory only) and the chip is disabled in edit mode. Tap → the budget page.
-Empty: "No budgets yet" / "No {period} budgets". Initial layout: Monthly balance (S), Upcoming recurring (S), Latest
-transactions (L), Budget status (M); Monthly balance stays in the add-widget list.
+Empty: "No budgets yet" / "No {period} budgets". Initial layout (a use case with every widget, in different sizes, from top): Insight of the moment (S) and Monthly
+balance (S), Budget status (M), Net worth (M), Upcoming recurring (S) and Allocation (S), Latest transactions (L), Investments (L).
 
-**Net worth** (optional, in the add-widget list, not in the initial layout): accounts + investments, main currency.
+**Net worth** (optional, in the add-widget list): accounts + investments, main currency.
 The charts of Monthly balance and Net worth (M and L, not S) show, on tap or drag, an indicator and the tooltip of the other charts (the day; Monthly
 balance: this month and last month at that day; Net worth: the value that day). The
 liquidity of the broker accounts is in the account balances, so only the positions at market value are added to them
@@ -133,7 +161,7 @@ history yet" in place of the chart.
 (green/red, neutral at exactly 0) and, beside it, the amount in plain text with its sign; when the percentage cannot be worked out
 (base zero) the tag shows the amount and the plain text goes away. Hidden Mode masks both figures (arrow and color stay).
 
-**Investments** (optional, add-widget list, not in the initial layout; no Figma node, follows Net worth): value = positions + liquidity
+**Investments** (optional, add-widget list; no Figma node, follows Net worth): value = positions + liquidity
 (as the Investments Overview). Changes are **market performance**, net of buys and sells: change of (market value - invested)
 between two moments, percentage over the starting value plus what was invested meanwhile (the Overview's own P&L is instead
 against the average cost). **Year to date is the default everywhere.** S: title with the label "YTD" (no chip), value, the
@@ -143,7 +171,7 @@ right of the value and the trend chart of the period edge to edge (tooltip, no a
 Overview's market value chart (axes, tooltip) with its legend under it. Tap on the figures → Investments >
 Overview (not on the chart). No positions: "No investments yet". With fewer than two days of history the changes are not shown.
 
-**Allocation** (optional, add-widget list, not in the initial layout; no Figma node): the Investments Overview's allocation (same data, colors,
+**Allocation** (optional, add-widget list; no Figma node): the Investments Overview's allocation (same data, colors,
 donut; the liquidity is its own slice, as there), by asset class or by single asset. Rows after the first N are summed in "Other" (neutral
 color; a lone leftover slice keeps its name); whole percentages that add up to 100 (under 1% is written "<1%"). Every legend row: dot, name,
 percentage and amount side by side at the right (amounts hidden with Hidden Mode; percentages stay; S without decimals). S: the title with a
@@ -153,10 +181,14 @@ the middle of the donut. Single asset: the first six assets + Other. The view is
 only; S and M follow it, default Asset class), independent of the Investments page; the selector is disabled in edit mode. Tap → Investments >
 Overview. No investments: "No investments yet" with an empty donut.
 
+**Padding of every Dashboard widget, every size**: 12 px on all four sides (top, bottom, left, right). Only charts without axes
+(trend charts) go edge to edge. The transaction rows of Latest transactions and Upcoming recurring count their own row padding in the 12
+(so M of both transaction widgets fits 2 rows).
+
 **Headline of the M and L widgets** (Budget status, Latest transactions, Upcoming recurring): the title in Label Large bold
-at the left and, at the right, a chip with a menu for the type (Budget status: All, Weekly…; the two transaction widgets: All,
+at the left and, at the right, a chip with a menu for the type (Budget status: All, Weekly…; the two transaction widgets: "All" / "Tutte" (feminine in Italian, it refers to the transactions),
 Expenses, Income, Transfers). The choice is stored with the placement (as for Budget status), applies to every size
-(S has no headline), and the chip is disabled in edit mode. Rows of the transaction widgets: M tight (44 px, three under the headline), L as in the list (52 px, the space left shared between them).
+(S has no headline), and the chip is disabled in edit mode. Rows of the transaction widgets: M and L the same, as in the list (52 px, the space left shared between them, 12 px under the headline's own padding): M fits 2 rows in both.
 
 ## Finance
 Where the user goes to understand in detail where their money goes. Four sections, each
@@ -328,9 +360,9 @@ the movement form was the visual reference.
 General (theme, language, currency, authentication), Accounts, Categories & budgets,
 Investments, Import/Export, Notifications, Feedback, App info, bank/broker connections.
 Built so far: theme, language, currency and, labelled "Prototype", "Restart onboarding" (full screen, on an
-empty repository) and "Load demo data" (back to the app on the full demo data).
+empty repository), "Widget showcase" (every Dashboard widget in every size and case, one cluster per widget, on demo data and on the empty data of a
+new user; Insight in its kinds; `features/settings/widget_showcase_screen.dart`) and "Load demo data" (back to the app on the full demo data).
 
 ## Open points (don't decide without asking)
-- Insights: what is shown when no insight is available? Are they tappable? (Current assumption: no)
 - Asset setup in onboarding: which fields beyond quantity, value and average cost?
 - Status of bank API and broker connections: to be verified

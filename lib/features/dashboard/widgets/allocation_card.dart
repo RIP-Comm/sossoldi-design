@@ -131,26 +131,31 @@ class AllocationCard extends StatelessWidget {
               children: [
                 cell(
                   i,
-                  Row(
-                    spacing: SossoldiSpacing.xs,
-                    children: [
-                      Container(
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: r.color,
-                          shape: BoxShape.circle,
+                  // Dot and name in one line of text: with little room left
+                  // by the figures the name is cut, never an overflow.
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            margin: const EdgeInsets.only(
+                              right: SossoldiSpacing.xs,
+                            ),
+                            decoration: BoxDecoration(
+                              color: r.color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          r.label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: small,
-                        ),
-                      ),
-                    ],
+                        TextSpan(text: r.label),
+                      ],
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: small,
                   ),
                   Alignment.centerLeft,
                 ),
@@ -321,12 +326,7 @@ class AllocationCard extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            SossoldiSpacing.m,
-            SossoldiSpacing.s,
-            SossoldiSpacing.m,
-            SossoldiSpacing.s,
-          ),
+          padding: const EdgeInsets.all(SossoldiSpacing.m),
           child: content,
         ),
       ),

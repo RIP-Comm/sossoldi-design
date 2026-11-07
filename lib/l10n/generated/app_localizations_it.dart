@@ -1773,4 +1773,116 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get widgetAllocationName => 'Allocazione';
+
+  @override
+  String get widgetInsightName => 'Insight del momento';
+
+  @override
+  String insightBudgetExceededTitle(String category) {
+    return '$category oltre il budget';
+  }
+
+  @override
+  String insightBudgetAtRiskTitle(String category) {
+    return 'Budget $category a rischio';
+  }
+
+  @override
+  String get insightRecurringDueToday => 'Pagamento in scadenza oggi';
+
+  @override
+  String get insightRecurringDueTomorrow => 'Pagamento in scadenza domani';
+
+  @override
+  String insightUnusualTitle(String category) {
+    return 'Spesa insolita in $category';
+  }
+
+  @override
+  String insightUnusualDetail(String ratio) {
+    return '$ratio× il solito';
+  }
+
+  @override
+  String get insightPortfolioDropTitle => 'Portafoglio in calo oggi';
+
+  @override
+  String get insightPortfolioGainTitle => 'Portafoglio in rialzo oggi';
+
+  @override
+  String get insightNetWorthHighTitle => 'Patrimonio più alto da un mese';
+
+  @override
+  String get insightNoTransactionTodayTitle => 'Niente registrato oggi';
+
+  @override
+  String get insightNoTransactionTodayDetail =>
+      'Aggiungi le transazioni di oggi';
+
+  @override
+  String get insightNoRecentTitle => 'Nessuna transazione recente';
+
+  @override
+  String insightNoRecentDetail(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count giorni dall\'ultima',
+      one: '1 giorno dall\'ultima',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get insightFirstTransactionTitle =>
+      'Aggiungi la tua prima transazione';
+
+  @override
+  String get insightFirstTransactionDetail =>
+      'Inizia a tracciare le tue finanze';
+
+  @override
+  String get insightAllGoodTitle => 'Tutto a posto per oggi';
+
+  @override
+  String get insightAllGoodDetail => 'Niente richiede la tua attenzione';
+
+  @override
+  String get showcaseBudgetExceeded => 'Budget sforato';
+
+  @override
+  String get showcaseRecurringDue => 'Ricorrente in scadenza';
+
+  @override
+  String get showcaseBudgetAtRisk => 'Budget a rischio';
+
+  @override
+  String get showcaseUnusualExpense => 'Spesa anomala';
+
+  @override
+  String get showcasePortfolioDrop => 'Calo del portafoglio';
+
+  @override
+  String get showcaseReminder => 'Promemoria';
+
+  @override
+  String get showcasePositive => 'Notizia positiva';
+
+  @override
+  String get showcaseAllGood => 'Nessun insight';
+
+  @override
+  String get transactionTypeAll => 'Tutte';
+
+  @override
+  String get settingsWidgetShowcase => 'Showcase dei widget';
+
+  @override
+  String get showcaseIntro => 'Ogni widget, caso e taglia, con dati demo';
+
+  @override
+  String get showcaseWithData => 'Con dati';
+
+  @override
+  String get showcaseNewUser => 'Nuovo utente, senza dati';
 }

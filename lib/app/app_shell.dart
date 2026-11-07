@@ -128,6 +128,14 @@ class _AppShellState extends State<AppShell> {
                   _investments.selectTab(InvestmentsTab.overview);
                   setState(() => _index = 2);
                 },
+                openTransactions: (filter) {
+                  _finance
+                    ..selectTab(FinanceTab.transactions)
+                    ..selectView(TransactionsView.list)
+                    ..setQuery('')
+                    ..applyFilter(filter);
+                  setState(() => _index = 1);
+                },
                 child: IndexedStack(
                   index: _index,
                   children: [

@@ -56,7 +56,7 @@ class BudgetStatusCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: SossoldiSpacing.m,
-          vertical: SossoldiSpacing.s,
+          vertical: SossoldiSpacing.m,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -123,10 +123,11 @@ Color _figureColor(BuildContext context, SossoldiBudgetTone tone) =>
       SossoldiBudgetTone.exceeded => context.colors.error.text,
     };
 
-/// "50% 120 € left" as in the budget list of Finance: the percentage bold
+/// "50% 120 € left" as in the budget list of Finance (also used by the
+/// Insight widget): the percentage bold
 /// in the tone color, then what is left; over the limit the percentage is an
 /// error chip.
-Widget _figures(BuildContext context, BudgetStatusRow row) {
+Widget budgetStatusFigures(BuildContext context, BudgetStatusRow row) {
   final typography = context.typography;
   if (row.tone == SossoldiBudgetTone.exceeded) {
     return Row(
@@ -200,9 +201,12 @@ class _Row extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SossoldiChip(
-                      label: row.periodLabel,
-                      type: SossoldiChipType.subtle,
+                    // The chip gives way too when the figures take the room.
+                    Flexible(
+                      child: SossoldiChip(
+                        label: row.periodLabel,
+                        type: SossoldiChipType.subtle,
+                      ),
                     ),
                   ],
                 ),
@@ -211,7 +215,7 @@ class _Row extends StatelessWidget {
                 constraints: BoxConstraints(
                   maxWidth: constraints.maxWidth * 0.6,
                 ),
-                child: _figures(context, row),
+                child: budgetStatusFigures(context, row),
               ),
             ],
           ),
@@ -230,10 +234,11 @@ class _Row extends StatelessWidget {
   }
 }
 
-/// The big percentage of the S widget: text only, and with a chip-style
+/// The big percentage of the S widget (also used by the Insight widget): text only, and with a chip-style
 /// error background when the budget is exceeded.
-class _PercentBadge extends StatelessWidget {
-  const _PercentBadge({
+class BudgetPercentBadge extends StatelessWidget {
+  const BudgetPercentBadge({
+    super.key,
     required this.text,
     required this.tone,
     required this.style,
@@ -280,7 +285,7 @@ class _Single extends StatelessWidget {
     final body = Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: SossoldiSpacing.m,
-        vertical: SossoldiSpacing.s,
+        vertical: SossoldiSpacing.m,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -303,7 +308,7 @@ class _Single extends StatelessWidget {
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
-            child: _PercentBadge(
+            child: BudgetPercentBadge(
               text: row.percent,
               tone: row.tone,
               style: typography.titleLarge,

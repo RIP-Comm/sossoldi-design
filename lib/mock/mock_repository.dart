@@ -1878,6 +1878,64 @@ class MockRepository extends ChangeNotifier {
     );
   }
 
+  /// The day the spending of [budgetId] went over its limit in its period
+  /// containing [on] (default today): the date of the expense that took the
+  /// running total past the limit (same cents arithmetic as [budgetStatus],
+  /// same-day expenses in insertion order). Null when the budget is not
+  /// exceeded in that period.
+  DateTime? budgetExceededOn(String budgetId, {DateTime? on}) {
+    final b = budget(budgetId);
+    final status = budgetStatus(b, on: on);
+    if (status.state != BudgetState.exceeded) return null;
+    final limit = (status.amount * 100).round();
+    var running = 0;
+    for (final t in _transactions) {
+      if (t.type != TransactionType.expense || t.categoryId != b.categoryId) {
+        continue;
+      }
+      if (t.date.isBefore(status.periodStart) ||
+          !t.date.isBefore(status.periodEnd)) {
+        continue;
+      }
+      running += (toMain(t.amount, t.currency) * 100).round();
+      if (running > limit) return dateOnly(t.date);
+    }
+    return null;
+  }
+
+  /// How many expenses a category had from [from] (included) to [to]
+  /// (excluded) and their average, in the main currency. Transfers and
+  /// income do not count. Feeds the "unusual expense" insight.
+  ({int count, double average}) categoryExpenseStats(
+    String categoryId, {
+    required DateTime from,
+    required DateTime to,
+  }) {
+    var count = 0;
+    var cents = 0;
+    for (final t in transactionsInPeriod(
+      from,
+      to,
+      categoryId: categoryId,
+      type: TransactionType.expense,
+    )) {
+      count++;
+      cents += (toMain(t.amount, t.currency) * 100).round();
+    }
+    return (count: count, average: count == 0 ? 0 : cents / 100 / count);
+  }
+
+  /// The date of the newest transaction of any type, or null when the user
+  /// has none yet.
+  DateTime? get lastTransactionDate {
+    DateTime? last;
+    for (final t in _transactions) {
+      final d = dateOnly(t.date);
+      if (last == null || d.isAfter(last)) last = d;
+    }
+    return last;
+  }
+
   /// Sets the limit of a budget, given in the main currency (as the user
   /// sees it); it is stored in the budget's own currency. Throws for an
   /// amount that is not a positive number. Listeners are notified.
@@ -2126,6 +2184,22 @@ class MockRepository extends ChangeNotifier {
         ? 0.0
         : _portfolioAt(d, days[i], (id) => _priceHistories[id]![i].price).value;
     return round2(round2(accounts) + positions);
+  }
+
+  /// The highest net worth of the [days] days before [day] (the previous
+  /// [days] end-of-day values), or null when the history does not reach back
+  /// that far (a young account has no meaningful "high"). Feeds the
+  /// "net worth at a high" insight.
+  double? netWorthHighBefore(DateTime day, {required int days}) {
+    final d = dateOnly(day);
+    final start = netWorthHistoryStart;
+    if (start == null || start.isAfter(addDays(d, -days))) return null;
+    double? high;
+    for (var i = 1; i <= days; i++) {
+      final v = netWorthAt(addDays(d, -i));
+      if (high == null || v > high) high = v;
+    }
+    return high;
   }
 
   /// The net worth for [period]: today's value and the series for the chart.
