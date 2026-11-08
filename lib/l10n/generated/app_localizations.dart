@@ -3727,6 +3727,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add account'**
   String get accountsAddSemantic;
+
+  /// Transaction page: Edit button in the top bar
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get transactionDetailEdit;
+
+  /// Transaction form: title in edit mode
+  ///
+  /// In en, this message translates to:
+  /// **'Edit transaction'**
+  String get transactionEdit;
+
+  /// Transaction form: screen reader label of the check
+  ///
+  /// In en, this message translates to:
+  /// **'Save transaction'**
+  String get transactionSave;
+
+  /// Transaction form: red delete button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete transaction'**
+  String get transactionDelete;
+
+  /// Delete confirmation: title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this transaction?'**
+  String get transactionDeleteTitle;
+
+  /// Delete confirmation: message
+  ///
+  /// In en, this message translates to:
+  /// **'It will be removed and balances, charts and budgets will be updated.'**
+  String get transactionDeleteMessage;
+
+  /// Delete confirmation: button
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get transactionDeleteConfirm;
+
+  /// Snackbar after saving an edit
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction updated'**
+  String get transactionUpdated;
+
+  /// Choice dialog: edits the single transaction
+  ///
+  /// In en, this message translates to:
+  /// **'Only this transaction'**
+  String get transactionAskOnlyThis;
+
+  /// Choice dialog: opens the recurrence, which changes only the dates to come
+  ///
+  /// In en, this message translates to:
+  /// **'The recurrence (next ones)'**
+  String get transactionAskRecurrence;
+
+  /// Transaction form: no subcategory option
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get transactionSubcategoryNone;
+
+  /// Transaction page: text button under the frequency chip that opens the recurrence
+  ///
+  /// In en, this message translates to:
+  /// **'Show recurrence'**
+  String get transactionShowRecurrence;
+
+  /// Recurring page: chip when the recurring transaction is paused
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get recurringPausedLabel;
 }
 
 class _AppLocalizationsDelegate

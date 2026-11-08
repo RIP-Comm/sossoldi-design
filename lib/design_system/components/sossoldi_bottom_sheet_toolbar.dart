@@ -6,6 +6,7 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../theme/sossoldi_theme.dart';
 import '../tokens/spacing.dart';
+import 'sossoldi_popover.dart';
 import 'sossoldi_tappable.dart';
 
 class SossoldiBottomSheetToolbar extends StatelessWidget {
@@ -21,7 +22,8 @@ class SossoldiBottomSheetToolbar extends StatelessWidget {
     this.titleWidget,
   }) : closeLabel = null,
        confirmLabel = null,
-       closeIcon = null;
+       closeIcon = null,
+       confirmMenu = null;
 
   /// Type=text: "Cancel" on the left, "Done" on the right.
   const SossoldiBottomSheetToolbar.text({
@@ -32,6 +34,7 @@ class SossoldiBottomSheetToolbar extends StatelessWidget {
     this.onConfirm,
     this.confirmLabel,
     this.closeIcon,
+    this.confirmMenu,
   }) : closeSemanticLabel = null,
        confirmSemanticLabel = null,
        confirmEnabled = true,
@@ -47,6 +50,10 @@ class SossoldiBottomSheetToolbar extends StatelessWidget {
   final VoidCallback? onConfirm;
   final String? closeLabel;
   final String? confirmLabel;
+
+  /// Text variant only: content of a dropdown that opens from the right
+  /// action instead of calling [onConfirm] (a menu of choices).
+  final Widget? confirmMenu;
 
   /// Text variant only: icon before the left label (e.g. an arrow for
   /// "Back").
@@ -181,7 +188,21 @@ class SossoldiBottomSheetToolbar extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: onConfirm == null || confirmLabel == null
                   ? const SizedBox()
-                  : textAction(confirmLabel!, colors.primary.text, onConfirm),
+                  : confirmMenu == null
+                  ? textAction(confirmLabel!, colors.primary.text, onConfirm)
+                  : SossoldiPopover(
+                      width: 260,
+                      alignEnd: true,
+                      content: confirmMenu!,
+                      // The popover takes the tap; the label only draws.
+                      child: IgnorePointer(
+                        child: textAction(
+                          confirmLabel!,
+                          colors.primary.text,
+                          () {},
+                        ),
+                      ),
+                    ),
             ),
           ),
         ],

@@ -17,6 +17,7 @@ class LatestTransactionEntry {
     this.iconColor,
     this.dateLabel,
     this.dateChipType = SossoldiChipType.info,
+    this.onTap,
   });
 
   final SossoldiTransactionType type;
@@ -37,4 +38,7 @@ class LatestTransactionEntry {
   /// Date chip of an occurrence of a recurring transaction ("1st June").
   final String? dateLabel;
   final SossoldiChipType dateChipType;
+
+  /// Opens the transaction; null (an occurrence, edit mode) does nothing.
+  final VoidCallback? onTap;
 }

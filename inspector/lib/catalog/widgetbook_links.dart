@@ -34,6 +34,7 @@ const widgetbookComponents = <String, String>{
   'SossoldiColorPicker': 'Components/Color picker',
   'SossoldiDateRangePicker': 'Finance/Date range picker',
   'SossoldiDayHeader': 'Finance/Day header',
+  'SossoldiReceipt': 'Finance/Receipt',
   'SossoldiDonutChart': 'Finance/Donut chart + legend',
   'SossoldiDropdown': 'Overlays & feedback/Menu item, List, Dropdown',
   'SossoldiEmptyState': 'Finance/Empty state',

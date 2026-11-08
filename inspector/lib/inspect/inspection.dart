@@ -106,10 +106,13 @@ class Inspection {
     return found;
   }
 
-  /// The closest design system component containing [node].
+  /// The closest design system component containing [node]. The tap wrapper
+  /// ([SossoldiTappable]) is behaviour only, with no design of its own, so a
+  /// row that opens a page is still the row.
   InspectedNode? componentOf(InspectedNode node) {
     for (final a in namedAncestors(node)) {
-      if (designSystemName(a.element!.widget) != null) return a;
+      final name = designSystemName(a.element!.widget);
+      if (name != null && name != 'SossoldiTappable') return a;
     }
     return null;
   }

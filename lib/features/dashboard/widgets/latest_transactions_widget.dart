@@ -5,6 +5,7 @@ import '../../../app/app_scope.dart';
 import '../../../design_system/design_system.dart';
 import '../../../mock/models/transaction.dart';
 import '../../../l10n/l10n.dart';
+import '../../transactions/transaction_detail_screen.dart';
 import '../model/dashboard_layout.dart';
 import '../registry/dashboard_widget_definition.dart';
 import 'transaction_type_setting.dart';
@@ -66,6 +67,11 @@ class LatestTransactionsWidget extends StatelessWidget {
                 : repo.account(t.toAccountId!).name,
             amount: t.amount,
             currency: t.currency,
+            onTap: instance.editing
+                ? null
+                : () =>
+                      Navigator.of(context)
+                          .push(TransactionDetailScreen.route(t.id)),
           ),
       ],
     );

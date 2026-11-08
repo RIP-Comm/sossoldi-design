@@ -4,12 +4,13 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import '../../../app/app_scope.dart';
 import '../../../design_system/design_system.dart';
 import '../../../mock/models/transaction.dart';
+import '../../transactions/transaction_detail_screen.dart';
 import '../recurring/recurring_texts.dart';
 
 /// One transaction of the list, read from the repository. Amounts are in
 /// the transaction's own currency; one born from a recurrence has a chip
-/// with its frequency (Monthly, Weekly, ...) under the amount; a tap does nothing for now (the detail
-/// comes with Add transaction).
+/// with its frequency (Monthly, Weekly, ...) under the amount; a tap opens the
+/// page of the transaction.
 class TransactionRow extends StatelessWidget {
   const TransactionRow({
     super.key,
@@ -61,6 +62,8 @@ class TransactionRow extends StatelessWidget {
           : recurrenceFrequencyLabel(context, recurrence.frequency),
       recurrenceChipType: SossoldiChipType.subtle,
       masked: context.hideAmounts,
+      onTap: () =>
+          Navigator.of(context).push(TransactionDetailScreen.route(t.id)),
     );
   }
 }

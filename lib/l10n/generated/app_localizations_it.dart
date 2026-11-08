@@ -1972,4 +1972,44 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get accountsAddSemantic => 'Aggiungi conto';
+
+  @override
+  String get transactionDetailEdit => 'Modifica';
+
+  @override
+  String get transactionEdit => 'Modifica transazione';
+
+  @override
+  String get transactionSave => 'Salva transazione';
+
+  @override
+  String get transactionDelete => 'Elimina transazione';
+
+  @override
+  String get transactionDeleteTitle => 'Eliminare questa transazione?';
+
+  @override
+  String get transactionDeleteMessage =>
+      'Verrà rimossa e saldi, grafici e budget verranno aggiornati.';
+
+  @override
+  String get transactionDeleteConfirm => 'Elimina';
+
+  @override
+  String get transactionUpdated => 'Transazione aggiornata';
+
+  @override
+  String get transactionAskOnlyThis => 'Solo questa transazione';
+
+  @override
+  String get transactionAskRecurrence => 'La ricorrenza (dalle prossime)';
+
+  @override
+  String get transactionSubcategoryNone => 'Nessuna';
+
+  @override
+  String get transactionShowRecurrence => 'Mostra ricorrenza';
+
+  @override
+  String get recurringPausedLabel => 'In pausa';
 }

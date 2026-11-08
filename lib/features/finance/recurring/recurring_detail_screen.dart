@@ -14,6 +14,7 @@ import '../../../l10n/l10n.dart';
 import '../../../mock/models/recurring_occurrence.dart';
 import '../../../mock/models/recurring_transaction.dart';
 import '../../../mock/models/transaction.dart';
+import '../../transactions/transaction_detail_screen.dart';
 import 'recurring_detail_controller.dart';
 import 'recurring_item.dart';
 import 'recurring_texts.dart';
@@ -125,7 +126,8 @@ class _RecurringDetailScreenState extends State<RecurringDetailScreen> {
               child: Column(
                 children: [
                   SossoldiBottomSheetToolbar.text(
-                    title: r.description,
+                    // The name shows in edit mode only; the box carries it otherwise.
+                    title: editing ? r.description : '',
                     closeLabel: editing ? l10n.cancel : l10n.back,
                     closeIcon: editing ? null : PhosphorIconsRegular.caretLeft,
                     onClose: editing
@@ -158,12 +160,16 @@ class _RecurringDetailScreenState extends State<RecurringDetailScreen> {
                               controller: _controller,
                               amountField: _amount,
                             ),
-                            _HistorySection(controller: _controller),
+                            // Not in edit mode: only the fields and Delete.
+                            if (!editing)
+                              _HistorySection(controller: _controller),
                             if (editing)
                               Center(
                                 child: SossoldiButton(
                                   label: l10n.recurringDelete,
+                                  type: SossoldiButtonType.ghost,
                                   tone: SossoldiButtonTone.danger,
+                                  iconRight: PhosphorIconsRegular.trash,
                                   size: SossoldiButtonSize.large,
                                   onPressed: _confirmDelete,
                                 ),
@@ -205,6 +211,10 @@ class _Section extends StatelessWidget {
   );
 }
 
+/// The top of the page: a box (no zigzag, same look as the receipt of a
+/// transaction) with the category icon, the amount, the description, the account
+/// and, in chips, the period and whether it is active. In edit mode the
+/// amount, period and active switch become fields.
 class _DetailsSection extends StatelessWidget {
   const _DetailsSection({
     required this.recurring,
@@ -219,28 +229,43 @@ class _DetailsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final colors = context.colors;
+    final typography = context.typography;
+    final repo = context.repository;
     final editing = controller.isEditing;
     final error = controller.amountError;
     final masked = context.hideAmounts;
-    return _Section(
-      title: l10n.recurringSectionDetails,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: SossoldiSpacing.m,
-        children: [
-          SossoldiSelect<RecurrenceFrequency>(
-            label: l10n.recurringPeriod,
-            value: controller.frequency,
-            onChanged: editing ? controller.setFrequency : null,
-            items: [
-              for (final f in RecurrenceFrequency.values)
-                SossoldiSelectItem(
-                  value: f,
-                  label: recurrenceFrequencyLabel(context, f),
-                ),
-            ],
-          ),
-          if (editing)
+    final r = recurring;
+    final isTransfer = r.type == TransactionType.transfer;
+    final category = r.categoryId == null ? null : repo.category(r.categoryId!);
+    final iconBackground =
+        category?.color.tintFor(Theme.of(context).brightness) ??
+        colors.primary.surface.withValues(alpha: 0.12);
+    final account = isTransfer
+        ? '${repo.account(r.accountId).name} → '
+              '${repo.account(r.toAccountId!).name}'
+        : repo.account(r.accountId).name;
+    final amount = r.type == TransactionType.expense ? -r.amount : r.amount;
+    // Edit mode: the fields, as before.
+    if (editing) {
+      return _Section(
+        title: l10n.recurringSectionDetails,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: SossoldiSpacing.m,
+          children: [
+            SossoldiSelect<RecurrenceFrequency>(
+              label: l10n.recurringPeriod,
+              value: controller.frequency,
+              onChanged: controller.setFrequency,
+              items: [
+                for (final f in RecurrenceFrequency.values)
+                  SossoldiSelectItem(
+                    value: f,
+                    label: recurrenceFrequencyLabel(context, f),
+                  ),
+              ],
+            ),
             SossoldiTextInput(
               controller: amountField,
               label: l10n.recurringAmount,
@@ -258,69 +283,97 @@ class _DetailsSection extends StatelessWidget {
               ),
               onChanged: controller.setAmount,
               onSubmitted: (_) => controller.save(),
-            )
-          else
-            _ReadOnlyAmount(
-              label: l10n.recurringAmount,
-              text: masked
-                  ? '••••'
-                  : SossoldiAmountFormat.money(
-                      context,
-                      recurring.amount,
-                      currencyCode: recurring.currency,
-                    ),
             ),
-          ClipRSuperellipse(
-            borderRadius: BorderRadius.circular(SossoldiRadius.s),
-            child: SossoldiMenuItem(
-              label: l10n.recurringActive,
-              trailing: SossoldiSwitch(
-                value: controller.isActive,
-                onChanged: editing ? controller.setActive : null,
-                semanticLabel: l10n.recurringActive,
+            ClipRSuperellipse(
+              borderRadius: BorderRadius.circular(SossoldiRadius.s),
+              child: SossoldiMenuItem(
+                label: l10n.recurringActive,
+                trailing: SossoldiSwitch(
+                  value: controller.isActive,
+                  onChanged: controller.setActive,
+                  semanticLabel: l10n.recurringActive,
+                ),
               ),
             ),
+          ],
+        ),
+      );
+    }
+    return ClipRSuperellipse(
+      borderRadius: BorderRadius.circular(SossoldiRadius.l),
+      child: ColoredBox(
+        color: colors.surfaceHigh,
+        child: Padding(
+          padding: const EdgeInsets.all(SossoldiSpacing.l),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: SossoldiSpacing.s,
+            children: [
+              Center(
+                child: Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: iconBackground,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    category?.icon ?? PhosphorIconsRegular.arrowsLeftRight,
+                    size: 32,
+                    color: category?.color.main ?? colors.primary.text,
+                  ),
+                ),
+              ),
+              Center(
+                child: SossoldiAmount(
+                  value: amount,
+                  currencyCode: r.currency,
+                  tone: isTransfer
+                      ? SossoldiAmountTone.transfer
+                      : SossoldiAmountTone.signed,
+                  style: typography.headlineSmall,
+                  masked: masked,
+                ),
+              ),
+              Text(
+                r.description,
+                textAlign: TextAlign.center,
+                style: typography.bodyBoldXLarge.copyWith(
+                  color: colors.textHigh,
+                ),
+              ),
+              Text(
+                account,
+                textAlign: TextAlign.center,
+                style: typography.bodyLarge.copyWith(color: colors.textHigh),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: SossoldiSpacing.s,
+                children: [
+                  SossoldiChip(
+                    label: recurrenceFrequencyLabel(
+                      context,
+                      controller.frequency,
+                    ),
+                    type: SossoldiChipType.subtle,
+                  ),
+                  SossoldiChip(
+                    label: controller.isActive
+                        ? l10n.recurringActive
+                        : l10n.recurringPausedLabel,
+                    type: controller.isActive
+                        ? SossoldiChipType.success
+                        : SossoldiChipType.warning,
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
-}
-
-/// The amount as a disabled field, like the other read-only fields.
-class _ReadOnlyAmount extends StatefulWidget {
-  const _ReadOnlyAmount({required this.label, required this.text});
-
-  final String label;
-  final String text;
-
-  @override
-  State<_ReadOnlyAmount> createState() => _ReadOnlyAmountState();
-}
-
-class _ReadOnlyAmountState extends State<_ReadOnlyAmount> {
-  late final TextEditingController _controller = TextEditingController(
-    text: widget.text,
-  );
-
-  @override
-  void didUpdateWidget(_ReadOnlyAmount old) {
-    super.didUpdateWidget(old);
-    if (old.text != widget.text) _controller.text = widget.text;
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => SossoldiTextInput(
-    controller: _controller,
-    label: widget.label,
-    enabled: false,
-  );
 }
 
 class _HistorySection extends StatelessWidget {
@@ -428,6 +481,9 @@ class _YearGroup extends StatelessWidget {
                 currency: t.currency,
                 date: t.date,
                 planned: false,
+                onTap: () =>
+                    Navigator.of(context)
+                        .push(TransactionDetailScreen.route(t.id)),
               ),
           ],
         ),

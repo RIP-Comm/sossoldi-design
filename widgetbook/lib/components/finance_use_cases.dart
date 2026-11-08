@@ -1079,3 +1079,33 @@ class _DatePickerUseCaseState extends State<DatePickerUseCase> {
     );
   }
 }
+
+class ReceiptUseCase extends StatelessWidget {
+  const ReceiptUseCase({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FoundationPage(
+      children: [
+        FoundationSection(
+          title: 'Receipt with zigzag bottom (page of a transaction)',
+          children: [
+            SizedBox(
+              width: 358,
+              child: SossoldiReceipt(
+                child: Center(
+                  child: Text(
+                    '-18,00 €',
+                    style: context.typography.headlineSmall.copyWith(
+                      color: context.colors.textHigh,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

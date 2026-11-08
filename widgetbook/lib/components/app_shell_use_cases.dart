@@ -358,6 +358,8 @@ class LatestTransactionsUseCase extends StatelessWidget {
         size: size,
         entries: entries,
         masked: masked,
+        title: 'Latest transactions',
+        selector: const SizedBox.shrink(),
       ),
     );
     return FoundationPage(

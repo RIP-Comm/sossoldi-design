@@ -387,6 +387,134 @@ void main() {
     });
   });
 
+  group('updating a transaction', () {
+    late MockRepository repo;
+    late String eur;
+    late String eur2;
+    setUp(() {
+      repo = MockRepository(now: _now);
+      eur = repo.accounts[0].id;
+      eur2 = repo.accounts[1].id;
+    });
+
+    TransactionDraft draft(Transaction t, {double? amount, String? account}) =>
+        TransactionDraft(
+          type: t.type,
+          amount: amount ?? t.amount,
+          accountId: account ?? t.accountId,
+          date: t.date,
+          toAccountId: t.toAccountId,
+          categoryId: t.categoryId,
+          subcategoryId: t.subcategoryId,
+          description: t.description,
+        );
+
+    test(
+      'a new amount moves the balance, back in time too, one notification',
+      () {
+        final t = repo.transactions.lastWhere(
+          (t) => t.type == TransactionType.expense && t.accountId == eur,
+        );
+        final before = repo.accountBalance(eur);
+        var notified = 0;
+        repo.addListener(() => notified++);
+        final r = repo.updateTransaction(t.id, draft(t, amount: t.amount + 10));
+        expect(r.ok, isTrue);
+        expect(notified, 1);
+        expect(repo.accountBalance(eur), closeTo(before - 10, 0.001));
+        expect(repo.transaction(t.id).amount, closeTo(t.amount + 10, 0.001));
+      },
+    );
+
+    test('changing the account moves the money between accounts', () {
+      final t = repo.transactions.lastWhere(
+        (t) => t.type == TransactionType.expense && t.accountId == eur,
+      );
+      final a = repo.accountBalance(eur);
+      final b = repo.accountBalance(eur2);
+      repo.updateTransaction(t.id, draft(t, account: eur2));
+      expect(repo.accountBalance(eur), closeTo(a + t.amount, 0.001));
+      expect(repo.accountBalance(eur2), closeTo(b - t.amount, 0.001));
+    });
+
+    test('a new date keeps the list in order; the recurrence link stays', () {
+      final t = repo.transactions.firstWhere((t) => t.recurringId != null);
+      final moved = TransactionDraft(
+        type: t.type,
+        amount: t.amount,
+        accountId: t.accountId,
+        date: _today,
+        categoryId: t.categoryId,
+        description: t.description,
+      );
+      expect(repo.updateTransaction(t.id, moved).ok, isTrue);
+      expect(repo.transaction(t.id).date, _today);
+      expect(repo.transaction(t.id).recurringId, t.recurringId);
+      final dates = repo.transactions.map((t) => t.date).toList();
+      // Newest first.
+      expect([...dates]..sort((a, b) => b.compareTo(a)), dates);
+    });
+
+    test('a refusal changes nothing: future date, no amount, unknown id', () {
+      final t = repo.transactions.first;
+      final before = repo.accountBalance(t.accountId);
+      TransactionDraft with_({double? amount, DateTime? date}) =>
+          TransactionDraft(
+            type: t.type,
+            amount: amount ?? t.amount,
+            accountId: t.accountId,
+            date: date ?? t.date,
+            toAccountId: t.toAccountId,
+            categoryId: t.categoryId,
+            description: t.description,
+          );
+      expect(
+        repo
+            .updateTransaction(t.id, with_(date: DateTime(2026, 12, 1)))
+            .failure,
+        TransactionFailure.futureDate,
+      );
+      expect(
+        repo.updateTransaction(t.id, with_(amount: 0)).failure,
+        TransactionFailure.invalidAmount,
+      );
+      expect(
+        repo.updateTransaction('nope', with_()).failure,
+        TransactionFailure.notFound,
+      );
+      expect(repo.accountBalance(t.accountId), before);
+    });
+
+    test('a transfer cannot go to the same account', () {
+      final t = repo.transactions.firstWhere(
+        (t) => t.type == TransactionType.transfer,
+      );
+      final r = repo.updateTransaction(
+        t.id,
+        TransactionDraft(
+          type: t.type,
+          amount: t.amount,
+          accountId: t.accountId,
+          date: t.date,
+          toAccountId: t.accountId,
+        ),
+      );
+      expect(r.failure, TransactionFailure.sameAccount);
+    });
+
+    test('deleting a past transaction updates the balance', () {
+      final t = repo.transactions.firstWhere(
+        (t) => t.type == TransactionType.expense,
+      );
+      final before = repo.accountBalance(t.accountId);
+      expect(repo.deleteTransaction(t.id), isTrue);
+      expect(
+        repo.accountBalance(t.accountId),
+        closeTo(before + t.amount, 0.001),
+      );
+    });
+  });
+
   group('suggestions', () {
     test('categories by use in the last 90 days, ties by creation order', () {
       final repo = MockRepository(now: _now);

@@ -1968,4 +1968,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountsAddSemantic => 'Add account';
+
+  @override
+  String get transactionDetailEdit => 'Edit';
+
+  @override
+  String get transactionEdit => 'Edit transaction';
+
+  @override
+  String get transactionSave => 'Save transaction';
+
+  @override
+  String get transactionDelete => 'Delete transaction';
+
+  @override
+  String get transactionDeleteTitle => 'Delete this transaction?';
+
+  @override
+  String get transactionDeleteMessage =>
+      'It will be removed and balances, charts and budgets will be updated.';
+
+  @override
+  String get transactionDeleteConfirm => 'Delete';
+
+  @override
+  String get transactionUpdated => 'Transaction updated';
+
+  @override
+  String get transactionAskOnlyThis => 'Only this transaction';
+
+  @override
+  String get transactionAskRecurrence => 'The recurrence (next ones)';
+
+  @override
+  String get transactionSubcategoryNone => 'None';
+
+  @override
+  String get transactionShowRecurrence => 'Show recurrence';
+
+  @override
+  String get recurringPausedLabel => 'Paused';
 }

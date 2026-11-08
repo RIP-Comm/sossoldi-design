@@ -105,8 +105,8 @@ Insight of the moment (Savings goals will not be built; Income & expenses is cov
 Available now (S/M/L; Insight of the moment S only): Monthly balance, Latest transactions, **Budget status** (core) and **Upcoming recurring** (optional, not in the initial
 layout, in the add-widget list). Upcoming recurring: the next occurrences of the active recurring transactions from
 today on (today included, paused ones left out, all types), soonest first; S 1, M 2, L as many as fit (5-6); the row is
-the Latest transactions one with the date of the occurrence as a chip (same format as the Finance Overview list); no
-tap and no title, like Latest transactions; empty state "No recurring transactions".
+the Latest transactions one with the date of the occurrence as a chip (same format as the Finance Overview list); a tap
+on a row opens the page of the recurrence (not in edit mode), no title; empty state "No recurring transactions".
 
 **Insight of the moment** (optional, add-widget list, S only, first widget of the initial layout; no Figma node: the card style of the other
 widgets): one insight, the most relevant right now, chosen by `InsightEngine` (`lib/insights/`, pure Dart, injectable `now`, every
@@ -242,8 +242,8 @@ General rules for Finance:
   date. Tapping a day selects it and lists only its recurrences (empty state for empty days);
   tapping it again goes back to the month. Paused recurrences have no future dates in the calendar
   (the ones that already happened stay).
-- Recurrence detail: type, frequency, amount, active/paused, past transactions. Read-only
-  until "Edit". Edits apply to future occurrences only.
+- Recurrence detail: Back and Edit in the bar (no title), then a box (rounded like the transaction receipt, no zigzag) with the category icon (blue transfer icon for transfers), the amount (Headline Small), the description (Body Bold XL), the account ("A → B" for transfers) and two chips: the period and the status (Active / Paused); no "Details" title. Under it the old transactions by year. Read-only
+  until "Edit", which swaps the box for the fields (title "Details", period, amount, Active switch; the name back in the bar), with Done and "Delete recurrence" below (text button with trash icon, error color, like Delete account/category; the old transactions are not shown while editing). A tap on an old transaction opens the page of that transaction. Edits apply to future occurrences only.
 
 ## Investments
 Where the user goes to understand the state and performance of their portfolio.
@@ -350,7 +350,8 @@ the movement form was the visual reference.
   - No reference to budgets in the form. Without categories of the type, a message says so.
 - **Movement mode:** the movement form of Investments, in the same shell (dates with the same chips as the
   transaction). Details in Investments > Movements.
-- Not built: edit and delete of an existing transaction, transaction detail.
+- **Transaction page** (`features/transactions/transaction_detail_screen.dart`, no Figma node yet): Back and Edit in the bar, then a **receipt** (`SossoldiReceipt`, zigzag bottom) with, centered: the category icon (blue transfer icon for transfers), the amount in Headline Small, the description in Body Bold XL when present, the account ("A → B" for transfers) and under it the date (same size, medium emphasis). A transaction born from a recurrence (whose recurrence still exists) also shows the frequency chip with, under it, a text button "Show recurrence" (with an arrow) that opens the recurrence page. The receipt is always as wide as the page. Opened by a tap on every transaction row (Finance, account, category pages) and on Latest transactions (not in edit mode).
+- **Edit transaction** (`transaction_edit_sheet.dart`, a bottom sheet like the account and category forms: X, title, check): amount, description, category and subcategory as selects (subcategory optional, "None"), account, date (no future date); a transfer has From and To instead of category and account. The type never changes; the currency is the one of the account (one currency for the app). A red "Delete transaction" (text button, error color, trash icon, with a confirmation, same as Delete account/category) closes the page. Saving shows the snackbar "Transaction updated" (no Undo). Everything that reads the data follows, back in time too (`MockRepository.updateTransaction`, `deleteTransaction`). For a recurring transaction, Edit is a dropdown from the button: "Only this transaction" (this form; it stays tied to the recurrence) or "The recurrence (next ones)" (the recurrence page, which changes only the dates to come).
 - Main account: every user with accounts has exactly one (the first account created; setting another takes the flag
   from the previous one; deleting the main one makes the first left main). The account form has the switch "Main
   account" (on and disabled on the main one, "To change it, set another account as main") and the list of accounts

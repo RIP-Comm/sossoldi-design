@@ -6,6 +6,7 @@ import 'package:sossoldi/design_system/design_system.dart';
 import 'package:sossoldi/features/finance/finance_controller.dart';
 import 'package:sossoldi/features/finance/finance_screen.dart';
 import 'package:sossoldi/features/finance/recurring/recurring_detail_screen.dart';
+import 'package:sossoldi/features/transactions/transaction_detail_screen.dart';
 import 'package:sossoldi/features/finance/recurring/recurring_item.dart';
 import 'package:sossoldi/l10n/l10n.dart';
 import 'package:sossoldi/mock/mock_repository.dart';
@@ -304,21 +305,17 @@ void main() {
       final h = await _pump(tester);
       await _openDetail(tester, 'Salary');
       expect(find.byType(RecurringDetailScreen), findsOneWidget);
-      expect(find.text('Details'), findsOneWidget);
+      // No title above the box; the period and status are chips.
+      expect(find.text('Details'), findsNothing);
       expect(find.text('Monthly'), findsOneWidget);
-      // The amount field plus the old transactions.
-      expect(
-        find.descendant(
-          of: find.byType(TextField),
-          matching: find.text('€2,150.00'),
-        ),
-        findsOneWidget,
-      );
+      expect(find.text('Active'), findsOneWidget);
+      // The amount is in the box, and again in each old transaction.
+      expect(find.textContaining('2,150.00'), findsWidgets);
       expect(find.text('Old transactions'), findsOneWidget);
       expect(find.text('Last 6 months'), findsOneWidget);
       expect(find.text('Delete recurrence'), findsNothing);
-      // The fields do not react until Edit.
-      expect(tester.widget<TextField>(_amountInput).enabled, isFalse);
+      // No fields until Edit.
+      expect(find.byType(TextField), findsNothing);
       final groups = h.repo.recurringHistory('rec_salary');
       expect(find.text('${groups.first.year}'), findsOneWidget);
       expect(
@@ -328,11 +325,23 @@ void main() {
         ),
         findsNWidgets(groups.fold(0, (s, g) => s + g.transactions.length)),
       );
-      final switchWidget = tester.widget<SossoldiSwitch>(
-        find.byType(SossoldiSwitch),
+      expect(find.byType(SossoldiSwitch), findsNothing);
+    });
+
+    testWidgets('an old transaction opens its own page', (tester) async {
+      await _pump(tester);
+      await _openDetail(tester, 'Rent');
+      await tester.tap(
+        find
+            .descendant(
+              of: find.byType(RecurringDetailScreen),
+              matching: find.byType(RecurringItem),
+            )
+            .first,
       );
-      expect(switchWidget.onChanged, isNull);
-      expect(switchWidget.value, isTrue);
+      await tester.pumpAndSettle();
+      expect(find.byType(TransactionDetailScreen), findsOneWidget);
+      expect(find.text('Show recurrence'), findsOneWidget);
     });
 
     testWidgets('the time range changes the list', (tester) async {
@@ -397,7 +406,7 @@ void main() {
       expect(h.repo.recurring('rec_spotify').amount, 12.5);
       expect(find.text('Edit'), findsOneWidget);
       expect(find.text('Delete recurrence'), findsNothing);
-      expect(find.text('€12.50'), findsOneWidget);
+      expect(find.textContaining('12.50'), findsOneWidget);
     });
 
     testWidgets('an invalid amount is not saved', (tester) async {
@@ -584,7 +593,7 @@ void main() {
       h.state.toggleHideAmounts();
       await tester.pump();
       await _openDetail(tester, 'Salary');
-      expect(find.text('Dettagli'), findsOneWidget);
+      expect(find.text('Dettagli'), findsNothing);
       expect(find.text('Mensile'), findsOneWidget);
       expect(find.text('Transazioni passate'), findsOneWidget);
       expect(find.text('Ultimi 6 mesi'), findsOneWidget);

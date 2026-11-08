@@ -604,5 +604,18 @@
   "categoryNoTransactions": "Ancora nessuna transazione in questa categoria.",
   "subcategoryNoTransactions": "Ancora nessuna transazione in questa sottocategoria.",
   "categoryDetailRecurring": "Ricorrenti",
-  "accountsAddSemantic": "Aggiungi conto"
+  "accountsAddSemantic": "Aggiungi conto",
+  "transactionDetailEdit": "Modifica",
+  "transactionEdit": "Modifica transazione",
+  "transactionSave": "Salva transazione",
+  "transactionDelete": "Elimina transazione",
+  "transactionDeleteTitle": "Eliminare questa transazione?",
+  "transactionDeleteMessage": "Verrà rimossa e saldi, grafici e budget verranno aggiornati.",
+  "transactionDeleteConfirm": "Elimina",
+  "transactionUpdated": "Transazione aggiornata",
+  "transactionAskOnlyThis": "Solo questa transazione",
+  "transactionAskRecurrence": "La ricorrenza (dalle prossime)",
+  "transactionSubcategoryNone": "Nessuna",
+  "transactionShowRecurrence": "Mostra ricorrenza",
+  "recurringPausedLabel": "In pausa"
 }

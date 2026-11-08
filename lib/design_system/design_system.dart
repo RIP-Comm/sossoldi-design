@@ -53,6 +53,7 @@ export 'components/sossoldi_portfolio_card.dart';
 export 'components/sossoldi_progress_circular.dart';
 export 'components/sossoldi_progress_linear.dart';
 export 'components/sossoldi_remove_badge.dart';
+export 'components/sossoldi_receipt.dart';
 export 'components/sossoldi_resize_handle.dart';
 export 'components/sossoldi_radio.dart';
 export 'components/sossoldi_right_chart.dart';

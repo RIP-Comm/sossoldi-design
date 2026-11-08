@@ -1,10 +1,11 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../../../app/app_scope.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/l10n.dart';
 import '../../../mock/models/transaction.dart';
+import '../../finance/recurring/recurring_detail_screen.dart';
 import '../../finance/recurring/recurring_texts.dart';
 import '../model/dashboard_layout.dart';
 import '../registry/dashboard_widget_definition.dart';
@@ -79,6 +80,14 @@ class UpcomingRecurringWidget extends StatelessWidget {
               dateChipType: o.date.isAfter(today)
                   ? SossoldiChipType.info
                   : SossoldiChipType.subtle,
+              onTap: instance.editing
+                  ? null
+                  : () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) =>
+                            RecurringDetailScreen(recurringId: o.recurringId),
+                      ),
+                    ),
             );
           }(),
       ],

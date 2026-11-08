@@ -299,6 +299,7 @@ Keep this file up to date whenever the mock data changes.
     it): the first transaction (linked by `recurringId`) when the start is today or before, then `nextDate` is the
     first date after today; a start in the future creates only the planned recurrence. Ids `tx_new_<n>`.
   - `undoAdded(AddedTransaction)` takes back the transaction and the recurrence; `deleteTransaction(id)`.
+  - `updateTransaction(id, TransactionDraft)` → `TransactionResult`: amount, description, category/subcategory, account(s), date; the type is kept (the draft's is ignored), the `recurringId` stays, same checks as `addTransaction` (all or nothing, no future date), list kept in date order, one notification; everything recomputes back in time. Tests in `test/mock/add_transaction_test.dart`.
   - Suggestions: `categoriesByUsage(type)` (uses in the last 90 days, ties and a new user by creation order),
     `suggestCategory(description, type)` → `CategorySuggestion` (the most frequent category of the past transactions
     of that type with the same description, capitals and extra spaces aside; the most recent on a tie; with the

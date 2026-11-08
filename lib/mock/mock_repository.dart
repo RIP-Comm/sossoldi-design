@@ -685,6 +685,74 @@ class MockRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Changes a transaction already made: amount, description, category and
+  /// subcategory, account(s) and date. The type cannot change (the draft's
+  /// is ignored) and it stays tied to its recurrence, if any (the recurrence
+  /// only drives the dates to come). The whole draft is checked first, so a
+  /// refusal changes nothing; the same checks as [addTransaction] (no future
+  /// date, a category of the type...). Balances, lists, charts, budgets and
+  /// digests follow, back in time too: one notification.
+  TransactionResult updateTransaction(String id, TransactionDraft d) {
+    final index = _transactions.indexWhere((t) => t.id == id);
+    if (index < 0) {
+      return const TransactionResult.failed(TransactionFailure.notFound);
+    }
+    final old = _transactions[index];
+    final draft = TransactionDraft(
+      type: old.type,
+      amount: d.amount,
+      accountId: d.accountId,
+      date: d.date,
+      toAccountId: d.toAccountId,
+      toAmount: d.toAmount,
+      categoryId: d.categoryId,
+      subcategoryId: d.subcategoryId,
+      description: d.description,
+    );
+    final failure = _checkTransaction(draft);
+    if (failure != null) return TransactionResult.failed(failure);
+    final account = this.account(draft.accountId);
+    final isTransfer = old.type == TransactionType.transfer;
+    final amount = round2(draft.amount);
+    double? toAmount;
+    if (isTransfer) {
+      final to = this.account(draft.toAccountId!);
+      if (to.currency != account.currency) {
+        toAmount = round2(
+          draft.toAmount ?? convert(amount, account.currency, to.currency),
+        );
+      }
+    }
+    final date = dateOnly(draft.date);
+    final changed = Transaction(
+      id: old.id,
+      type: old.type,
+      amount: amount,
+      currency: account.currency,
+      date: date,
+      description: draft.description.trim(),
+      accountId: draft.accountId,
+      toAccountId: isTransfer ? draft.toAccountId : null,
+      categoryId: isTransfer ? null : draft.categoryId,
+      subcategoryId: isTransfer ? null : draft.subcategoryId,
+      recurringId: old.recurringId,
+      toAmount: toAmount,
+    );
+    if (date == dateOnly(old.date)) {
+      _transactions[index] = changed;
+    } else {
+      // The list stays in date order.
+      _transactions.removeAt(index);
+      var at = _transactions.length;
+      while (at > 0 && _transactions[at - 1].date.isAfter(date)) {
+        at--;
+      }
+      _transactions.insert(at, changed);
+    }
+    notifyListeners();
+    return TransactionResult.ok(AddedTransaction(transactionId: id));
+  }
+
   /// Deletes one transaction. Returns whether it existed.
   bool deleteTransaction(String id) {
     final before = _transactions.length;

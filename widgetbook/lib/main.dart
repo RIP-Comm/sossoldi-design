@@ -159,6 +159,7 @@ class SossoldiWidgetbook extends StatelessWidget {
           children: [
             _component('Filter button', const FilterButtonUseCase()),
             _component('Day header', const DayHeaderUseCase()),
+            _component('Receipt', const ReceiptUseCase()),
             _component('Empty state', const EmptyStateUseCase()),
             _component('Donut chart + legend', const DonutChartUseCase()),
             _component('Stacked area chart', const StackedAreaChartUseCase()),

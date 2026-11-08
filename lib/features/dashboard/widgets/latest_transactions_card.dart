@@ -132,6 +132,7 @@ class LatestTransactionsCard extends StatelessWidget {
           masked: masked,
           compact: e.dateLabel != null,
           verticalPadding: _rowPadding(e),
+          onTap: e.onTap,
         ),
       );
 }
@@ -151,7 +152,7 @@ class _Single extends StatelessWidget {
       SossoldiTransactionType.expense => -entry.amount,
       _ => entry.amount,
     };
-    return Padding(
+    final card = Padding(
       padding: const EdgeInsets.all(SossoldiSpacing.m),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -214,5 +215,8 @@ class _Single extends StatelessWidget {
         ],
       ),
     );
+    return entry.onTap == null
+        ? card
+        : SossoldiTappable(onTap: entry.onTap, child: card);
   }
 }
