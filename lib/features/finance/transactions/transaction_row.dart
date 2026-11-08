@@ -9,14 +9,28 @@ import '../../../mock/models/transaction.dart';
 /// the transaction's own currency; a tap does nothing for now (the detail
 /// comes with Add transaction).
 class TransactionRow extends StatelessWidget {
-  const TransactionRow({super.key, required this.transaction});
+  const TransactionRow({
+    super.key,
+    required this.transaction,
+    this.forAccountId,
+  });
 
   final Transaction transaction;
+
+  /// The list of one account: a transfer shows what moved that account, so
+  /// an incoming one between currencies shows what arrived, in the
+  /// destination's currency.
+  final String? forAccountId;
 
   @override
   Widget build(BuildContext context) {
     final repo = context.repository;
     final t = transaction;
+    final incoming =
+        t.type == TransactionType.transfer &&
+        t.toAccountId != null &&
+        t.toAccountId == forAccountId &&
+        t.accountId != forAccountId;
     final category = t.categoryId == null ? null : repo.category(t.categoryId!);
     return SossoldiTransactionItem(
       type: switch (t.type) {
@@ -34,8 +48,10 @@ class TransactionRow extends StatelessWidget {
       toAccount: t.toAccountId == null
           ? null
           : repo.account(t.toAccountId!).name,
-      amount: t.amount,
-      currencyCode: t.currency,
+      amount: incoming ? (t.toAmount ?? t.amount) : t.amount,
+      currencyCode: incoming
+          ? repo.account(t.toAccountId!).currency
+          : t.currency,
       masked: context.hideAmounts,
     );
   }

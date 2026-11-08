@@ -115,7 +115,13 @@ void main() {
       await tester.tap(find.bySemanticsLabel('Settings'));
       await tester.pumpAndSettle();
       expect(find.text('Settings'), findsWidgets);
+      expect(find.text('App settings'), findsOneWidget);
+      await tester.tap(find.text('App settings'));
+      await tester.pumpAndSettle();
       expect(find.text('Dark mode'), findsOneWidget);
+      // Back to the hub, then to the Dashboard.
+      await tester.tap(find.bySemanticsLabel('Back'));
+      await tester.pumpAndSettle();
       await tester.tap(find.bySemanticsLabel('Back'));
       await tester.pumpAndSettle();
       expect(find.text('Monthly balance'), findsOneWidget);

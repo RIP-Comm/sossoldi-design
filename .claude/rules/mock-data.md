@@ -261,6 +261,16 @@ Keep this file up to date whenever the mock data changes.
   edit). `Holding.countsForNetWorth` (default true, all true in the demo data) is only stored: no read uses it.
 - `brokerAccounts` returns the broker accounts or, when there are none (a new user with ordinary accounts), every account,
   so the movement form always has an account to pick; the liquidity (`liquidity`) still counts only `broker` accounts.
+- Accounts page (`models/account_series.dart`): `accountsByBalance()` → `AccountBalance`s (account, balance in its currency, `balanceInMain`),
+  sorted by `balanceInMain` descending (so the negative ones are last), same balance by name (capitals aside); no logic in the UI.
+  `accountSeries(accountId, NetWorthPeriod)` → `AccountSeries` (`current`, `points`, `start`, `change`, `changePercent`) in the account's currency:
+  `current` = `accountBalance` (the broker account's includes the cash of the movements, so it is the same figure as `liquidity`), points sampled as
+  `netWorthSeries` (daily up to 6M, then weekly or every two weeks; `_seriesStep` is shared), each the end-of-day balance (`accountBalanceAt` of the
+  next day), the last is today; the history starts at `accountHistoryStart` (first transaction on either side of a transfer, or movement up to
+  today; null with none), before it the starting balance; `accountDefaultPeriod` the period the page opens on (YTD if covered, else 6M or 3M when they take in all but ~31 days of the history, else All; never an unavailable one); `accountPeriodAvailable` says whether the history reaches the start of a period ("All"
+  needs some data). Fewer than two points: `start` and `change` null; `changePercent` null when the start is not above 0. The list of the
+  transactions of an account is `searchTransactions` with `TransactionFilter(accountIds: {id})` (both sides of a transfer). Tests in
+  `test/mock/account_series_test.dart`.
 - Accounts (`models/account_edit.dart`): `addAccount(AccountDraft)`, `updateAccount(id, draft)`,
   `deleteAccount(id)` → `AccountResult` (`ok` + the account, or an `AccountFailure`: invalidName, duplicateName
   (ignoring capitals and the spaces around), invalidAmount, invalidCurrency, inUse, notFound). The starting

@@ -2,6 +2,7 @@
 // types Default and Stroke. The Type=Button variant is SossoldiListAddButton.
 
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../theme/sossoldi_theme.dart';
 import '../tokens/spacing.dart';
@@ -20,6 +21,7 @@ class SossoldiAccountItem extends StatelessWidget {
     this.variation,
     this.hasStroke = false,
     this.masked = false,
+    this.hasChevron = false,
     this.onTap,
   });
 
@@ -39,6 +41,9 @@ class SossoldiAccountItem extends StatelessWidget {
   /// Bottom divider, for stacked rows (Figma Type=Stroke).
   final bool hasStroke;
   final bool masked;
+
+  /// A chevron on the right: the row opens a page (the account's page).
+  final bool hasChevron;
   final VoidCallback? onTap;
 
   @override
@@ -96,6 +101,15 @@ class SossoldiAccountItem extends StatelessWidget {
                 ),
             ],
           ),
+          if (hasChevron)
+            SizedBox.square(
+              dimension: 24,
+              child: Icon(
+                PhosphorIconsRegular.caretRight,
+                size: 16,
+                color: colors.textHigh,
+              ),
+            ),
         ],
       ),
     );

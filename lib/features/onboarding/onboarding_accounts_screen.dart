@@ -106,6 +106,7 @@ class OnboardingAccountsScreen extends StatelessWidget {
                                             ? SossoldiTag(
                                                 label:
                                                     context.l10n.accountMainTag,
+                                                hasStroke: true,
                                               )
                                             : null,
                                         leading: Icon(

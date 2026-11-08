@@ -470,9 +470,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get overviewManage => 'Gestisci';
 
   @override
-  String get overviewAccountsTitle => 'Conti';
-
-  @override
   String get overviewBudgetsTitle => 'Budget';
 
   @override
@@ -1223,7 +1220,34 @@ class AppLocalizationsIt extends AppLocalizations {
       'Questo conto ha delle transazioni: non si può eliminare né cambiare valuta';
 
   @override
-  String get settingsPrototype => 'Prototipo';
+  String get settingsAppSettings => 'Impostazioni app';
+
+  @override
+  String get settingsPrototypeSettings => 'Impostazioni prototipo';
+
+  @override
+  String get settingsAuthentication => 'Autenticazione';
+
+  @override
+  String get settingsAccounts => 'Conti';
+
+  @override
+  String get settingsCategories => 'Categorie';
+
+  @override
+  String get settingsBudgets => 'Budget';
+
+  @override
+  String get settingsImportExport => 'Importa / Esporta';
+
+  @override
+  String get settingsNotifications => 'Notifiche';
+
+  @override
+  String get settingsFeedback => 'Feedback';
+
+  @override
+  String get settingsInfo => 'Info';
 
   @override
   String get settingsRestartOnboarding => 'Riavvia l\'onboarding';
@@ -1562,6 +1586,19 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get accountMainHint =>
       'Per cambiarlo, imposta un altro conto come principale';
+
+  @override
+  String get accountPageEdit => 'Modifica';
+
+  @override
+  String get accountsEmptyTitle => 'Nessun conto';
+
+  @override
+  String get accountsEmptyMessage => 'Aggiungine uno per iniziare.';
+
+  @override
+  String get accountNoTransactions =>
+      'Ancora nessuna transazione in questo conto.';
 
   @override
   String get accountMainTag => 'Principale';

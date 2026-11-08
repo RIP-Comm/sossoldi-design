@@ -23,6 +23,7 @@ import 'data/transaction_data.dart';
 import 'data/user_data.dart';
 import 'models/account.dart';
 import 'models/account_edit.dart';
+import 'models/account_series.dart';
 import 'models/asset.dart';
 import 'models/balance_trend.dart';
 import 'models/budget.dart';
@@ -258,6 +259,115 @@ class MockRepository extends ChangeNotifier {
           ),
         ),
     ]);
+  }
+
+  /// Every account with its balance, sorted for the Accounts page: by balance
+  /// converted to the main currency, highest first (so the negative ones come
+  /// last), the same balance by name (capitals do not count).
+  List<AccountBalance> accountsByBalance() {
+    final list = [
+      for (final a in _accounts)
+        () {
+          final balance = accountBalance(a.id);
+          return AccountBalance(
+            account: a,
+            balance: balance,
+            balanceInMain: round2(toMain(balance, a.currency)),
+          );
+        }(),
+    ];
+    list.sort((a, b) {
+      final byBalance = b.balanceInMain.compareTo(a.balanceInMain);
+      return byBalance != 0
+          ? byBalance
+          : a.account.name.toLowerCase().compareTo(
+              b.account.name.toLowerCase(),
+            );
+    });
+    return List.unmodifiable(list);
+  }
+
+  /// The first day the account has data (its earliest transaction, either
+  /// side of a transfer, or movement up to today), or null with none: before it
+  /// the account stands at its starting balance.
+  DateTime? accountHistoryStart(String accountId) {
+    DateTime? first;
+    void see(DateTime date) {
+      final d = dateOnly(date);
+      if (first == null || d.isBefore(first!)) first = d;
+    }
+
+    for (final t in _transactions) {
+      if (t.accountId == accountId || t.toAccountId == accountId) see(t.date);
+    }
+    for (final m in _movements) {
+      if (m.accountId == accountId && !m.date.isAfter(today)) see(m.date);
+    }
+    return first;
+  }
+
+  /// Whether the account's history reaches back to the start of [period]
+  /// ("All" only needs some data).
+  bool accountPeriodAvailable(String accountId, NetWorthPeriod period) {
+    final start = accountHistoryStart(accountId);
+    if (start == null) return false;
+    return period == NetWorthPeriod.all ||
+        !start.isAfter(netWorthPeriodStart(period));
+  }
+
+  /// The period the page of an account opens on: year to date when the history
+  /// covers it, otherwise the closest one it does cover (6 months, then 3
+  /// months) as long as it takes in all but about a month of the history,
+  /// otherwise all of it. Never a period that cannot be picked (with no history
+  /// at all: all).
+  NetWorthPeriod accountDefaultPeriod(String accountId) {
+    final start = accountHistoryStart(accountId);
+    if (start == null) return NetWorthPeriod.all;
+    if (accountPeriodAvailable(accountId, NetWorthPeriod.yearToDate)) {
+      return NetWorthPeriod.yearToDate;
+    }
+    for (final p in [NetWorthPeriod.sixMonths, NetWorthPeriod.threeMonths]) {
+      if (accountPeriodAvailable(accountId, p) &&
+          netWorthPeriodStart(p).difference(start).inDays <= 31) {
+        return p;
+      }
+    }
+    return NetWorthPeriod.all;
+  }
+
+  /// The balance of an account for [period], in the account's currency: the
+  /// current balance (= [accountBalance], broker accounts include the cash of
+  /// the movements, as the liquidity) and the end-of-day balances for the
+  /// chart. One point (no change) without history; shorter than the period
+  /// when the history is.
+  AccountSeries accountSeries(String accountId, NetWorthPeriod period) {
+    final acc = account(accountId);
+    final historyStart = accountHistoryStart(accountId);
+    final current = accountBalance(accountId);
+    final points = <NetWorthPoint>[];
+    if (historyStart != null && historyStart.isBefore(today)) {
+      var from = period == NetWorthPeriod.all
+          ? historyStart
+          : netWorthPeriodStart(period);
+      if (from.isBefore(historyStart)) from = historyStart;
+      final step = _seriesStep(period, today.difference(from).inDays);
+      for (var d = from; d.isBefore(today); d = addDays(d, step)) {
+        points.add(
+          NetWorthPoint(
+            time: d,
+            value: accountBalanceAt(accountId, addDays(d, 1)),
+          ),
+        );
+      }
+    }
+    points.add(NetWorthPoint(time: today, value: current));
+    return AccountSeries(
+      accountId: accountId,
+      period: period,
+      currency: acc.currency,
+      current: current,
+      points: List.unmodifiable(points),
+    );
   }
 
   /// Sum of all account balances, in the main currency.
@@ -2202,6 +2312,15 @@ class MockRepository extends ChangeNotifier {
     return high;
   }
 
+  /// Days between two points of a series of [period] over [span] days.
+  static int _seriesStep(NetWorthPeriod period, int span) => switch (period) {
+    NetWorthPeriod.threeMonths || NetWorthPeriod.sixMonths => 1,
+    NetWorthPeriod.yearToDate => span > 183 ? 7 : 1,
+    NetWorthPeriod.year || NetWorthPeriod.threeYears => 7,
+    NetWorthPeriod.fiveYears => 14,
+    NetWorthPeriod.all => span > 3 * 365 ? 14 : (span > 365 ? 7 : 1),
+  };
+
   /// The net worth for [period]: today's value and the series for the chart.
   /// Empty (one point, no change) without history; shorter than the period
   /// when the history is.
@@ -2212,14 +2331,7 @@ class MockRepository extends ChangeNotifier {
     if (historyStart != null && historyStart.isBefore(today)) {
       var from = netWorthPeriodStart(period);
       if (from.isBefore(historyStart)) from = historyStart;
-      final span = today.difference(from).inDays;
-      final step = switch (period) {
-        NetWorthPeriod.threeMonths || NetWorthPeriod.sixMonths => 1,
-        NetWorthPeriod.yearToDate => span > 183 ? 7 : 1,
-        NetWorthPeriod.year || NetWorthPeriod.threeYears => 7,
-        NetWorthPeriod.fiveYears => 14,
-        NetWorthPeriod.all => span > 3 * 365 ? 14 : (span > 365 ? 7 : 1),
-      };
+      final step = _seriesStep(period, today.difference(from).inDays);
       for (var d = from; d.isBefore(today); d = addDays(d, step)) {
         points.add(NetWorthPoint(time: d, value: netWorthAt(d)));
       }

@@ -986,12 +986,6 @@ abstract class AppLocalizations {
   /// **'Manage'**
   String get overviewManage;
 
-  /// Title of the placeholder screen behind Manage (accounts)
-  ///
-  /// In en, this message translates to:
-  /// **'Accounts'**
-  String get overviewAccountsTitle;
-
   /// Title of the placeholder screen behind Manage (budgets)
   ///
   /// In en, this message translates to:
@@ -2348,11 +2342,65 @@ abstract class AppLocalizations {
   /// **'This account has transactions, so it cannot be deleted or change currency'**
   String get accountErrInUse;
 
-  /// No description provided for @settingsPrototype.
+  /// Settings hub row and title of the app settings page
   ///
   /// In en, this message translates to:
-  /// **'Prototype'**
-  String get settingsPrototype;
+  /// **'App settings'**
+  String get settingsAppSettings;
+
+  /// Settings hub row and title of the prototype settings page
+  ///
+  /// In en, this message translates to:
+  /// **'Prototype settings'**
+  String get settingsPrototypeSettings;
+
+  /// App settings row and title of its page
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication'**
+  String get settingsAuthentication;
+
+  /// App settings row and title of its page
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get settingsAccounts;
+
+  /// App settings row and title of its page
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get settingsCategories;
+
+  /// App settings row and title of its page
+  ///
+  /// In en, this message translates to:
+  /// **'Budgets'**
+  String get settingsBudgets;
+
+  /// App settings row and title of its page
+  ///
+  /// In en, this message translates to:
+  /// **'Import / Export'**
+  String get settingsImportExport;
+
+  /// App settings row and title of its page
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotifications;
+
+  /// App settings row and title of its page
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get settingsFeedback;
+
+  /// App settings row and title of its page
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get settingsInfo;
 
   /// No description provided for @settingsRestartOnboarding.
   ///
@@ -2983,6 +3031,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'To change it, set another account as main'**
   String get accountMainHint;
+
+  /// Edit of the account page: opens the account form
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get accountPageEdit;
+
+  /// Accounts page without accounts
+  ///
+  /// In en, this message translates to:
+  /// **'No accounts yet'**
+  String get accountsEmptyTitle;
+
+  /// Accounts page without accounts
+  ///
+  /// In en, this message translates to:
+  /// **'Add one to start tracking.'**
+  String get accountsEmptyMessage;
+
+  /// Account page, list of transactions with no transaction
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions in this account yet.'**
+  String get accountNoTransactions;
 
   /// Tag on the main account in the list of accounts
   ///

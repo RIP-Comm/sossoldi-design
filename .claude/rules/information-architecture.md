@@ -205,7 +205,7 @@ General rules for Finance:
   spending vs the average of the last 3 months on the same days, large recurrences in the next 7 days,
   a category that grew more than 50%); a neutral message when none applies. Not tappable.
 - Accounts summary: balance and change since the 1st of the month (in the account currency),
-  with "Manage" → Settings > Accounts.
+  with "Manage" → the Accounts page (same as Settings > Accounts; back returns to the Overview). A tap on a row opens the page of that account (a normal page, like the other details of Finance; back returns to the Overview); the rows have no chevron.
 - Upcoming recurrences (amount and date) until the end of the month.
 - Cash flow chart for the current month (income, expenses, balance line).
 - Budget status: horizontal scrolling list of the budgets valid in the current month
@@ -357,11 +357,41 @@ the movement form was the visual reference.
   of onboarding Step 1 shows the tag "Main".
 
 ## Settings
-General (theme, language, currency, authentication), Accounts, Categories & budgets,
-Investments, Import/Export, Notifications, Feedback, App info, bank/broker connections.
-Built so far: theme, language, currency and, labelled "Prototype", "Restart onboarding" (full screen, on an
-empty repository), "Widget showcase" (every Dashboard widget in every size and case, one cluster per widget, on demo data and on the empty data of a
-new user; Insight in its kinds; `features/settings/widget_showcase_screen.dart`) and "Load demo data" (back to the app on the full demo data).
+Two levels. The entry point (the gear of the Dashboard) opens the hub (`features/settings/settings_screen.dart`): two rows with
+title and chevron, **App settings** and **Prototype settings**. Back from the hub returns to the screen it was opened from.
+- **App settings** (`app_settings_screen.dart`), three blocks separated by space, no group titles:
+  1. Dark mode (switch), Language, Main currency (selects) and Authentication.
+  2. Accounts, Categories, Budgets, Import / Export.
+  3. Notifications, Feedback, Info.
+  Every row that opens a page has a chevron. Built: theme, language, currency. The other destinations are placeholders.
+- **Prototype settings** (`prototype_settings_screen.dart`): "Restart onboarding" and "Load demo data" (actions, no chevron;
+  both close the whole Settings stack and rebuild the app on the other data) and "Widget showcase" (opens a page; every Dashboard
+  widget in every size and case, one cluster per widget, on demo data and on the empty data of a new user; Insight in its kinds;
+  `widget_showcase_screen.dart`).
+- **Every management page is a screen of its own**: Authentication, Accounts, Categories, Budgets, Import / Export, Notifications,
+  Feedback and Info are each a class in `features/settings/` with a static `route()`, so any screen can open them with a push
+  (back returns to where it started, e.g. the "Manage" of Finance) and the real page replaces the placeholder without touching the hub.
+- Not added (open point): Investments settings, bank/broker connections.
+
+### Accounts (Settings > Accounts)
+Two screens of their own in `features/accounts/`, opened with `AccountsScreen.route()` / `AccountDetailScreen.route(id)` (Settings, and the
+"Manage" of the Finance Overview). No Figma node: built from the Account row, the Net worth widget and the Finance list.
+- **List** (`accounts_screen.dart`): one `SossoldiAccountItem` per account (icon and color, name, balance in the account's own currency, chevron,
+  no change), the main account with the "Main" tag (with a stroke, so it reads as a tag) next to its name (asked here, a deliberate exception to "no tags"). Order from
+  `accountsByBalance()`: balance converted to the main currency, highest first (negatives last), same balance by name. "Add account +" under
+  the list opens the account form (new). With no account: empty state "No accounts yet" and the same link. Tap on a row: the page of the account.
+- **Page of an account** (`account_detail_screen.dart`, opened with `AccountDetailScreen.route(id)` from the list and from the Finance Overview): bar with Back, the account name and "Edit" (the existing account form in edit mode, with
+  Delete and its confirmation; an account in use cannot be deleted). After a delete the page closes and the list is shown; after an edit the page
+  updates; an account deleted from elsewhere while the page is open closes it quietly.
+  - Balance card (`account_balance_card.dart`, same look as Net worth M/L): at the top left the current balance in the account's currency with the
+    change of the period next to it (`SossoldiChangeIndicator`, percentage hidden when the start is not above 0, nothing without history); at the top
+    right the period chip (3M, 6M, YTD, 1Y, 3Y, 5Y, All; the periods the account's history does not reach are shown but disabled). It opens on YTD when the history covers it, otherwise on the closest period it does cover (6M, then 3M) if that takes in all but about a month of the history, otherwise on All: never on a period that cannot be picked (`accountDefaultPeriod`);
+    under it the trend chart with the tooltip (day and balance of that day). Without history "Not enough history yet". The period lives in
+    memory in the page (`AccountDetailController`).
+  - Transactions of the account (`account_transactions_section.dart`): the Finance list (search, filters for date, type, category and amount, rows by day,
+    20 per page, pagination), with state of its own; the account is fixed (no filter, no chip), **no date filter by default**. A transfer between
+    currencies shows what moved that account (the amount going out, `toAmount` in the destination's currency coming in).
+  - Hidden Mode masks the balances (and the chart); percentages stay.
 
 ## Open points (don't decide without asking)
 - Asset setup in onboarding: which fields beyond quantity, value and average cost?

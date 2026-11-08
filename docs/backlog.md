@@ -1,38 +1,34 @@
 # Backlog — Sossoldi V2 prototype
 
-NON caricato in automatico (fuori da `.claude/rules/`). Leggerlo solo per stato, "cosa manca", priorità.
+Leggerlo solo per stato, "cosa manca", priorità.
 Stato: todo / needs design / blocked. Aggiornato: 2026-11-07 (Dashboard completata).
-
-## Next up (max 5)
-- [ ] Account principale: scelta dell'account da Settings > Accounts (la flag esiste) — todo — `mock/models/account.dart`
-- [ ] Settings: Accounts e Categories & budgets (riusano i form di onboarding; qui arrivano anche i "Manage") — todo — `features/accounts`, `categories`, `budgets`
-- [ ] Dettaglio, modifica ed eliminazione di una transazione (il tap oggi non fa nulla) — needs design — `transaction_row.dart`
-- [ ] Settings > General (autenticazione) e sezioni restanti — needs design — `settings_screen.dart`
 
 ## To do
 
-### Dashboard
-- [x] Widget opzionale Insight of the moment (solo S, con i componenti di Budget, Investimenti e Patrimonio) — fatto — `dashboard/widgets/insight_widget.dart`, motore in `lib/insights/`
-- [x] Dashboard completata: tutti i widget (Monthly balance, Latest transactions, Upcoming recurring, Budget status, Net worth, Investments, Allocation, Insight of the moment), layout iniziale d'esempio e showcase — fatto (Income & expenses è coperto da Monthly balance, che mostra entrate e uscite in L)
-- Widget Savings goals: non si farà (deciso 2026-11-07)
-
 ### Finance
-- [ ] "Manage" conti (Overview) → Settings > Accounts — todo, oggi PlaceholderScreen — `finance/overview/overview_tab_view.dart:120`
+- [x] "Manage" conti (Overview) → pagina Accounts — fatto — `finance/overview/overview_tab_view.dart`
 - [ ] "Manage" budget (Overview) → Settings > Budgets — todo, oggi PlaceholderScreen — `overview_tab_view.dart:307`
 
 ### Investments
 - [ ] Position page, menu "…" > "Update value" (asset manuale): PlaceholderScreen — needs design — `positions/position_detail_screen.dart:46,86`
 
 ### Add transaction
-- [x] Add sheet unico (spesa, entrata, trasferimento con cambio, ricorrenza, movimento investimento), suggerimenti, Undo — fatto — `features/add_transaction/add_sheet.dart`
 - [ ] Dettaglio, modifica ed eliminazione di una transazione — needs design — `transaction_row.dart`
 
 ### Settings
-- [ ] General: tema (c'è), lingua (c'è), valuta (c'è), autenticazione — todo / needs design — `settings_screen.dart`
-- [ ] Accounts (lista, ordine, crea/modifica/elimina) — todo — `features/accounts`
-- [ ] Categories & budgets, incluso "Add budget" (il form esiste) — todo — `features/budgets/budget_form_sheet.dart`
-- [ ] Investments, Import/Export, Notifications, Feedback, App info — needs design
-- [ ] Connessioni banca/broker — blocked (stato API da verificare)
+- [x] Settings a due livelli (hub, App settings, Prototype settings) con i placeholder autonomi — fatto — `features/settings/`
+- [ ] Authentication: pagina vera (oggi placeholder) — needs design — `authentication_settings_screen.dart`
+- [x] Accounts: elenco (ordinato per saldo convertito, tag "Principale", chevron) e pagina di dettaglio del conto (andamento del saldo, transazioni, Edit) — fatto — `features/accounts/accounts_screen.dart`, `account_detail_screen.dart`
+- [ ] Accounts: scelta dell'account principale dall'elenco o dal dettaglio (oggi solo dallo switch del form) — todo
+- [ ] Accounts: riordino dei conti (tap & hold, alfabetico, personalizzato) — needs design
+- [ ] Accounts: transazione in valuta diversa dal conto, campo valuta nel form del conto (commentato) — needs design
+- [ ] Categories: pagina di gestione (apribile da altre schermate) — todo — `categories_settings_screen.dart`, `features/categories`
+- [ ] Budgets: pagina di gestione, incluso "Add budget" (il form esiste; apribile dal "Manage" di Finance) — todo — `budgets_settings_screen.dart`, `features/budgets/budget_form_sheet.dart`
+- [ ] Import / Export: placeholder — needs design — `import_export_settings_screen.dart`
+- [ ] Notifications: placeholder — needs design — `notifications_settings_screen.dart`
+- [ ] Feedback: placeholder — needs design — `feedback_settings_screen.dart`
+- [ ] Info: placeholder — needs design — `info_settings_screen.dart`
+- [ ] Voci Investments e connessioni banca/broker — blocked (punto aperto, stato API da verificare)
 
 ### Onboarding
 - [ ] Import da un'altra app (pre-crea conti, categorie, valute) — needs design — `onboarding_welcome_screen.dart:133`
@@ -50,22 +46,24 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-07 (Dashboard completa
 - [ ] Elenco font DM Sans in sync tra `pubspec.yaml`, `widgetbook/pubspec.yaml` e `inspector/pubspec.yaml` — controllo ricorrente
 
 ### Inspector (`inspector/`)
-- [ ] Rifinire la UI dell'Inspector insieme (pannello destro: gerarchie, cosa mostrare per primo) — in corso
+- [x] Rifinire la UI dell'Inspector insieme (pannello destro: gerarchie, cosa mostrare per primo) — in corso
 - [ ] Tooltip sugli strumenti della toolbar (SossoldiTooltipTarget si apre anche al tap: va bene solo al passaggio del mouse) — todo
 - [ ] Più scene: pagine di dettaglio (budget, ricorrenza, posizione, movimento), Step 1–3 dell'onboarding, form, Dashboard in edit mode, stati vuoti — todo
-- [ ] Distanze tra fratelli di un Row/Column (gap) disegnate sul telefono, misure con Alt come in Figma — todo
+- [x] Distanze tra fratelli di un Row/Column (gap) disegnate sul telefono, misure con Alt come in Figma — todo
 - [ ] Copia dei valori (snippet Flutter / CSS) e link alla scena (URL per scena, tema, lingua) — todo
 - [ ] Widgetbook pubblicato accanto all'Inspector (cartella `widgetbook/` del sito, o un altro indirizzo con `WIDGETBOOK_URL`): ora il link "Open in Widgetbook" funziona solo in locale (porta 8082) — da decidere
 - [ ] Widgetbook non compila: `widgetbook/lib/components/app_shell_use_cases.dart:357` usa `LatestTransactionsCard` senza i nuovi parametri `selector` e `title` — todo (lavoro Dashboard)
-- [ ] Hosting: collegare il branch `site` a un hosting statico (Cloudflare Pages o altro) e al dominio di Sossoldi; sottodominio o sottocartella (`INSPECTOR_BASE_HREF`) — blocked (collega)
+- [x] Hosting: collegare il branch `site` a un hosting statico (Cloudflare Pages o altro) e al dominio di Sossoldi; sottodominio o sottocartella (`INSPECTOR_BASE_HREF`) — blocked (collega)
 - [ ] Sito vetrina di Sossoldi con una pagina per gli sviluppatori che porta all'Inspector (link o iframe) — da decidere
 - [ ] Rigenerare `lib/catalog/widget_names.g.dart` quando si aggiungono componenti o schermate (`dart run tool/generate_widget_names.dart`) — controllo ricorrente
 - [ ] Conti broker: le operazioni non spostano denaro tra conti (semplificazione nota) — todo/decidere
 
 ## Open questions
-- Nessuna aperta. Decise: gli insight sono tappabili e nessun insight → stato neutro "All good" (widget Insight of the moment); conti e categorie in ordine alfabetico (si rivede in Settings)
+- Nessuna aperta.
 
 ## Done (più recente in alto)
+- [x] 2026-11-08 — Settings > Accounts: pagina elenco dei conti (saldo decrescente convertito, negativi in fondo, tag Principale, "Add account +") e pagina del conto (saldo e variazione nel periodo, chip del periodo come in Net worth, grafico con tooltip, transazioni con ricerca e filtri propri, Edit col form esistente); `MockRepository.accountsByBalance`, `accountSeries`, `accountHistoryStart`, `accountPeriodAvailable`; il "Manage" della Finance Overview apre la stessa pagina; `SossoldiAccountItem(hasChevron:)`; il filtro conto del foglio filtri si nasconde (`showAccount`)
+- [x] 2026-11-08 — Settings a due livelli: hub con "App settings" e "Prototype settings"; App settings in tre blocchi (tema, lingua, valuta principale, Authentication / Accounts, Categories, Budgets, Import / Export / Notifications, Feedback, Info); Authentication, Accounts, Categories, Budgets, Import / Export, Notifications, Feedback e Info sono schermate autonome con `route()` (placeholder); Restart onboarding, Widget showcase e Load demo data in Prototype settings
 - [x] 2026-11-07 — Dashboard chiusa: Income & expenses coperto da Monthly balance, Savings goals scartato
 - [x] 2026-11-07 — Righe di Ultime transazioni e Prossime ricorrenze in M come in L (stessa spaziatura, 2 righe); pagina "Showcase dei widget" in Settings > Prototipo con tutti i widget, taglie e casi (cluster per widget, dati demo e nuovo utente); corretti overflow in Budget status (chip del periodo) e Allocazione S (legenda stretta)
 - [x] 2026-11-07 — Widget Dashboard: padding di 12 px su tutti i lati in tutte le taglie (solo i grafici senza assi vanno a filo); chip "Tutte" (non "Tutti") in Ultime transazioni e Prossime ricorrenze; Upcoming recurring M ora mostra 2 righe

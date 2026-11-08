@@ -12,9 +12,16 @@ import 'transaction_row.dart';
 /// date and the day's total (income minus expenses of all the filtered
 /// transactions of the day, transfers excluded) over a card with the rows.
 class TransactionDayList extends StatelessWidget {
-  const TransactionDayList({super.key, required this.result});
+  const TransactionDayList({
+    super.key,
+    required this.result,
+    this.forAccountId,
+  });
 
   final TransactionPage result;
+
+  /// Set on the page of an account (see [TransactionRow.forAccountId]).
+  final String? forAccountId;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +58,11 @@ class TransactionDayList extends StatelessWidget {
               SossoldiList(
                 children: [
                   for (final t in entry.value)
-                    TransactionRow(key: ValueKey(t.id), transaction: t),
+                    TransactionRow(
+                      key: ValueKey(t.id),
+                      transaction: t,
+                      forAccountId: forAccountId,
+                    ),
                 ],
               ),
             ],

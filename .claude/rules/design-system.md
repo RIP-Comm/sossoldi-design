@@ -63,6 +63,13 @@ Inspector's menu), `SossoldiPopover(above:)` (opens above the trigger, for the I
 when it gets `formatValue` (plus `pointTitles` per slot of the axis, `currentLabel`, `referenceLabel`, `masked`); without it
 it only draws.
 
+## General rules for rows and copy
+- A row that opens a page (with children or content) has a right chevron (Phosphor `caretRight`, `SossoldiMenuItem(hasSubitems: true)`).
+  Rows with their own control (switch, select, menu) and actions have no chevron.
+- No tag on a row unless explicitly asked.
+- Short texts, never wordy. In new or touched strings no double hyphen and no middle dot (·) as a divider: if one is needed, a
+  plain hyphen with spaces ( - ).
+
 ## To be completed
 - Mapping of the real tokens (after importing the variables from Figma)
 - Full component list (after the components page in the linked Figma file)

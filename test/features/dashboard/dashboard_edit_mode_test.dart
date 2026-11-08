@@ -499,6 +499,8 @@ void main() {
 
       await tester.tap(find.bySemanticsLabel('Settings'));
       await tester.pumpAndSettle();
+      await tester.tap(find.text('App settings'));
+      await tester.pumpAndSettle();
       await tester.tap(find.byType(SossoldiSwitch));
       await tester.pumpAndSettle();
       expect(brightness(), Brightness.dark);

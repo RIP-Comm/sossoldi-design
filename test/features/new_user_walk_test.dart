@@ -4,7 +4,6 @@ import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:sossoldi/app/app.dart';
 import 'package:sossoldi/app/app_state.dart';
 import 'package:sossoldi/design_system/design_system.dart';
-import 'package:sossoldi/design_system/tokens/category_colors.dart';
 import 'package:sossoldi/mock/mock_repository.dart';
 import 'package:sossoldi/mock/models/account_edit.dart';
 import 'package:sossoldi/mock/models/budget.dart';
@@ -129,8 +128,34 @@ Future<void> _walk(WidgetTester tester) async {
   await tester.tap(find.byIcon(PhosphorIconsRegular.gearSix));
   await tester.pumpAndSettle();
   expect(tester.takeException(), isNull, reason: 'Settings');
-  await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft).first);
+  // Settings > App settings > Accounts, and the page of an account if any.
+  await tester.tap(find.text('App settings'));
   await tester.pumpAndSettle();
+  await tester.tap(find.text('Accounts'));
+  await tester.pumpAndSettle();
+  expect(tester.takeException(), isNull, reason: 'Accounts');
+  _noBrokenNumbers(tester, 'Accounts');
+  var back = 3;
+  final rows = find.byType(SossoldiAccountItem);
+  if (rows.evaluate().isNotEmpty) {
+    await tester.tap(rows.first);
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull, reason: 'Account page');
+    _noBrokenNumbers(tester, 'Account page');
+    back = 4;
+  }
+  for (var i = 0; i < back; i++) {
+    await tester.tap(
+      find
+          .byIcon(
+            i == 0 && back == 4
+                ? PhosphorIconsRegular.caretLeft
+                : PhosphorIconsRegular.arrowLeft,
+          )
+          .first,
+    );
+    await tester.pumpAndSettle();
+  }
 
   await _tap(tester, 'Finance');
   for (final t in ['Overview', 'Transactions', 'Budget', 'Recurring']) {

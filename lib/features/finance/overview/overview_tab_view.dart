@@ -11,6 +11,8 @@ import '../../../app/app_scope.dart';
 import '../../../app/placeholder_screen.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/l10n.dart';
+import '../../accounts/account_detail_screen.dart';
+import '../../accounts/accounts_screen.dart';
 import '../budget/budget_detail_screen.dart';
 import '../budget/budget_texts.dart';
 import '../recurring/recurring_detail_screen.dart';
@@ -117,7 +119,7 @@ class _Accounts extends StatelessWidget {
     final masked = context.hideAmounts;
     return _Section(
       title: l10n.overviewAccounts,
-      onManage: () => _openPlaceholder(context, l10n.overviewAccountsTitle),
+      onManage: () => Navigator.of(context).push(AccountsScreen.route()),
       child: SossoldiList(
         children: [
           for (final a in repo.accountsWithChange())
@@ -127,6 +129,9 @@ class _Accounts extends StatelessWidget {
               currencyCode: a.account.currency,
               variation: a.change,
               masked: masked,
+              onTap: () =>
+                  Navigator.of(context)
+                      .push(AccountDetailScreen.route(a.account.id)),
               leading: Icon(
                 a.account.icon,
                 size: 24,

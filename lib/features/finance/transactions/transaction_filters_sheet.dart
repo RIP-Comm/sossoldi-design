@@ -21,6 +21,7 @@ Future<TransactionFilter?> showTransactionFiltersSheet(
   bool showDate = true,
   bool showType = true,
   bool showCategory = true,
+  bool showAccount = true,
 }) {
   return showModalBottomSheet<TransactionFilter>(
     context: context,
@@ -35,6 +36,7 @@ Future<TransactionFilter?> showTransactionFiltersSheet(
       showDate: showDate,
       showType: showType,
       showCategory: showCategory,
+      showAccount: showAccount,
     ),
   );
 }
@@ -57,6 +59,7 @@ class TransactionFiltersSheet extends StatefulWidget {
     this.showDate = true,
     this.showType = true,
     this.showCategory = true,
+    this.showAccount = true,
   });
 
   final MockRepository repository;
@@ -71,6 +74,7 @@ class TransactionFiltersSheet extends StatefulWidget {
   final bool showDate;
   final bool showType;
   final bool showCategory;
+  final bool showAccount;
 
   @override
   State<TransactionFiltersSheet> createState() =>
@@ -365,24 +369,25 @@ class _TransactionFiltersSheetState extends State<TransactionFiltersSheet> {
                 ],
               ),
             ),
-            section(
-              l10n.filterAccount,
-              SossoldiList(
-                children: [
-                  for (final a in accounts)
-                    FilterCheckRow(
-                      icon: Icon(a.icon, size: 24, color: a.color.main),
-                      label: a.name,
-                      checked: _draft.accountIds.contains(a.id),
-                      onToggle: () => setState(
-                        () => _draft = _draft.copyWith(
-                          accountIds: _toggle(_draft.accountIds, a.id),
+            if (widget.showAccount)
+              section(
+                l10n.filterAccount,
+                SossoldiList(
+                  children: [
+                    for (final a in accounts)
+                      FilterCheckRow(
+                        icon: Icon(a.icon, size: 24, color: a.color.main),
+                        label: a.name,
+                        checked: _draft.accountIds.contains(a.id),
+                        onToggle: () => setState(
+                          () => _draft = _draft.copyWith(
+                            accountIds: _toggle(_draft.accountIds, a.id),
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
-            ),
             Align(
               alignment: Alignment.center,
               child: SossoldiButton(

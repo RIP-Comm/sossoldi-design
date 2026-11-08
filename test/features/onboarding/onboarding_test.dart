@@ -247,7 +247,8 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(find.text('Prototype'), findsOneWidget);
+      await tester.tap(find.text('Prototype settings'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Restart onboarding'));
       await tester.pumpAndSettle();
       expect(state.onboardingActive, isTrue);

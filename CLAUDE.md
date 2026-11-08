@@ -36,8 +36,9 @@ the official repository.
   (categories, subcategories and budgets, with the suggested categories, the category, subcategory and budget forms,
   drafts saved with the check) and Step 3 (assets as opening buys: asset row, asset form, skip or "Start tracking", which opens the app on Home with the new user's data) on a new-user empty repository; the import is a placeholder; a new user with little data and no transactions is handled by every screen (a neutral empty state where Figma has none);
   the budgets have the flags "count for overall budget" (the Overall budget of the Budget tab sums only those) and
-  "limit reach alert" (stored only); Settings has the dark-mode switch, language, currency and,
-  as "prototype", "Restart onboarding" and "Load demo data";
+  "limit reach alert" (stored only); Settings has two levels: the hub (App settings, Prototype settings), App settings (dark-mode switch, language, main currency and the
+  Accounts page (list and page of an account with the balance chart and its transactions), placeholder destinations Authentication, Categories, Budgets, Import / Export, Notifications, Feedback, Info, each a screen of its own with `route()`)
+  and Prototype settings ("Restart onboarding", "Widget showcase", "Load demo data");
   Add transaction: one bottom sheet (the "+") with the Transaction mode (expense, income, transfer also between
   currencies, recurring, category and description suggestions, Undo) and the
   Investment movement mode (the existing form); main account (`isMain`) with its switch in the account form
@@ -65,7 +66,7 @@ Backlog: docs/backlog.md — NON è caricato in automatico; leggilo solo quando 
     `placeholder_screen.dart`
   - `lib/design_system/` → `tokens/`, `theme/`, `components/`
   - `lib/features/` → `onboarding/` (`onboarding_flow.dart` with its own Navigator: splash, welcome, step 1, step 2
-    `onboarding_categories_screen.dart`, step 3 `onboarding_assets_screen.dart`), `accounts/` (the form of an account and its
+    `onboarding_categories_screen.dart`, step 3 `onboarding_assets_screen.dart`), `accounts/` (the Accounts page `accounts_screen.dart` and the page of one account `account_detail_screen.dart` with its controller, balance card and transactions section, opened from Settings > Accounts and from the Finance Overview's "Manage" (a tap on an account of the Overview opens its page); the form of an account and its
     controller, shared by the onboarding and, later, Settings), `categories/` (the forms of a category and of a
     subcategory with their controller, shared with Settings later), `budgets/` (the form of a budget, a component
     of its own for Settings > Budgets too), `assets/` (the form of an asset of the onboarding and its controller), `dashboard/`, `finance/`, `investments/`, `add_transaction/` (the Add sheet `add_sheet.dart`, the transaction form and its controller, the draft that pre-fills it, date fields and the category list), `settings/`

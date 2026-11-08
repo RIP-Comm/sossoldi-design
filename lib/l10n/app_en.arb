@@ -622,10 +622,6 @@
   "@overviewManage": {
     "description": "Button next to the accounts and budget sections"
   },
-  "overviewAccountsTitle": "Accounts",
-  "@overviewAccountsTitle": {
-    "description": "Title of the placeholder screen behind Manage (accounts)"
-  },
   "overviewBudgetsTitle": "Budgets",
   "@overviewBudgetsTitle": {
     "description": "Title of the placeholder screen behind Manage (budgets)"
@@ -1581,7 +1577,46 @@
   "accountErrAmount": "Enter an amount",
   "accountErrAmountInvalid": "Enter a valid number",
   "accountErrInUse": "This account has transactions, so it cannot be deleted or change currency",
-  "settingsPrototype": "Prototype",
+  "settingsAppSettings": "App settings",
+  "@settingsAppSettings": {
+    "description": "Settings hub row and title of the app settings page"
+  },
+  "settingsPrototypeSettings": "Prototype settings",
+  "@settingsPrototypeSettings": {
+    "description": "Settings hub row and title of the prototype settings page"
+  },
+  "settingsAuthentication": "Authentication",
+  "@settingsAuthentication": {
+    "description": "App settings row and title of its page"
+  },
+  "settingsAccounts": "Accounts",
+  "@settingsAccounts": {
+    "description": "App settings row and title of its page"
+  },
+  "settingsCategories": "Categories",
+  "@settingsCategories": {
+    "description": "App settings row and title of its page"
+  },
+  "settingsBudgets": "Budgets",
+  "@settingsBudgets": {
+    "description": "App settings row and title of its page"
+  },
+  "settingsImportExport": "Import / Export",
+  "@settingsImportExport": {
+    "description": "App settings row and title of its page"
+  },
+  "settingsNotifications": "Notifications",
+  "@settingsNotifications": {
+    "description": "App settings row and title of its page"
+  },
+  "settingsFeedback": "Feedback",
+  "@settingsFeedback": {
+    "description": "App settings row and title of its page"
+  },
+  "settingsInfo": "Info",
+  "@settingsInfo": {
+    "description": "App settings row and title of its page"
+  },
   "settingsRestartOnboarding": "Restart onboarding",
   "settingsLoadDemo": "Load demo data",
   "currencyNameEUR": "Euro",
@@ -1749,6 +1784,22 @@
   "accountMainHint": "To change it, set another account as main",
   "@accountMainHint": {
     "description": "Line under the disabled main account switch"
+  },
+  "accountPageEdit": "Edit",
+  "@accountPageEdit": {
+    "description": "Edit of the account page: opens the account form"
+  },
+  "accountsEmptyTitle": "No accounts yet",
+  "@accountsEmptyTitle": {
+    "description": "Accounts page without accounts"
+  },
+  "accountsEmptyMessage": "Add one to start tracking.",
+  "@accountsEmptyMessage": {
+    "description": "Accounts page without accounts"
+  },
+  "accountNoTransactions": "No transactions in this account yet.",
+  "@accountNoTransactions": {
+    "description": "Account page, list of transactions with no transaction"
   },
   "accountMainTag": "Main",
   "@accountMainTag": {

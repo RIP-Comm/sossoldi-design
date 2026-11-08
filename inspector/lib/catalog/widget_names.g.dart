@@ -79,6 +79,10 @@ import 'package:sossoldi/design_system/components/sossoldi_trend_chart.dart' sho
 import 'package:sossoldi/design_system/components/sossoldi_unit_navigator.dart' show SossoldiUnitNavigator;
 import 'package:sossoldi/design_system/components/sossoldi_value_chart.dart' show SossoldiValueChart;
 import 'package:sossoldi/design_system/components/sossoldi_widget_card.dart' show SossoldiWidgetCard;
+import 'package:sossoldi/features/accounts/account_balance_card.dart' show AccountBalanceCard;
+import 'package:sossoldi/features/accounts/account_detail_screen.dart' show AccountDetailScreen;
+import 'package:sossoldi/features/accounts/account_transactions_section.dart' show AccountTransactionsSection;
+import 'package:sossoldi/features/accounts/accounts_screen.dart' show AccountsScreen;
 import 'package:sossoldi/features/add_transaction/date_fields.dart' show DateChipsField, DateButtonField;
 import 'package:sossoldi/features/add_transaction/transaction_form_fields.dart' show TransactionFormFields;
 import 'package:sossoldi/features/dashboard/add_widget/add_widget_sheet.dart' show AddWidgetSheet;
@@ -132,6 +136,16 @@ import 'package:sossoldi/features/onboarding/onboarding_flow.dart' show Onboardi
 import 'package:sossoldi/features/onboarding/onboarding_splash_screen.dart' show OnboardingSplashScreen;
 import 'package:sossoldi/features/onboarding/onboarding_welcome_screen.dart' show OnboardingWelcomeScreen;
 import 'package:sossoldi/features/onboarding/sossoldi_logo.dart' show SossoldiLogo;
+import 'package:sossoldi/features/settings/app_settings_screen.dart' show AppSettingsScreen;
+import 'package:sossoldi/features/settings/authentication_settings_screen.dart' show AuthenticationSettingsScreen;
+import 'package:sossoldi/features/settings/budgets_settings_screen.dart' show BudgetsSettingsScreen;
+import 'package:sossoldi/features/settings/categories_settings_screen.dart' show CategoriesSettingsScreen;
+import 'package:sossoldi/features/settings/feedback_settings_screen.dart' show FeedbackSettingsScreen;
+import 'package:sossoldi/features/settings/import_export_settings_screen.dart' show ImportExportSettingsScreen;
+import 'package:sossoldi/features/settings/info_settings_screen.dart' show InfoSettingsScreen;
+import 'package:sossoldi/features/settings/notifications_settings_screen.dart' show NotificationsSettingsScreen;
+import 'package:sossoldi/features/settings/prototype_settings_screen.dart' show PrototypeSettingsScreen;
+import 'package:sossoldi/features/settings/settings_page.dart' show SettingsPage;
 import 'package:sossoldi/features/settings/settings_screen.dart' show SettingsScreen;
 import 'package:sossoldi/features/settings/widget_showcase_screen.dart' show WidgetShowcaseScreen;
 import 'package:sossoldi/app/app.dart' show SossoldiApp;
@@ -224,6 +238,10 @@ String? designSystemName(Widget widget) {
 
 /// The screen or feature widget [widget] is, or null.
 String? featureName(Widget widget) {
+  if (widget is AccountBalanceCard) return 'AccountBalanceCard';
+  if (widget is AccountDetailScreen) return 'AccountDetailScreen';
+  if (widget is AccountTransactionsSection) return 'AccountTransactionsSection';
+  if (widget is AccountsScreen) return 'AccountsScreen';
   if (widget is DateChipsField) return 'DateChipsField';
   if (widget is DateButtonField) return 'DateButtonField';
   if (widget is TransactionFormFields) return 'TransactionFormFields';
@@ -279,6 +297,16 @@ String? featureName(Widget widget) {
   if (widget is OnboardingSplashScreen) return 'OnboardingSplashScreen';
   if (widget is OnboardingWelcomeScreen) return 'OnboardingWelcomeScreen';
   if (widget is SossoldiLogo) return 'SossoldiLogo';
+  if (widget is AppSettingsScreen) return 'AppSettingsScreen';
+  if (widget is AuthenticationSettingsScreen) return 'AuthenticationSettingsScreen';
+  if (widget is BudgetsSettingsScreen) return 'BudgetsSettingsScreen';
+  if (widget is CategoriesSettingsScreen) return 'CategoriesSettingsScreen';
+  if (widget is FeedbackSettingsScreen) return 'FeedbackSettingsScreen';
+  if (widget is ImportExportSettingsScreen) return 'ImportExportSettingsScreen';
+  if (widget is InfoSettingsScreen) return 'InfoSettingsScreen';
+  if (widget is NotificationsSettingsScreen) return 'NotificationsSettingsScreen';
+  if (widget is PrototypeSettingsScreen) return 'PrototypeSettingsScreen';
+  if (widget is SettingsPage) return 'SettingsPage';
   if (widget is SettingsScreen) return 'SettingsScreen';
   if (widget is WidgetShowcaseScreen) return 'WidgetShowcaseScreen';
   if (widget is SossoldiApp) return 'SossoldiApp';
@@ -369,6 +397,10 @@ const widgetFiles = <String, String>{
   'SossoldiUnitNavigator': 'lib/design_system/components/sossoldi_unit_navigator.dart',
   'SossoldiValueChart': 'lib/design_system/components/sossoldi_value_chart.dart',
   'SossoldiWidgetCard': 'lib/design_system/components/sossoldi_widget_card.dart',
+  'AccountBalanceCard': 'lib/features/accounts/account_balance_card.dart',
+  'AccountDetailScreen': 'lib/features/accounts/account_detail_screen.dart',
+  'AccountTransactionsSection': 'lib/features/accounts/account_transactions_section.dart',
+  'AccountsScreen': 'lib/features/accounts/accounts_screen.dart',
   'DateChipsField': 'lib/features/add_transaction/date_fields.dart',
   'DateButtonField': 'lib/features/add_transaction/date_fields.dart',
   'TransactionFormFields': 'lib/features/add_transaction/transaction_form_fields.dart',
@@ -424,6 +456,16 @@ const widgetFiles = <String, String>{
   'OnboardingSplashScreen': 'lib/features/onboarding/onboarding_splash_screen.dart',
   'OnboardingWelcomeScreen': 'lib/features/onboarding/onboarding_welcome_screen.dart',
   'SossoldiLogo': 'lib/features/onboarding/sossoldi_logo.dart',
+  'AppSettingsScreen': 'lib/features/settings/app_settings_screen.dart',
+  'AuthenticationSettingsScreen': 'lib/features/settings/authentication_settings_screen.dart',
+  'BudgetsSettingsScreen': 'lib/features/settings/budgets_settings_screen.dart',
+  'CategoriesSettingsScreen': 'lib/features/settings/categories_settings_screen.dart',
+  'FeedbackSettingsScreen': 'lib/features/settings/feedback_settings_screen.dart',
+  'ImportExportSettingsScreen': 'lib/features/settings/import_export_settings_screen.dart',
+  'InfoSettingsScreen': 'lib/features/settings/info_settings_screen.dart',
+  'NotificationsSettingsScreen': 'lib/features/settings/notifications_settings_screen.dart',
+  'PrototypeSettingsScreen': 'lib/features/settings/prototype_settings_screen.dart',
+  'SettingsPage': 'lib/features/settings/settings_page.dart',
   'SettingsScreen': 'lib/features/settings/settings_screen.dart',
   'WidgetShowcaseScreen': 'lib/features/settings/widget_showcase_screen.dart',
   'SossoldiApp': 'lib/app/app.dart',

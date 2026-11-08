@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sossoldi/features/accounts/accounts_screen.dart';
 import 'package:sossoldi/app/app_scope.dart';
 import 'package:sossoldi/app/app_state.dart';
 import 'package:sossoldi/app/placeholder_screen.dart';
@@ -142,11 +143,11 @@ void main() {
       }
     });
 
-    testWidgets('Manage opens a placeholder', (tester) async {
+    testWidgets('Manage opens the Accounts page', (tester) async {
       await _pump(tester);
       await tester.tap(find.text('Manage').first);
       await tester.pumpAndSettle();
-      expect(find.byType(PlaceholderScreen), findsOneWidget);
+      expect(find.byType(AccountsScreen), findsOneWidget);
       expect(find.text('Accounts'), findsOneWidget);
     });
   });

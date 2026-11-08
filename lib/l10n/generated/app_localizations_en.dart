@@ -470,9 +470,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get overviewManage => 'Manage';
 
   @override
-  String get overviewAccountsTitle => 'Accounts';
-
-  @override
   String get overviewBudgetsTitle => 'Budgets';
 
   @override
@@ -1226,7 +1223,34 @@ class AppLocalizationsEn extends AppLocalizations {
       'This account has transactions, so it cannot be deleted or change currency';
 
   @override
-  String get settingsPrototype => 'Prototype';
+  String get settingsAppSettings => 'App settings';
+
+  @override
+  String get settingsPrototypeSettings => 'Prototype settings';
+
+  @override
+  String get settingsAuthentication => 'Authentication';
+
+  @override
+  String get settingsAccounts => 'Accounts';
+
+  @override
+  String get settingsCategories => 'Categories';
+
+  @override
+  String get settingsBudgets => 'Budgets';
+
+  @override
+  String get settingsImportExport => 'Import / Export';
+
+  @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsFeedback => 'Feedback';
+
+  @override
+  String get settingsInfo => 'Info';
 
   @override
   String get settingsRestartOnboarding => 'Restart onboarding';
@@ -1563,6 +1587,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountMainHint => 'To change it, set another account as main';
+
+  @override
+  String get accountPageEdit => 'Edit';
+
+  @override
+  String get accountsEmptyTitle => 'No accounts yet';
+
+  @override
+  String get accountsEmptyMessage => 'Add one to start tracking.';
+
+  @override
+  String get accountNoTransactions => 'No transactions in this account yet.';
 
   @override
   String get accountMainTag => 'Main';
