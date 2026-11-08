@@ -1303,6 +1303,10 @@ class MockRepository extends ChangeNotifier {
     if (f.categoryIds.isNotEmpty && !f.categoryIds.contains(t.categoryId)) {
       return false;
     }
+    if (f.subcategoryIds.isNotEmpty &&
+        !f.subcategoryIds.contains(t.subcategoryId)) {
+      return false;
+    }
     if (f.accountIds.isNotEmpty &&
         !f.accountIds.contains(t.accountId) &&
         !f.accountIds.contains(t.toAccountId)) {
@@ -1405,6 +1409,37 @@ class MockRepository extends ChangeNotifier {
       List.unmodifiable(
         _recurring.where((r) => status == null || r.status == status),
       );
+
+  /// The recurring transactions of [categoryId] or, with [subcategoryId], of
+  /// that subcategory: active ones first, soonest next date first.
+  List<RecurringTransaction> recurringOfCategory(
+    String categoryId, {
+    String? subcategoryId,
+  }) {
+    final list = _recurring
+        .where(
+          (r) =>
+              r.categoryId == categoryId &&
+              (subcategoryId == null || r.subcategoryId == subcategoryId),
+        )
+        .toList();
+    list.sort((a, b) {
+      if (a.status != b.status) {
+        return a.status == RecurringStatus.active ? -1 : 1;
+      }
+      return a.nextDate.compareTo(b.nextDate);
+    });
+    return List.unmodifiable(list);
+  }
+
+  /// The recurrence [id] or null (no id, or it was deleted).
+  RecurringTransaction? recurringOrNull(String? id) {
+    if (id == null) return null;
+    for (final r in _recurring) {
+      if (r.id == id) return r;
+    }
+    return null;
+  }
 
   RecurringTransaction recurring(String id) =>
       _recurring.firstWhere((r) => r.id == id);
@@ -1987,6 +2022,18 @@ class MockRepository extends ChangeNotifier {
       categoryIds: {b.categoryId},
     );
   }
+
+  /// The filter that selects the transactions of [categoryId] (all its
+  /// subcategories included) or, with [subcategoryId], of that subcategory
+  /// alone, over any period. Add search, accounts, dates or amounts with the
+  /// filter's own methods and read it with [searchTransactions].
+  TransactionFilter categoryTransactionFilter(
+    String categoryId, {
+    String? subcategoryId,
+  }) => TransactionFilter(
+    categoryIds: {categoryId},
+    subcategoryIds: {?subcategoryId},
+  );
 
   /// The day the spending of [budgetId] went over its limit in its period
   /// containing [on] (default today): the date of the expense that took the

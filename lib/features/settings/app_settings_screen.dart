@@ -11,7 +11,7 @@ import '../../l10n/l10n.dart';
 import '../accounts/accounts_screen.dart';
 import 'authentication_settings_screen.dart';
 import 'budgets_settings_screen.dart';
-import 'categories_settings_screen.dart';
+import '../categories/categories_screen.dart';
 import 'feedback_settings_screen.dart';
 import 'import_export_settings_screen.dart';
 import 'info_settings_screen.dart';
@@ -108,11 +108,7 @@ class AppSettingsScreen extends StatelessWidget {
         SossoldiList(
           children: [
             _row(context, l10n.settingsAccounts, AccountsScreen.route),
-            _row(
-              context,
-              l10n.settingsCategories,
-              CategoriesSettingsScreen.route,
-            ),
+            _row(context, l10n.settingsCategories, CategoriesScreen.route),
             _row(context, l10n.settingsBudgets, BudgetsSettingsScreen.route),
             _row(
               context,

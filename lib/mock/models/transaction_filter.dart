@@ -13,6 +13,7 @@ class TransactionFilter {
     this.to,
     this.types = const {},
     this.categoryIds = const {},
+    this.subcategoryIds = const {},
     this.minAmount,
     this.maxAmount,
     this.accountIds = const {},
@@ -38,6 +39,10 @@ class TransactionFilter {
   /// excludes them.
   final Set<String> categoryIds;
 
+  /// Subcategories. Not offered in the filters sheet: a page of a
+  /// subcategory fixes it, with its category in [categoryIds].
+  final Set<String> subcategoryIds;
+
   /// Bounds on the amount in the main currency (converted), inclusive.
   final double? minAmount;
   final double? maxAmount;
@@ -54,6 +59,7 @@ class TransactionFilter {
       query.trim().isNotEmpty ||
       types.isNotEmpty ||
       categoryIds.isNotEmpty ||
+      subcategoryIds.isNotEmpty ||
       hasAmountRange ||
       accountIds.isNotEmpty;
 
@@ -83,6 +89,7 @@ class TransactionFilter {
     to: to,
     types: types ?? this.types,
     categoryIds: categoryIds ?? this.categoryIds,
+    subcategoryIds: subcategoryIds,
     minAmount: minAmount,
     maxAmount: maxAmount,
     accountIds: accountIds ?? this.accountIds,
@@ -96,6 +103,7 @@ class TransactionFilter {
         to: to,
         types: types,
         categoryIds: categoryIds,
+        subcategoryIds: subcategoryIds,
         minAmount: minAmount,
         maxAmount: maxAmount,
         accountIds: accountIds,
@@ -109,6 +117,7 @@ class TransactionFilter {
         to: to,
         types: types,
         categoryIds: categoryIds,
+        subcategoryIds: subcategoryIds,
         minAmount: min,
         maxAmount: max,
         accountIds: accountIds,
@@ -122,6 +131,7 @@ class TransactionFilter {
       _sameDay(other.to, to) &&
       setEquals(other.types, types) &&
       setEquals(other.categoryIds, categoryIds) &&
+      setEquals(other.subcategoryIds, subcategoryIds) &&
       other.minAmount == minAmount &&
       other.maxAmount == maxAmount &&
       setEquals(other.accountIds, accountIds);
@@ -133,6 +143,7 @@ class TransactionFilter {
     to,
     Object.hashAllUnordered(types),
     Object.hashAllUnordered(categoryIds),
+    Object.hashAllUnordered(subcategoryIds),
     minAmount,
     maxAmount,
     Object.hashAllUnordered(accountIds),

@@ -261,6 +261,7 @@ Keep this file up to date whenever the mock data changes.
   edit). `Holding.countsForNetWorth` (default true, all true in the demo data) is only stored: no read uses it.
 - `brokerAccounts` returns the broker accounts or, when there are none (a new user with ordinary accounts), every account,
   so the movement form always has an account to pick; the liquidity (`liquidity`) still counts only `broker` accounts.
+- Categories page: `TransactionFilter.subcategoryIds` (the transaction's `subcategoryId` must be in the set; not offered in the filters sheet) and `categoryTransactionFilter(categoryId, {subcategoryId})`: the filter that selects the transactions of a category (subcategories included) or of one subcategory, any period; read with `searchTransactions`. `recurringOfCategory(categoryId, {subcategoryId})`: the recurrences of a category or subcategory, active first, soonest next date first. Tests in `test/features/categories/categories_screen_test.dart`.
 - Accounts page (`models/account_series.dart`): `accountsByBalance()` → `AccountBalance`s (account, balance in its currency, `balanceInMain`),
   sorted by `balanceInMain` descending (so the negative ones are last), same balance by name (capitals aside); no logic in the UI.
   `accountSeries(accountId, NetWorthPeriod)` → `AccountSeries` (`current`, `points`, `start`, `change`, `changePercent`) in the account's currency:

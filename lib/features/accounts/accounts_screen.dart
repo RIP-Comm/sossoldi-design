@@ -2,7 +2,7 @@
 // account's currency, chevron), the main one marked, ordered by the
 // repository (balance in the main currency, highest first). Opened from
 // Settings > Accounts and from the "Manage" of the Finance Overview. A tap
-// opens the page of the account; "Add account" opens the form. No Figma node.
+// opens the page of the account; the "+" of the header opens the form. No Figma node.
 
 import 'package:flutter/material.dart';
 import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
@@ -31,6 +31,10 @@ class AccountsScreen extends StatelessWidget {
     final accounts = repo.accountsByBalance();
     return SettingsPage(
       title: l10n.settingsAccounts,
+      trailing: SettingsAddButton(
+        semanticLabel: l10n.accountsAddSemantic,
+        onPressed: () => showAccountFormSheet(context),
+      ),
       children: [
         if (accounts.isEmpty)
           SossoldiEmptyState(
@@ -60,10 +64,6 @@ class AccountsScreen extends StatelessWidget {
                     Navigator.of(context)
                         .push(AccountDetailScreen.route(a.account.id)),
               ),
-            SossoldiListAddButton(
-              label: l10n.onboardingAddAccount,
-              onPressed: () => showAccountFormSheet(context),
-            ),
           ],
         ),
       ],

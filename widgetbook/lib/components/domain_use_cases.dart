@@ -292,6 +292,14 @@ class CategoryItemUseCase extends StatelessWidget {
             expandSemanticLabel: 'Show subcategories',
             collapseSemanticLabel: 'Hide subcategories',
           ),
+          // Settings > Categories: a row that opens a page.
+          SossoldiCategoryItem(
+            leading: _icon(context),
+            name: 'Housing',
+            subtitle: '2 subcategories',
+            hasChevron: true,
+            onTap: () {},
+          ),
           SossoldiCategoryItem.suggested(
             leading: _icon(context),
             name: 'Travel',

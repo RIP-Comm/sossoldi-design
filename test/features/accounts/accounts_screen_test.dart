@@ -10,6 +10,7 @@ import 'package:sossoldi/features/dashboard/model/default_dashboard_layout.dart'
 import 'package:sossoldi/mock/mock_repository.dart';
 import 'package:sossoldi/mock/models/account_edit.dart';
 import 'package:sossoldi/mock/models/transaction.dart';
+import 'package:sossoldi/mock/models/transaction_filter.dart';
 import 'package:sossoldi/mock/models/transaction_edit.dart';
 
 import '../../load_test_fonts.dart';
@@ -86,7 +87,14 @@ void main() {
           .hasStroke,
       isTrue,
     );
-    expect(find.text('Add account'), findsOneWidget);
+    // No "Add account" row: the + of the header does it.
+    expect(find.text('Add account'), findsNothing);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w is SossoldiHeaderButton && w.icon == PhosphorIconsRegular.plus,
+      ),
+      findsOneWidget,
+    );
     // The order is the repository's.
     final expected = [
       for (final a in state.repository.accountsByBalance()) a.account.name,
@@ -261,7 +269,7 @@ void main() {
     expect(find.byType(AccountsScreen), findsOneWidget);
   });
 
-  testWidgets('no account: a neutral empty state and the add link', (
+  testWidgets('no account: a neutral empty state and the + of the header', (
     tester,
   ) async {
     await _open(
@@ -269,11 +277,30 @@ void main() {
       AppState(repository: MockRepository.newUser(now: _now)),
     );
     expect(find.text('No accounts yet'), findsOneWidget);
-    expect(find.text('Add account'), findsOneWidget);
     expect(tester.takeException(), isNull);
-    await tester.tap(find.text('Add account'));
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is SossoldiHeaderButton && w.icon == PhosphorIconsRegular.plus,
+      ),
+    );
     await tester.pumpAndSettle();
     expect(find.text('New account'), findsOneWidget);
+  });
+
+  testWidgets('a transaction born from a recurrence shows its frequency', (
+    tester,
+  ) async {
+    final state = _demo();
+    await _open(tester, state);
+    final repo = state.repository;
+    final t = repo
+        .searchTransactions(const TransactionFilter())
+        .items
+        .firstWhere((t) => repo.recurringOrNull(t.recurringId) != null);
+    await tester.tap(find.text(repo.account(t.accountId).name).first);
+    await tester.pumpAndSettle();
+    expect(find.byType(SossoldiChip), findsWidgets);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('a cross-currency transfer shows what moved each account', (

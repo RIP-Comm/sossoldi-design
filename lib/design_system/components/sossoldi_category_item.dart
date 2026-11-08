@@ -36,6 +36,7 @@ class SossoldiCategoryItem extends StatefulWidget {
     this.onRowTap,
     this.expandSemanticLabel,
     this.collapseSemanticLabel,
+    this.hasChevron = false,
   }) : onAdd = null,
        addSemanticLabel = null;
 
@@ -52,7 +53,8 @@ class SossoldiCategoryItem extends StatefulWidget {
        onTap = null,
        onRowTap = null,
        expandSemanticLabel = null,
-       collapseSemanticLabel = null;
+       collapseSemanticLabel = null,
+       hasChevron = false;
 
   final String name;
 
@@ -79,6 +81,10 @@ class SossoldiCategoryItem extends StatefulWidget {
   final VoidCallback? onAdd;
   final String? addSemanticLabel;
 
+  /// A right chevron: the row opens a page (with [onTap], no subcategories).
+  /// Not in Figma: added for Settings > Categories.
+  final bool hasChevron;
+
   @override
   State<SossoldiCategoryItem> createState() => _SossoldiCategoryItemState();
 }
@@ -102,6 +108,15 @@ class _SossoldiCategoryItemState extends State<SossoldiCategoryItem> {
         size: SossoldiIconButtonSize.xs,
         semanticLabel: widget.addSemanticLabel!,
         onPressed: widget.onAdd,
+      );
+    } else if (widget.hasChevron && !_hasSubitems) {
+      trailing = SizedBox.square(
+        dimension: 24,
+        child: Icon(
+          PhosphorIconsRegular.caretRight,
+          size: 16,
+          color: colors.textHigh,
+        ),
       );
     } else if (_hasSubitems) {
       final caret = Padding(

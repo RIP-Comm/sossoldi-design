@@ -1919,4 +1919,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showcaseNewUser => 'New user, no data';
+
+  @override
+  String get categoriesGroupIncome => 'Income';
+
+  @override
+  String get categoriesGroupExpenses => 'Expenses';
+
+  @override
+  String get categoriesAddSemantic => 'Add category';
+
+  @override
+  String get categoriesEmptyTitle => 'No categories yet';
+
+  @override
+  String get categoriesEmptyMessage => 'Add one with the + button.';
+
+  @override
+  String categorySubcategoriesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count subcategories',
+      one: '1 subcategory',
+      zero: 'No subcategories',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get categoryPageEdit => 'Edit';
+
+  @override
+  String get categoryDetailSubcategories => 'Subcategories';
+
+  @override
+  String get categoryDetailTransactions => 'Transactions';
+
+  @override
+  String get categoryNoTransactions => 'No transactions in this category yet.';
+
+  @override
+  String get subcategoryNoTransactions =>
+      'No transactions in this subcategory yet.';
+
+  @override
+  String get categoryDetailRecurring => 'Recurring';
+
+  @override
+  String get accountsAddSemantic => 'Add account';
 }

@@ -85,6 +85,10 @@ import 'package:sossoldi/features/accounts/account_transactions_section.dart' sh
 import 'package:sossoldi/features/accounts/accounts_screen.dart' show AccountsScreen;
 import 'package:sossoldi/features/add_transaction/date_fields.dart' show DateChipsField, DateButtonField;
 import 'package:sossoldi/features/add_transaction/transaction_form_fields.dart' show TransactionFormFields;
+import 'package:sossoldi/features/categories/categories_screen.dart' show CategoriesScreen;
+import 'package:sossoldi/features/categories/category_detail_screen.dart' show CategoryDetailScreen;
+import 'package:sossoldi/features/categories/category_group.dart' show CategoryGroup;
+import 'package:sossoldi/features/categories/category_transactions_section.dart' show CategoryTransactionsSection;
 import 'package:sossoldi/features/dashboard/add_widget/add_widget_sheet.dart' show AddWidgetSheet;
 import 'package:sossoldi/features/dashboard/dashboard_grid.dart' show DashboardGrid;
 import 'package:sossoldi/features/dashboard/dashboard_screen.dart' show DashboardScreen;
@@ -139,7 +143,6 @@ import 'package:sossoldi/features/onboarding/sossoldi_logo.dart' show SossoldiLo
 import 'package:sossoldi/features/settings/app_settings_screen.dart' show AppSettingsScreen;
 import 'package:sossoldi/features/settings/authentication_settings_screen.dart' show AuthenticationSettingsScreen;
 import 'package:sossoldi/features/settings/budgets_settings_screen.dart' show BudgetsSettingsScreen;
-import 'package:sossoldi/features/settings/categories_settings_screen.dart' show CategoriesSettingsScreen;
 import 'package:sossoldi/features/settings/feedback_settings_screen.dart' show FeedbackSettingsScreen;
 import 'package:sossoldi/features/settings/import_export_settings_screen.dart' show ImportExportSettingsScreen;
 import 'package:sossoldi/features/settings/info_settings_screen.dart' show InfoSettingsScreen;
@@ -245,6 +248,10 @@ String? featureName(Widget widget) {
   if (widget is DateChipsField) return 'DateChipsField';
   if (widget is DateButtonField) return 'DateButtonField';
   if (widget is TransactionFormFields) return 'TransactionFormFields';
+  if (widget is CategoriesScreen) return 'CategoriesScreen';
+  if (widget is CategoryDetailScreen) return 'CategoryDetailScreen';
+  if (widget is CategoryGroup) return 'CategoryGroup';
+  if (widget is CategoryTransactionsSection) return 'CategoryTransactionsSection';
   if (widget is AddWidgetSheet) return 'AddWidgetSheet';
   if (widget is DashboardGrid) return 'DashboardGrid';
   if (widget is DashboardScreen) return 'DashboardScreen';
@@ -300,7 +307,6 @@ String? featureName(Widget widget) {
   if (widget is AppSettingsScreen) return 'AppSettingsScreen';
   if (widget is AuthenticationSettingsScreen) return 'AuthenticationSettingsScreen';
   if (widget is BudgetsSettingsScreen) return 'BudgetsSettingsScreen';
-  if (widget is CategoriesSettingsScreen) return 'CategoriesSettingsScreen';
   if (widget is FeedbackSettingsScreen) return 'FeedbackSettingsScreen';
   if (widget is ImportExportSettingsScreen) return 'ImportExportSettingsScreen';
   if (widget is InfoSettingsScreen) return 'InfoSettingsScreen';
@@ -404,6 +410,10 @@ const widgetFiles = <String, String>{
   'DateChipsField': 'lib/features/add_transaction/date_fields.dart',
   'DateButtonField': 'lib/features/add_transaction/date_fields.dart',
   'TransactionFormFields': 'lib/features/add_transaction/transaction_form_fields.dart',
+  'CategoriesScreen': 'lib/features/categories/categories_screen.dart',
+  'CategoryDetailScreen': 'lib/features/categories/category_detail_screen.dart',
+  'CategoryGroup': 'lib/features/categories/category_group.dart',
+  'CategoryTransactionsSection': 'lib/features/categories/category_transactions_section.dart',
   'AddWidgetSheet': 'lib/features/dashboard/add_widget/add_widget_sheet.dart',
   'DashboardGrid': 'lib/features/dashboard/dashboard_grid.dart',
   'DashboardScreen': 'lib/features/dashboard/dashboard_screen.dart',
@@ -459,7 +469,6 @@ const widgetFiles = <String, String>{
   'AppSettingsScreen': 'lib/features/settings/app_settings_screen.dart',
   'AuthenticationSettingsScreen': 'lib/features/settings/authentication_settings_screen.dart',
   'BudgetsSettingsScreen': 'lib/features/settings/budgets_settings_screen.dart',
-  'CategoriesSettingsScreen': 'lib/features/settings/categories_settings_screen.dart',
   'FeedbackSettingsScreen': 'lib/features/settings/feedback_settings_screen.dart',
   'ImportExportSettingsScreen': 'lib/features/settings/import_export_settings_screen.dart',
   'InfoSettingsScreen': 'lib/features/settings/info_settings_screen.dart',

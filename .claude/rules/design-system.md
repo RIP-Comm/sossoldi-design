@@ -44,6 +44,8 @@ Sossoldi's Figma, not the original Moon library.
 `SossoldiCategoryItem` toggles its subcategories on a tap of the whole row (Figma Default / Open). With `onRowTap` the
 row does something else (edit) and only the caret opens and closes the list (added for the onboarding, Figma 13:3685).
 
+`SossoldiCategoryItem(hasChevron: true, onTap:)`: a row that opens a page (Settings > Categories; not in Figma). `CategoryGroup` (`features/categories/category_group.dart`): title in Body Large above a `SossoldiList`, shared by the onboarding and Settings > Categories.
+
 ## Change indicator
 `SossoldiChangeIndicator(amount, currencyCode, percent?)`: tag with arrow icon and percentage plus the amount in plain text; without
 percentage the tag has the amount. Used by the Net worth and Investments widgets (widgetbook: Domain). Not in Figma.

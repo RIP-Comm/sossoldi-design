@@ -1922,4 +1922,54 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get showcaseNewUser => 'Nuovo utente, senza dati';
+
+  @override
+  String get categoriesGroupIncome => 'Entrate';
+
+  @override
+  String get categoriesGroupExpenses => 'Spese';
+
+  @override
+  String get categoriesAddSemantic => 'Aggiungi categoria';
+
+  @override
+  String get categoriesEmptyTitle => 'Nessuna categoria';
+
+  @override
+  String get categoriesEmptyMessage => 'Aggiungine una con il pulsante +.';
+
+  @override
+  String categorySubcategoriesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sottocategorie',
+      one: '1 sottocategoria',
+      zero: 'Nessuna sottocategoria',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get categoryPageEdit => 'Modifica';
+
+  @override
+  String get categoryDetailSubcategories => 'Sottocategorie';
+
+  @override
+  String get categoryDetailTransactions => 'Transazioni';
+
+  @override
+  String get categoryNoTransactions =>
+      'Ancora nessuna transazione in questa categoria.';
+
+  @override
+  String get subcategoryNoTransactions =>
+      'Ancora nessuna transazione in questa sottocategoria.';
+
+  @override
+  String get categoryDetailRecurring => 'Ricorrenti';
+
+  @override
+  String get accountsAddSemantic => 'Aggiungi conto';
 }

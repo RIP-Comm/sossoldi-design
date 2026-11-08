@@ -7,9 +7,18 @@ import '../../design_system/design_system.dart';
 import '../../l10n/l10n.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key, required this.title, required this.children});
+  const SettingsPage({
+    super.key,
+    required this.title,
+    required this.children,
+    this.trailing,
+  });
 
   final String title;
+
+  /// A header button at the right (e.g. "+"); without it the title stays
+  /// centered by an empty space of the same size.
+  final Widget? trailing;
   final List<Widget> children;
 
   @override
@@ -42,7 +51,8 @@ class SettingsPage extends StatelessWidget {
                       ),
                     ),
                     // Keeps the title centered.
-                    const SizedBox(width: SossoldiHeaderButton.size),
+                    trailing ??
+                        const SizedBox(width: SossoldiHeaderButton.size),
                   ],
                 ),
                 ...children,
@@ -53,4 +63,25 @@ class SettingsPage extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The blue "+" of the header of a management page (Accounts), for the pages
+/// whose "+" does one thing. Categories asks for a type first (a popover).
+class SettingsAddButton extends StatelessWidget {
+  const SettingsAddButton({
+    super.key,
+    required this.semanticLabel,
+    required this.onPressed,
+  });
+
+  final String semanticLabel;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => SossoldiHeaderButton(
+    icon: PhosphorIconsRegular.plus,
+    filled: true,
+    semanticLabel: semanticLabel,
+    onPressed: onPressed,
+  );
 }

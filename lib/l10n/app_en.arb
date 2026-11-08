@@ -2236,5 +2236,58 @@
   "showcaseNewUser": "New user, no data",
   "@showcaseNewUser": {
     "description": "Showcase case: widget of a new user with no data"
-  }
+  },
+  "categoriesGroupIncome": "Income",
+  "@categoriesGroupIncome": {
+      "description": "Settings > Categories: title of the income categories"
+  },
+  "categoriesGroupExpenses": "Expenses",
+  "@categoriesGroupExpenses": {
+      "description": "Settings > Categories: title of the expense categories"
+  },
+  "categoriesAddSemantic": "Add category",
+  "@categoriesAddSemantic": {
+      "description": "Settings > Categories: screen reader label of the + button that asks for the type"
+  },
+  "categoriesEmptyTitle": "No categories yet",
+  "@categoriesEmptyTitle": {
+      "description": "Settings > Categories without categories"
+  },
+  "categoriesEmptyMessage": "Add one with the + button.",
+  "@categoriesEmptyMessage": {
+      "description": "Settings > Categories without categories"
+  },
+  "categorySubcategoriesCount": "{count, plural, =0{No subcategories} =1{1 subcategory} other{{count} subcategories}}",
+  "@categorySubcategoriesCount": {
+      "description": "Second line of a category row: how many subcategories it has",
+      "placeholders": {
+          "count": {
+              "type": "int"
+          }
+      }
+  },
+  "categoryPageEdit": "Edit",
+  "@categoryPageEdit": {
+      "description": "Edit of the category page: opens the category form"
+  },
+  "categoryDetailSubcategories": "Subcategories",
+  "@categoryDetailSubcategories": {
+      "description": "Category page: title of the list of subcategories"
+  },
+  "categoryDetailTransactions": "Transactions",
+  "@categoryDetailTransactions": {
+      "description": "Category page: title of the list of transactions"
+  },
+  "categoryNoTransactions": "No transactions in this category yet.",
+  "@categoryNoTransactions": {
+      "description": "Category page, list of transactions with no transaction"
+  },
+  "subcategoryNoTransactions": "No transactions in this subcategory yet.",
+  "@subcategoryNoTransactions": {
+      "description": "Subcategory page, list of transactions with no transaction"
+  },
+  "categoryDetailRecurring": "Recurring",
+  "@categoryDetailRecurring": {"description": "Category page: title of the list of recurring transactions"},
+  "accountsAddSemantic": "Add account",
+  "@accountsAddSemantic": {"description": "Accounts page: screen reader label of the + button"}
 }

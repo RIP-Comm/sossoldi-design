@@ -3649,6 +3649,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New user, no data'**
   String get showcaseNewUser;
+
+  /// Settings > Categories: title of the income categories
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get categoriesGroupIncome;
+
+  /// Settings > Categories: title of the expense categories
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get categoriesGroupExpenses;
+
+  /// Settings > Categories: screen reader label of the + button that asks for the type
+  ///
+  /// In en, this message translates to:
+  /// **'Add category'**
+  String get categoriesAddSemantic;
+
+  /// Settings > Categories without categories
+  ///
+  /// In en, this message translates to:
+  /// **'No categories yet'**
+  String get categoriesEmptyTitle;
+
+  /// Settings > Categories without categories
+  ///
+  /// In en, this message translates to:
+  /// **'Add one with the + button.'**
+  String get categoriesEmptyMessage;
+
+  /// Second line of a category row: how many subcategories it has
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No subcategories} =1{1 subcategory} other{{count} subcategories}}'**
+  String categorySubcategoriesCount(int count);
+
+  /// Edit of the category page: opens the category form
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get categoryPageEdit;
+
+  /// Category page: title of the list of subcategories
+  ///
+  /// In en, this message translates to:
+  /// **'Subcategories'**
+  String get categoryDetailSubcategories;
+
+  /// Category page: title of the list of transactions
+  ///
+  /// In en, this message translates to:
+  /// **'Transactions'**
+  String get categoryDetailTransactions;
+
+  /// Category page, list of transactions with no transaction
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions in this category yet.'**
+  String get categoryNoTransactions;
+
+  /// Subcategory page, list of transactions with no transaction
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions in this subcategory yet.'**
+  String get subcategoryNoTransactions;
+
+  /// Category page: title of the list of recurring transactions
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring'**
+  String get categoryDetailRecurring;
+
+  /// Accounts page: screen reader label of the + button
+  ///
+  /// In en, this message translates to:
+  /// **'Add account'**
+  String get accountsAddSemantic;
 }
 
 class _AppLocalizationsDelegate

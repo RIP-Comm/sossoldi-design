@@ -15,6 +15,7 @@ import '../../mock/mock_repository.dart';
 import '../../mock/models/category.dart';
 import '../../mock/models/suggested_category.dart';
 import '../categories/category_form_sheet.dart';
+import '../categories/category_group.dart';
 import '../categories/category_texts.dart';
 import 'onboarding_assets_screen.dart';
 import 'onboarding_back_button.dart';
@@ -161,7 +162,7 @@ class _YourCategories extends StatelessWidget {
             (l10n.onboardingSuggestedIncome, CategoryType.income),
           ])
             if (categories.any((c) => c.type == type))
-              _Group(
+              CategoryGroup(
                 title: title,
                 children: [
                   for (final c in categories.where((c) => c.type == type))
@@ -177,32 +178,6 @@ class _YourCategories extends StatelessWidget {
             ],
           ),
         ],
-      ],
-    );
-  }
-}
-
-/// A titled list: "Expenses" or "Income", in "Your categories" and in
-/// "Suggested".
-class _Group extends StatelessWidget {
-  const _Group({required this.title, required this.children});
-
-  final String title;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: SossoldiSpacing.xs,
-      children: [
-        Text(
-          title,
-          style: context.typography.bodyLarge.copyWith(
-            color: context.colors.textMed,
-          ),
-        ),
-        SossoldiList(children: children),
       ],
     );
   }
@@ -276,7 +251,7 @@ class _Suggested extends StatelessWidget {
     Widget group(String title, CategoryType type) {
       final items = suggested.where((s) => s.type == type).toList();
       if (items.isEmpty) return const SizedBox.shrink();
-      return _Group(
+      return CategoryGroup(
         title: title,
         children: [
           for (final s in items)

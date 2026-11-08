@@ -17,7 +17,8 @@ class SossoldiModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(SossoldiSpacing.s),
+      // 16 px on every side (changed from Figma's 8, by request).
+      padding: const EdgeInsets.all(SossoldiSpacing.l),
       decoration: ShapeDecoration(
         color: context.colors.surfaceHigh,
         shape: RoundedSuperellipseBorder(

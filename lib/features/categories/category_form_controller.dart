@@ -15,10 +15,13 @@ enum CategoryFieldError { nameRequired, nameTaken }
 /// and subcategories included, stays in a draft: the repository is touched
 /// only by [submit], and closing the form with the X discards the draft.
 class CategoryFormController extends ChangeNotifier {
-  CategoryFormController(this.repository, {this.editing})
-    : _type = editing?.type ?? CategoryType.expense,
-      _color = editing?.color ?? CategoryColors.all.first,
-      _icon = editing?.icon ?? PhosphorIconsRegular.tag {
+  CategoryFormController(
+    this.repository, {
+    this.editing,
+    CategoryType initialType = CategoryType.expense,
+  }) : _type = editing?.type ?? initialType,
+       _color = editing?.color ?? CategoryColors.all.first,
+       _icon = editing?.icon ?? PhosphorIconsRegular.tag {
     final c = editing;
     if (c != null) {
       name.text = c.name;

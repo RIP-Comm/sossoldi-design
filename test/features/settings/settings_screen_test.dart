@@ -152,7 +152,6 @@ void main() {
     await _openApp(tester);
     for (final t in const [
       'Authentication',
-      'Categories',
       'Budgets',
       'Import / Export',
       'Notifications',
@@ -221,7 +220,6 @@ void main() {
     await tester.pumpAndSettle();
     for (final t in const [
       'Autenticazione',
-      'Categorie',
       'Budget',
       'Importa / Esporta',
       'Notifiche',

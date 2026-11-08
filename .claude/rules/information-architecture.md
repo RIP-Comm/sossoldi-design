@@ -34,7 +34,7 @@ Settings below). The import from another app is still a placeholder.
      the grid of the selected group, about 990 icons in all (to be reused by the categories); two sliders
      give the color: hue, and saturation (its track follows the hue). Colors are HCT with a fixed tone, so they all
      look as light as the others; the ends stay in the family of the palette of the categories. In edit mode a red
-     "Delete account" (with a confirmation) closes the form (not in Figma, added).
+     "Delete account" (with a confirmation) closes the form (not in Figma, added; same style as "Delete category": text button, error color, trash icon, centered at the end of the form).
 4. **Step 2 of 3 — categories, subcategories and budgets.** Heading "Step 2 of 3" with a "< Back" button on its own row above the title, always at the left (goes
    to Step 1, added) and a subtitle. "Your categories":
    with none, a card "Create your first category" with "Create category"; with some, two lists "Expenses" and "Income" (as in "Suggested", a group is shown only when it has
@@ -49,12 +49,12 @@ Settings below). The import from another app is still a placeholder.
      made by hand) and comes back when it is deleted; with nothing left the section goes away. Constant in code
      (`mock/data/suggested_category_data.dart`).
    - Category form (bottom sheet): X, "New category" ("Edit category"), check (on only with a valid name). Type
-     (Expense / Income, default Expense), Name (required, unique per type ignoring capitals), Icon and color (same
+     (Expense / Income, default Expense; **only when creating**: in edit mode the field is not shown, the type cannot change), Name (required, unique per type ignoring capitals), Icon and color (same
      component as the account form), Budget (expense only: one row per budget "Monthly · 130€" and "Add budget +"),
      Subcategories (the rows with the icon and color of the parent and "Add subcategory +"; with none, a card with
      an explanatory line and "Add subcategory"). Budgets and subcategories added in the form stay in a draft and are
      saved only with the check; X discards it. Changing the type from Expense to Income with budgets asks for
-     confirmation and then discards them. In edit mode a red "Delete category" (with a confirmation) closes the
+     confirmation and then discards them. In edit mode a "Delete category" (text button, error color; with a confirmation) closes the
      form, and takes its subcategories and budgets with it (not in Figma, same pattern as Delete budget). A category
      with transactions or recurrences (demo data only) cannot be deleted nor change type.
    - Differences from Figma: the budget row shows period and amount, not "50% 120€ left" (nothing is spent in the
@@ -363,7 +363,7 @@ title and chevron, **App settings** and **Prototype settings**. Back from the hu
   1. Dark mode (switch), Language, Main currency (selects) and Authentication.
   2. Accounts, Categories, Budgets, Import / Export.
   3. Notifications, Feedback, Info.
-  Every row that opens a page has a chevron. Built: theme, language, currency. The other destinations are placeholders.
+  Every row that opens a page has a chevron. Built: theme, language, currency, Accounts, Categories. The other destinations are placeholders.
 - **Prototype settings** (`prototype_settings_screen.dart`): "Restart onboarding" and "Load demo data" (actions, no chevron;
   both close the whole Settings stack and rebuild the app on the other data) and "Widget showcase" (opens a page; every Dashboard
   widget in every size and case, one cluster per widget, on demo data and on the empty data of a new user; Insight in its kinds;
@@ -373,13 +373,19 @@ title and chevron, **App settings** and **Prototype settings**. Back from the hu
   (back returns to where it started, e.g. the "Manage" of Finance) and the real page replaces the placeholder without touching the hub.
 - Not added (open point): Investments settings, bank/broker connections.
 
+### Categories (Settings > Categories)
+Three screens in `features/categories/`: `CategoriesScreen.route()`, `CategoryDetailScreen.route(categoryId, {subcategoryId})` (one screen for the page of a category and of a subcategory). No Figma node: built from the onboarding's category row and the Finance list.
+- **List**: two titled lists as in the onboarding (`CategoryGroup`), **Income first, then Expenses**, each shown only when it has categories (empty state "No categories yet" with none). Row: icon and color, name, second line with the number of subcategories ("No subcategories", "1 subcategory", "3 subcategories"), chevron; tap opens the page of the category. No "Add category" row: the **blue "+" at the right of the header** opens a small menu (Income, Expense) and then the existing category form (`showCategoryFormSheet(initialType:)`) with that type.
+- Transaction rows (every list: Finance, account, category) born from a recurrence show a chip with its frequency (Monthly, Weekly...) under the amount, grey; a recurrence deleted later leaves none.
+- **Page of a category**: Back, name, "Edit" (the existing category form in edit mode, with Delete and its rules: a category in use cannot be deleted nor change type). Then "Subcategories" (hidden when it has none; rows with the parent's icon and color and a chevron, each opens the page of the subcategory), then "Recurring" (hidden when none: the recurring transactions of the category, with the row of the Recurring tab, next date, a tap opens the page of the recurrence; not affected by search or filters), then "Transactions": all the transactions of the category (subcategories included), search and filters (date, amount, account; the category and the type are fixed), 20 per page, **no date filter by default**. After a delete the page closes quietly.
+- **Page of a subcategory**: Back and name, **no Edit**; its recurring transactions (same section) and its transactions, same search and filters.
+
 ### Accounts (Settings > Accounts)
 Two screens of their own in `features/accounts/`, opened with `AccountsScreen.route()` / `AccountDetailScreen.route(id)` (Settings, and the
 "Manage" of the Finance Overview). No Figma node: built from the Account row, the Net worth widget and the Finance list.
 - **List** (`accounts_screen.dart`): one `SossoldiAccountItem` per account (icon and color, name, balance in the account's own currency, chevron,
   no change), the main account with the "Main" tag (with a stroke, so it reads as a tag) next to its name (asked here, a deliberate exception to "no tags"). Order from
-  `accountsByBalance()`: balance converted to the main currency, highest first (negatives last), same balance by name. "Add account +" under
-  the list opens the account form (new). With no account: empty state "No accounts yet" and the same link. Tap on a row: the page of the account.
+  `accountsByBalance()`: balance converted to the main currency, highest first (negatives last), same balance by name. the blue "+" at the right of the header opens the account form (new; no "Add account" row). With no account: empty state "No accounts yet". Tap on a row: the page of the account.
 - **Page of an account** (`account_detail_screen.dart`, opened with `AccountDetailScreen.route(id)` from the list and from the Finance Overview): bar with Back, the account name and "Edit" (the existing account form in edit mode, with
   Delete and its confirmation; an account in use cannot be deleted). After a delete the page closes and the list is shown; after an edit the page
   updates; an account deleted from elsewhere while the page is open closes it quietly.

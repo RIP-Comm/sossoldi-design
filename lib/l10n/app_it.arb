@@ -591,5 +591,18 @@
   "settingsWidgetShowcase": "Showcase dei widget",
   "showcaseIntro": "Ogni widget, caso e taglia, con dati demo",
   "showcaseWithData": "Con dati",
-  "showcaseNewUser": "Nuovo utente, senza dati"
+  "showcaseNewUser": "Nuovo utente, senza dati",
+  "categoriesGroupIncome": "Entrate",
+  "categoriesGroupExpenses": "Spese",
+  "categoriesAddSemantic": "Aggiungi categoria",
+  "categoriesEmptyTitle": "Nessuna categoria",
+  "categoriesEmptyMessage": "Aggiungine una con il pulsante +.",
+  "categorySubcategoriesCount": "{count, plural, =0{Nessuna sottocategoria} =1{1 sottocategoria} other{{count} sottocategorie}}",
+  "categoryPageEdit": "Modifica",
+  "categoryDetailSubcategories": "Sottocategorie",
+  "categoryDetailTransactions": "Transazioni",
+  "categoryNoTransactions": "Ancora nessuna transazione in questa categoria.",
+  "subcategoryNoTransactions": "Ancora nessuna transazione in questa sottocategoria.",
+  "categoryDetailRecurring": "Ricorrenti",
+  "accountsAddSemantic": "Aggiungi conto"
 }

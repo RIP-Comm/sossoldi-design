@@ -24,16 +24,22 @@ import 'category_form_controller.dart';
 import 'category_texts.dart';
 import 'subcategory_form_sheet.dart';
 
-/// Opens the form of a new category, or of [editing]. Returns whether a
+/// Opens the form of a new category (of [initialType]), or of [editing].
+/// Returns whether a
 /// category was saved or deleted.
 Future<bool> showCategoryFormSheet(
   BuildContext context, {
   Category? editing,
+  CategoryType initialType = CategoryType.expense,
 }) async {
   final repository = AppScope.read(context).repository;
   // Made once, here: the builder runs again when the keyboard comes and goes,
   // and a new controller would lose the draft.
-  final controller = CategoryFormController(repository, editing: editing);
+  final controller = CategoryFormController(
+    repository,
+    editing: editing,
+    initialType: initialType,
+  );
   final saved = await showModalBottomSheet<bool>(
     context: context,
     isScrollControlled: true,
@@ -297,21 +303,23 @@ class _CategoryFormSheetState extends State<_CategoryFormSheet> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: SossoldiSpacing.s,
               children: [
-                SossoldiSelect<CategoryType>(
-                  label: l10n.categoryType,
-                  value: c.type,
-                  onChanged: _changeType,
-                  items: [
-                    SossoldiSelectItem(
-                      value: CategoryType.expense,
-                      label: l10n.categoryTypeExpense,
-                    ),
-                    SossoldiSelectItem(
-                      value: CategoryType.income,
-                      label: l10n.categoryTypeIncome,
-                    ),
-                  ],
-                ),
+                // The type cannot change once the category exists.
+                if (!c.isEditing)
+                  SossoldiSelect<CategoryType>(
+                    label: l10n.categoryType,
+                    value: c.type,
+                    onChanged: _changeType,
+                    items: [
+                      SossoldiSelectItem(
+                        value: CategoryType.expense,
+                        label: l10n.categoryTypeExpense,
+                      ),
+                      SossoldiSelectItem(
+                        value: CategoryType.income,
+                        label: l10n.categoryTypeIncome,
+                      ),
+                    ],
+                  ),
                 SossoldiTextInput(
                   controller: c.name,
                   label: l10n.accountName,

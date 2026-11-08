@@ -5,6 +5,7 @@
 // whole app, so there is no currency field (see the comment where it was).
 
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 import '../../app/app_scope.dart';
 import '../../design_system/design_system.dart';
@@ -242,12 +243,16 @@ class _AccountFormSheetState extends State<_AccountFormSheet> {
         ),
         _iconAndColor(context),
         if (c.isEditing)
-          SossoldiButton(
-            label: l10n.accountDelete,
-            tone: SossoldiButtonTone.danger,
-            size: SossoldiButtonSize.large,
-            expanded: true,
-            onPressed: _confirmDelete,
+          // Same as "Delete category": text button, error color, at the end.
+          Center(
+            child: SossoldiButton(
+              label: l10n.accountDelete,
+              type: SossoldiButtonType.ghost,
+              tone: SossoldiButtonTone.danger,
+              size: SossoldiButtonSize.large,
+              iconRight: PhosphorIconsRegular.trash,
+              onPressed: _confirmDelete,
+            ),
           ),
       ],
     );
