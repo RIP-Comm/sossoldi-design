@@ -110,7 +110,7 @@ class SossoldiMenuItem extends StatelessWidget {
                           subtitle!,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: typography.labelSmall.copyWith(
+                          style: typography.labelLarge.copyWith(
                             color: colors.textMed,
                           ),
                         ),

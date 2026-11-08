@@ -58,7 +58,7 @@ class SossoldiSwitchRow extends StatelessWidget {
                 if (description != null)
                   Text(
                     description!,
-                    style: context.typography.labelSmall.copyWith(
+                    style: context.typography.labelLarge.copyWith(
                       color: colors.textMed,
                     ),
                   ),

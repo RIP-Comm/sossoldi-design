@@ -2012,4 +2012,114 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get recurringPausedLabel => 'In pausa';
+
+  @override
+  String get infoAppVersion => 'Versione dell\'app';
+
+  @override
+  String get infoCollaborators => 'Collaboratori';
+
+  @override
+  String get infoCollaboratorsSubtitle => 'Vedi il team dietro a questa app';
+
+  @override
+  String get infoContribute => 'Vuoi contribuire?';
+
+  @override
+  String get infoContributeSubtitle =>
+      'Apri una issue, invia una PR o passa a salutarci su GitHub';
+
+  @override
+  String get infoPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get collaboratorsIntroTitle => 'Conosci il team';
+
+  @override
+  String get collaboratorsIntro =>
+      'Sossoldi è creata e mantenuta da una community open source appassionata. Ogni funzione, correzione e idea nasce da persone come te.';
+
+  @override
+  String get linkGithub => 'GitHub';
+
+  @override
+  String get linkLinkedin => 'LinkedIn';
+
+  @override
+  String get linkYoutube => 'YouTube';
+
+  @override
+  String get linkDiscord => 'Discord';
+
+  @override
+  String get linkWebsite => 'Sito web';
+
+  @override
+  String get communityFooter => 'Open source, creata dalla community';
+
+  @override
+  String get privacyIntro =>
+      'Sossoldi è un\'app open source. Questo servizio è offerto da noi gratuitamente e va usato così com\'è. Non siamo interessati a raccogliere informazioni personali: crediamo che appartengano solo a te. Non conserviamo né trasmettiamo i tuoi dati personali e non includiamo pubblicità né software di analisi che comunichi con terze parti.';
+
+  @override
+  String get privacyCollectTitle => 'Quali informazioni raccogliamo?';
+
+  @override
+  String get privacyCollectBody =>
+      'Sossoldi non raccoglie informazioni personali e non si collega a internet. Tutto ciò che aggiungi nell\'app resta solo sul tuo dispositivo e da nessun\'altra parte.';
+
+  @override
+  String get privacyChangesTitle => 'Modifiche a questa privacy policy';
+
+  @override
+  String get privacyChangesBody =>
+      'Potremmo aggiornare la nostra Privacy Policy di tanto in tanto. Ti consigliamo quindi di rivedere questa pagina periodicamente per eventuali modifiche.';
+
+  @override
+  String get privacyEffective => 'Questa policy è in vigore dal 2024-01-01';
+
+  @override
+  String get privacyContactTitle => 'Contattaci';
+
+  @override
+  String get privacyContactBody =>
+      'Se hai domande o suggerimenti sulla nostra Privacy Policy, non esitare a contattarci a';
+
+  @override
+  String get notificationsReminderTitle => 'Promemoria transazioni';
+
+  @override
+  String get notificationsReminderSubtitle =>
+      'Un promemoria per registrare le transazioni';
+
+  @override
+  String get notificationsRecurringTitle => 'Transazione ricorrente aggiunta';
+
+  @override
+  String get notificationsRecurringSubtitle =>
+      'Quando una ricorrenza viene registrata nelle transazioni';
+
+  @override
+  String get notificationsFrequency => 'Frequenza';
+
+  @override
+  String get notificationsDay => 'Giorno';
+
+  @override
+  String get notificationsTime => 'Ora';
+
+  @override
+  String get reminderDaily => 'Giornaliero';
+
+  @override
+  String get reminderWeekly => 'Settimanale';
+
+  @override
+  String get reminderBiweekly => 'Ogni 2 settimane';
+
+  @override
+  String get reminderMonthly => 'Mensile';
+
+  @override
+  String get timePickerConfirm => 'Conferma';
 }

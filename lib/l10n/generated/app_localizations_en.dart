@@ -2008,4 +2008,114 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recurringPausedLabel => 'Paused';
+
+  @override
+  String get infoAppVersion => 'App version';
+
+  @override
+  String get infoCollaborators => 'Collaborators';
+
+  @override
+  String get infoCollaboratorsSubtitle => 'See the team behind this app';
+
+  @override
+  String get infoContribute => 'Want to contribute?';
+
+  @override
+  String get infoContributeSubtitle =>
+      'Open an issue, submit a PR or just say hi on GitHub';
+
+  @override
+  String get infoPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get collaboratorsIntroTitle => 'Meet the team';
+
+  @override
+  String get collaboratorsIntro =>
+      'Sossoldi is built and maintained by a passionate open source community. Every feature, fix and idea comes from people like you.';
+
+  @override
+  String get linkGithub => 'GitHub';
+
+  @override
+  String get linkLinkedin => 'LinkedIn';
+
+  @override
+  String get linkYoutube => 'YouTube';
+
+  @override
+  String get linkDiscord => 'Discord';
+
+  @override
+  String get linkWebsite => 'Website';
+
+  @override
+  String get communityFooter => 'Open source, built by the community';
+
+  @override
+  String get privacyIntro =>
+      'Sossoldi is built as an open source app. This service is provided by us at no cost and it is intended for use as is. We are not interested in collecting any personal information. We believe such information is yours and yours alone. We do not store or transmit your personal details, nor do we include any advertising or analytics software that talks to third parties.';
+
+  @override
+  String get privacyCollectTitle => 'What information do we collect?';
+
+  @override
+  String get privacyCollectBody =>
+      'Sossoldi does not collect any personal information or connect to the internet. Any information that you add in the app exists solely on your device and nowhere else.';
+
+  @override
+  String get privacyChangesTitle => 'Changes to this privacy policy';
+
+  @override
+  String get privacyChangesBody =>
+      'We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes.';
+
+  @override
+  String get privacyEffective => 'This policy is effective as of 2024-01-01';
+
+  @override
+  String get privacyContactTitle => 'Contact us';
+
+  @override
+  String get privacyContactBody =>
+      'If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at';
+
+  @override
+  String get notificationsReminderTitle => 'Add transaction reminder';
+
+  @override
+  String get notificationsReminderSubtitle =>
+      'A nudge to log your transactions';
+
+  @override
+  String get notificationsRecurringTitle => 'Recurring transaction added';
+
+  @override
+  String get notificationsRecurringSubtitle =>
+      'When a recurrence is booked in your transactions';
+
+  @override
+  String get notificationsFrequency => 'Frequency';
+
+  @override
+  String get notificationsDay => 'Day';
+
+  @override
+  String get notificationsTime => 'Time';
+
+  @override
+  String get reminderDaily => 'Daily';
+
+  @override
+  String get reminderWeekly => 'Weekly';
+
+  @override
+  String get reminderBiweekly => 'Every 2 weeks';
+
+  @override
+  String get reminderMonthly => 'Monthly';
+
+  @override
+  String get timePickerConfirm => 'Confirm';
 }

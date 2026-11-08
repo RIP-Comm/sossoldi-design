@@ -60,6 +60,9 @@ tabs that take a color when selected (`SossoldiTabData.text(..., activeRole:)`, 
 Inspector's menu), `SossoldiPopover(above:)` (opens above the trigger, for the Inspector's toolbar); the label of a
 `SossoldiUnitNavigator` is cut with an ellipsis. Each has a widgetbook entry.
 
+## Time picker
+`showSossoldiTimePicker(context:, title:, initial:, ...)` → `TimeOfDay?`: bottom sheet with two looping wheels (`SossoldiTimeWheels`, hours 0-23 and minutes 0-59, 24-hour clock) and the round check of the other forms. Not in Figma; widgetbook: Finance > Time picker. Used by Settings > Notifications.
+
 ## Trend chart
 `SossoldiTrendChart` (Dashboard widgets) has the touch indicator and the tooltip of the other charts (`SossoldiChartTooltip`)
 when it gets `formatValue` (plus `pointTitles` per slot of the axis, `currentLabel`, `referenceLabel`, `masked`); without it

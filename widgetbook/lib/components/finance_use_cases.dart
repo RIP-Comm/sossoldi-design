@@ -1080,6 +1080,44 @@ class _DatePickerUseCaseState extends State<DatePickerUseCase> {
   }
 }
 
+class TimePickerUseCase extends StatefulWidget {
+  const TimePickerUseCase({super.key});
+
+  @override
+  State<TimePickerUseCase> createState() => _TimePickerUseCaseState();
+}
+
+class _TimePickerUseCaseState extends State<TimePickerUseCase> {
+  TimeOfDay _picked = const TimeOfDay(hour: 9, minute: 0);
+
+  @override
+  Widget build(BuildContext context) {
+    return FoundationPage(
+      children: [
+        FoundationSection(
+          title: 'Two scrolling wheels in a bottom sheet; check confirms',
+          children: [
+            SossoldiButton(
+              label:
+                  '${_picked.hour.toString().padLeft(2, '0')}:${_picked.minute.toString().padLeft(2, '0')}',
+              onPressed: () async {
+                final t = await showSossoldiTimePicker(
+                  context: context,
+                  title: 'Time',
+                  initial: _picked,
+                  closeSemanticLabel: 'Close',
+                  confirmSemanticLabel: 'Confirm',
+                );
+                if (t != null) setState(() => _picked = t);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 class ReceiptUseCase extends StatelessWidget {
   const ReceiptUseCase({super.key});
 

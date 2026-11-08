@@ -10,9 +10,9 @@ import '../../design_system/design_system.dart';
 import '../../l10n/l10n.dart';
 import '../accounts/accounts_screen.dart';
 import 'authentication_settings_screen.dart';
-import 'budgets_settings_screen.dart';
 import '../categories/categories_screen.dart';
-import 'feedback_settings_screen.dart';
+import '../../app/app_info.dart';
+import 'community_footer.dart';
 import 'import_export_settings_screen.dart';
 import 'info_settings_screen.dart';
 import 'notifications_settings_screen.dart';
@@ -109,7 +109,6 @@ class AppSettingsScreen extends StatelessWidget {
           children: [
             _row(context, l10n.settingsAccounts, AccountsScreen.route),
             _row(context, l10n.settingsCategories, CategoriesScreen.route),
-            _row(context, l10n.settingsBudgets, BudgetsSettingsScreen.route),
             _row(
               context,
               l10n.settingsImportExport,
@@ -124,10 +123,20 @@ class AppSettingsScreen extends StatelessWidget {
               l10n.settingsNotifications,
               NotificationsSettingsScreen.route,
             ),
-            _row(context, l10n.settingsFeedback, FeedbackSettingsScreen.route),
+            // Opens an external form: the icon says so, not a chevron.
+            SossoldiMenuItem(
+              label: l10n.settingsFeedback,
+              trailing: Icon(
+                PhosphorIconsRegular.arrowSquareOut,
+                size: 20,
+                color: colors.textHigh,
+              ),
+              onTap: () => openExternalLink(AppInfo.feedbackForm),
+            ),
             _row(context, l10n.settingsInfo, InfoSettingsScreen.route),
           ],
         ),
+        const CommunityFooter(),
       ],
     );
   }

@@ -7,7 +7,7 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-07 (Dashboard completa
 
 ### Finance
 - [x] "Manage" conti (Overview) → pagina Accounts — fatto — `finance/overview/overview_tab_view.dart`
-- [ ] "Manage" budget (Overview) → Settings > Budgets — todo, oggi PlaceholderScreen — `overview_tab_view.dart:307`
+- [x] "Manage" budget (Overview) → Settings > Budgets — todo, oggi PlaceholderScreen — `overview_tab_view.dart:307`
 
 ### Investments
 - [ ] Position page, menu "…" > "Update value" (asset manuale): PlaceholderScreen — needs design — `positions/position_detail_screen.dart:46,86`
@@ -19,28 +19,23 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-07 (Dashboard completa
 - [x] Settings a due livelli (hub, App settings, Prototype settings) con i placeholder autonomi — fatto — `features/settings/`
 - [ ] Authentication: pagina vera (oggi placeholder) — needs design — `authentication_settings_screen.dart`
 - [x] Accounts: elenco (ordinato per saldo convertito, tag "Principale", chevron) e pagina di dettaglio del conto (andamento del saldo, transazioni, Edit) — fatto — `features/accounts/accounts_screen.dart`, `account_detail_screen.dart`
-- [ ] Accounts: scelta dell'account principale dall'elenco o dal dettaglio (oggi solo dallo switch del form) — todo
-- [ ] Accounts: riordino dei conti (tap & hold, alfabetico, personalizzato) — needs design
-- [ ] Accounts: transazione in valuta diversa dal conto, campo valuta nel form del conto (commentato) — needs design
 - [x] Categories: pagina di gestione (entrate e spese, "+" con scelta del tipo, pagina categoria e sottocategoria) — fatto — `features/categories/categories_screen.dart`
-- [ ] Budgets: pagina di gestione, incluso "Add budget" (il form esiste; apribile dal "Manage" di Finance) — todo — `budgets_settings_screen.dart`, `features/budgets/budget_form_sheet.dart`
 - [ ] Import / Export: placeholder — needs design — `import_export_settings_screen.dart`
-- [ ] Notifications: placeholder — needs design — `notifications_settings_screen.dart`
-- [ ] Feedback: placeholder — needs design — `feedback_settings_screen.dart`
-- [ ] Info: placeholder — needs design — `info_settings_screen.dart`
+- [x] Notifications: reminder per aggiungere una transazione (frequenza, giorno, ora con ruote) e avviso ricorrenza aggiunta, solo salvati in memoria — fatto — `notifications_settings_screen.dart`, `app/notification_settings.dart`
+- [ ] Notifications: notifiche vere (oggi solo impostazioni salvate) — blocked (no backend, prototipo)
+- [ ] Feedback: URL del modulo esterno (la riga c'è, con icona link esterno, ma non fa nulla finché `AppInfo.feedbackForm` è vuoto) — todo — `app/app_info.dart`
+- [x] Info: versione 2.0.0, Collaboratori, link "Vuoi contribuire?", Privacy policy; footer community in App settings — fatto — `info_settings_screen.dart`, `info/`, `community_footer.dart`
+- [ ] Collaboratori: URL di ogni persona (le righe ci sono con l'icona del tipo di link, il tap non fa nulla finché `url` è vuoto) — todo — `info/collaborator.dart`
 - [ ] Voci Investments e connessioni banca/broker — blocked (punto aperto, stato API da verificare)
 
 ### Onboarding
 - [ ] Import da un'altra app (pre-crea conti, categorie, valute) — needs design — `onboarding_welcome_screen.dart:133`
-- [ ] Campo valuta del conto commentato (valuta unica per ora) — blocked (multi-valuta) — `account_form_sheet.dart:219`
+- [x] Campo valuta del conto commentato (valuta unica per ora) — blocked (multi-valuta) — `account_form_sheet.dart:219`
 - [ ] "Limit reach alert" dei budget: solo salvato, nessuna notifica — blocked (Notifications) — `mock/models/budget.dart`
-- [ ] "Counts for Net Worth" degli asset: solo salvato, nessun totale lo usa — blocked (Net worth) — `Holding.countsForNetWorth`
 
 ### Design system
-- [ ] Blur progressivo: oggi 16 fasce di `BackdropFilter` (`app/top_blur.dart`); un vero shader continuo è un'idea da provare (con ripiego dove non è supportato) e le prestazioni su telefono non sono misurate — todo
 - [ ] Mappatura finale dei token e elenco completo dei componenti (sezione "To be completed") — todo — `rules/design-system.md`
 - [ ] Hidden Mode (maschera importi): interruttore globale c'è, verificare copertura — todo
-- [ ] Ordine alfabetico di conti e categorie (nessun riordino manuale per ora) — todo
 
 ### Tecnico
 - [ ] Elenco font DM Sans in sync tra `pubspec.yaml`, `widgetbook/pubspec.yaml` e `inspector/pubspec.yaml` — controllo ricorrente
@@ -56,12 +51,12 @@ Stato: todo / needs design / blocked. Aggiornato: 2026-11-07 (Dashboard completa
 - [x] Hosting: collegare il branch `site` a un hosting statico (Cloudflare Pages o altro) e al dominio di Sossoldi; sottodominio o sottocartella (`INSPECTOR_BASE_HREF`) — blocked (collega)
 - [ ] Sito vetrina di Sossoldi con una pagina per gli sviluppatori che porta all'Inspector (link o iframe) — da decidere
 - [ ] Rigenerare `lib/catalog/widget_names.g.dart` quando si aggiungono componenti o schermate (`dart run tool/generate_widget_names.dart`) — controllo ricorrente
-- [ ] Conti broker: le operazioni non spostano denaro tra conti (semplificazione nota) — todo/decidere
 
 ## Open questions
 - Nessuna aperta.
 
 ## Done (più recente in alto)
+- [x] 2026-11-08 — Settings: Info (versione, Collaboratori, contribuire, Privacy policy), Notifications (reminder con selettore ora a ruote, avviso ricorrenza), Feedback con icona link esterno, footer community
 - [x] 2026-11-08 — Ricorrenza: in Edit tornano i campi di prima (titolo Dettagli, nome nella barra); le transazioni passate aprono la pagina della singola transazione; data della transazione in medium emphasis
 - [x] 2026-11-08 — Pagina della ricorrenza adattata a quella della transazione: niente nome nella barra né titolo "Dettagli"; box (stessi angoli dello scontrino, non seghettato) con icona categoria, importo, descrizione, conto, chip del periodo e chip Attiva/In pausa; in Edit importo, periodo e switch diventano campi nello stesso box; sotto restano le transazioni passate
 - [x] 2026-11-08 — Pagina transazione: scontrino sempre largo come la pagina, "Mostra ricorrenza" (testo con freccia) sotto la chip, Edit delle ricorrenti come dropdown dal bottone (`SossoldiBottomSheetToolbar.text(confirmMenu:)`); il widget Upcoming recurring apre la pagina della ricorrenza

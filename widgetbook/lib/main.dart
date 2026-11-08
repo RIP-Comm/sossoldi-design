@@ -168,6 +168,7 @@ class SossoldiWidgetbook extends StatelessWidget {
             _component('Danger button', const DangerButtonUseCase()),
             _component('Date range picker', const DateRangePickerUseCase()),
             _component('Date picker', const DatePickerUseCase()),
+            _component('Time picker', const TimePickerUseCase()),
             _component('Calendar + month selector', const CalendarUseCase()),
             _component('Cash flow chart', const CashFlowChartUseCase()),
             _component('Budget card', const BudgetCardUseCase()),

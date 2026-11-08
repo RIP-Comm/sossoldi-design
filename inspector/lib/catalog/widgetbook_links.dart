@@ -75,6 +75,7 @@ const widgetbookComponents = <String, String>{
   'SossoldiTabNavigation': 'Components/Tab navigation',
   'SossoldiTag': 'Components/Tag',
   'SossoldiTextInput': 'Components/Text input',
+  'SossoldiTimeWheels': 'Finance/Time picker',
   'SossoldiTextarea': 'Components/Textarea',
   'SossoldiTooltip': 'Navigation & hints/Tooltip',
   'SossoldiTooltipTarget': 'Navigation & hints/Tooltip',

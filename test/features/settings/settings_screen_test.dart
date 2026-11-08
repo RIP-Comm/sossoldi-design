@@ -134,7 +134,6 @@ void main() {
       'Authentication',
       'Accounts',
       'Categories',
-      'Budgets',
       'Import / Export',
       'Notifications',
       'Feedback',
@@ -142,22 +141,26 @@ void main() {
     ]) {
       expect(find.text(t), findsOneWidget, reason: t);
     }
-    expect(find.byIcon(PhosphorIconsRegular.caretRight), findsNWidgets(8));
+    // Feedback opens an external form: its icon is not a chevron.
+    expect(find.byIcon(PhosphorIconsRegular.caretRight), findsNWidgets(6));
+    expect(find.byIcon(PhosphorIconsRegular.arrowSquareOut), findsOneWidget);
     expect(find.byType(SossoldiTag), findsNothing);
+    expect(find.text('Open source, built by the community'), findsOneWidget);
+    for (final icon in [
+      PhosphorIconsFill.githubLogo,
+      PhosphorIconsFill.linkedinLogo,
+      PhosphorIconsFill.youtubeLogo,
+      PhosphorIconsFill.discordLogo,
+    ]) {
+      expect(find.byIcon(icon), findsOneWidget);
+    }
   });
 
   testWidgets('every destination opens and goes back to App settings', (
     tester,
   ) async {
     await _openApp(tester);
-    for (final t in const [
-      'Authentication',
-      'Budgets',
-      'Import / Export',
-      'Notifications',
-      'Feedback',
-      'Info',
-    ]) {
+    for (final t in const ['Authentication', 'Import / Export']) {
       await tester.tap(find.text(t));
       await tester.pumpAndSettle();
       expect(find.byType(PlaceholderScreen), findsOneWidget, reason: t);
@@ -167,6 +170,102 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Dark mode'), findsOneWidget, reason: t);
     }
+  });
+
+  testWidgets('Info: version, team, contribute link and privacy policy', (
+    tester,
+  ) async {
+    await _openApp(tester);
+    await tester.tap(find.text('Info'));
+    await tester.pumpAndSettle();
+    expect(find.text('App version'), findsOneWidget);
+    expect(find.text('2.0.0'), findsOneWidget);
+    expect(find.text('See the team behind this app'), findsOneWidget);
+    expect(find.text('Want to contribute?'), findsOneWidget);
+    expect(find.byIcon(PhosphorIconsRegular.githubLogo), findsNothing);
+    expect(find.byIcon(PhosphorIconsRegular.arrowSquareOut), findsOneWidget);
+    // Collaborators and Privacy policy have a chevron; the version has none.
+    expect(find.byIcon(PhosphorIconsRegular.caretRight), findsNWidgets(2));
+    expect(find.text('Read more'), findsNothing);
+
+    await tester.tap(find.text('Collaborators'));
+    await tester.pumpAndSettle();
+    expect(find.text('Meet the team'), findsOneWidget);
+    expect(find.text('Marco Perugini'), findsOneWidget);
+    expect(find.byIcon(PhosphorIconsRegular.globe), findsOneWidget);
+    await tester.drag(
+      find.byType(SingleChildScrollView),
+      const Offset(0, -2000),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Federico Bruzzone'), findsOneWidget);
+    expect(find.byIcon(PhosphorIconsRegular.linkedinLogo), findsWidgets);
+    await tester.drag(
+      find.byType(SingleChildScrollView),
+      const Offset(0, 3000),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Privacy policy'));
+    await tester.pumpAndSettle();
+    expect(find.text('Contact us'), findsOneWidget);
+    expect(find.text('help.sossoldi@gmail.com'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Notifications: the reminder opens its options', (tester) async {
+    final state = await _openApp(tester);
+    await tester.tap(find.text('Notifications'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add transaction reminder'), findsOneWidget);
+    expect(find.text('Recurring transaction added'), findsOneWidget);
+    expect(find.text('Frequency'), findsNothing);
+
+    await tester.tap(find.byType(SossoldiSwitch).first);
+    await tester.pumpAndSettle();
+    expect(state.transactionReminder.enabled, isTrue);
+    // Daily: frequency and time, no day.
+    expect(find.text('Frequency'), findsOneWidget);
+    expect(find.text('Time'), findsOneWidget);
+    expect(find.text('Day'), findsNothing);
+    expect(find.text('09:00'), findsOneWidget);
+
+    await tester.tap(find.text('Daily'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Weekly').last);
+    await tester.pumpAndSettle();
+    expect(find.text('Day'), findsOneWidget);
+    expect(find.text('Monday'), findsOneWidget);
+
+    await tester.tap(find.byType(SossoldiSwitch).last);
+    await tester.pumpAndSettle();
+    expect(state.recurringAddedNotice, isTrue);
+  });
+
+  testWidgets('Notifications: the time is chosen on the wheels', (
+    tester,
+  ) async {
+    final state = await _openApp(tester);
+    await tester.tap(find.text('Notifications'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(SossoldiSwitch).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('09:00'));
+    await tester.pumpAndSettle();
+    expect(find.byType(SossoldiTimeWheels), findsOneWidget);
+    // Drag the hours wheel up by two rows: 11.
+    await tester.drag(
+      find.text('09').first,
+      const Offset(0, -2 * SossoldiTimeWheels.itemExtent),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(PhosphorIconsRegular.check));
+    await tester.pumpAndSettle();
+    expect(state.transactionReminder.time.hour, 11);
+    expect(state.transactionReminder.time.minute, 0);
+    expect(find.text('11:00'), findsOneWidget);
   });
 
   testWidgets('Prototype settings: actions without chevron, showcase with', (
@@ -220,16 +319,16 @@ void main() {
     await tester.pumpAndSettle();
     for (final t in const [
       'Autenticazione',
-      'Budget',
       'Importa / Esporta',
       'Notifiche',
-      'Feedback',
       'Info',
     ]) {
       await tester.tap(find.text(t));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull, reason: t);
-      expect(find.text('In arrivo'), findsOneWidget, reason: t);
+      if (t != 'Notifiche' && t != 'Info') {
+        expect(find.text('In arrivo'), findsOneWidget, reason: t);
+      }
       await tester.tap(find.byIcon(PhosphorIconsRegular.arrowLeft));
       await tester.pumpAndSettle();
     }

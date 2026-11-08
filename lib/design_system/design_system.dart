@@ -70,6 +70,7 @@ export 'components/sossoldi_tab_navigation.dart';
 export 'components/sossoldi_tag.dart';
 export 'components/sossoldi_tappable.dart';
 export 'components/sossoldi_text_input.dart';
+export 'components/sossoldi_time_picker.dart';
 export 'components/sossoldi_textarea.dart';
 export 'components/sossoldi_tooltip.dart';
 export 'components/sossoldi_tooltip_target.dart';

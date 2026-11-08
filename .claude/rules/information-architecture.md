@@ -362,9 +362,9 @@ Two levels. The entry point (the gear of the Dashboard) opens the hub (`features
 title and chevron, **App settings** and **Prototype settings**. Back from the hub returns to the screen it was opened from.
 - **App settings** (`app_settings_screen.dart`), three blocks separated by space, no group titles:
   1. Dark mode (switch), Language, Main currency (selects) and Authentication.
-  2. Accounts, Categories, Budgets, Import / Export.
+  2. Accounts, Categories, Import / Export.
   3. Notifications, Feedback, Info.
-  Every row that opens a page has a chevron. Built: theme, language, currency, Accounts, Categories. The other destinations are placeholders.
+  Every row that opens a page has a chevron; **Feedback** has the external-link icon (Phosphor `arrowSquareOut`) instead, because it opens an external form (`AppInfo.feedbackForm`, empty for now: the row does nothing). Under the three blocks, a footer "Open source, built by the community" with the icons of GitHub, LinkedIn, YouTube and Discord (`community_footer.dart`, links in `lib/app/app_info.dart`). Built: theme, language, currency, Accounts, Categories, Notifications, Info. The other destinations are placeholders.
 - **Prototype settings** (`prototype_settings_screen.dart`): "Restart onboarding" and "Load demo data" (actions, no chevron;
   both close the whole Settings stack and rebuild the app on the other data) and "Widget showcase" (opens a page; every Dashboard
   widget in every size and case, one cluster per widget, on demo data and on the empty data of a new user; Insight in its kinds;
@@ -373,6 +373,12 @@ title and chevron, **App settings** and **Prototype settings**. Back from the hu
   Feedback and Info are each a class in `features/settings/` with a static `route()`, so any screen can open them with a push
   (back returns to where it started, e.g. the "Manage" of Finance) and the real page replaces the placeholder without touching the hub.
 - Not added (open point): Investments settings, bank/broker connections.
+
+### Info and Notifications (Settings)
+- **Info** (`info_settings_screen.dart`, one list): "App version" with the version as second line (`AppInfo.version`, 2.0.0, no chevron); "Collaborators" ("See the team behind this app", chevron); "Want to contribute?" (GitHub icon, external-link icon, opens the repository); "Privacy policy" (chevron, no "Read more").
+- **Collaborators** (`info/collaborators_screen.dart`, data in `info/collaborator.dart`): "Meet the team" intro, one row per person (name, role, icon of the kind of link on the right: GitHub, website, LinkedIn). A tap opens the person's `url`; the URLs are still empty, so for now it does nothing. Roles and names are not translated.
+- **Privacy policy** (`info/privacy_policy_screen.dart`): left-aligned text, a title per section, the contact email opens the mail app.
+- **Notifications** (`notifications_settings_screen.dart`; stored only, in `AppState`, no real notification): two switch rows. "Add transaction reminder": when on, it opens Frequency (Daily, Weekly, Every 2 weeks, Monthly), Day (weekday for weekly and every 2 weeks, day of the month 1-31 for monthly, none for daily) and Time (always; field that opens `showSossoldiTimePicker`, two scrolling wheels for hours and minutes in a bottom sheet, 24-hour clock, check confirms). "Recurring transaction added": on/off.
 
 ### Categories (Settings > Categories)
 Three screens in `features/categories/`: `CategoriesScreen.route()`, `CategoryDetailScreen.route(categoryId, {subcategoryId})` (one screen for the page of a category and of a subcategory). No Figma node: built from the onboarding's category row and the Finance list.

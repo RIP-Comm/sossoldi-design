@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../mock/mock_repository.dart';
+import 'notification_settings.dart';
 
 /// App-wide state: the data source (the demo data, or the empty one of a new
 /// user going through the onboarding), the language, the "hide amounts"
@@ -97,6 +98,27 @@ class AppState extends ChangeNotifier {
   void setLocale(Locale? locale) {
     if (locale == _locale) return;
     _locale = locale;
+    notifyListeners();
+  }
+
+  TransactionReminder _reminder = const TransactionReminder();
+
+  /// Settings > Notifications: the reminder to add a transaction (stored only).
+  TransactionReminder get transactionReminder => _reminder;
+
+  void setTransactionReminder(TransactionReminder reminder) {
+    _reminder = reminder;
+    notifyListeners();
+  }
+
+  bool _recurringAddedNotice = false;
+
+  /// Settings > Notifications: notice when a recurrence is booked (stored only).
+  bool get recurringAddedNotice => _recurringAddedNotice;
+
+  void setRecurringAddedNotice(bool value) {
+    if (value == _recurringAddedNotice) return;
+    _recurringAddedNotice = value;
     notifyListeners();
   }
 

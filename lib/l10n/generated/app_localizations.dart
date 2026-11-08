@@ -3805,6 +3805,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Paused'**
   String get recurringPausedLabel;
+
+  /// No description provided for @infoAppVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App version'**
+  String get infoAppVersion;
+
+  /// No description provided for @infoCollaborators.
+  ///
+  /// In en, this message translates to:
+  /// **'Collaborators'**
+  String get infoCollaborators;
+
+  /// No description provided for @infoCollaboratorsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See the team behind this app'**
+  String get infoCollaboratorsSubtitle;
+
+  /// No description provided for @infoContribute.
+  ///
+  /// In en, this message translates to:
+  /// **'Want to contribute?'**
+  String get infoContribute;
+
+  /// No description provided for @infoContributeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open an issue, submit a PR or just say hi on GitHub'**
+  String get infoContributeSubtitle;
+
+  /// No description provided for @infoPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get infoPrivacyPolicy;
+
+  /// No description provided for @collaboratorsIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meet the team'**
+  String get collaboratorsIntroTitle;
+
+  /// No description provided for @collaboratorsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Sossoldi is built and maintained by a passionate open source community. Every feature, fix and idea comes from people like you.'**
+  String get collaboratorsIntro;
+
+  /// No description provided for @linkGithub.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub'**
+  String get linkGithub;
+
+  /// No description provided for @linkLinkedin.
+  ///
+  /// In en, this message translates to:
+  /// **'LinkedIn'**
+  String get linkLinkedin;
+
+  /// No description provided for @linkYoutube.
+  ///
+  /// In en, this message translates to:
+  /// **'YouTube'**
+  String get linkYoutube;
+
+  /// No description provided for @linkDiscord.
+  ///
+  /// In en, this message translates to:
+  /// **'Discord'**
+  String get linkDiscord;
+
+  /// No description provided for @linkWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get linkWebsite;
+
+  /// No description provided for @communityFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Open source, built by the community'**
+  String get communityFooter;
+
+  /// No description provided for @privacyIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Sossoldi is built as an open source app. This service is provided by us at no cost and it is intended for use as is. We are not interested in collecting any personal information. We believe such information is yours and yours alone. We do not store or transmit your personal details, nor do we include any advertising or analytics software that talks to third parties.'**
+  String get privacyIntro;
+
+  /// No description provided for @privacyCollectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What information do we collect?'**
+  String get privacyCollectTitle;
+
+  /// No description provided for @privacyCollectBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sossoldi does not collect any personal information or connect to the internet. Any information that you add in the app exists solely on your device and nowhere else.'**
+  String get privacyCollectBody;
+
+  /// No description provided for @privacyChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes to this privacy policy'**
+  String get privacyChangesTitle;
+
+  /// No description provided for @privacyChangesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes.'**
+  String get privacyChangesBody;
+
+  /// No description provided for @privacyEffective.
+  ///
+  /// In en, this message translates to:
+  /// **'This policy is effective as of 2024-01-01'**
+  String get privacyEffective;
+
+  /// No description provided for @privacyContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact us'**
+  String get privacyContactTitle;
+
+  /// No description provided for @privacyContactBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at'**
+  String get privacyContactBody;
+
+  /// No description provided for @notificationsReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add transaction reminder'**
+  String get notificationsReminderTitle;
+
+  /// No description provided for @notificationsReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A nudge to log your transactions'**
+  String get notificationsReminderSubtitle;
+
+  /// No description provided for @notificationsRecurringTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring transaction added'**
+  String get notificationsRecurringTitle;
+
+  /// No description provided for @notificationsRecurringSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When a recurrence is booked in your transactions'**
+  String get notificationsRecurringSubtitle;
+
+  /// No description provided for @notificationsFrequency.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency'**
+  String get notificationsFrequency;
+
+  /// No description provided for @notificationsDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get notificationsDay;
+
+  /// No description provided for @notificationsTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get notificationsTime;
+
+  /// No description provided for @reminderDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get reminderDaily;
+
+  /// No description provided for @reminderWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get reminderWeekly;
+
+  /// No description provided for @reminderBiweekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 2 weeks'**
+  String get reminderBiweekly;
+
+  /// No description provided for @reminderMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get reminderMonthly;
+
+  /// No description provided for @timePickerConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get timePickerConfirm;
 }
 
 class _AppLocalizationsDelegate
